@@ -44,11 +44,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
+          ? "bg-background/60 backdrop-blur-2xl border-b border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:bg-background/40 dark:border-white/10 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
           : "bg-transparent"
       }`}
+      style={{
+        WebkitBackdropFilter: isScrolled ? 'blur(24px) saturate(180%)' : 'none',
+        backdropFilter: isScrolled ? 'blur(24px) saturate(180%)' : 'none',
+      }}
     >
       <div className="container-webiro">
         <div className="flex items-center justify-between h-16 md:h-20">
