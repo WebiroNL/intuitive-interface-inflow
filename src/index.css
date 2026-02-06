@@ -172,6 +172,52 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
   
+  /* iOS 26 Liquid Glass Effect */
+  .liquid-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 4px 30px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(138, 79, 232, 0.08) 25%,
+      rgba(58, 77, 234, 0.08) 50%,
+      rgba(138, 79, 232, 0.08) 75%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+  
+  .dark .liquid-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+      0 4px 30px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
   .animate-fade-up {
     animation: fadeUp 0.6s ease-out forwards;
   }
