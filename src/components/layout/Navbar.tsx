@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { AnimatedWLogo } from "@/components/AnimatedWLogo";
+import webiroLogo from "@/assets/logo-webiro.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,11 +53,8 @@ const Navbar = () => {
       <div className="container-webiro">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <AnimatedWLogo size={40} />
-            <span className="text-2xl font-bold text-foreground">
-              Web<span className="text-primary">iro</span>
-            </span>
+          <Link to="/" className="flex items-center">
+            <img src={webiroLogo} alt="Webiro" className="h-8 md:h-10" />
           </Link>
 
           {/* Desktop Navigation */}
