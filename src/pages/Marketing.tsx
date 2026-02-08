@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { TypewriterText } from "@/components/TypewriterText";
 import { CTASection } from "@/components/CTASection";
 import { updatePageMeta } from "@/utils/seo";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Marketing = () => {
   useEffect(() => {
@@ -45,9 +43,7 @@ const Marketing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
+    <>
       <main>
         {/* Hero */}
         <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-[hsl(250,80%,58%)] to-accent text-white overflow-hidden">
@@ -163,9 +159,7 @@ const Marketing = () => {
 
         <CTASection />
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

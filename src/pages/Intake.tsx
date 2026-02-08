@@ -3,8 +3,6 @@ import { Calendar, Clock, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { TypewriterText } from "@/components/TypewriterText";
 import { updatePageMeta } from "@/utils/seo";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Intake = () => {
   useEffect(() => {
@@ -22,9 +20,7 @@ const Intake = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
+    <>
       <main>
         {/* Hero */}
         <section className="pt-32 pb-12 bg-gradient-to-br from-secondary via-background to-background">
@@ -111,9 +107,7 @@ const Intake = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

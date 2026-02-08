@@ -7,8 +7,6 @@ import { TypewriterText } from "@/components/TypewriterText";
 import { AnimatedWLogo } from "@/components/AnimatedWLogo";
 import { CTASection } from "@/components/CTASection";
 import { updatePageMeta } from "@/utils/seo";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Home = () => {
   useEffect(() => {
@@ -49,9 +47,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      
+    <>
       <main>
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -277,9 +273,7 @@ const Home = () => {
         {/* CTA Section */}
         <CTASection />
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 
