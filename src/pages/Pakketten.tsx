@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { TypewriterText } from "@/components/TypewriterText";
 import { CTASection } from "@/components/CTASection";
 import { updatePageMeta } from "@/utils/seo";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Pakketten = () => {
   useEffect(() => {
@@ -96,9 +94,7 @@ const Pakketten = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
+    <>
       <main>
         {/* Hero */}
         <section className="pt-32 pb-20 bg-gradient-to-br from-secondary via-background to-background">
@@ -222,9 +218,7 @@ const Pakketten = () => {
 
         <CTASection />
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 
