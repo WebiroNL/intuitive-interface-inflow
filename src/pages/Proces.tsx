@@ -5,8 +5,6 @@ import { TypewriterText } from "@/components/TypewriterText";
 import { TimelineIcon } from "@/components/TimelineIcon";
 import { CTASection } from "@/components/CTASection";
 import { updatePageMeta } from "@/utils/seo";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Proces = () => {
   useEffect(() => {
@@ -76,9 +74,7 @@ const Proces = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
+    <>
       <main>
         {/* Hero */}
         <section className="pt-32 pb-20 bg-gradient-to-br from-secondary via-background to-background">
@@ -156,9 +152,7 @@ const Proces = () => {
 
         <CTASection variant="dark" />
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

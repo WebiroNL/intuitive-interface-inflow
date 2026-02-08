@@ -7,8 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { TypewriterText } from "@/components/TypewriterText";
 import { updatePageMeta } from "@/utils/seo";
 import { useToast } from "@/hooks/use-toast";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -59,9 +57,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
+    <>
       <main>
         {/* Hero */}
         <section className="pt-32 pb-20 bg-gradient-to-br from-secondary via-background to-background">
@@ -232,9 +228,7 @@ const Contact = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 
