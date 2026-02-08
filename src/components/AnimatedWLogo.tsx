@@ -1,40 +1,55 @@
-import { motion } from 'framer-motion';
+import svgPaths from "../imports/svg-q8fzxtbtg3";
 
 interface AnimatedWLogoProps {
-  size?: number;
+  duration?: string;
+  delay?: string;
   className?: string;
+  strokeColor?: string;
+  size?: number;
 }
 
-export function AnimatedWLogo({ size = 64, className = '' }: AnimatedWLogoProps) {
+export function AnimatedWLogo({ 
+  duration = "3s", 
+  delay = "0s",
+  className = "",
+  strokeColor = "#3A4DEA",
+  size
+}: AnimatedWLogoProps) {
   return (
-    <motion.svg
-      width={size}
-      height={size}
-      viewBox="0 0 512 512"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      {/* Background Circle */}
-      <motion.rect
-        width="512"
-        height="512"
-        rx="128"
-        fill="hsl(var(--primary))"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      />
-      
-      {/* W Letter Path */}
-      <motion.path
-        d="M150 150 L180 150 L230 350 L260 350 L310 150 L340 150 L380 380 L340 380 L310 230 L280 380 L240 380 L210 230 L180 380 L140 380 Z"
-        fill="white"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.3 }}
-      />
-    </motion.svg>
+    <div className={`relative size-full ${className}`} style={size ? { width: size, height: size } : undefined}>
+      <svg className="block size-full" fill="none" preserveAspectRatio="xMidYMid meet" viewBox="-5 -5 261 202">
+        {/* Main stroke - sharp line */}
+        <path 
+          d={svgPaths.p35b23f00} 
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            strokeDasharray: "1000",
+            strokeDashoffset: "1000",
+            animation: `drawLine ${duration} ease-in-out ${delay} infinite`,
+          }}
+        />
+      </svg>
+      <style>{`
+        @keyframes drawLine {
+          0% {
+            stroke-dashoffset: 1000;
+            opacity: 0.3;
+          }
+          50% {
+            stroke-dashoffset: 0;
+            opacity: 1;
+          }
+          100% {
+            stroke-dashoffset: -1000;
+            opacity: 0.3;
+          }
+        }
+      `}</style>
+    </div>
   );
 }
 
