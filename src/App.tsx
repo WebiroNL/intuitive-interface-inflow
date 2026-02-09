@@ -19,6 +19,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const Intake = lazy(() => import("./pages/Intake"));
 const AlgemeneVoorwaarden = lazy(() => import("./pages/AlgemeneVoorwaarden"));
 const Documentatie = lazy(() => import("./pages/Documentatie"));
+const OneTBL = lazy(() => import("./pages/OneTBL"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ function AppContent() {
             <Route path="/intake" element={<Intake />} />
             <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
             <Route path="/documentatie" element={<Documentatie />} />
+            <Route path="/1tbl" element={<OneTBL />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
