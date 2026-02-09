@@ -18,8 +18,11 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Intake = lazy(() => import("./pages/Intake"));
 const AlgemeneVoorwaarden = lazy(() => import("./pages/AlgemeneVoorwaarden"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Documentatie = lazy(() => import("./pages/Documentatie"));
 const OneTBL = lazy(() => import("./pages/OneTBL"));
+const ReformClub = lazy(() => import("./pages/ReformClub"));
+const SitemapRedirect = lazy(() => import("./pages/SitemapRedirect"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -55,8 +58,11 @@ function AppContent() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/intake" element={<Intake />} />
             <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
+            <Route path="/reformclub" element={<ReformClub />} />
+            <Route path="/sitemap.xml" element={<SitemapRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
