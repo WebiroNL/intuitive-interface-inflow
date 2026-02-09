@@ -23,6 +23,7 @@ const Documentatie = lazy(() => import("./pages/Documentatie"));
 const OneTBL = lazy(() => import("./pages/OneTBL"));
 const ReformClub = lazy(() => import("./pages/ReformClub"));
 const SitemapRedirect = lazy(() => import("./pages/SitemapRedirect"));
+const Shop = lazy(() => import("./pages/Shop"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ function AppContent() {
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />
             <Route path="/sitemap.xml" element={<SitemapRedirect />} />
+            <Route path="/shop" element={<Shop />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
