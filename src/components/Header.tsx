@@ -219,6 +219,20 @@ export function Header() {
               </Link>
               
               <Link
+                to="/shop"
+                className={`transition-all duration-300 relative group ${ 
+                  isScrolled 
+                    ? (location.pathname === '/shop' ? 'text-[#3A4DEA]' : `${theme === 'dark' ? 'text-white' : 'text-[#110E13]'} hover:text-[#3A4DEA]`)
+                    : 'text-white hover:text-[#FFD75C]'
+                }`}
+              >
+                Shop
+                <span className={`absolute -bottom-1 left-0 h-0.5 transition-all duration-300 ${
+                  isScrolled ? 'bg-[#3A4DEA]' : 'bg-white'
+                } ${location.pathname === '/shop' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </Link>
+              
+              <Link
                 to="/contact"
                 className={`transition-all duration-300 relative group ${ 
                   isScrolled 
@@ -354,6 +368,18 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
+              </Link>
+              
+              <Link
+                to="/shop"
+                className={`transition-colors ${
+                  isScrolled
+                    ? (location.pathname === '/shop' ? 'text-[#3A4DEA]' : (theme === 'dark' ? 'text-white' : 'text-[#110E13]'))
+                    : 'text-white'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Shop
               </Link>
               
               {/* Mobile Theme Toggle */}
