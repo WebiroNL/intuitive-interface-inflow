@@ -62,7 +62,7 @@ const Pakketten = () => {
       price: 999,
       savings: 300,
       badge: "Oplevering binnen 3 weken",
-      description: "Maximale impact met geavanceerde SEO",
+      description: "Maximale impact met geavanceerde SEO en uitstraling",
       whatYouGet: [
         "Tot 10 pagina's",
         "SEO Pro (15+ zoekwoorden + maandrapport)",
@@ -79,16 +79,35 @@ const Pakketten = () => {
       name: "Webiro Business",
       price: "Op aanvraag",
       badge: "Volledig maatwerk",
-      description: "Voor bedrijven met specifieke eisen",
+      description: "Maatwerk oplossingen voor complexere projecten",
       whatYouGet: [
         "10-20 pagina's volledig maatwerk",
-        "Webshop / ledenportal / reserveringen",
+        "Volledig custom design & branding",
+        "Webshop/ledenportal/reserveringen",
         "Content Management Systeem",
       ],
       whyChoose: [
         "Volledige vrijheid in design",
         "Koppelingen met externe systemen",
         "Dedicated projectmanager",
+      ],
+    },
+    {
+      id: "shop",
+      name: "Webiro Shop",
+      price: "Op aanvraag",
+      badge: "E-commerce",
+      description: "Complete webshop oplossing voor je online verkoop",
+      whatYouGet: [
+        "Webshop tot 50 producten",
+        "Betaalintegratie (iDEAL, Bancontact, etc.)",
+        "Verzendopties & tarieven",
+        "Voorraadbeheer systeem",
+      ],
+      whyChoose: [
+        "Direct online verkopen",
+        "Professionele checkout flow",
+        "Volledige voorraad controle",
       ],
     },
   ];
@@ -166,7 +185,7 @@ const Pakketten = () => {
                           </span>
                         )}
                         <span className="text-4xl font-bold text-foreground">€{pkg.price}</span>
-                        <span className="text-muted-foreground">eenmalig</span>
+                        <span className="text-muted-foreground">eenmalig, ex. btw</span>
                       </div>
                     ) : (
                       <span className="text-3xl font-bold text-foreground">{pkg.price}</span>

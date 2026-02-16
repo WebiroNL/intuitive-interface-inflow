@@ -16,6 +16,7 @@ const Proces = lazy(() => import("./pages/Proces"));
 const Marketing = lazy(() => import("./pages/Marketing"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Intake = lazy(() => import("./pages/Intake"));
 const AlgemeneVoorwaarden = lazy(() => import("./pages/AlgemeneVoorwaarden"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -58,6 +59,7 @@ function AppContent() {
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/intake" element={<Intake />} />
             <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

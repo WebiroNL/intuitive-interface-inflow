@@ -71,11 +71,11 @@ const Contact = () => {
                 Contact
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                <TypewriterText text="Laten we praten" speed={60} />
+                <TypewriterText text="Neem contact op" speed={60} />
                 <span className="text-primary">.</span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Heb je een vraag of wil je een project bespreken? Neem contact met ons op.
+                Vul het formulier in en we nemen zo snel mogelijk contact met je op. Of bel ons direct!
               </p>
             </motion.div>
           </div>
@@ -96,7 +96,7 @@ const Contact = () => {
                   onSubmit={handleSubmit}
                   className="bg-card p-8 md:p-10 rounded-3xl border border-border shadow-lg"
                 >
-                  <h2 className="text-2xl font-bold text-foreground mb-6">Stuur een bericht</h2>
+                  <h2 className="text-2xl font-bold text-foreground mb-6">Neem contact op</h2>
 
                   <div className="grid md:grid-cols-2 gap-6 mb-6">
                     <div>
@@ -154,6 +154,25 @@ const Contact = () => {
                   </div>
 
                   <div className="mb-6">
+                    <label htmlFor="package" className="block text-sm font-medium text-foreground mb-2">
+                      Interesse in pakket
+                    </label>
+                    <select
+                      id="package"
+                      name="package"
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    >
+                      <option value="">Selecteer een pakket</option>
+                      <option value="start">Webiro Start - €449</option>
+                      <option value="groei">Webiro Groei - €749</option>
+                      <option value="pro">Webiro Pro - €999</option>
+                      <option value="business">Webiro Business - Op aanvraag</option>
+                      <option value="shop">Webiro Shop - Op aanvraag</option>
+                      <option value="anders">Anders / Nog niet zeker</option>
+                    </select>
+                  </div>
+
+                  <div className="mb-6">
                     <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                       Bericht *
                     </label>
@@ -167,12 +186,23 @@ const Contact = () => {
                     />
                   </div>
 
+                  <div className="space-y-3 mb-6">
+                    <label className="flex items-start gap-3">
+                      <input type="checkbox" required className="mt-1 rounded border-input" />
+                      <span className="text-sm text-muted-foreground">Ik geef toestemming om contact met mij op te nemen over deze aanvraag. *</span>
+                    </label>
+                    <label className="flex items-start gap-3">
+                      <input type="checkbox" className="mt-1 rounded border-input" />
+                      <span className="text-sm text-muted-foreground">Ik wil graag op de hoogte blijven van nieuwe pakketten en aanbiedingen.</span>
+                    </label>
+                  </div>
+
                   <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
                     {isSubmitting ? (
                       "Verzenden..."
                     ) : (
                       <>
-                        Verstuur Bericht
+                        Verstuur bericht
                         <Send className="ml-2 h-4 w-4" />
                       </>
                     )}
