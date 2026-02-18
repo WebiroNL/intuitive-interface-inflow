@@ -5,65 +5,123 @@ import { motion } from "framer-motion";
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
-import { useTheme } from "@/contexts/ThemeContext";
 
-/* ─── Stripe-style flowing wave ribbons ─── */
-const StripeWave = () => (
-  <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden style={{ zIndex: 0 }}>
-    <svg
-      viewBox="0 0 1440 900"
-      preserveAspectRatio="xMaxYMid slice"
-      className="absolute top-0 right-0 h-full w-auto max-w-none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ minWidth: "65%" }}
-    >
-      <defs>
-        <linearGradient id="wg1" x1="0%" y1="0%" x2="60%" y2="100%">
-          <stop offset="0%" stopColor="hsl(234,82%,57%)" stopOpacity="0.88" />
-          <stop offset="40%" stopColor="hsl(259,79%,61%)" stopOpacity="0.82" />
-          <stop offset="100%" stopColor="hsl(280,70%,55%)" stopOpacity="0.65" />
-        </linearGradient>
-        <linearGradient id="wg2" x1="10%" y1="0%" x2="80%" y2="100%">
-          <stop offset="0%" stopColor="hsl(28,100%,58%)" stopOpacity="0.9" />
-          <stop offset="50%" stopColor="hsl(5,90%,63%)" stopOpacity="0.82" />
-          <stop offset="100%" stopColor="hsl(330,80%,58%)" stopOpacity="0.7" />
-        </linearGradient>
-        <linearGradient id="wg3" x1="0%" y1="0%" x2="100%" y2="80%">
-          <stop offset="0%" stopColor="hsl(320,75%,62%)" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="hsl(259,79%,61%)" stopOpacity="0.55" />
-        </linearGradient>
-        <linearGradient id="wg4" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(44,100%,62%)" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="hsl(18,100%,58%)" stopOpacity="0.5" />
-        </linearGradient>
-        <linearGradient id="wg5" x1="0%" y1="20%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(200,100%,72%)" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="hsl(234,82%,57%)" stopOpacity="0.4" />
-        </linearGradient>
-        <filter id="wblur"><feGaussianBlur stdDeviation="2.5" /></filter>
-      </defs>
-      <path d="M 1200 -100 C 1000 80, 820 220, 620 920 L 820 920 C 1000 240, 1180 90, 1400 -100 Z" fill="url(#wg1)" filter="url(#wblur)" />
-      <path d="M 1380 -140 C 1200 40, 1020 200, 800 920 L 960 920 C 1160 210, 1340 50, 1540 -140 Z" fill="url(#wg2)" filter="url(#wblur)" />
-      <path d="M 1100 -80 C 940 100, 780 280, 580 920 L 680 920 C 860 285, 1020 105, 1200 -80 Z" fill="url(#wg3)" filter="url(#wblur)" />
-      <path d="M 1300 -50 C 1160 90, 1060 230, 940 920 L 1050 920 C 1160 240, 1260 100, 1420 -50 Z" fill="url(#wg4)" filter="url(#wblur)" />
-      <path d="M 1440 -120 C 1360 60, 1280 260, 1180 920 L 1260 920 C 1360 264, 1440 64, 1540 -120 Z" fill="url(#wg5)" filter="url(#wblur)" />
-    </svg>
-  </div>
-);
+/* ─── Webiro brand colors ─── */
+const RIBBONS = [
+  { r: 58,  g: 77,  b: 234, w: 130 }, // #3A4DEA primary blue
+  { r: 255, g: 215, b: 92,  w: 70  }, // #FFD75C yellow
+  { r: 107, g: 123, b: 245, w: 95  }, // light blue
+  { r: 107, g: 77,  b: 234, w: 58  }, // purple
+  { r: 255, g: 185, b: 40,  w: 42  }, // gold
+];
+
+function HeroRibbons({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ x: 0.75, y: 0.5 });
+  const smooth = useRef({ x: 0.75, y: 0.5 });
+  const raf = useRef<number>();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+    const ctx = canvas.getContext("2d")!;
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const onMove = (e: MouseEvent) => {
+      const r = section.getBoundingClientRect();
+      mouse.current.x = (e.clientX - r.left) / r.width;
+      mouse.current.y = (e.clientY - r.top) / r.height;
+    };
+    section.addEventListener("mousemove", onMove);
+
+    const draw = () => {
+      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.06;
+      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.06;
+      const mx = smooth.current.x;
+      const my = smooth.current.y;
+
+      const W = canvas.offsetWidth;
+      const H = canvas.offsetHeight;
+      ctx.clearRect(0, 0, W, H);
+
+      // Angle: mouse X strongly tilts ribbons left/right
+      const baseAngle = 0.42 + mx * 0.5;
+
+      RIBBONS.forEach((rib, i) => {
+        const angle = baseAngle + i * 0.035;
+        const sinA = Math.sin(angle);
+        const cosA = Math.cos(angle);
+        // Perpendicular direction
+        const px = cosA, py = -sinA;
+
+        // Centre of ribbon — spread across right half
+        const cx = W * (0.38 + i * 0.135) + (mx - 0.5) * (40 + i * 18);
+        const cy = H * 0.5 + (my - 0.5) * (25 + i * 10);
+
+        const ext = W + H;
+        const hw = rib.w / 2;
+
+        // 4 corners of parallelogram
+        const ax = cx - sinA * ext - px * hw, ay = cy - cosA * ext - py * hw;
+        const bx = cx - sinA * ext + px * hw, by = cy - cosA * ext + py * hw;
+        const cx2 = cx + sinA * ext + px * hw, cy2 = cy + cosA * ext + py * hw;
+        const dx = cx + sinA * ext - px * hw, dy = cy + cosA * ext - py * hw;
+
+        // Sharp-edged gradient (only tiny 5% fade at edges)
+        const gx1 = cx - px * hw, gy1 = cy - py * hw;
+        const gx2 = cx + px * hw, gy2 = cy + py * hw;
+        const g = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
+        g.addColorStop(0,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
+        g.addColorStop(0.05, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
+        g.addColorStop(0.95, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
+        g.addColorStop(1,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(bx, by);
+        ctx.lineTo(cx2, cy2);
+        ctx.lineTo(dx, dy);
+        ctx.closePath();
+        ctx.fillStyle = g;
+        ctx.fill();
+      });
+
+      raf.current = requestAnimationFrame(draw);
+    };
+
+    raf.current = requestAnimationFrame(draw);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      section.removeEventListener("mousemove", onMove);
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, [sectionRef]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ display: "block" }} />;
+}
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
   <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
-    {/* Browser chrome */}
     <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
       <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
       <span className="w-2.5 h-2.5 rounded-full bg-[hsl(44,90%,60%)]/70" />
       <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
       <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
     </div>
-    {/* Page content preview */}
     <div className={`absolute inset-0 top-9 ${accent === "primary" ? "bg-gradient-to-br from-primary/5 via-background to-primary/10" : "bg-gradient-to-br from-accent/5 via-background to-accent/10"}`}>
-      {/* Nav */}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30">
         <div className={`w-12 h-3 rounded-sm ${accent === "primary" ? "bg-primary/40" : "bg-accent/40"}`} />
         <div className="flex gap-2 ml-auto">
@@ -72,13 +130,11 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
           <div className={`w-14 h-5 rounded-sm ${accent === "primary" ? "bg-primary/60" : "bg-accent/60"}`} />
         </div>
       </div>
-      {/* Hero area */}
       <div className="px-4 py-4">
         <div className="w-3/4 h-4 rounded bg-foreground/15 mb-2" />
         <div className="w-1/2 h-3 rounded bg-foreground/10 mb-4" />
         <div className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`} />
       </div>
-      {/* Cards row */}
       <div className="absolute bottom-3 left-4 right-4 grid grid-cols-3 gap-2">
         {[...Array(3)].map((_, i) => (
           <div key={i} className="rounded-lg border border-border/30 bg-background/60 p-2">
@@ -92,7 +148,6 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
   </div>
 );
 
-/* ─── Marketing dashboard mockup ─── */
 const MarketingMockup = () => (
   <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
     <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
@@ -102,7 +157,6 @@ const MarketingMockup = () => (
       <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
     </div>
     <div className="absolute inset-0 top-9 bg-gradient-to-br from-accent/5 via-background to-accent/10 p-3">
-      {/* Stats row */}
       <div className="grid grid-cols-3 gap-2 mb-3">
         {[["1.240", "Leads"], ["€4.20", "CPC"], ["34%", "Conv."]].map(([v, l]) => (
           <div key={l} className="rounded-lg border border-border/30 bg-background/60 px-2 py-1.5">
@@ -111,7 +165,6 @@ const MarketingMockup = () => (
           </div>
         ))}
       </div>
-      {/* Bar chart */}
       <div className="rounded-lg border border-border/30 bg-background/60 p-2">
         <div className="text-[7px] text-muted-foreground mb-1.5">Leads per week</div>
         <div className="flex items-end gap-1 h-8">
@@ -124,7 +177,6 @@ const MarketingMockup = () => (
   </div>
 );
 
-/* ─── Data ─── */
 const clientNames = ["Matrix City", "CKN Legal", "Elektroza", "Coco De Rio", "Prokick Academie"];
 
 const stats = [
@@ -157,14 +209,10 @@ const reviews = [
   { name: "Rian M.", role: "Elektroza", text: "Helder en overzichtelijk, precies wat ik nodig had voor mijn elektriciensbedrijf.", initials: "RM" },
 ];
 
-const SPLINE_LIGHT = "https://my.spline.design/glassmorphlandingpagecopy-WQe0ukjPWyKibLiUv1pBNkXX/";
-const SPLINE_DARK  = "https://my.spline.design/glassmorphlandingpagecopycopy-AwnDMbfEajcUOlYhoFpXNQxR/";
-
 const Home = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
-  const { theme } = useTheme();
-  const splineSrc = theme === "dark" ? SPLINE_DARK : SPLINE_LIGHT;
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     updatePageMeta(
@@ -195,32 +243,24 @@ const Home = () => {
       <StructuredData type="WebSite" />
       <StructuredData type="Service" />
 
-      {/* ══════════════════════════════════════
-          HERO — Stripe exact pattern
-          • Small label top
-          • Massive two-color H1 (dark + primary)
-          • Muted subtext
-          • Two CTAs
-          • Wave ribbons right side
-      ══════════════════════════════════════ */}
-      <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
-        <StripeWave />
-        {/* Fade gradient over wave so text stays crisp */}
+      {/* ══════ HERO ══════ */}
+      <section ref={heroRef} className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
+
+        {/* Interactive ribbon canvas */}
+        <HeroRibbons sectionRef={heroRef as React.RefObject<HTMLElement>} />
+
+        {/* Left fade so text stays crisp on white */}
         <div
-          className="absolute inset-y-0 left-0 w-[70%] pointer-events-none"
-          aria-hidden
-          style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 52%, hsl(var(--background)/0.55) 75%, transparent 100%)" }}
+          className="absolute inset-y-0 left-0 w-[65%] pointer-events-none"
+          style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 50%, hsl(var(--background)/0.6) 75%, transparent 100%)" }}
         />
 
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
           <div className="max-w-[640px]">
-            {/* Stripe-style small label */}
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
               Professionele websites voor ondernemers
             </p>
 
-            {/* Two-color H1 — exact Stripe pattern:
-                first sentence bold dark, rest colored/muted */}
             <h1
               className="font-bold tracking-[-0.03em] leading-[1.05] mb-8"
               style={{ fontSize: "clamp(2.6rem, 5.2vw, 4.5rem)" }}
@@ -252,9 +292,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          CLIENT STRIP — logo row like Stripe
-      ══════════════════════════════════════ */}
+      {/* ══════ CLIENT STRIP ══════ */}
       <div className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5">
           <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
@@ -270,13 +308,9 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════
-          SOLUTIONS — "Flexible solutions" exact Stripe layout
-          Heading above, two big bento cards below with mockups
-      ══════════════════════════════════════ */}
+      {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-6">
-          {/* Stripe heading pattern: bold dark + muted extension */}
           <div className="max-w-3xl mb-14">
             <h2
               className="font-bold tracking-[-0.025em] leading-[1.08]"
@@ -288,15 +322,10 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Two bento cards — exact Stripe 2-col grid */}
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
           <div className="grid md:grid-cols-2 gap-4">
-
-            {/* Card 1 — Website bouwen */}
             <div className="relative rounded-2xl border border-border bg-card overflow-hidden group">
-              {/* Gradient bg inside card — like Stripe */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/8 pointer-events-none" />
-
               <div className="relative p-10">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary mb-5">Website bouwen</p>
                 <h3 className="text-[22px] font-bold text-foreground leading-snug mb-3 max-w-[300px]">
@@ -317,17 +346,13 @@ const Home = () => {
                   Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-
-              {/* Mockup visual at bottom of card */}
               <div className="px-10 pb-10">
                 <WebsiteMockup accent="primary" />
               </div>
             </div>
 
-            {/* Card 2 — Marketing */}
             <div className="relative rounded-2xl border border-border bg-card overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-accent/4 via-transparent to-accent/8 pointer-events-none" />
-
               <div className="relative p-10">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent mb-5">Marketing & Groei</p>
                 <h3 className="text-[22px] font-bold text-foreground leading-snug mb-3 max-w-[300px]">
@@ -337,7 +362,7 @@ const Home = () => {
                   Google Ads, Meta Ads, e-mail automation en AI chatbots die elke maand meer leads genereren.
                 </p>
                 <ul className="space-y-2 mb-8">
-                  {["Google & Meta Ads", "E-mail & WhatsApp automation", "AI chatbots voor leads"].map((c) => (
+                  {["Google & Meta advertenties", "E-mail automation", "AI chatbot & leads"].map((c) => (
                     <li key={c} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
                       <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 text-accent" />
                       {c}
@@ -345,10 +370,9 @@ const Home = () => {
                   ))}
                 </ul>
                 <Link to="/marketing" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
-                  Bekijk marketingdiensten <ArrowRight className="w-4 h-4" />
+                  Bekijk marketingpakketten <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-
               <div className="px-10 pb-10">
                 <MarketingMockup />
               </div>
@@ -357,201 +381,127 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          STATS — "The backbone of global commerce"
-          Centered big H2 → then stats with divide-x borders
-      ══════════════════════════════════════ */}
+      {/* ══════ STATS ══════ */}
       <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28 text-center">
-          <h2
-            className="font-bold tracking-[-0.03em] leading-[1.06] text-foreground"
-            style={{ fontSize: "clamp(2.2rem, 4.5vw, 3.75rem)" }}
-          >
-            De basis van jouw<br />online groei.
-          </h2>
-        </div>
-
-        {/* Stats row with divide-x — exact Stripe "backbone" section */}
-        <div className="border-t border-border">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
-              {stats.map((s, i) => (
-                <motion.div
-                  key={s.number}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
-                  className="py-12 px-6 lg:px-10"
-                >
-                  <p
-                    className="font-bold tracking-[-0.03em] text-foreground leading-none mb-2.5"
-                    style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
-                  >
-                    {s.number}
-                  </p>
-                  <p className="text-[13px] text-muted-foreground leading-snug">{s.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          WHY WEBIRO — 2-col heading + 3x2 feature grid
-      ══════════════════════════════════════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-
-          {/* Two-column heading — exact Stripe "startups" pattern */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Waarom Webiro</p>
-              <h2
-                className="font-bold tracking-[-0.025em] leading-[1.1] text-foreground"
-                style={{ fontSize: "clamp(1.9rem, 3.5vw, 3rem)" }}
-              >
-                Alles wat je nodig hebt. Niets meer, niets minder.
-              </h2>
-            </div>
-            <div className="self-end">
-              <p className="text-[16px] text-muted-foreground leading-relaxed">
-                We werken met een scherp proces en heldere verwachtingen zodat jij je kunt focussen op je bedrijf, niet op de techniek.
-              </p>
-              <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary mt-6 hover:gap-3 transition-all">
-                Bekijk pakketten <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* 3×2 feature grid with outer border + inner dividers */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 border border-border rounded-2xl overflow-hidden divide-y divide-border sm:divide-y-0">
-            {whyItems.map((item, i) => {
-              const Icon = item.icon;
-              const isLastRow = i >= 3;
-              const isRightCol = i % 3 === 2;
-              const isRightColSm = i % 2 === 1;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.07, duration: 0.5 }}
-                  className={[
-                    "p-8 lg:p-10",
-                    !isLastRow ? "border-b border-border" : "",
-                    !isRightCol ? "lg:border-r lg:border-border" : "",
-                    !isRightColSm ? "sm:border-r sm:border-border lg:border-r-0" : "",
-                    !isRightCol && !isRightColSm ? "lg:border-r lg:border-border" : "",
-                  ].filter(Boolean).join(" ")}
-                >
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                    <Icon className="w-4 h-4 text-primary" />
-                  </div>
-                  <h3 className="text-[15px] font-bold text-foreground mb-2.5 leading-snug">{item.title}</h3>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed">{item.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          PORTFOLIO — auto-scroll showcase
-      ══════════════════════════════════════ */}
-      <section className="border-t border-border bg-background overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Portfolio</p>
-              <h2
-                className="font-bold tracking-[-0.025em] leading-[1.1] text-foreground"
-                style={{ fontSize: "clamp(1.9rem, 3.5vw, 3rem)" }}
-              >
-                Bekijk ons werk.
-              </h2>
-            </div>
-            <p className="text-[16px] text-muted-foreground leading-relaxed self-end">
-              Van juridische kantoren tot sportacademies. Een selectie van websites die we gebouwd hebben voor ondernemers in verschillende sectoren.
-            </p>
-          </div>
-        </div>
-
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-hidden pl-6 lg:pl-12 pb-20 lg:pb-28"
-          onMouseEnter={() => { paused.current = true; }}
-          onMouseLeave={() => { paused.current = false; }}
-        >
-          {[...showcase, ...showcase].map((item, i) => (
-            <a
-              key={i}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-shrink-0 w-[220px] border border-border bg-card rounded-xl p-7 hover:shadow-md hover:-translate-y-0.5 hover:border-primary/20 transition-all duration-200 group"
-            >
-              <div className="text-3xl mb-5">{item.emoji}</div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary mb-1.5">{item.cat}</p>
-              <p className="text-[14px] font-semibold text-foreground group-hover:text-primary transition-colors">{item.title}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          TESTIMONIALS
-      ══════════════════════════════════════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Reviews</p>
-              <h2
-                className="font-bold tracking-[-0.025em] leading-[1.1] text-foreground"
-                style={{ fontSize: "clamp(1.9rem, 3.5vw, 3rem)" }}
-              >
-                Wat onze klanten zeggen.
-              </h2>
-            </div>
-            <p className="text-[16px] text-muted-foreground leading-relaxed self-end">
-              Ondernemers die we geholpen hebben met hun online aanwezigheid. Lees hun ervaringen.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            {reviews.map((r, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="border border-border bg-card rounded-xl p-8 hover:shadow-sm hover:border-primary/20 transition-all"
-              >
-                <div className="flex gap-0.5 mb-6">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-[hsl(44,100%,67%)] text-[hsl(44,100%,67%)]" />
-                  ))}
-                </div>
-                <p className="text-[14px] text-muted-foreground leading-relaxed mb-8">
-                  "{r.text}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[11px] font-bold flex-shrink-0">
-                    {r.initials}
-                  </div>
-                  <div>
-                    <p className="text-[13px] font-semibold text-foreground">{r.name}</p>
-                    <p className="text-[12px] text-muted-foreground">{r.role}</p>
-                  </div>
-                </div>
-              </motion.div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
+            {stats.map(({ number, label }) => (
+              <div key={label} className="px-8 first:pl-0 last:pr-0 py-4">
+                <p className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-1">{number}</p>
+                <p className="text-sm text-muted-foreground">{label}</p>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══════ WHY US ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="max-w-2xl mb-14">
+            <h2 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
+              Waarom kiezen voor Webiro?
+            </h2>
+            <p className="text-muted-foreground text-base leading-relaxed">
+              We bouwen niet alleen websites — we bouwen de digitale basis van jouw bedrijf.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyItems.map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="group">
+                <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
+                <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════ SHOWCASE ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="flex items-end justify-between mb-12">
+            <div className="max-w-xl">
+              <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
+                Recent werk
+              </h2>
+            </div>
+            <Link to="/contact" className="hidden md:inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
+              Bekijk meer <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {showcase.map(({ title, cat, url, emoji }) => (
+              <a
+                key={title}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative rounded-2xl border border-border bg-card hover:border-primary/30 transition-all overflow-hidden p-8"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative">
+                  <span className="text-3xl mb-4 block">{emoji}</span>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">{cat}</p>
+                  <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
+                  <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
+                    Bekijk website <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════ REVIEWS ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="mb-12">
+            <div className="flex items-center gap-1 mb-3">
+              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-primary text-primary" />)}
+              <span className="text-[13px] font-semibold text-muted-foreground ml-2">5.0 — gebaseerd op klantreviews</span>
+            </div>
+            <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
+              Wat klanten zeggen
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {reviews.map(({ name, role, text, initials }) => (
+              <div key={name} className="rounded-2xl border border-border bg-card p-8">
+                <p className="text-[14px] text-muted-foreground leading-relaxed mb-6">"{text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center text-[12px] font-bold text-primary">
+                    {initials}
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-semibold text-foreground">{name}</p>
+                    <p className="text-[12px] text-muted-foreground">{role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════ MARQUEE ══════ */}
+      <section className="border-t border-border overflow-hidden">
+        <div
+          ref={scrollRef}
+          className="flex gap-12 py-5 overflow-x-hidden whitespace-nowrap"
+          onMouseEnter={() => { paused.current = true; }}
+          onMouseLeave={() => { paused.current = false; }}
+          style={{ scrollbarWidth: "none" }}
+        >
+          {[...clientNames, ...clientNames].map((n, i) => (
+            <span key={i} className="text-[13px] font-semibold text-muted-foreground/40 uppercase tracking-[0.12em] flex-shrink-0">
+              {n}
+            </span>
+          ))}
         </div>
       </section>
 
