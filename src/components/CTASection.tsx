@@ -33,136 +33,14 @@ const featureCards = [
   },
 ];
 
-// Webiro brand ribbons: blue, yellow, light-blue, purple, gold
+// Webiro brand ribbons
 const RIBBONS = [
-  { r: 58,  g: 77,  b: 234, width: 110, cx: 0.28, parallax: 38, angleBase: 0.55 }, // #3A4DEA
-  { r: 255, g: 215, b: 92,  width: 65,  cx: 0.42, parallax: 55, angleBase: 0.60 }, // #FFD75C
-  { r: 107, g: 123, b: 245, width: 85,  cx: 0.58, parallax: 45, angleBase: 0.52 }, // light blue
-  { r: 107, g: 77,  b: 234, width: 55,  cx: 0.70, parallax: 30, angleBase: 0.58 }, // purple
-  { r: 255, g: 185, b: 40,  width: 40,  cx: 0.82, parallax: 60, angleBase: 0.50 }, // gold
+  { r: 58,  g: 77,  b: 234, w: 100 }, // #3A4DEA primary blue
+  { r: 255, g: 215, b: 92,  w: 60  }, // #FFD75C yellow
+  { r: 107, g: 123, b: 245, w: 80  }, // light blue
+  { r: 107, g: 77,  b: 234, w: 50  }, // purple
+  { r: 255, g: 185, b: 40,  w: 38  }, // gold
 ];
-
-function RibbonCanvas({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  // Smooth target mouse position
-  const targetMouse = useRef({ x: 0.62, y: 0.5 });
-  const currentMouse = useRef({ x: 0.62, y: 0.5 });
-  const frameRef = useRef<number>();
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const section = sectionRef.current;
-    if (!canvas || !section) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.scale(dpr, dpr);
-    };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-
-    // Track mouse over the whole section
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = section.getBoundingClientRect();
-      targetMouse.current = {
-        x: Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)),
-        y: Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height)),
-      };
-    };
-    section.addEventListener('mousemove', onMouseMove);
-
-    const drawRibbon = (
-      r: number, g: number, b: number,
-      width: number,
-      cxFraction: number,
-      angle: number,
-      parallaxX: number,
-      mx: number, my: number,
-      w: number, h: number
-    ) => {
-      // Centre X of ribbon at mid-height, shifted by mouse parallax
-      const cx = w * cxFraction + (mx - 0.5) * parallaxX;
-      const cy = h * 0.5 + (my - 0.5) * 20;
-
-      // Ribbon direction unit vector
-      const dx = Math.sin(angle);
-      const dy = Math.cos(angle);
-      // Perpendicular (for width)
-      const px = Math.cos(angle);
-      const py = -Math.sin(angle);
-
-      // Extend well past canvas edges so no gaps
-      const ext = Math.sqrt(w * w + h * h);
-
-      // Four corners of parallelogram
-      const hw = width / 2;
-      const ax = cx - dx * ext - px * hw, ay = cy - dy * ext - py * hw;
-      const bx = cx - dx * ext + px * hw, by = cy - dy * ext + py * hw;
-      const cx2 = cx + dx * ext + px * hw, cy2 = cy + dy * ext + py * hw;
-      const dx2 = cx + dx * ext - px * hw, dy2 = cy + dy * ext - py * hw;
-
-      // Gradient perpendicular to ribbon (edge soft-ness)
-      const gx1 = cx - px * hw, gy1 = cy - py * hw;
-      const gx2 = cx + px * hw, gy2 = cy + py * hw;
-      const grad = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
-      grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
-      grad.addColorStop(0.12, `rgba(${r},${g},${b},0.85)`);
-      grad.addColorStop(0.5,  `rgba(${r},${g},${b},0.95)`);
-      grad.addColorStop(0.88, `rgba(${r},${g},${b},0.85)`);
-      grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
-
-      ctx.beginPath();
-      ctx.moveTo(ax, ay);
-      ctx.lineTo(bx, by);
-      ctx.lineTo(cx2, cy2);
-      ctx.lineTo(dx2, dy2);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
-    };
-
-    const draw = () => {
-      // Smooth lerp toward target
-      currentMouse.current.x += (targetMouse.current.x - currentMouse.current.x) * 0.06;
-      currentMouse.current.y += (targetMouse.current.y - currentMouse.current.y) * 0.06;
-
-      const mx = currentMouse.current.x;
-      const my = currentMouse.current.y;
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-
-      ctx.clearRect(0, 0, w, h);
-
-      RIBBONS.forEach((rib) => {
-        // Angle influenced by mouse X: left = more vertical, right = more tilted
-        const angle = rib.angleBase + (mx - 0.5) * 0.22;
-        drawRibbon(rib.r, rib.g, rib.b, rib.width, rib.cx, angle, rib.parallax, mx, my, w, h);
-      });
-
-      frameRef.current = requestAnimationFrame(draw);
-    };
-
-    frameRef.current = requestAnimationFrame(draw);
-
-    return () => {
-      section.removeEventListener('mousemove', onMouseMove);
-      ro.disconnect();
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, [sectionRef]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-    />
-  );
-}
 
 export function CTASection({
   title = "Klaar voor jouw nieuwe website?",
@@ -174,23 +52,126 @@ export function CTASection({
   primaryButtonLink,
 }: CTASectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ x: 0.72, y: 0.5 });
+  const smooth = useRef({ x: 0.72, y: 0.5 });
+  const raf = useRef<number>();
+
   const displayDescription = subtitle || description;
   const displayButtonText = primaryButtonText || buttonText;
   const displayButtonLink = primaryButtonLink || buttonLink;
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+
+    const ctx = canvas.getContext('2d')!;
+
+    // Set canvas pixel size to match CSS size (no DPR trick — keep it simple)
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Mouse tracking on the whole section
+    const onMove = (e: MouseEvent) => {
+      const r = section.getBoundingClientRect();
+      mouse.current.x = (e.clientX - r.left) / r.width;
+      mouse.current.y = (e.clientY - r.top) / r.height;
+    };
+    section.addEventListener('mousemove', onMove);
+
+    const draw = () => {
+      // Smooth lerp
+      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.07;
+      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.07;
+      const mx = smooth.current.x;
+      const my = smooth.current.y;
+
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Base angle — mouse X strongly tilts all ribbons
+      // mx=0 → ~30°, mx=1 → ~60°
+      const baseAngle = 0.45 + mx * 0.45; // radians from vertical
+
+      RIBBONS.forEach((rib, i) => {
+        // Spread ribbons across right half, each with slight mouse parallax
+        const baseCX = W * (0.35 + i * 0.14);
+        const cx = baseCX + (mx - 0.5) * (30 + i * 15);
+        const cy = H * 0.5 + (my - 0.5) * (20 + i * 8);
+
+        // Ribbon direction
+        const angle = baseAngle + i * 0.03;
+        const sinA = Math.sin(angle);
+        const cosA = Math.cos(angle);
+
+        // Extend far past canvas edges
+        const ext = W + H;
+
+        // Half-width perpendicular
+        const hw = rib.w / 2;
+        const px = cosA, py = -sinA; // perpendicular direction
+
+        // 4 corners
+        const x0 = cx - sinA * ext - px * hw, y0 = cy - cosA * ext - py * hw;
+        const x1 = cx - sinA * ext + px * hw, y1 = cy - cosA * ext + py * hw;
+        const x2 = cx + sinA * ext + px * hw, y2 = cy + cosA * ext + py * hw;
+        const x3 = cx + sinA * ext - px * hw, y3 = cy + cosA * ext - py * hw;
+
+        // Sharp gradient — only very thin soft edge
+        const gx1 = cx - px * hw, gy1 = cy - py * hw;
+        const gx2 = cx + px * hw, gy2 = cy + py * hw;
+        const g = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
+        g.addColorStop(0,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
+        g.addColorStop(0.08, `rgba(${rib.r},${rib.g},${rib.b},0.88)`);
+        g.addColorStop(0.5,  `rgba(${rib.r},${rib.g},${rib.b},0.92)`);
+        g.addColorStop(0.92, `rgba(${rib.r},${rib.g},${rib.b},0.88)`);
+        g.addColorStop(1,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.closePath();
+        ctx.fillStyle = g;
+        ctx.fill();
+      });
+
+      raf.current = requestAnimationFrame(draw);
+    };
+
+    raf.current = requestAnimationFrame(draw);
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      section.removeEventListener('mousemove', onMove);
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, []);
+
   return (
     <section ref={sectionRef} className="relative bg-background border-t border-border overflow-hidden">
-      {/* Ribbons — right 60% of section */}
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[60%]">
-        <RibbonCanvas sectionRef={sectionRef as React.RefObject<HTMLElement>} />
-        {/* Left fade so text stays readable */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0.85) 25%, transparent 65%)'
-          }}
-        />
-      </div>
+
+      {/* Canvas fills the full section */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{ display: 'block' }}
+      />
+
+      {/* Left-side fade so left text stays on clean white */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to right, hsl(var(--background)) 30%, hsl(var(--background) / 0.5) 55%, transparent 80%)'
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -223,7 +204,7 @@ export function CTASection({
           {/* Right: two feature cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border rounded-lg overflow-hidden border border-border">
             {featureCards.map((card) => (
-              <div key={card.heading} className="bg-background/75 backdrop-blur-md p-7 flex flex-col gap-4">
+              <div key={card.heading} className="bg-background/80 backdrop-blur-sm p-7 flex flex-col gap-4">
                 <div className="w-9 h-9 rounded-md border border-border flex items-center justify-center bg-background">
                   {card.icon}
                 </div>
