@@ -33,10 +33,22 @@ const queryClient = new QueryClient();
 // Loading fallback component
 function LoadingFallback() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F7F7F8] dark:bg-[#110E13]">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
-        <div className="inline-block w-12 h-12 border-4 border-[#EAF0FF] border-t-[#3A4DEA] rounded-full animate-spin"></div>
-        <p className="mt-4 text-[#110E13]/60 dark:text-gray-400">Laden...</p>
+        <div className="inline-block w-12 h-12 border-4 border-border border-t-primary rounded-full animate-spin"></div>
+        <p className="mt-4 text-muted-foreground">Laden...</p>
+      </div>
+    </div>
+  );
+}
+
+/* Global vertical column guide lines — fixed, full page height, same grid as content */
+function ColumnGuides() {
+  return (
+    <div className="fixed inset-0 pointer-events-none z-40" aria-hidden>
+      <div className="h-full max-w-7xl mx-auto relative">
+        <div className="absolute top-0 bottom-0 left-6 lg:left-12 w-px bg-border/50" />
+        <div className="absolute top-0 bottom-0 right-6 lg:right-12 w-px bg-border/50" />
       </div>
     </div>
   );
@@ -49,7 +61,8 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#110E13] transition-colors duration-300">
+      <ColumnGuides />
+      <div className="min-h-screen bg-background transition-colors duration-300">
         {!isAdminRoute && <Header />}
         <Suspense fallback={<LoadingFallback />}>
           <Routes>

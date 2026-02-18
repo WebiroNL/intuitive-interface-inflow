@@ -194,13 +194,7 @@ const Home = () => {
       ═══════════════════════════════════════ */}
       <section className="relative min-h-[700px] flex items-center overflow-hidden bg-background pt-16">
 
-        {/* ── Vertical column guide lines – the Stripe signature ── */}
-        <div className="absolute inset-0 pointer-events-none" aria-hidden style={{ zIndex: 2 }}>
-          <div className="h-full max-w-7xl mx-auto relative">
-            <div className="absolute top-0 bottom-0 left-6 lg:left-12 w-px bg-border/50" />
-            <div className="absolute top-0 bottom-0 right-6 lg:right-12 w-px bg-border/50" />
-          </div>
-        </div>
+        {/* column guides now come from the global ColumnGuides in App.tsx */}
 
         {/* Spline 3D background — right half */}
         <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none" aria-hidden style={{ zIndex: 0 }}>
