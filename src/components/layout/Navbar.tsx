@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import webiroLogo from "@/assets/logo-webiro.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -20,16 +18,7 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
+    setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 
   const toggleTheme = () => {
@@ -37,107 +26,113 @@ const Navbar = () => {
     setIsDark(!isDark);
   };
 
-  const isActive = (href: string) => {
-    if (href === "/") return location.pathname === "/";
-    return location.pathname.startsWith(href);
-  };
+  const isActive = (href: string) =>
+    href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
-        isScrolled ? "top-4 px-4 md:px-8" : ""
-      }`}
-    >
-      <div
-        className={`transition-all duration-500 ease-out ${
-          isScrolled
-            ? "liquid-glass mx-auto max-w-5xl rounded-2xl md:rounded-full"
-            : "bg-transparent"
-        }`}
-      >
-        <div className={`mx-auto transition-all duration-500 ${isScrolled ? 'px-6' : 'container-webiro'}`}>
-          <div className={`flex items-center justify-between transition-all duration-500 ${isScrolled ? 'h-14 md:h-16' : 'h-16 md:h-20'}`}>
-            {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img src={webiroLogo} alt="Webiro" className={`transition-all duration-500 ${isScrolled ? 'h-6 md:h-8' : 'h-8 md:h-10'}`} />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <img src={webiroLogo} alt="Webiro" className="h-7" />
+          </Link>
+
+          {/* Center nav links – desktop */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive(link.href)
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right actions – desktop */}
+          <div className="hidden lg:flex items-center gap-3">
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            {/* Outlined button */}
+            <Link
+              to="/contact"
+              className="px-4 py-1.5 text-sm font-medium border border-border rounded-md text-foreground hover:border-foreground/50 transition-colors"
+            >
+              Contact
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive(link.href)
-                      ? "text-primary"
-                      : isScrolled ? "text-foreground/80" : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            {/* Filled CTA – Stripe "Contact sales" style */}
+            <Link
+              to="/intake"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Gratis adviesgesprek
+              <span aria-hidden>›</span>
+            </Link>
+          </div>
 
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors ${isScrolled ? 'hover:bg-white/20' : 'hover:bg-muted'} text-muted-foreground hover:text-foreground`}
-                aria-label="Toggle theme"
+          {/* Mobile menu button */}
+          <button
+            className="lg:hidden p-2 text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="lg:hidden border-t border-border bg-background">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                className={`py-2.5 px-3 text-sm font-medium rounded-md transition-colors ${
+                  isActive(link.href)
+                    ? "text-primary bg-primary/5"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+                onClick={() => setIsOpen(false)}
               >
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-
-              {/* CTA Button */}
-              <div className="hidden md:block">
-                <Button asChild size={isScrolled ? "sm" : "default"} className="rounded-full">
-                  <Link to="/intake">Gratis Adviesgesprek</Link>
-                </Button>
-              </div>
-
-              {/* Mobile Menu Button */}
-              <button
-                className="lg:hidden p-2 text-foreground"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle menu"
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-3 flex flex-col gap-2">
+              <Link
+                to="/contact"
+                className="py-2.5 px-3 text-sm font-medium border border-border rounded-md text-center"
+                onClick={() => setIsOpen(false)}
               >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+                Contact
+              </Link>
+              <Link
+                to="/intake"
+                className="py-2.5 px-3 bg-primary text-primary-foreground text-sm font-medium rounded-md text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                Gratis adviesgesprek ›
+              </Link>
             </div>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className={`lg:hidden py-4 border-t animate-fade-in ${isScrolled ? 'border-white/20' : 'border-border bg-background/95 backdrop-blur-md'}`}>
-            <div className="container-webiro flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className={`text-base font-medium py-3 px-4 rounded-xl transition-colors ${
-                    isActive(link.href)
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:bg-white/10"
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="pt-4 px-4">
-                <Button asChild className="w-full rounded-xl">
-                  <Link to="/intake" onClick={() => setIsOpen(false)}>
-                    Gratis Adviesgesprek
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </nav>
   );
 };
