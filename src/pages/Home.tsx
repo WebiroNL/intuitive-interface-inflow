@@ -1,116 +1,10 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Star, Zap, Palette, Headphones, TrendingUp, Clock, Shield } from "lucide-react";
-import { motion } from "framer-motion";
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
-
-/* ─── Webiro brand colors ─── */
-const RIBBONS = [
-  { r: 58,  g: 77,  b: 234, w: 130 }, // #3A4DEA primary blue
-  { r: 255, g: 215, b: 92,  w: 70  }, // #FFD75C yellow
-  { r: 107, g: 123, b: 245, w: 95  }, // light blue
-  { r: 107, g: 77,  b: 234, w: 58  }, // purple
-  { r: 255, g: 185, b: 40,  w: 42  }, // gold
-];
-
-function HeroRibbons({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: 0.75, y: 0.5 });
-  const smooth = useRef({ x: 0.75, y: 0.5 });
-  const raf = useRef<number>();
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const section = sectionRef.current;
-    if (!canvas || !section) return;
-    const ctx = canvas.getContext("2d")!;
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const onMove = (e: MouseEvent) => {
-      const r = section.getBoundingClientRect();
-      mouse.current.x = (e.clientX - r.left) / r.width;
-      mouse.current.y = (e.clientY - r.top) / r.height;
-    };
-    section.addEventListener("mousemove", onMove);
-
-    const draw = () => {
-      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.06;
-      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.06;
-      const mx = smooth.current.x;
-      const my = smooth.current.y;
-
-      const W = canvas.offsetWidth;
-      const H = canvas.offsetHeight;
-      ctx.clearRect(0, 0, W, H);
-
-      // Angle: mouse X strongly tilts ribbons left/right
-      const baseAngle = 0.42 + mx * 0.5;
-
-      RIBBONS.forEach((rib, i) => {
-        const angle = baseAngle + i * 0.035;
-        const sinA = Math.sin(angle);
-        const cosA = Math.cos(angle);
-        // Perpendicular direction
-        const px = cosA, py = -sinA;
-
-        // Centre of ribbon — spread across right half
-        const cx = W * (0.38 + i * 0.135) + (mx - 0.5) * (40 + i * 18);
-        const cy = H * 0.5 + (my - 0.5) * (25 + i * 10);
-
-        const ext = W + H;
-        const hw = rib.w / 2;
-
-        // 4 corners of parallelogram
-        const ax = cx - sinA * ext - px * hw, ay = cy - cosA * ext - py * hw;
-        const bx = cx - sinA * ext + px * hw, by = cy - cosA * ext + py * hw;
-        const cx2 = cx + sinA * ext + px * hw, cy2 = cy + cosA * ext + py * hw;
-        const dx = cx + sinA * ext - px * hw, dy = cy + cosA * ext - py * hw;
-
-        // Sharp-edged gradient (only tiny 5% fade at edges)
-        const gx1 = cx - px * hw, gy1 = cy - py * hw;
-        const gx2 = cx + px * hw, gy2 = cy + py * hw;
-        const g = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
-        g.addColorStop(0,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
-        g.addColorStop(0.05, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
-        g.addColorStop(0.95, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
-        g.addColorStop(1,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
-
-        ctx.beginPath();
-        ctx.moveTo(ax, ay);
-        ctx.lineTo(bx, by);
-        ctx.lineTo(cx2, cy2);
-        ctx.lineTo(dx, dy);
-        ctx.closePath();
-        ctx.fillStyle = g;
-        ctx.fill();
-      });
-
-      raf.current = requestAnimationFrame(draw);
-    };
-
-    raf.current = requestAnimationFrame(draw);
-
-    return () => {
-      window.removeEventListener("resize", resize);
-      section.removeEventListener("mousemove", onMove);
-      if (raf.current) cancelAnimationFrame(raf.current);
-    };
-  }, [sectionRef]);
-
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ display: "block" }} />;
-}
+import { SilkRibbons } from "@/components/SilkRibbons";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -246,8 +140,8 @@ const Home = () => {
       {/* ══════ HERO ══════ */}
       <section ref={heroRef} className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
 
-        {/* Interactive ribbon canvas */}
-        <HeroRibbons sectionRef={heroRef as React.RefObject<HTMLElement>} />
+        {/* Interactive silk ribbons */}
+        <SilkRibbons sectionRef={heroRef as React.RefObject<HTMLElement>} />
 
         {/* Left fade so text stays crisp on white */}
         <div

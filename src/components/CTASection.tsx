@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Rocket, MessageCircle } from 'lucide-react';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import { SilkRibbons } from '@/components/SilkRibbons';
 
 interface CTASectionProps {
   title?: string;
@@ -33,15 +34,6 @@ const featureCards = [
   },
 ];
 
-// Webiro brand ribbons
-const RIBBONS = [
-  { r: 58,  g: 77,  b: 234, w: 100 }, // #3A4DEA primary blue
-  { r: 255, g: 215, b: 92,  w: 60  }, // #FFD75C yellow
-  { r: 107, g: 123, b: 245, w: 80  }, // light blue
-  { r: 107, g: 77,  b: 234, w: 50  }, // purple
-  { r: 255, g: 185, b: 40,  w: 38  }, // gold
-];
-
 export function CTASection({
   title = "Klaar voor jouw nieuwe website?",
   description = "Neem contact op en we helpen je graag verder.",
@@ -52,125 +44,21 @@ export function CTASection({
   primaryButtonLink,
 }: CTASectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: 0.72, y: 0.5 });
-  const smooth = useRef({ x: 0.72, y: 0.5 });
-  const raf = useRef<number>();
-
   const displayDescription = subtitle || description;
   const displayButtonText = primaryButtonText || buttonText;
   const displayButtonLink = primaryButtonLink || buttonLink;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const section = sectionRef.current;
-    if (!canvas || !section) return;
-
-    const ctx = canvas.getContext('2d')!;
-
-    // Set canvas pixel size to match CSS size (no DPR trick — keep it simple)
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Mouse tracking on the whole section
-    const onMove = (e: MouseEvent) => {
-      const r = section.getBoundingClientRect();
-      mouse.current.x = (e.clientX - r.left) / r.width;
-      mouse.current.y = (e.clientY - r.top) / r.height;
-    };
-    section.addEventListener('mousemove', onMove);
-
-    const draw = () => {
-      // Smooth lerp
-      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.07;
-      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.07;
-      const mx = smooth.current.x;
-      const my = smooth.current.y;
-
-      const W = canvas.width;
-      const H = canvas.height;
-      ctx.clearRect(0, 0, W, H);
-
-      // Base angle — mouse X strongly tilts all ribbons
-      // mx=0 → ~30°, mx=1 → ~60°
-      const baseAngle = 0.45 + mx * 0.45; // radians from vertical
-
-      RIBBONS.forEach((rib, i) => {
-        // Spread ribbons across right half, each with slight mouse parallax
-        const baseCX = W * (0.35 + i * 0.14);
-        const cx = baseCX + (mx - 0.5) * (30 + i * 15);
-        const cy = H * 0.5 + (my - 0.5) * (20 + i * 8);
-
-        // Ribbon direction
-        const angle = baseAngle + i * 0.03;
-        const sinA = Math.sin(angle);
-        const cosA = Math.cos(angle);
-
-        // Extend far past canvas edges
-        const ext = W + H;
-
-        // Half-width perpendicular
-        const hw = rib.w / 2;
-        const px = cosA, py = -sinA; // perpendicular direction
-
-        // 4 corners
-        const x0 = cx - sinA * ext - px * hw, y0 = cy - cosA * ext - py * hw;
-        const x1 = cx - sinA * ext + px * hw, y1 = cy - cosA * ext + py * hw;
-        const x2 = cx + sinA * ext + px * hw, y2 = cy + cosA * ext + py * hw;
-        const x3 = cx + sinA * ext - px * hw, y3 = cy + cosA * ext - py * hw;
-
-        // Sharp gradient — only very thin soft edge
-        const gx1 = cx - px * hw, gy1 = cy - py * hw;
-        const gx2 = cx + px * hw, gy2 = cy + py * hw;
-        const g = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
-        g.addColorStop(0,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
-        g.addColorStop(0.05, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
-        g.addColorStop(0.95, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
-        g.addColorStop(1,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
-
-        ctx.beginPath();
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.lineTo(x3, y3);
-        ctx.closePath();
-        ctx.fillStyle = g;
-        ctx.fill();
-      });
-
-      raf.current = requestAnimationFrame(draw);
-    };
-
-    raf.current = requestAnimationFrame(draw);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      section.removeEventListener('mousemove', onMove);
-      if (raf.current) cancelAnimationFrame(raf.current);
-    };
-  }, []);
-
   return (
     <section ref={sectionRef} className="relative bg-background border-t border-border overflow-hidden">
 
-      {/* Canvas fills the full section */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ display: 'block' }}
-      />
+      {/* Silk ribbon canvas */}
+      <SilkRibbons sectionRef={sectionRef as React.RefObject<HTMLElement>} />
 
-      {/* Left-side fade so left text stays on clean white */}
+      {/* Left fade so text stays crisp */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to right, hsl(var(--background)) 30%, hsl(var(--background) / 0.5) 55%, transparent 80%)'
+          background: 'linear-gradient(to right, hsl(var(--background)) 30%, hsl(var(--background) / 0.6) 55%, transparent 80%)'
         }}
       />
 
