@@ -1,90 +1,114 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Star, Globe, TrendingUp, Zap, Clock, Users, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle, Star, Globe, TrendingUp, Zap, Clock, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
 
 /* ─────────────────────────────────────────────
-   Animated mesh-gradient (Stripe-style)
+   Stripe-style flowing wave – SVG ribbons
 ───────────────────────────────────────────── */
-const MeshGradient = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-    {/* Base gradient */}
-    <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-background" />
-    {/* Animated blobs */}
-    <div
-      className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-30 blur-3xl"
-      style={{
-        background: "radial-gradient(circle, hsl(234 82% 57% / 0.8) 0%, hsl(259 79% 61% / 0.5) 50%, transparent 70%)",
-        animation: "mesh1 8s ease-in-out infinite",
-      }}
-    />
-    <div
-      className="absolute top-20 -right-20 w-[400px] h-[400px] rounded-full opacity-20 blur-3xl"
-      style={{
-        background: "radial-gradient(circle, hsl(44 100% 67% / 0.7) 0%, hsl(259 79% 61% / 0.4) 60%, transparent 80%)",
-        animation: "mesh2 10s ease-in-out infinite 2s",
-      }}
-    />
-    <div
-      className="absolute top-60 right-20 w-[300px] h-[300px] rounded-full opacity-25 blur-2xl"
-      style={{
-        background: "radial-gradient(circle, hsl(259 79% 61% / 0.9) 0%, hsl(234 82% 57% / 0.3) 70%, transparent 90%)",
-        animation: "mesh1 6s ease-in-out infinite 1s",
-      }}
-    />
-    <style>{`
-      @keyframes mesh1 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(-30px, 20px) scale(1.05); }
-        66% { transform: translate(20px, -30px) scale(0.97); }
-      }
-      @keyframes mesh2 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(40px, -20px) scale(1.08); }
-      }
-    `}</style>
+const StripeWave = () => (
+  <div className="absolute inset-y-0 right-0 w-[55%] overflow-hidden pointer-events-none" aria-hidden>
+    <svg
+      viewBox="0 0 700 600"
+      preserveAspectRatio="xMidYMid slice"
+      className="w-full h-full"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Blue-purple ribbon */}
+        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(234 82% 57%)" stopOpacity="0.9" />
+          <stop offset="50%" stopColor="hsl(259 79% 61%)" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="hsl(280 70% 55%)" stopOpacity="0.7" />
+        </linearGradient>
+        {/* Orange-pink ribbon */}
+        <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(30 100% 60%)" stopOpacity="0.85" />
+          <stop offset="50%" stopColor="hsl(0 90% 65%)" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="hsl(320 80% 60%)" stopOpacity="0.7" />
+        </linearGradient>
+        {/* Pink-purple ribbon */}
+        <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(320 80% 65%)" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="hsl(259 79% 61%)" stopOpacity="0.6" />
+        </linearGradient>
+        {/* Yellow-orange */}
+        <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(44 100% 60%)" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="hsl(20 100% 60%)" stopOpacity="0.5" />
+        </linearGradient>
+        {/* Light blue */}
+        <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(200 100% 70%)" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="hsl(234 82% 57%)" stopOpacity="0.4" />
+        </linearGradient>
+
+        <filter id="blur1">
+          <feGaussianBlur stdDeviation="2" />
+        </filter>
+      </defs>
+
+      {/* Ribbon 1 – blue/purple – wide diagonal */}
+      <path
+        d="M 650 -80 C 500 100, 350 200, 200 600 L 350 600 C 480 220, 620 110, 760 -80 Z"
+        fill="url(#g1)"
+        filter="url(#blur1)"
+      />
+      {/* Ribbon 2 – orange/pink – overlapping */}
+      <path
+        d="M 700 -120 C 600 50, 480 180, 300 600 L 420 600 C 580 190, 690 60, 800 -120 Z"
+        fill="url(#g2)"
+        filter="url(#blur1)"
+      />
+      {/* Ribbon 3 – pink/purple – thin */}
+      <path
+        d="M 560 -60 C 440 120, 320 260, 180 600 L 240 600 C 360 270, 490 130, 620 -60 Z"
+        fill="url(#g3)"
+        filter="url(#blur1)"
+      />
+      {/* Ribbon 4 – yellow/orange – edge */}
+      <path
+        d="M 680 -40 C 580 80, 500 200, 420 600 L 490 600 C 560 210, 640 90, 750 -40 Z"
+        fill="url(#g4)"
+        filter="url(#blur1)"
+      />
+      {/* Ribbon 5 – light blue – far right */}
+      <path
+        d="M 620 -100 C 540 60, 460 240, 380 600 L 420 600 C 510 244, 590 64, 680 -100 Z"
+        fill="url(#g5)"
+        filter="url(#blur1)"
+      />
+    </svg>
   </div>
 );
 
 /* ─────────────────────────────────────────────
-   Animated counter
+   Animated stat ticker (Stripe GDP style)
 ───────────────────────────────────────────── */
-const AnimatedCounter = ({ end, suffix = "" }: { end: number; suffix?: string }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-
+const StatTicker = () => {
+  const [val, setVal] = useState(30.4712);
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        let start = 0;
-        const duration = 1500;
-        const step = (end / duration) * 16;
-        const timer = setInterval(() => {
-          start += step;
-          if (start >= end) { setCount(end); clearInterval(timer); }
-          else setCount(Math.floor(start));
-        }, 16);
-      }
-    });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [end]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
+    const t = setInterval(() => {
+      setVal(v => parseFloat((v + Math.random() * 0.0003).toFixed(4)));
+    }, 800);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="text-sm text-muted-foreground mb-8 font-medium">
+      Ondernemers geholpen via Webiro:{" "}
+      <span className="text-foreground tabular-nums">{val.toFixed(4)}%</span>
+    </div>
+  );
 };
 
 /* ─────────────────────────────────────────────
    Data
 ───────────────────────────────────────────── */
-const stats = [
-  { value: 30, suffix: "+", label: "Tevreden klanten" },
-  { value: 7, suffix: " dagen", label: "Gemiddelde levertijd" },
-  { value: 100, suffix: "%", label: "Op maat gemaakt" },
+const clientLogos = [
+  "Matrix City", "CKN Legal", "Elektroza", "Coco De Rio", "Prokick Academie"
 ];
 
 const showcaseItems = [
@@ -102,41 +126,11 @@ const testimonials = [
 ];
 
 const bentoItems = [
-  {
-    icon: <Zap className="w-7 h-7 text-primary" />,
-    title: "Live binnen 7 dagen",
-    desc: "Van briefing naar live website in één week. Geen maanden wachten.",
-    span: "col-span-1",
-    accent: "from-primary/10 to-primary/5",
-  },
-  {
-    icon: <Globe className="w-7 h-7 text-accent" />,
-    title: "Volledig op maat",
-    desc: "Elk design is uniek voor jouw merk. Geen templates, geen compromissen.",
-    span: "col-span-1",
-    accent: "from-accent/10 to-accent/5",
-  },
-  {
-    icon: <TrendingUp className="w-7 h-7 text-primary" />,
-    title: "Conversiegericht",
-    desc: "Gebouwd om bezoekers te overtuigen. Meer leads, meer klanten.",
-    span: "col-span-2 md:col-span-1",
-    accent: "from-primary/8 to-accent/8",
-  },
-  {
-    icon: <Users className="w-7 h-7 text-accent" />,
-    title: "Persoonlijk contact",
-    desc: "Direct met je designer. Snelle antwoorden, geen tussenpersonen.",
-    span: "col-span-1",
-    accent: "from-accent/10 to-accent/5",
-  },
-  {
-    icon: <Clock className="w-7 h-7 text-primary" />,
-    title: "Doorlopende support",
-    desc: "Na oplevering blijven we beschikbaar voor updates en vragen.",
-    span: "col-span-1",
-    accent: "from-primary/10 to-primary/5",
-  },
+  { icon: <Zap className="w-6 h-6 text-primary" />, title: "Live binnen 7 dagen", desc: "Van briefing naar live website in één week. Geen maanden wachten." },
+  { icon: <Globe className="w-6 h-6 text-primary" />, title: "Volledig op maat", desc: "Elk design is uniek voor jouw merk. Geen templates, geen compromissen." },
+  { icon: <TrendingUp className="w-6 h-6 text-primary" />, title: "Conversiegericht", desc: "Gebouwd om bezoekers te overtuigen. Meer leads, meer klanten." },
+  { icon: <Users className="w-6 h-6 text-primary" />, title: "Persoonlijk contact", desc: "Direct met je designer. Snelle antwoorden, geen tussenpersonen." },
+  { icon: <Clock className="w-6 h-6 text-primary" />, title: "Doorlopende support", desc: "Na oplevering blijven we beschikbaar voor updates en vragen." },
 ];
 
 /* ─────────────────────────────────────────────
@@ -169,321 +163,166 @@ const Home = () => {
   }, []);
 
   return (
-    <main>
+    <main className="pt-16">
       <StructuredData type="Organization" />
       <StructuredData type="WebSite" />
       <StructuredData type="Service" />
 
-      {/* ── HERO ─────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex items-center bg-background overflow-hidden">
-        <MeshGradient />
+      {/* ── HERO ── pure white, giant left text, wave right */}
+      <section className="relative overflow-hidden bg-background min-h-[600px] flex items-center">
+        <StripeWave />
 
-        <div className="container-webiro relative z-10 w-full py-24 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* Left content – max ~50% width so wave is always visible */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+          <div className="max-w-[600px]">
+            <StatTicker />
 
-            {/* Left: copy */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-8"
-            >
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                +30 ondernemers geholpen aan meer omzet
-              </div>
+            {/* Massive headline – Stripe style: first line dark, rest muted blue */}
+            <h1 className="text-[clamp(2.4rem,5vw,4rem)] font-bold leading-[1.08] tracking-tight mb-6">
+              <span className="text-foreground">Websites die groeien</span>{" "}
+              <span className="text-foreground">voor jouw bedrijf.</span>
+              <br />
+              <span className="text-primary/70">Binnen 7 dagen online — van briefing naar live.</span>
+            </h1>
 
-              {/* Headline – Stripe-style: bold, left-aligned, mixed color */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-foreground">
-                Websites die{" "}
-                <span className="gradient-text">écht</span>{" "}
-                voor je werken.
-              </h1>
-
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-lg">
-                Binnen 7 dagen een moderne, conversiegerichte website. Of meer klanten uit je bestaande site — Webiro regelt het.
-              </p>
-
-              {/* CTA row */}
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  to="/pakketten"
-                  className="group inline-flex items-center gap-2 px-7 py-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold text-base transition-all duration-300 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5"
-                >
-                  Bekijk pakketten
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  to="/marketing"
-                  className="group inline-flex items-center gap-2 px-7 py-4 bg-transparent border border-border hover:border-foreground/40 text-foreground rounded-full font-semibold text-base transition-all duration-300 hover:-translate-y-0.5"
-                >
-                  Marketing diensten
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* Trust */}
-              <div className="flex items-center gap-3 pt-2">
-                <div className="flex -space-x-2">
-                  {["CN", "NZ", "RM"].map((av) => (
-                    <div key={av} className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground ring-2 ring-background">
-                      {av}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-webiro-yellow text-webiro-yellow" />
-                  ))}
-                </div>
-                <span className="text-sm text-muted-foreground">5.0 gemiddeld</span>
-              </div>
-            </motion.div>
-
-            {/* Right: product mockup cards (Stripe bento-style) */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="relative hidden lg:block"
-            >
-              {/* Main card */}
-              <div className="relative rounded-3xl border border-border bg-card shadow-2xl overflow-hidden p-8">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <div className="text-xs text-muted-foreground mb-1 font-medium uppercase tracking-widest">Jouw nieuwe website</div>
-                    <div className="text-2xl font-bold text-foreground">Live in 7 dagen</div>
-                  </div>
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
-
-                {/* Progress bars */}
-                <div className="space-y-4 mb-6">
-                  {[
-                    { label: "Design", pct: 100, color: "bg-primary" },
-                    { label: "Development", pct: 100, color: "bg-accent" },
-                    { label: "SEO & Performance", pct: 100, color: "bg-primary" },
-                    { label: "Live zetten", pct: 100, color: "bg-webiro-yellow" },
-                  ].map(({ label, pct, color }) => (
-                    <div key={label}>
-                      <div className="flex justify-between text-sm mb-1.5">
-                        <span className="text-foreground font-medium">{label}</span>
-                        <span className="text-muted-foreground">{pct}%</span>
-                      </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${pct}%` }}
-                          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-                          className={`h-full rounded-full ${color}`}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-2 p-3 rounded-xl bg-primary/5 border border-primary/20">
-                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium text-foreground">Website klaar & live!</span>
-                </div>
-              </div>
-
-              {/* Floating stat cards */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-6 -right-6 bg-card rounded-2xl shadow-xl border border-border p-4 flex items-center gap-3"
+            {/* Two CTA buttons – Stripe style */}
+            <div className="flex flex-wrap gap-3 mt-8">
+              <Link
+                to="/pakketten"
+                className="inline-flex items-center gap-1.5 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-colors text-base"
               >
-                <div className="w-10 h-10 rounded-xl bg-webiro-yellow/20 flex items-center justify-center">
-                  <Star className="w-5 h-5 fill-webiro-yellow text-webiro-yellow" />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground">Beoordeling</div>
-                  <div className="text-lg font-bold text-foreground">5.0 ★</div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-4 -left-6 bg-card rounded-2xl shadow-xl border border-border p-4 flex items-center gap-3"
+                Bekijk pakketten <span aria-hidden>›</span>
+              </Link>
+              <Link
+                to="/marketing"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-border bg-background text-foreground font-semibold rounded-md hover:border-foreground/40 transition-colors text-base"
               >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground">Meer bezoekers</div>
-                  <div className="text-lg font-bold text-foreground">+127%</div>
-                </div>
-              </motion.div>
-            </motion.div>
+                Marketing diensten
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── STATS BAR ────────────────────────── */}
-      <section className="border-y border-border bg-card/50">
-        <div className="container-webiro py-10">
-          <div className="grid grid-cols-3 gap-8 text-center">
-            {stats.map(({ value, suffix, label }) => (
-              <div key={label}>
-                <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">
-                  <AnimatedCounter end={value} suffix={suffix} />
-                </div>
-                <div className="text-sm text-muted-foreground">{label}</div>
-              </div>
+      {/* ── CLIENT LOGO STRIP ── */}
+      <div className="border-y border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            {clientLogos.map((name) => (
+              <span key={name} className="text-muted-foreground/60 font-semibold text-sm tracking-wide">
+                {name}
+              </span>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── BENTO GRID "Waarom Webiro" ─────── */}
-      <section className="section-padding bg-background">
-        <div className="container-webiro">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-14"
-          >
-            <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Waarom Webiro</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground max-w-xl leading-tight">
-              Alles wat je nodig hebt,{" "}
-              <span className="gradient-text">niets minder.</span>
+      {/* ── FLEXIBLE SOLUTIONS ── Stripe "Flexible solutions" section */}
+      <section className="py-24 bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-foreground leading-tight mb-4">
+              <span className="text-foreground">Oplossingen voor elk bedrijf. </span>
+              <span className="text-primary/70">Groei met een aanpak die aansluit op waar jij nu staat en waar je naartoe wilt.</span>
             </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {bentoItems.map(({ icon, title, desc, span, accent }, i) => (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className={`${span} group relative rounded-3xl border border-border bg-gradient-to-br ${accent} p-7 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden`}
-              >
-                <div className="w-12 h-12 rounded-2xl bg-card flex items-center justify-center mb-5 shadow-sm">
-                  {icon}
-                </div>
-                <h3 className="text-lg font-bold text-foreground mb-2">{title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-              </motion.div>
-            ))}
           </div>
-        </div>
-      </section>
 
-      {/* ── TWO PATHS ─────────────────────── */}
-      <section className="section-padding bg-secondary/20">
-        <div className="container-webiro">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-14"
-          >
-            <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Jouw situatie</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-              Kies wat bij jou past<span className="text-primary">.</span>
-            </h2>
-            <p className="text-muted-foreground text-lg mt-4 max-w-xl mx-auto">
-              Start je net of wil je meer uit wat je al hebt? We sluiten aan op waar jij nu staat.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 mt-14">
             {/* Card 1 */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="group relative rounded-3xl border border-border bg-card p-8 hover:border-primary/40 hover:shadow-2xl transition-all duration-500 flex flex-col overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors" />
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                <Globe className="w-7 h-7 text-primary" />
+            <div className="group relative rounded-2xl border border-border bg-card p-8 hover:shadow-xl transition-all duration-300 hover:border-primary/30 overflow-hidden">
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+                <Globe className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Nog geen website</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <h3 className="text-xl font-bold text-foreground mb-3">Nog geen website</h3>
+              <p className="text-muted-foreground leading-relaxed mb-6">
                 Wij ontwerpen en bouwen binnen 7 dagen een moderne site die vertrouwen wekt en converteert.
               </p>
-              <ul className="space-y-2.5 mb-8 flex-grow">
-                {["Modern & mobielvriendelijk design", "Conversiegericht opgezet", "Eenvoudig zelf te beheren"].map(item => (
-                  <li key={item} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+              <ul className="space-y-2 mb-8">
+                {["Modern & mobielvriendelijk", "Conversiegericht", "Eenvoudig te beheren"].map(item => (
+                  <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
-              <Link
-                to="/pakketten"
-                className="group/btn inline-flex items-center justify-center gap-2 w-full py-3.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold transition-all"
-              >
-                Bekijk websitepakketten
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <Link to="/pakketten" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-all">
+                Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
+            </div>
 
             {/* Card 2 */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="group relative rounded-3xl border border-border bg-card p-8 hover:border-accent/40 hover:shadow-2xl transition-all duration-500 flex flex-col overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-accent/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/10 transition-colors" />
-              <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
-                <TrendingUp className="w-7 h-7 text-accent" />
+            <div className="group relative rounded-2xl border border-border bg-card p-8 hover:shadow-xl transition-all duration-300 hover:border-accent/30 overflow-hidden">
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-colors" />
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6">
+                <TrendingUp className="w-6 h-6 text-accent" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Al een website</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Je website levert nog niet op wat je hoopt. Wij helpen met advertenties, automation en optimalisatie.
+              <h3 className="text-xl font-bold text-foreground mb-3">Al een website</h3>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Je website levert nog niet genoeg op. Wij helpen met advertenties, automation en optimalisatie.
               </p>
-              <ul className="space-y-2.5 mb-8 flex-grow">
-                {["Google en Meta Ads campagnes", "E-mail & WhatsApp automation", "AI chatbots voor leadgeneratie"].map(item => (
-                  <li key={item} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+              <ul className="space-y-2 mb-8">
+                {["Google & Meta Ads", "E-mail & WhatsApp automation", "AI chatbots voor leads"].map(item => (
+                  <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
-              <Link
-                to="/marketing"
-                className="group/btn inline-flex items-center justify-center gap-2 w-full py-3.5 bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl font-semibold transition-all"
-              >
-                Bekijk marketingdiensten
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <Link to="/marketing" className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:gap-2 transition-all">
+                Bekijk marketingdiensten <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── SHOWCASE STRIP ────────────────── */}
-      <section className="section-padding bg-background">
-        <div className="container-webiro mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Portfolio</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-              Ons werk<span className="text-primary">.</span>
+      {/* ── WHY WEBIRO – clean feature grid ── */}
+      <section className="py-24 bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-xl mb-14">
+            <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Waarom Webiro</p>
+            <h2 className="text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold text-foreground leading-tight">
+              Alles wat je nodig hebt, niets minder.
             </h2>
-            <p className="text-muted-foreground text-lg mt-3 max-w-xl">
-              Bekijk een selectie van websites die we voor ondernemers hebben gemaakt.
-            </p>
-          </motion.div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+            {bentoItems.map(({ icon, title, desc }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="bg-background p-8 hover:bg-card transition-colors"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-5">
+                  {icon}
+                </div>
+                <h3 className="text-base font-semibold text-foreground mb-2">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+            {/* Empty cell to complete the grid */}
+            <div className="bg-background p-8 hidden lg:block" />
+          </div>
+        </div>
+      </section>
+
+      {/* ── SHOWCASE STRIP ── */}
+      <section className="py-24 bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-10">
+          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Portfolio</p>
+          <h2 className="text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold text-foreground">Ons werk.</h2>
+          <p className="text-muted-foreground mt-3 max-w-lg">
+            Bekijk een selectie van websites die we voor ondernemers hebben gemaakt.
+          </p>
         </div>
 
         <div
           ref={showcaseScrollRef}
-          className="flex gap-5 overflow-x-hidden"
+          className="flex gap-4 overflow-x-hidden px-6 lg:px-8"
           onMouseEnter={() => { isPausedRef.current = true; }}
           onMouseLeave={() => { isPausedRef.current = false; }}
         >
@@ -493,60 +332,48 @@ const Home = () => {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 w-72 group rounded-2xl border border-border bg-card p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:border-primary/30"
+              className="flex-shrink-0 w-64 border border-border bg-card rounded-xl p-6 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-200"
             >
-              <div
-                className="text-4xl w-14 h-14 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                style={{ background: `${item.color}20` }}
-              >
-                {item.icon}
-              </div>
-              <div className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: item.color }}>
+              <div className="text-3xl mb-4">{item.icon}</div>
+              <div className="text-xs font-semibold uppercase tracking-widest mb-1 text-primary">
                 {item.category}
               </div>
-              <h3 className="text-foreground font-bold text-lg group-hover:text-primary transition-colors">{item.title}</h3>
+              <div className="font-semibold text-foreground">{item.title}</div>
             </a>
           ))}
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────── */}
-      <section className="section-padding bg-secondary/20">
-        <div className="container-webiro">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-14"
-          >
+      {/* ── TESTIMONIALS ── */}
+      <section className="py-24 bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="mb-14">
             <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Reviews</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-              Wat klanten zeggen<span className="text-primary">.</span>
-            </h2>
-          </motion.div>
+            <h2 className="text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold text-foreground">Wat klanten zeggen.</h2>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-3xl p-8 border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="border border-border bg-card rounded-xl p-8 hover:shadow-md transition-all"
               >
-                <div className="flex gap-1 mb-5">
+                <div className="flex gap-0.5 mb-5">
                   {[...Array(t.rating)].map((_, j) => (
                     <Star key={j} className="w-4 h-4 fill-webiro-yellow text-webiro-yellow" />
                   ))}
                 </div>
-                <p className="text-muted-foreground leading-relaxed mb-6 italic">"{t.text}"</p>
+                <p className="text-muted-foreground leading-relaxed mb-6 text-sm">"{t.text}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold">
+                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold">
                     {t.avatar}
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground text-sm">{t.name}</div>
+                    <div className="text-sm font-semibold text-foreground">{t.name}</div>
                     <div className="text-xs text-muted-foreground">{t.role}</div>
                   </div>
                 </div>
