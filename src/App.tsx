@@ -45,10 +45,10 @@ function LoadingFallback() {
 /* Global vertical column guide lines — fixed, full page height, same grid as content */
 function ColumnGuides() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-40" aria-hidden>
+    <div className="fixed inset-0 pointer-events-none z-[60]" aria-hidden>
       <div className="h-full max-w-7xl mx-auto relative">
-        <div className="absolute top-0 bottom-0 left-6 lg:left-12 w-px bg-border/50" />
-        <div className="absolute top-0 bottom-0 right-6 lg:right-12 w-px bg-border/50" />
+        <div className="absolute top-0 bottom-0 left-0 w-px bg-border/40 translate-x-6 lg:translate-x-12" />
+        <div className="absolute top-0 bottom-0 right-0 w-px bg-border/40 -translate-x-6 lg:-translate-x-12" />
       </div>
     </div>
   );
