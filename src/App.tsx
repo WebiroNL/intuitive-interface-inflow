@@ -46,10 +46,9 @@ function LoadingFallback() {
 function ColumnGuides() {
   return (
     <div className="fixed inset-0 pointer-events-none z-[60]" aria-hidden>
-      <div className="h-full max-w-7xl mx-auto relative">
-        <div className="absolute top-0 bottom-0 left-0 w-px bg-border/40" />
-        <div className="absolute top-0 bottom-0 right-0 w-px bg-border/40" />
-      </div>
+      {/* Lines sit at half the content padding → always visible with breathing room inside */}
+      <div className="absolute top-0 bottom-0 left-3 lg:left-6 w-px bg-border/50" />
+      <div className="absolute top-0 bottom-0 right-3 lg:right-6 w-px bg-border/50" />
     </div>
   );
 }
