@@ -185,10 +185,23 @@ const Home = () => {
 
       {/* ═══════════════════════════════════════
           HERO — exactly like Stripe
-          Large left-aligned text, colorful wave right
+          Large left-aligned text, Spline 3D right
       ═══════════════════════════════════════ */}
       <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-16">
-        <StripeWave />
+        {/* Spline 3D background — right side */}
+        <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none" aria-hidden>
+          <iframe
+            src="https://my.spline.design/nexbotrobotcharacterconcept-29b3e56d59c16efef49536a4a80a0b58/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            title="Webiro 3D background"
+            className="w-full h-full"
+            loading="eager"
+          />
+        </div>
+        {/* Fade gradient so the 3D blends into the white background */}
+        <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none bg-gradient-to-r from-background via-background/10 to-transparent" aria-hidden style={{ zIndex: 1 }} />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-28 lg:py-36">
           {/* Constrain text to ~55% so the wave shows on the right */}
