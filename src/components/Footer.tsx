@@ -10,16 +10,12 @@ export function Footer() {
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!email || !email.includes('@')) {
       toast.error('Voer een geldig e-mailadres in');
       return;
     }
-
     setIsSubmitting(true);
-
     try {
-      // TODO: Add newsletter subscription endpoint
       toast.success('🎉 Bedankt voor je inschrijving!');
       setEmail('');
     } catch (error) {
@@ -31,101 +27,101 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#110E13] dark:bg-[#0a0809] text-white transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-foreground text-background">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
           {/* Brand */}
           <div>
-            <div className="w-32 h-8 mb-4 [--fill-0:#3A4DEA]">
+            <div className="w-32 h-8 mb-5 [--fill-0:#3A4DEA] [--fill-1:white]">
               <LogoWebiro />
             </div>
-            <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">
+            <p className="text-background/50 text-sm leading-relaxed mb-6">
               Moderne websites voor ondernemers die geen tijd of zin hebben om alles zelf te bouwen.
             </p>
-            {/* Social Media Icons */}
             <div className="flex gap-3">
-              <a 
-                href="https://www.facebook.com/webironl" 
+              <a
+                href="https://www.facebook.com/webironl"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-[#1a1719] dark:bg-[#1a1517] hover:bg-[#1877F2]/20 dark:hover:bg-[#1877F2]/30 p-3 rounded-xl transition-all hover:scale-110 border border-gray-700 dark:border-gray-800"
+                className="group w-10 h-10 rounded-xl bg-background/10 hover:bg-[#1877F2]/20 flex items-center justify-center border border-background/10 hover:border-[#1877F2]/40 transition-all"
                 aria-label="Facebook"
               >
-                <Facebook size={22} className="text-gray-400 dark:text-gray-500 group-hover:text-[#1877F2] transition-colors" />
+                <Facebook size={17} className="text-background/50 group-hover:text-[#1877F2] transition-colors" />
               </a>
-              <a 
-                href="https://www.instagram.com/webiro.nl" 
+              <a
+                href="https://www.instagram.com/webiro.nl"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-[#1a1719] dark:bg-[#1a1517] hover:bg-[#E4405F]/20 dark:hover:bg-[#E4405F]/30 p-3 rounded-xl transition-all hover:scale-110 border border-gray-700 dark:border-gray-800"
+                className="group w-10 h-10 rounded-xl bg-background/10 hover:bg-[#E4405F]/20 flex items-center justify-center border border-background/10 hover:border-[#E4405F]/40 transition-all"
                 aria-label="Instagram"
               >
-                <Instagram size={22} className="text-gray-400 dark:text-gray-500 group-hover:text-[#E4405F] transition-colors" />
+                <Instagram size={17} className="text-background/50 group-hover:text-[#E4405F] transition-colors" />
               </a>
-              <a 
-                href="https://www.linkedin.com/company/webironl" 
+              <a
+                href="https://www.linkedin.com/company/webironl"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-[#1a1719] dark:bg-[#1a1517] hover:bg-[#0A66C2]/20 dark:hover:bg-[#0A66C2]/30 p-3 rounded-xl transition-all hover:scale-110 border border-gray-700 dark:border-gray-800"
+                className="group w-10 h-10 rounded-xl bg-background/10 hover:bg-[#0A66C2]/20 flex items-center justify-center border border-background/10 hover:border-[#0A66C2]/40 transition-all"
                 aria-label="LinkedIn"
               >
-                <Linkedin size={22} className="text-gray-400 dark:text-gray-500 group-hover:text-[#0A66C2] transition-colors" />
+                <Linkedin size={17} className="text-background/50 group-hover:text-[#0A66C2] transition-colors" />
               </a>
             </div>
           </div>
 
-          {/* Navigatie */}
+          {/* Navigation */}
           <div>
-            <h4 className="mb-4 font-semibold">Menu</h4>
-            <div className="flex flex-col gap-2">
-              <Link to="/" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors text-sm">
-                Home
-              </Link>
-              <Link to="/pakketten" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors text-sm">
-                Pakketten
-              </Link>
-              <Link to="/proces" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors text-sm">
-                Proces
-              </Link>
-              <Link to="/contact" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors text-sm">
-                Contact
-              </Link>
-              <Link to="/blog" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors text-sm">
-                Blog & Nieuws
-              </Link>
+            <h4 className="text-sm font-semibold text-background mb-5 uppercase tracking-wider">Menu</h4>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: 'Home', to: '/' },
+                { label: 'Pakketten', to: '/pakketten' },
+                { label: 'Proces', to: '/proces' },
+                { label: 'Contact', to: '/contact' },
+                { label: 'Blog & Nieuws', to: '/blog' },
+              ].map(({ label, to }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="text-background/50 hover:text-background transition-colors text-sm"
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="mb-4 font-semibold">Contact</h4>
-            <div className="flex flex-col gap-3 text-sm">
-              <a 
-                href="mailto:info@webiro.nl" 
-                className="group flex items-center gap-3 text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors bg-[#1a1719] dark:bg-[#1a1517] hover:bg-[#3A4DEA]/20 dark:hover:bg-[#3A4DEA]/30 px-4 py-3 rounded-xl border border-gray-700 dark:border-gray-800"
+            <h4 className="text-sm font-semibold text-background mb-5 uppercase tracking-wider">Contact</h4>
+            <div className="flex flex-col gap-3">
+              <a
+                href="mailto:info@webiro.nl"
+                className="group flex items-center gap-3 text-background/50 hover:text-background transition-colors bg-background/5 hover:bg-background/10 px-4 py-3 rounded-xl border border-background/10 hover:border-background/20"
               >
-                <div className="bg-[#3A4DEA] p-2 rounded-lg group-hover:scale-110 transition-transform">
-                  <Mail size={18} className="text-white" />
+                <div className="bg-primary p-2 rounded-lg group-hover:scale-110 transition-transform shrink-0">
+                  <Mail size={15} className="text-primary-foreground" />
                 </div>
-                <span>info@webiro.nl</span>
+                <span className="text-sm">info@webiro.nl</span>
               </a>
-              <a 
-                href="https://wa.me/31855055054" 
-                className="group flex items-center gap-3 text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors bg-[#1a1719] dark:bg-[#1a1517] hover:bg-[#25D366]/20 dark:hover:bg-[#25D366]/30 px-4 py-3 rounded-xl border border-gray-700 dark:border-gray-800"
+              <a
+                href="https://wa.me/31855055054"
+                className="group flex items-center gap-3 text-background/50 hover:text-background transition-colors bg-background/5 hover:bg-background/10 px-4 py-3 rounded-xl border border-background/10 hover:border-background/20"
               >
-                <div className="bg-[#25D366] p-2 rounded-lg group-hover:scale-110 transition-transform">
-                  <MessageCircle size={18} className="text-white" />
+                <div className="bg-[#25D366] p-2 rounded-lg group-hover:scale-110 transition-transform shrink-0">
+                  <MessageCircle size={15} className="text-white" />
                 </div>
-                <span>WhatsApp</span>
+                <span className="text-sm">WhatsApp</span>
               </a>
             </div>
           </div>
 
-          {/* Newsletter Signup */}
+          {/* Newsletter */}
           <div>
-            <h4 className="mb-4 font-semibold">Blijf op de hoogte</h4>
-            <div className="bg-[#1a1719] dark:bg-[#1a1517] p-5 rounded-2xl border-2 border-gray-700 dark:border-gray-800 transition-all">
-              <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">
+            <h4 className="text-sm font-semibold text-background mb-5 uppercase tracking-wider">Blijf op de hoogte</h4>
+            <div className="bg-background/5 p-5 rounded-2xl border border-background/10">
+              <p className="text-background/50 text-sm mb-4 leading-relaxed">
                 Ontvang tips en updates over websites & online marketing
               </p>
               <form onSubmit={handleNewsletterSubmit} className="space-y-3">
@@ -134,19 +130,17 @@ export function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="je@email.nl"
-                  className="w-full bg-[#110E13] dark:bg-[#0f0d0f] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3A4DEA] placeholder:text-gray-500 dark:placeholder:text-gray-600 transition-colors border border-gray-700 dark:border-gray-800"
+                  className="w-full bg-background/10 text-background text-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-background/30 border border-background/10 focus:border-primary/50 transition-colors"
                   disabled={isSubmitting}
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#3A4DEA] hover:bg-[#2A3DDA] disabled:bg-gray-600 text-white px-4 py-3 rounded-lg transition-colors disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground px-4 py-3 rounded-lg transition-colors disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm font-semibold"
                 >
-                  {isSubmitting ? (
-                    'Bezig...'
-                  ) : (
+                  {isSubmitting ? 'Bezig...' : (
                     <>
-                      <Send size={18} />
+                      <Send size={15} />
                       <span>Inschrijven</span>
                     </>
                   )}
@@ -156,17 +150,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 dark:border-gray-900 pt-8 text-center text-gray-400 dark:text-gray-500 text-sm transition-colors">
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
-            <Link to="/algemene-voorwaarden" className="hover:text-white dark:hover:text-gray-300 transition-colors">
-              Algemene Voorwaarden
-            </Link>
-            <span className="hidden sm:inline">|</span>
-            <Link to="/privacy-policy" className="hover:text-white dark:hover:text-gray-300 transition-colors">
-              Privacy Policy
-            </Link>
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8 border-t border-background/10">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-background/40 text-sm">
+              © {new Date().getFullYear()} Webiro. Alle rechten voorbehouden.
+            </p>
+            <div className="flex gap-6">
+              <Link to="/algemene-voorwaarden" className="text-background/40 hover:text-background transition-colors text-sm">
+                Algemene Voorwaarden
+              </Link>
+              <Link to="/privacy-policy" className="text-background/40 hover:text-background transition-colors text-sm">
+                Privacy Policy
+              </Link>
+            </div>
           </div>
-          <p>© {new Date().getFullYear()} Webiro. Alle rechten voorbehouden.</p>
         </div>
       </div>
     </footer>
