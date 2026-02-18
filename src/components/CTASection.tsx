@@ -70,8 +70,10 @@ export function CTASection({
 
     // Set canvas pixel size to match CSS size (no DPR trick — keep it simple)
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener('resize', resize);
@@ -128,9 +130,8 @@ export function CTASection({
         const gx2 = cx + px * hw, gy2 = cy + py * hw;
         const g = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
         g.addColorStop(0,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
-        g.addColorStop(0.08, `rgba(${rib.r},${rib.g},${rib.b},0.88)`);
-        g.addColorStop(0.5,  `rgba(${rib.r},${rib.g},${rib.b},0.92)`);
-        g.addColorStop(0.92, `rgba(${rib.r},${rib.g},${rib.b},0.88)`);
+        g.addColorStop(0.05, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
+        g.addColorStop(0.95, `rgba(${rib.r},${rib.g},${rib.b},0.90)`);
         g.addColorStop(1,    `rgba(${rib.r},${rib.g},${rib.b},0)`);
 
         ctx.beginPath();
