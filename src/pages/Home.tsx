@@ -190,12 +190,20 @@ const Home = () => {
       <StructuredData type="Service" />
 
       {/* ═══════════════════════════════════════
-          HERO — exactly like Stripe
-          Large left-aligned text, Spline 3D right
+          HERO — Stripe layout with column guide lines
       ═══════════════════════════════════════ */}
-      <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-16">
-        {/* Spline 3D background — right side, theme-aware */}
-        <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none" aria-hidden>
+      <section className="relative min-h-[700px] flex items-center overflow-hidden bg-background pt-16">
+
+        {/* ── Vertical column guide lines – the Stripe signature ── */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden style={{ zIndex: 2 }}>
+          <div className="h-full max-w-7xl mx-auto relative">
+            <div className="absolute top-0 bottom-0 left-6 lg:left-12 w-px bg-border/50" />
+            <div className="absolute top-0 bottom-0 right-6 lg:right-12 w-px bg-border/50" />
+          </div>
+        </div>
+
+        {/* Spline 3D background — right half */}
+        <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none" aria-hidden style={{ zIndex: 0 }}>
           <iframe
             key={splineSrc}
             src={splineSrc}
@@ -207,37 +215,33 @@ const Home = () => {
             loading="eager"
           />
         </div>
-        {/* Left fade so text stays readable */}
+        {/* Left-to-right fade so text stays readable over 3D */}
         <div
-          className="absolute inset-y-0 right-0 w-[55%] pointer-events-none"
+          className="absolute inset-y-0 left-0 w-[60%] pointer-events-none"
           aria-hidden
-          style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0.4) 30%, transparent 60%)" }}
+          style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 55%, hsl(var(--background)/0.6) 75%, transparent 100%)" }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-28 lg:py-36">
-          {/* Constrain text to ~55% so the wave shows on the right */}
-          <div className="max-w-[640px]">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-28 lg:py-40" style={{ zIndex: 3 }}>
+          <div className="max-w-[580px]">
             <StatTicker />
 
-            {/* 72–80px bold headline – two-tone like Stripe */}
+            {/* 72–80px bold headline */}
             <h1
-              className="font-bold tracking-[-0.025em] leading-[1.05] mb-8"
+              className="font-bold tracking-[-0.03em] leading-[1.04] mb-8 text-foreground"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
             >
-              <span className="text-foreground">De website-infrastructuur</span>
-              <br />
-              <span className="text-foreground">om jouw bedrijf te laten </span>
-              <span className="text-primary">groeien.</span>
+              De website-infrastructuur{" "}
+              <span className="text-primary">om jouw bedrijf te laten groeien.</span>
             </h1>
 
             <p
-              className="text-muted-foreground leading-relaxed mb-10 font-normal"
-              style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.25rem)" }}
+              className="text-muted-foreground leading-relaxed mb-10"
+              style={{ fontSize: "clamp(1rem, 1.4vw, 1.2rem)" }}
             >
               Professionele websites, marketing en automation — van je eerste klant tot duizenden. Binnen 7 dagen live.
             </p>
 
-            {/* CTA buttons – Stripe style */}
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/pakketten"
@@ -254,6 +258,9 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Bottom border line */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-border" aria-hidden />
       </section>
 
       {/* ═══════════════════════════════════════
