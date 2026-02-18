@@ -44,11 +44,19 @@ function LoadingFallback() {
 
 /* Global vertical column guide lines — fixed, full page height, same grid as content */
 function ColumnGuides() {
+  // Lines sit at the outer edge of the max-w-7xl (1280px) container.
+  // On screens < 1280px we enforce a minimum 24px from viewport edges so lines never disappear.
+  // Content uses px-6 lg:px-12 INSIDE the container → breathing room between line and content.
   return (
     <div className="fixed inset-0 pointer-events-none z-[60]" aria-hidden>
-      {/* Lines sit at half the content padding → always visible with breathing room inside */}
-      <div className="absolute top-0 bottom-0 left-3 lg:left-6 w-px bg-border/50" />
-      <div className="absolute top-0 bottom-0 right-3 lg:right-6 w-px bg-border/50" />
+      <div
+        className="absolute top-0 bottom-0 w-px bg-border/50"
+        style={{ left: "max(24px, calc((100vw - 1280px) / 2))" }}
+      />
+      <div
+        className="absolute top-0 bottom-0 w-px bg-border/50"
+        style={{ right: "max(24px, calc((100vw - 1280px) / 2))" }}
+      />
     </div>
   );
 }
