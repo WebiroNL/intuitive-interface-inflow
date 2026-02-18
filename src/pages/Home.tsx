@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
+import { useTheme } from "@/contexts/ThemeContext";
 
 /* ─── Animated flowing wave ribbons – exact Stripe positioning ─── */
 const StripeWave = () => {
@@ -149,9 +150,14 @@ const reviews = [
 ];
 
 /* ─── Page ─── */
+const SPLINE_LIGHT = "https://my.spline.design/glassmorphlandingpagecopy-WQe0ukjPWyKibLiUv1pBNkXX/";
+const SPLINE_DARK  = "https://my.spline.design/glassmorphlandingpagecopycopy-AwnDMbfEajcUOlYhoFpXNQxR/";
+
 const Home = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
+  const { theme } = useTheme();
+  const splineSrc = theme === "dark" ? SPLINE_DARK : SPLINE_LIGHT;
 
   useEffect(() => {
     updatePageMeta(
@@ -188,10 +194,11 @@ const Home = () => {
           Large left-aligned text, Spline 3D right
       ═══════════════════════════════════════ */}
       <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-16">
-        {/* Spline 3D background — right side */}
+        {/* Spline 3D background — right side, theme-aware */}
         <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none" aria-hidden>
           <iframe
-            src="https://my.spline.design/nexbotrobotcharacterconcept-29b3e56d59c16efef49536a4a80a0b58/"
+            key={splineSrc}
+            src={splineSrc}
             frameBorder="0"
             width="100%"
             height="100%"
@@ -200,8 +207,12 @@ const Home = () => {
             loading="eager"
           />
         </div>
-        {/* Fade gradient so the 3D blends into the white background */}
-        <div className="absolute inset-y-0 right-0 w-[55%] pointer-events-none bg-gradient-to-r from-background via-background/10 to-transparent" aria-hidden style={{ zIndex: 1 }} />
+        {/* Left fade so text stays readable */}
+        <div
+          className="absolute inset-y-0 right-0 w-[55%] pointer-events-none"
+          aria-hidden
+          style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0.4) 30%, transparent 60%)" }}
+        />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-28 lg:py-36">
           {/* Constrain text to ~55% so the wave shows on the right */}
