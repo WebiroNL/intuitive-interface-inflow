@@ -1,167 +1,90 @@
 import { Link } from 'react-router-dom';
-import { Mail, Facebook, Instagram, Linkedin, MessageCircle } from 'lucide-react';
 import LogoWebiro from '@/imports/LogoWebiro1';
-import { useState } from 'react';
-import { toast } from 'sonner';
+
+const columns = [
+  {
+    heading: 'Diensten',
+    links: [
+      { label: 'Pakketten', to: '/pakketten' },
+      { label: 'Marketing', to: '/marketing' },
+      { label: 'Shop', to: '/shop' },
+      { label: 'Documentatie', to: '/documentatie' },
+    ],
+  },
+  {
+    heading: 'Bedrijf',
+    links: [
+      { label: 'Over ons', to: '/' },
+      { label: 'Proces', to: '/proces' },
+      { label: 'Blog', to: '/blog' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    heading: 'Juridisch',
+    links: [
+      { label: 'Algemene Voorwaarden', to: '/algemene-voorwaarden' },
+      { label: 'Privacy Policy', to: '/privacy-policy' },
+    ],
+  },
+];
 
 export function Footer() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes('@')) {
-      toast.error('Voer een geldig e-mailadres in');
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      toast.success('🎉 Bedankt voor je inschrijving!');
-      setEmail('');
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
-      toast.error('Kon niet verbinden met de server. Probeer het later opnieuw.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const navLinks = [
-    { label: 'Home', to: '/' },
-    { label: 'Pakketten', to: '/pakketten' },
-    { label: 'Proces', to: '/proces' },
-    { label: 'Marketing', to: '/marketing' },
-    { label: 'Blog', to: '/blog' },
-    { label: 'Contact', to: '/contact' },
-  ];
-
   return (
-    /* Outer footer: background-color of the page, padded exactly like the global grid */
-    <footer className="bg-background px-6 lg:px-12">
-      {/* Dark block — constrained to the same max-w-7xl as the rest of the content */}
-      <div
-        className="max-w-7xl mx-auto rounded-t-2xl overflow-hidden text-white"
-        style={{ backgroundColor: 'hsl(270 6% 7%)' }}
-      >
-        <div className="px-8 lg:px-14 py-14">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+    <footer className="bg-background border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
 
-            {/* Brand — 4 cols */}
-            <div className="md:col-span-4">
-              <div className="w-28 h-7 mb-5 [--fill-0:#3A4DEA] [--fill-1:white]">
-                <LogoWebiro />
-              </div>
-              <p className="text-white/45 text-sm leading-relaxed mb-7 max-w-[260px]">
-                Moderne websites voor ondernemers die geen tijd of zin hebben om alles zelf te bouwen.
-              </p>
-              <div className="flex gap-2">
-                {[
-                  { href: 'https://www.facebook.com/webironl', icon: <Facebook size={15} />, label: 'Facebook' },
-                  { href: 'https://www.instagram.com/webiro.nl', icon: <Instagram size={15} />, label: 'Instagram' },
-                  { href: 'https://www.linkedin.com/company/webironl', icon: <Linkedin size={15} />, label: 'LinkedIn' },
-                ].map(({ href, icon, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-colors"
-                    style={{ backgroundColor: 'hsl(270 5% 12%)' }}
-                  >
-                    {icon}
-                  </a>
-                ))}
-              </div>
-            </div>
+        {/* Top: logo + columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-16">
 
-            {/* Nav — 2 cols */}
-            <div className="md:col-span-2">
-              <p className="text-white/30 text-xs font-medium mb-5 tracking-wide">Navigatie</p>
-              <div className="flex flex-col gap-3">
-                {navLinks.map(({ label, to }) => (
-                  <Link
-                    key={to}
-                    to={to}
-                    className="text-white/55 hover:text-white transition-colors text-sm"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="w-24 h-6 mb-6 [--fill-0:#3A4DEA] [--fill-1:hsl(var(--foreground))]">
+              <LogoWebiro />
             </div>
-
-            {/* Contact — 3 cols */}
-            <div className="md:col-span-3">
-              <p className="text-white/30 text-xs font-medium mb-5 tracking-wide">Contact</p>
-              <div className="flex flex-col gap-2.5">
-                <a
-                  href="mailto:info@webiro.nl"
-                  className="flex items-center gap-3 text-white/55 hover:text-white transition-colors group text-sm py-2"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary/30 transition-colors">
-                    <Mail size={14} className="text-primary" />
-                  </div>
-                  info@webiro.nl
-                </a>
-                <a
-                  href="https://wa.me/31855055054"
-                  className="flex items-center gap-3 text-white/55 hover:text-white transition-colors group text-sm py-2"
-                >
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-opacity"
-                    style={{ backgroundColor: 'hsl(142 69% 40% / 0.2)' }}
-                  >
-                    <MessageCircle size={14} style={{ color: 'hsl(142 69% 50%)' }} />
-                  </div>
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-
-            {/* Newsletter — 3 cols */}
-            <div className="md:col-span-3">
-              <p className="text-white/30 text-xs font-medium mb-5 tracking-wide">Nieuwsbrief</p>
-              <p className="text-white/45 text-sm leading-relaxed mb-4">
-                Tips & updates over websites en online marketing.
-              </p>
-              <form onSubmit={handleNewsletterSubmit} className="space-y-2.5">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="je@email.nl"
-                  className="w-full text-white text-sm px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-white/25 border border-white/10 focus:border-primary/50 transition-colors"
-                  style={{ backgroundColor: 'hsl(270 5% 12%)' }}
-                  disabled={isSubmitting}
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-white px-4 py-2.5 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-lg"
-                >
-                  {isSubmitting ? 'Bezig...' : 'Inschrijven'}
-                </button>
-              </form>
-            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-[220px]">
+              Moderne websites voor ondernemers die verder willen groeien.
+            </p>
           </div>
 
-          {/* Bottom bar */}
-          <div
-            className="mt-12 pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-3"
-            style={{ borderColor: 'hsl(270 5% 14%)' }}
-          >
-            <p className="text-white/25 text-xs">
-              © {new Date().getFullYear()} Webiro. Alle rechten voorbehouden.
-            </p>
-            <div className="flex gap-5">
-              <Link to="/algemene-voorwaarden" className="text-white/30 hover:text-white/60 transition-colors text-xs">
-                Algemene Voorwaarden
-              </Link>
-              <Link to="/privacy-policy" className="text-white/30 hover:text-white/60 transition-colors text-xs">
-                Privacy Policy
-              </Link>
+          {/* Nav columns */}
+          {columns.map((col) => (
+            <div key={col.heading}>
+              <p className="text-foreground text-sm font-semibold mb-4">{col.heading}</p>
+              <ul className="space-y-3">
+                {col.links.map(({ label, to }) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-14 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-muted-foreground text-xs">
+            © {new Date().getFullYear()} Webiro. Alle rechten voorbehouden.
+          </p>
+          <div className="flex gap-6">
+            <a
+              href="mailto:info@webiro.nl"
+              className="text-muted-foreground hover:text-foreground transition-colors text-xs"
+            >
+              info@webiro.nl
+            </a>
+            <a
+              href="https://wa.me/31855055054"
+              className="text-muted-foreground hover:text-foreground transition-colors text-xs"
+            >
+              WhatsApp
+            </a>
           </div>
         </div>
       </div>
