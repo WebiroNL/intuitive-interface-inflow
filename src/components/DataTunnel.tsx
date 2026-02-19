@@ -53,16 +53,25 @@ export function DataTunnel({ className = "" }: Props) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.appendChild(renderer.domElement);
 
-    // ── Group — fan glued to right edge, lines flow left towards text ─
+    // ── Group — fan glued to the right column guide line ─────
     const contentGroup = new THREE.Group();
 
-    // Compute right edge in world units based on camera FOV + aspect
-    const halfH = Math.tan(THREE.MathUtils.degToRad(22.5)) * 90; // half visible height
-    const halfW = halfH * (W / H);                                 // half visible width
-    // The spread end of the path is at local X = -curveLength = -60
-    // After scale.x=-1 it becomes +60 in world space relative to group
-    // We want group.posX + 60 = halfW (right edge)
-    const posX = halfW - PARAMS.curveLength;
+    // The column guide lines sit at: max(24px, (viewport - 1280px) / 2) from edges.
+    // We need to find where the RIGHT column guide is in world space.
+    const viewportW = window.innerWidth;
+    const columnMargin = Math.max(24, (viewportW - 1280) / 2);
+    // Right column guide in pixels from left = viewportW - columnMargin
+    // The canvas covers the full element width (W). Offset of canvas from viewport left:
+    const canvasRect = el.getBoundingClientRect();
+    const rightGuideFromCanvasLeft = (viewportW - columnMargin) - canvasRect.left;
+    // Convert to world space: pixel 0 = -halfW, pixel W = +halfW
+    const halfH = Math.tan(THREE.MathUtils.degToRad(22.5)) * 90;
+    const halfW = halfH * (W / H);
+    const rightGuideWorld = ((rightGuideFromCanvasLeft / W) - 0.5) * 2 * halfW;
+
+    // The fan end is at local X=-curveLength, after scale.x=-1 → world = posX + curveLength
+    // We want posX + curveLength = rightGuideWorld
+    const posX = rightGuideWorld - PARAMS.curveLength;
     contentGroup.position.set(posX, 0, 0);
     // Mirror: flip X so fan opens to the right, lines converge to the left
     contentGroup.scale.x = -1;
