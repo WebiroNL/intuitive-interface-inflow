@@ -53,12 +53,18 @@ export function DataTunnel({ className = "" }: Props) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.appendChild(renderer.domElement);
 
-    // ── Group — MIRRORED: scale.x = -1 so fan opens towards text (left) ─
+    // ── Group — fan glued to right edge, lines flow left towards text ─
     const contentGroup = new THREE.Group();
-    // Center the group the same way as CodePen
-    const posX = (PARAMS.curveLength - PARAMS.straightLength) / 2;
+
+    // Compute right edge in world units based on camera FOV + aspect
+    const halfH = Math.tan(THREE.MathUtils.degToRad(22.5)) * 90; // half visible height
+    const halfW = halfH * (W / H);                                 // half visible width
+    // The spread end of the path is at local X = -curveLength = -60
+    // After scale.x=-1 it becomes +60 in world space relative to group
+    // We want group.posX + 60 = halfW (right edge)
+    const posX = halfW - PARAMS.curveLength;
     contentGroup.position.set(posX, 0, 0);
-    // Mirror: flip X so convergence point faces left (towards hero text)
+    // Mirror: flip X so fan opens to the right, lines converge to the left
     contentGroup.scale.x = -1;
     scene.add(contentGroup);
 
