@@ -33,8 +33,8 @@ export function SilkWaves({ className = "" }: Props) {
       pathsRef.current = [];
       linesRef.current = [];
 
-      const xGap = 6;
-      const yGap = 6;
+      const xGap = 3;
+      const yGap = 3;
       const oWidth = width + 200;
       const oHeight = height + 40;
       const totalLines = Math.ceil(oWidth / xGap);
