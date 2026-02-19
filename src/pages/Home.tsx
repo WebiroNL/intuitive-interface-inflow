@@ -185,102 +185,28 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════ CLIENT STRIP ══════ */}
-      <div className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5">
-          <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
-            <span className="text-[11px] text-muted-foreground/40 font-semibold uppercase tracking-[0.14em] whitespace-nowrap">
-              Vertrouwd door
-            </span>
-            {clientNames.map((n) => (
-              <span key={n} className="text-[14px] font-semibold text-muted-foreground/55 hover:text-foreground transition-colors cursor-default">
-                {n}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ══════ TOOLS STRIP ══════ */}
       <div className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/50 text-center mb-10">
-            Onze favoriete tools &amp; platforms
-          </p>
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-6 items-center justify-items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
             {[
-              {
-                name: "Figma",
-                logo: (
-                  <img src="/images/tools/figma.svg" alt="Figma" className="w-8 h-8 object-contain" />
-                ),
-              },
-              {
-                name: "Framer",
-                logo: (
-                  <img src="/images/tools/framer.svg" alt="Framer" className="w-8 h-8 object-contain" style={{ filter: "brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(1500%) hue-rotate(215deg) brightness(95%)" }} />
-                ),
-              },
-              {
-                name: "Webflow",
-                logo: (
-                  <img src="/images/tools/webflow.svg" alt="Webflow" className="w-8 h-8 object-contain" style={{ filter: "brightness(0) saturate(100%) invert(25%) sepia(90%) saturate(1200%) hue-rotate(215deg) brightness(90%)" }} />
-                ),
-              },
-              {
-                name: "Shopify",
-                logo: (
-                  <img src="/images/tools/shopify.svg" alt="Shopify" className="w-8 h-8 object-contain" style={{ filter: "brightness(0) saturate(100%) invert(42%) sepia(60%) saturate(500%) hue-rotate(90deg) brightness(90%)" }} />
-                ),
-              },
-              {
-                name: "WordPress",
-                logo: (
-                  <img src="/images/tools/wordpress.svg" alt="WordPress" className="w-8 h-8 object-contain" style={{ filter: "brightness(0) saturate(100%) invert(30%) sepia(70%) saturate(400%) hue-rotate(170deg) brightness(80%)" }} />
-                ),
-              },
-              {
-                name: "React",
-                logo: (
-                  <img src="/images/tools/react.svg" alt="React" className="w-8 h-8 object-contain" />
-                ),
-              },
-              {
-                name: "Vercel",
-                logo: (
-                  <img src="/images/tools/vercel.svg" alt="Vercel" className="w-8 h-8 object-contain" />
-                ),
-              },
-              {
-                name: "Google Ads",
-                logo: (
-                  <img src="/images/tools/googleads.svg" alt="Google Ads" className="w-8 h-8 object-contain" />
-                ),
-              },
-              {
-                name: "After Effects",
-                logo: (
-                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none">
-                    <rect width="24" height="24" rx="5" fill="#00005B"/>
-                    <text x="12" y="16.5" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#9999FF" fontFamily="Arial">Ae</text>
-                  </svg>
-                ),
-              },
-              {
-                name: "Premiere Pro",
-                logo: (
-                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none">
-                    <rect width="24" height="24" rx="5" fill="#00005B"/>
-                    <text x="12" y="16.5" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#9999FF" fontFamily="Arial">Pr</text>
-                  </svg>
-                ),
-              },
+              { name: "Figma", src: "/images/tools/figma.svg", filter: undefined },
+              { name: "Framer", src: "/images/tools/framer.svg", filter: "brightness(0) saturate(100%) invert(15%) sepia(5%) saturate(300%) hue-rotate(180deg) brightness(80%)" },
+              { name: "Webflow", src: "/images/tools/webflow.svg", filter: "brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(1000%) hue-rotate(210deg) brightness(85%)" },
+              { name: "Shopify", src: "/images/tools/shopify.svg", filter: "brightness(0) saturate(100%) invert(38%) sepia(60%) saturate(400%) hue-rotate(90deg) brightness(85%)" },
+              { name: "WordPress", src: "/images/tools/wordpress.svg", filter: "brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(300%) hue-rotate(170deg) brightness(75%)" },
+              { name: "React", src: "/images/tools/react.svg", filter: undefined },
+              { name: "Vercel", src: "/images/tools/vercel.svg", filter: "brightness(0)" },
+              { name: "Google Ads", src: "/images/tools/googleads.svg", filter: undefined },
             ].map((tool) => (
-              <div key={tool.name} className="flex flex-col items-center gap-2.5 group cursor-default">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-muted/40 border border-border/50 group-hover:border-border transition-colors group-hover:shadow-sm">
-                  {tool.logo}
-                </div>
-                <span className="text-[10px] text-muted-foreground/60 font-medium text-center leading-tight">
+              <div key={tool.name} className="flex items-center gap-2.5 opacity-50 hover:opacity-80 transition-opacity cursor-default">
+                <img
+                  src={tool.src}
+                  alt={tool.name}
+                  className="h-5 w-auto object-contain"
+                  style={tool.filter ? { filter: tool.filter } : undefined}
+                />
+                <span className="text-[15px] font-semibold text-foreground/80 tracking-tight">
                   {tool.name}
                 </span>
               </div>
@@ -288,6 +214,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+
 
       {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
