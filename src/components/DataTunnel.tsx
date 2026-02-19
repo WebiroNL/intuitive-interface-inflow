@@ -6,9 +6,9 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 
 // Tuned for Webiro: dark-bg hero with blue lines + glowing signals
 const PARAMS = {
-  colorBg: "transparent",
-  colorLine: "#1e2a6e",       // dark navy line base
-  colorSignal: "#6B8FFF",     // primary blue glow
+  colorBg: "#000000",
+  colorLine: "#2a3fa0",       // brighter navy so screen blend shows on white
+  colorSignal: "#7BA7FF",     // bright blue glow
   colorSignal2: "#FFD75C",    // yellow gold glow
   useColor2: true,
   lineCount: 70,
@@ -22,12 +22,12 @@ const PARAMS = {
   curvePower: 0.83,
   waveSpeed: 2.2,
   waveHeight: 0.13,
-  lineOpacity: 0.45,
+  lineOpacity: 0.6,
   signalCount: 60,
   speedGlobal: 0.38,
   trailLength: 4,
-  bloomStrength: 2.6,
-  bloomRadius: 0.5,
+  bloomStrength: 2.8,
+  bloomRadius: 0.6,
 };
 
 const SEGMENT_COUNT = 120;
@@ -45,8 +45,7 @@ export function DataTunnel({ className = "" }: Props) {
 
     // ── Scene ──────────────────────────────────────────────────
     const scene = new THREE.Scene();
-    // transparent bg so the page background shows through
-    scene.fog = new THREE.FogExp2("#0a0a1a", 0.0018);
+    scene.background = new THREE.Color(0x000000);
 
     const W = el.clientWidth;
     const H = el.clientHeight;
@@ -57,8 +56,8 @@ export function DataTunnel({ className = "" }: Props) {
     camera.lookAt(0, 0, 0);
 
     // ── Renderer ───────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setClearColor(0x000000, 0);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setClearColor(0x000000, 1); // solid black — mix-blend-mode:screen makes it transparent
     renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.appendChild(renderer.domElement);
@@ -291,7 +290,10 @@ export function DataTunnel({ className = "" }: Props) {
     <div
       ref={mountRef}
       className={`absolute inset-0 w-full h-full ${className}`}
-      style={{ pointerEvents: "none" }}
+      style={{ 
+        pointerEvents: "none",
+        mixBlendMode: "screen",  // black = transparent, glowing lines show on white bg
+      }}
     />
   );
 }
