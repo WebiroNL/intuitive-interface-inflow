@@ -1,33 +1,24 @@
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
-// Tuned for Webiro: dark-bg hero with blue lines + glowing signals
+// Tuned for Webiro white background — mix-blend-mode:multiply makes white=transparent
 const PARAMS = {
-  colorBg: "#000000",
-  colorLine: "#2a3fa0",       // brighter navy so screen blend shows on white
-  colorSignal: "#7BA7FF",     // bright blue glow
-  colorSignal2: "#FFD75C",    // yellow gold glow
+  colorLine: "#3a4dea",       // Webiro primary blue
+  colorSignal: "#3a4dea",     // bright blue signal
+  colorSignal2: "#c8a800",    // dark gold (saturated so multiply shows on white)
   useColor2: true,
-  lineCount: 70,
-  globalRotation: 0,
-  positionX: 0,
-  positionY: 0,
-  spreadHeight: 32,
+  lineCount: 65,
+  spreadHeight: 34,
   spreadDepth: 0,
-  curveLength: 55,
-  straightLength: 110,
+  curveLength: 60,
+  straightLength: 120,
   curvePower: 0.83,
-  waveSpeed: 2.2,
-  waveHeight: 0.13,
-  lineOpacity: 0.6,
-  signalCount: 60,
-  speedGlobal: 0.38,
-  trailLength: 4,
-  bloomStrength: 2.8,
-  bloomRadius: 0.6,
+  waveSpeed: 2.0,
+  waveHeight: 0.14,
+  lineOpacity: 0.35,
+  signalCount: 55,
+  speedGlobal: 0.4,
+  trailLength: 5,
 };
 
 const SEGMENT_COUNT = 120;
@@ -43,49 +34,39 @@ export function DataTunnel({ className = "" }: Props) {
     const el = mountRef.current;
     if (!el) return;
 
-    // ── Scene ──────────────────────────────────────────────────
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-
     const W = el.clientWidth;
     const H = el.clientHeight;
 
-    // ── Camera ─────────────────────────────────────────────────
+    // ── Scene ─────────────────────────────────────────────────
+    const scene = new THREE.Scene();
+    // no background — renderer is transparent
+
+    // ── Camera ───────────────────────────────────────────────
     const camera = new THREE.PerspectiveCamera(45, W / H, 1, 1000);
     camera.position.set(0, 0, 90);
     camera.lookAt(0, 0, 0);
 
-    // ── Renderer ───────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setClearColor(0x000000, 1); // solid black — mix-blend-mode:screen makes it transparent
+    // ── Renderer (transparent — mix-blend-mode handles blending) ─
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0);
     renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.appendChild(renderer.domElement);
 
-    // ── Post-processing ────────────────────────────────────────
-    const renderScene = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(W, H),
-      PARAMS.bloomStrength,
-      PARAMS.bloomRadius,
-      0
-    );
-    const composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-
-    // ── Group ──────────────────────────────────────────────────
+    // ── Group — MIRRORED: scale.x = -1 so fan opens towards text (left) ─
     const contentGroup = new THREE.Group();
-    PARAMS.positionX = (PARAMS.curveLength - PARAMS.straightLength) / 2;
-    contentGroup.position.set(PARAMS.positionX, PARAMS.positionY, 0);
+    // Center the group the same way as CodePen
+    const posX = (PARAMS.curveLength - PARAMS.straightLength) / 2;
+    contentGroup.position.set(posX, 0, 0);
+    // Mirror: flip X so convergence point faces left (towards hero text)
+    contentGroup.scale.x = -1;
     scene.add(contentGroup);
 
-    // ── Path math ─────────────────────────────────────────────
+    // ── Path math ────────────────────────────────────────────
     function getPathPoint(t: number, lineIndex: number, time: number): THREE.Vector3 {
       const totalLen = PARAMS.curveLength + PARAMS.straightLength;
       const currentX = -PARAMS.curveLength + t * totalLen;
       let y = 0;
-      let z = 0;
       const spreadFactor = (lineIndex / PARAMS.lineCount - 0.5) * 2;
 
       if (currentX < 0) {
@@ -93,18 +74,15 @@ export function DataTunnel({ className = "" }: Props) {
         let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
         shapeFactor = Math.pow(shapeFactor, PARAMS.curvePower);
         y = spreadFactor * PARAMS.spreadHeight * shapeFactor;
-        z = spreadFactor * PARAMS.spreadDepth * shapeFactor;
         const wave =
           Math.sin(time * PARAMS.waveSpeed + currentX * 0.1 + lineIndex) *
-          PARAMS.waveHeight *
-          shapeFactor;
+          PARAMS.waveHeight * shapeFactor;
         y += wave;
       }
-
-      return new THREE.Vector3(currentX, y, z);
+      return new THREE.Vector3(currentX, y, 0);
     }
 
-    // ── Materials ──────────────────────────────────────────────
+    // ── Background line material ──────────────────────────────
     const bgMaterial = new THREE.LineBasicMaterial({
       color: PARAMS.colorLine,
       transparent: true,
@@ -112,9 +90,10 @@ export function DataTunnel({ className = "" }: Props) {
       depthWrite: false,
     });
 
+    // ── Signal material (additive for glow look) ──────────────
     const signalMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       depthWrite: false,
       depthTest: false,
       transparent: true,
@@ -122,36 +101,25 @@ export function DataTunnel({ className = "" }: Props) {
 
     const color1 = new THREE.Color(PARAMS.colorSignal);
     const color2 = new THREE.Color(PARAMS.colorSignal2);
-
     function pickColor() {
       return PARAMS.useColor2 && Math.random() > 0.5 ? color2 : color1;
     }
 
-    // ── Build lines ────────────────────────────────────────────
+    // ── Build background lines ────────────────────────────────
     const backgroundLines: THREE.Line[] = [];
 
-    function rebuildLines() {
-      backgroundLines.forEach((l) => {
-        contentGroup.remove(l);
-        l.geometry.dispose();
-      });
-      backgroundLines.length = 0;
-
-      for (let i = 0; i < PARAMS.lineCount; i++) {
-        const geo = new THREE.BufferGeometry();
-        const pos = new Float32Array(SEGMENT_COUNT * 3);
-        geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-        const line = new THREE.Line(geo, bgMaterial);
-        line.userData = { id: i };
-        line.renderOrder = 0;
-        contentGroup.add(line);
-        backgroundLines.push(line);
-      }
-
-      rebuildSignals();
+    for (let i = 0; i < PARAMS.lineCount; i++) {
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(SEGMENT_COUNT * 3);
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      const line = new THREE.Line(geo, bgMaterial);
+      line.userData = { id: i };
+      line.renderOrder = 0;
+      contentGroup.add(line);
+      backgroundLines.push(line);
     }
 
-    // ── Signals ────────────────────────────────────────────────
+    // ── Signals ───────────────────────────────────────────────
     type Signal = {
       mesh: THREE.Line;
       laneIndex: number;
@@ -164,7 +132,7 @@ export function DataTunnel({ className = "" }: Props) {
     const signals: Signal[] = [];
     const MAX_TRAIL = 150;
 
-    function createSignal() {
+    const createSignal = () => {
       const geo = new THREE.BufferGeometry();
       const positions = new Float32Array(MAX_TRAIL * 3);
       const colors = new Float32Array(MAX_TRAIL * 3);
@@ -174,7 +142,6 @@ export function DataTunnel({ className = "" }: Props) {
       mesh.frustumCulled = false;
       mesh.renderOrder = 1;
       contentGroup.add(mesh);
-
       signals.push({
         mesh,
         laneIndex: Math.floor(Math.random() * PARAMS.lineCount),
@@ -183,20 +150,11 @@ export function DataTunnel({ className = "" }: Props) {
         history: [],
         assignedColor: pickColor(),
       });
-    }
+    };
 
-    function rebuildSignals() {
-      signals.forEach((s) => {
-        contentGroup.remove(s.mesh);
-        s.mesh.geometry.dispose();
-      });
-      signals.length = 0;
-      for (let i = 0; i < PARAMS.signalCount; i++) createSignal();
-    }
+    for (let i = 0; i < PARAMS.signalCount; i++) createSignal();
 
-    rebuildLines();
-
-    // ── Animation loop ─────────────────────────────────────────
+    // ── Animation loop ────────────────────────────────────────
     const clock = new THREE.Clock();
     let rafId: number;
     let alive = true;
@@ -204,7 +162,6 @@ export function DataTunnel({ className = "" }: Props) {
     function animate() {
       if (!alive) return;
       rafId = requestAnimationFrame(animate);
-
       const time = clock.getElapsedTime();
 
       // Update background lines
@@ -258,23 +215,22 @@ export function DataTunnel({ className = "" }: Props) {
         sig.mesh.geometry.attributes.color.needsUpdate = true;
       });
 
-      composer.render();
+      renderer.render(scene, camera);
     }
 
     animate();
 
-    // ── Resize ─────────────────────────────────────────────────
+    // ── Resize ────────────────────────────────────────────────
     const onResize = () => {
       const w = el.clientWidth;
       const h = el.clientHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-      composer.setSize(w, h);
     };
     window.addEventListener("resize", onResize);
 
-    // ── Cleanup ────────────────────────────────────────────────
+    // ── Cleanup ───────────────────────────────────────────────
     return () => {
       alive = false;
       cancelAnimationFrame(rafId);
@@ -282,7 +238,7 @@ export function DataTunnel({ className = "" }: Props) {
       renderer.dispose();
       bgMaterial.dispose();
       signalMaterial.dispose();
-      el.removeChild(renderer.domElement);
+      if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
   }, []);
 
@@ -290,9 +246,9 @@ export function DataTunnel({ className = "" }: Props) {
     <div
       ref={mountRef}
       className={`absolute inset-0 w-full h-full ${className}`}
-      style={{ 
+      style={{
         pointerEvents: "none",
-        mixBlendMode: "screen",  // black = transparent, glowing lines show on white bg
+        mixBlendMode: "multiply", // white=transparent, colored lines show on white bg
       }}
     />
   );
