@@ -51,11 +51,11 @@ export function SilkWaves({ className = "" }: Props) {
       grad.setAttribute("x2", "100%");
       grad.setAttribute("y2", "0%");
       const stopDefs: [string, string, string][] = [
-        ["0%",   "stop1", "hsla(234,82%,57%,0.08)"],
-        ["30%",  "stop2", "hsla(234,82%,57%,0.35)"],
-        ["60%",  "stop3", "hsla(259,79%,61%,0.28)"],
-        ["85%",  "stop4", "hsla(44,100%,67%,0.25)"],
-        ["100%", "stop5", "hsla(44,100%,67%,0.08)"],
+        ["0%",   "stop1", "hsla(234,82%,57%,0.06)"],
+        ["25%",  "stop2", "hsla(234,82%,57%,0.35)"],
+        ["50%",  "stop3", "hsla(248,80%,59%,0.30)"],
+        ["75%",  "stop4", "hsla(259,79%,61%,0.28)"],
+        ["100%", "stop5", "hsla(259,79%,61%,0.06)"],
       ];
       stopDefs.forEach(([offset, id, color]) => {
         const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
@@ -178,17 +178,17 @@ export function SilkWaves({ className = "" }: Props) {
 
       // Breathing gradient animation
       const t = time * 0.0006;
-      const breath1 = 0.3 + Math.sin(t * 1.1) * 0.15;
-      const breath2 = 0.24 + Math.sin(t * 0.9 + 1) * 0.12;
-      const breath3 = 0.22 + Math.sin(t * 1.3 + 2) * 0.12;
+      const breath1 = 0.30 + Math.sin(t * 1.1) * 0.15;
+      const breath2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
+      const breath3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
       const grad = svg.querySelector("#silkGradient");
       if (grad) {
         const s1 = grad.querySelector("#stop2") as SVGStopElement;
         const s2 = grad.querySelector("#stop3") as SVGStopElement;
         const s3 = grad.querySelector("#stop4") as SVGStopElement;
         if (s1) s1.setAttribute("stop-color", `hsla(234,82%,57%,${breath1.toFixed(2)})`);
-        if (s2) s2.setAttribute("stop-color", `hsla(259,79%,61%,${breath2.toFixed(2)})`);
-        if (s3) s3.setAttribute("stop-color", `hsla(44,100%,67%,${breath3.toFixed(2)})`);
+        if (s2) s2.setAttribute("stop-color", `hsla(248,80%,59%,${breath2.toFixed(2)})`);
+        if (s3) s3.setAttribute("stop-color", `hsla(259,79%,61%,${breath3.toFixed(2)})`);
       }
 
       movePoints(time);
