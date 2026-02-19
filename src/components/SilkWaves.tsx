@@ -42,6 +42,30 @@ export function SilkWaves({ className = "" }: Props) {
       const xStart = (width - xGap * totalLines) / 2;
       const yStart = (height - yGap * totalPoints) / 2;
 
+      // Define SVG gradient
+      const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+      const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+      grad.setAttribute("id", "silkGradient");
+      grad.setAttribute("x1", "0%");
+      grad.setAttribute("y1", "0%");
+      grad.setAttribute("x2", "100%");
+      grad.setAttribute("y2", "0%");
+      const stops: [string, string][] = [
+        ["0%",   "hsla(234,82%,57%,0.08)"],
+        ["30%",  "hsla(234,82%,57%,0.28)"],
+        ["60%",  "hsla(259,79%,61%,0.22)"],
+        ["85%",  "hsla(44,100%,67%,0.18)"],
+        ["100%", "hsla(44,100%,67%,0.06)"],
+      ];
+      stops.forEach(([offset, color]) => {
+        const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop.setAttribute("offset", offset);
+        stop.setAttribute("stop-color", color);
+        grad.appendChild(stop);
+      });
+      defs.appendChild(grad);
+      svg.appendChild(defs);
+
       for (let i = 0; i <= totalLines; i++) {
         const points = [];
         for (let j = 0; j <= totalPoints; j++) {
@@ -54,8 +78,8 @@ export function SilkWaves({ className = "" }: Props) {
         }
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "hsl(225 70% 55% / 0.22)");
-        path.setAttribute("stroke-width", "0.7");
+        path.setAttribute("stroke", "url(#silkGradient)");
+        path.setAttribute("stroke-width", "0.8");
         svg.appendChild(path);
         pathsRef.current.push(path);
         linesRef.current.push(points);
