@@ -51,11 +51,12 @@ export function SilkWaves({ className = "" }: Props) {
       grad.setAttribute("x2", "100%");
       grad.setAttribute("y2", "0%");
       const stops: [string, string][] = [
-        ["0%",   "hsla(234,82%,57%,0.08)"],
-        ["30%",  "hsla(234,82%,57%,0.28)"],
-        ["60%",  "hsla(259,79%,61%,0.22)"],
-        ["85%",  "hsla(44,100%,67%,0.18)"],
-        ["100%", "hsla(44,100%,67%,0.06)"],
+        ["0%",   "hsla(30,100%,60%,0.06)"],
+        ["20%",  "hsla(38,100%,62%,0.30)"],
+        ["42%",  "hsla(20,100%,65%,0.28)"],
+        ["60%",  "hsla(320,85%,62%,0.26)"],
+        ["78%",  "hsla(280,75%,58%,0.22)"],
+        ["100%", "hsla(255,70%,55%,0.08)"],
       ];
       stops.forEach(([offset, color]) => {
         const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
