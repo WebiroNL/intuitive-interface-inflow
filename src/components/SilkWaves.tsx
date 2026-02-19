@@ -50,17 +50,18 @@ export function SilkWaves({ className = "" }: Props) {
       grad.setAttribute("y1", "0%");
       grad.setAttribute("x2", "100%");
       grad.setAttribute("y2", "0%");
-      const stops: [string, string][] = [
-        ["0%",   "hsla(234,82%,57%,0.08)"],
-        ["30%",  "hsla(234,82%,57%,0.28)"],
-        ["60%",  "hsla(259,79%,61%,0.22)"],
-        ["85%",  "hsla(44,100%,67%,0.18)"],
-        ["100%", "hsla(44,100%,67%,0.06)"],
+      const stopDefs: [string, string, string][] = [
+        ["0%",   "stop1", "hsla(234,82%,57%,0.08)"],
+        ["30%",  "stop2", "hsla(234,82%,57%,0.35)"],
+        ["60%",  "stop3", "hsla(259,79%,61%,0.28)"],
+        ["85%",  "stop4", "hsla(44,100%,67%,0.25)"],
+        ["100%", "stop5", "hsla(44,100%,67%,0.08)"],
       ];
-      stops.forEach(([offset, color]) => {
+      stopDefs.forEach(([offset, id, color]) => {
         const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
         stop.setAttribute("offset", offset);
         stop.setAttribute("stop-color", color);
+        stop.setAttribute("id", id);
         grad.appendChild(stop);
       });
       defs.appendChild(grad);
@@ -79,7 +80,7 @@ export function SilkWaves({ className = "" }: Props) {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("fill", "none");
         path.setAttribute("stroke", "url(#silkGradient)");
-        path.setAttribute("stroke-width", "0.8");
+        path.setAttribute("stroke-width", "1.6");
         svg.appendChild(path);
         pathsRef.current.push(path);
         linesRef.current.push(points);
@@ -173,6 +174,21 @@ export function SilkWaves({ className = "" }: Props) {
       if (container) {
         container.style.setProperty("--x", `${mouse.sx}px`);
         container.style.setProperty("--y", `${mouse.sy}px`);
+      }
+
+      // Breathing gradient animation
+      const t = time * 0.0006;
+      const breath1 = 0.3 + Math.sin(t * 1.1) * 0.15;
+      const breath2 = 0.24 + Math.sin(t * 0.9 + 1) * 0.12;
+      const breath3 = 0.22 + Math.sin(t * 1.3 + 2) * 0.12;
+      const grad = svg.querySelector("#silkGradient");
+      if (grad) {
+        const s1 = grad.querySelector("#stop2") as SVGStopElement;
+        const s2 = grad.querySelector("#stop3") as SVGStopElement;
+        const s3 = grad.querySelector("#stop4") as SVGStopElement;
+        if (s1) s1.setAttribute("stop-color", `hsla(234,82%,57%,${breath1.toFixed(2)})`);
+        if (s2) s2.setAttribute("stop-color", `hsla(259,79%,61%,${breath2.toFixed(2)})`);
+        if (s3) s3.setAttribute("stop-color", `hsla(44,100%,67%,${breath3.toFixed(2)})`);
       }
 
       movePoints(time);
