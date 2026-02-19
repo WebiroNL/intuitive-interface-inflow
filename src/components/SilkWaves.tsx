@@ -8,234 +8,203 @@ interface Props {
 const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
 
 export function SilkWaves({ className = "" }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const linesRef = useRef<Array<Array<{ x: number; y: number; wave: { x: number; y: number }; cursor: { x: number; y: number; vx: number; vy: number } }>>>([]);
-  const pathsRef = useRef<SVGPathElement[]>([]);
-  const mouseRef = useRef({ x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false });
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>();
-  const frameRef = useRef(0);
   const noise2D = useRef(createNoise2D());
+  const stateRef = useRef({
+    mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
+    frame: 0,
+  });
 
   useEffect(() => {
-    const container = containerRef.current;
-    const svg = svgRef.current;
-    if (!container || !svg) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
 
-    const setSize = () => {
-      const { width, height } = container.getBoundingClientRect();
-      svg.style.width = `${width}px`;
-      svg.style.height = `${height}px`;
-    };
+    let width = 0;
+    let height = 0;
+    let xGap = 3;
+    let yGap = 3;
+    let totalLines = 0;
+    let totalPoints = 0;
+    let xStart = 0;
+    let yStart = 0;
 
-    const setLines = () => {
-      const { width, height } = container.getBoundingClientRect();
+    // Pre-allocated point arrays for performance
+    type Point = { x: number; y: number; wx: number; wy: number; cx: number; cy: number; cvx: number; cvy: number };
+    let points: Point[][] = [];
 
-      // Clear existing paths
-      while (svg.firstChild) svg.removeChild(svg.firstChild);
-      pathsRef.current = [];
-      linesRef.current = [];
-
+    const setupGrid = () => {
       const mobile = isMobile();
-      const xGap = mobile ? 6 : 3;
-      const yGap = mobile ? 6 : 3;
-      const oWidth = width + (mobile ? 60 : 200);
-      const oHeight = height + (mobile ? 20 : 40);
-      const totalLines = Math.ceil(oWidth / xGap);
-      const totalPoints = Math.ceil(oHeight / yGap);
-      const xStart = (width - xGap * totalLines) / 2;
-      const yStart = (height - yGap * totalPoints) / 2;
+      xGap = mobile ? 8 : 4;
+      yGap = mobile ? 8 : 4;
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * devicePixelRatio;
+      canvas.height = height * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
 
-      // Define SVG gradient
-      const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-      const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
-      grad.setAttribute("id", "silkGradient");
-      grad.setAttribute("x1", "0%");
-      grad.setAttribute("y1", "0%");
-      grad.setAttribute("x2", "100%");
-      grad.setAttribute("y2", "0%");
-      const stopDefs: [string, string, string][] = [
-        ["0%",   "stop1", "hsla(234,82%,57%,0.06)"],
-        ["25%",  "stop2", "hsla(234,82%,57%,0.35)"],
-        ["50%",  "stop3", "hsla(248,80%,59%,0.30)"],
-        ["75%",  "stop4", "hsla(259,79%,61%,0.28)"],
-        ["100%", "stop5", "hsla(259,79%,61%,0.06)"],
-      ];
-      stopDefs.forEach(([offset, id, color]) => {
-        const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
-        stop.setAttribute("offset", offset);
-        stop.setAttribute("stop-color", color);
-        stop.setAttribute("id", id);
-        grad.appendChild(stop);
-      });
-      defs.appendChild(grad);
-      svg.appendChild(defs);
+      const oWidth = width + 200;
+      const oHeight = height + 40;
+      totalLines = Math.ceil(oWidth / xGap);
+      totalPoints = Math.ceil(oHeight / yGap);
+      xStart = (width - xGap * totalLines) / 2;
+      yStart = (height - yGap * totalPoints) / 2;
 
+      points = [];
       for (let i = 0; i <= totalLines; i++) {
-        const points = [];
+        const line: Point[] = [];
         for (let j = 0; j <= totalPoints; j++) {
-          points.push({
+          line.push({
             x: xStart + xGap * i,
             y: yStart + yGap * j,
-            wave: { x: 0, y: 0 },
-            cursor: { x: 0, y: 0, vx: 0, vy: 0 },
+            wx: 0, wy: 0,
+            cx: 0, cy: 0,
+            cvx: 0, cvy: 0,
           });
         }
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "url(#silkGradient)");
-        path.setAttribute("stroke-width", "1.6");
-        svg.appendChild(path);
-        pathsRef.current.push(path);
-        linesRef.current.push(points);
-      }
-    };
-
-    const movePoints = (time: number) => {
-      const mouse = mouseRef.current;
-      linesRef.current.forEach((points) => {
-        points.forEach((p) => {
-          const move = noise2D.current(
-            (p.x + time * 0.008) * 0.002,
-            (p.y + time * 0.003) * 0.0015
-          ) * 10;
-
-          p.wave.x = Math.cos(move) * 30;
-          p.wave.y = Math.sin(move) * 14;
-
-          const dx = p.x - mouse.sx;
-          const dy = p.y - mouse.sy;
-          const d = Math.hypot(dx, dy);
-          const l = Math.max(175, mouse.vs);
-
-          if (d < l) {
-            const s = 1 - d / l;
-            const f = Math.cos(d * 0.001) * s;
-            p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
-            p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
-          }
-
-          p.cursor.vx += (0 - p.cursor.x) * 0.005;
-          p.cursor.vy += (0 - p.cursor.y) * 0.005;
-          p.cursor.vx *= 0.925;
-          p.cursor.vy *= 0.925;
-          p.cursor.x += p.cursor.vx * 2;
-          p.cursor.y += p.cursor.vy * 2;
-          p.cursor.x = Math.min(100, Math.max(-100, p.cursor.x));
-          p.cursor.y = Math.min(100, Math.max(-100, p.cursor.y));
-        });
-      });
-    };
-
-    const moved = (p: typeof linesRef.current[0][0], withCursor = true) => ({
-      x: Math.round((p.x + p.wave.x + (withCursor ? p.cursor.x : 0)) * 10) / 10,
-      y: Math.round((p.y + p.wave.y + (withCursor ? p.cursor.y : 0)) * 10) / 10,
-    });
-
-    const drawLines = () => {
-      linesRef.current.forEach((points, li) => {
-        let p1 = moved(points[0], false);
-        let d = `M ${p1.x} ${p1.y}`;
-        points.forEach((point, pi) => {
-          const isLast = pi === points.length - 1;
-          p1 = moved(point, !isLast);
-          d += ` L ${p1.x} ${p1.y}`;
-        });
-        pathsRef.current[li]?.setAttribute("d", d);
-      });
-    };
-
-    const updateMousePosition = (x: number, y: number) => {
-      if (!container) return;
-      const bounds = container.getBoundingClientRect();
-      const mouse = mouseRef.current;
-      mouse.x = x - bounds.left;
-      mouse.y = y - bounds.top + window.scrollY;
-      if (!mouse.set) {
-        mouse.sx = mouse.x;
-        mouse.sy = mouse.y;
-        mouse.lx = mouse.x;
-        mouse.ly = mouse.y;
-        mouse.set = true;
+        points.push(line);
       }
     };
 
     const tick = (time: number) => {
-      frameRef.current++;
-      // On mobile, render at ~30fps by skipping every other frame
-      if (isMobile() && frameRef.current % 2 !== 0) {
+      const state = stateRef.current;
+      state.frame++;
+
+      // Throttle to ~30fps on mobile
+      if (isMobile() && state.frame % 2 !== 0) {
         rafRef.current = requestAnimationFrame(tick);
         return;
       }
-      const mouse = mouseRef.current;
+
+      const mouse = state.mouse;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
-
       const dx = mouse.x - mouse.lx;
       const dy = mouse.y - mouse.ly;
       const d = Math.hypot(dx, dy);
-      mouse.v = d;
       mouse.vs += (d - mouse.vs) * 0.1;
       mouse.vs = Math.min(100, mouse.vs);
       mouse.lx = mouse.x;
       mouse.ly = mouse.y;
       mouse.a = Math.atan2(dy, dx);
 
-      if (container) {
-        container.style.setProperty("--x", `${mouse.sx}px`);
-        container.style.setProperty("--y", `${mouse.sy}px`);
-      }
-
-      // Breathing gradient animation
+      // Breathing gradient opacity
       const t = time * 0.0006;
-      const breath1 = 0.30 + Math.sin(t * 1.1) * 0.15;
-      const breath2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
-      const breath3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
-      const grad = svg.querySelector("#silkGradient");
-      if (grad) {
-        const s1 = grad.querySelector("#stop2") as SVGStopElement;
-        const s2 = grad.querySelector("#stop3") as SVGStopElement;
-        const s3 = grad.querySelector("#stop4") as SVGStopElement;
-        if (s1) s1.setAttribute("stop-color", `hsla(234,82%,57%,${breath1.toFixed(2)})`);
-        if (s2) s2.setAttribute("stop-color", `hsla(248,80%,59%,${breath2.toFixed(2)})`);
-        if (s3) s3.setAttribute("stop-color", `hsla(259,79%,61%,${breath3.toFixed(2)})`);
+      const alpha1 = 0.30 + Math.sin(t * 1.1) * 0.15;
+      const alpha2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
+      const alpha3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
+
+      // Build gradient
+      const grad = ctx.createLinearGradient(0, 0, width, 0);
+      grad.addColorStop(0,    `hsla(234,82%,57%,0.04)`);
+      grad.addColorStop(0.25, `hsla(234,82%,57%,${alpha1.toFixed(2)})`);
+      grad.addColorStop(0.5,  `hsla(248,80%,59%,${alpha2.toFixed(2)})`);
+      grad.addColorStop(0.75, `hsla(259,79%,61%,${alpha3.toFixed(2)})`);
+      grad.addColorStop(1,    `hsla(259,79%,61%,0.04)`);
+
+      ctx.clearRect(0, 0, width, height);
+
+      const noise = noise2D.current;
+      const l = Math.max(175, mouse.vs);
+
+      for (let i = 0; i < points.length; i++) {
+        const line = points[i];
+        ctx.beginPath();
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.4;
+
+        for (let j = 0; j < line.length; j++) {
+          const p = line[j];
+
+          // Wave
+          const move = noise(
+            (p.x + time * 0.008) * 0.002,
+            (p.y + time * 0.003) * 0.0015
+          ) * 10;
+          p.wx = Math.cos(move) * 30;
+          p.wy = Math.sin(move) * 14;
+
+          // Cursor interaction
+          const ddx = p.x - mouse.sx;
+          const ddy = p.y - mouse.sy;
+          const dd = Math.hypot(ddx, ddy);
+          if (dd < l) {
+            const s = 1 - dd / l;
+            const f = Math.cos(dd * 0.001) * s;
+            p.cvx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
+            p.cvy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
+          }
+          p.cvx += (0 - p.cx) * 0.005;
+          p.cvy += (0 - p.cy) * 0.005;
+          p.cvx *= 0.925;
+          p.cvy *= 0.925;
+          p.cx += p.cvx * 2;
+          p.cy += p.cvy * 2;
+          p.cx = Math.min(100, Math.max(-100, p.cx));
+          p.cy = Math.min(100, Math.max(-100, p.cy));
+
+          const fx = p.x + p.wx + (j === 0 || j === line.length - 1 ? 0 : p.cx);
+          const fy = p.y + p.wy + (j === 0 || j === line.length - 1 ? 0 : p.cy);
+
+          if (j === 0) ctx.moveTo(fx, fy);
+          else ctx.lineTo(fx, fy);
+        }
+
+        ctx.stroke();
       }
 
-      movePoints(time);
-      drawLines();
       rafRef.current = requestAnimationFrame(tick);
     };
 
-    setSize();
-    setLines();
+    const handleResize = () => setupGrid();
 
-    const handleResize = () => { setSize(); setLines(); };
-    const handleMouseMove = (e: MouseEvent) => updateMousePosition(e.pageX, e.pageY);
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+    const handleMouseMove = (e: MouseEvent) => {
+      const bounds = canvas.getBoundingClientRect();
+      const mouse = stateRef.current.mouse;
+      mouse.x = e.pageX - bounds.left;
+      mouse.y = e.pageY - bounds.top + window.scrollY;
+      if (!mouse.set) {
+        mouse.sx = mouse.x; mouse.sy = mouse.y;
+        mouse.lx = mouse.x; mouse.ly = mouse.y;
+        mouse.set = true;
+      }
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const bounds = canvas.getBoundingClientRect();
+      const mouse = stateRef.current.mouse;
+      mouse.x = e.touches[0].clientX - bounds.left;
+      mouse.y = e.touches[0].clientY - bounds.top + window.scrollY;
+      if (!mouse.set) {
+        mouse.sx = mouse.x; mouse.sy = mouse.y;
+        mouse.lx = mouse.x; mouse.ly = mouse.y;
+        mouse.set = true;
+      }
+    };
+
+    setupGrid();
+    rafRef.current = requestAnimationFrame(tick);
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("touchmove", handleTouchMove, { passive: false });
-    rafRef.current = requestAnimationFrame(tick);
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchmove", handleTouchMove);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className={`absolute inset-0 overflow-hidden ${className}`}
-      style={{ pointerEvents: "none" }}
-    >
-      <svg ref={svgRef} style={{ display: "block", willChange: "transform" }} />
+    <div className={`absolute inset-0 overflow-hidden ${className}`} style={{ pointerEvents: "none" }}>
+      <canvas
+        ref={canvasRef}
+        style={{ display: "block", width: "100%", height: "100%" }}
+      />
     </div>
   );
 }
