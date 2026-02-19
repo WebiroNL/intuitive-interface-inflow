@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle, Star, Zap, Palette, Headphones, TrendingUp, Cl
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
-import { DataTunnel } from "@/components/DataTunnel";
+import { SilkWaves } from "@/components/SilkWaves";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -139,8 +139,8 @@ const Home = () => {
       {/* ══════ HERO ══════ */}
       <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
 
-        {/* Three.js data tunnel — GPU-accelerated, lightweight */}
-        <DataTunnel />
+        {/* SVG silk waves — lightweight, mouse-interactive, white bg */}
+        <SilkWaves />
 
         {/* Left fade so text stays crisp on white */}
         <div
