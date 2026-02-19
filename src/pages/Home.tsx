@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle, Star, Zap, Palette, Headphones, TrendingUp, Cl
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
-import { SilkRibbons } from "@/components/SilkRibbons";
+import { DataTunnel } from "@/components/DataTunnel";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -106,7 +106,6 @@ const reviews = [
 const Home = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
-  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     updatePageMeta(
@@ -138,10 +137,10 @@ const Home = () => {
       <StructuredData type="Service" />
 
       {/* ══════ HERO ══════ */}
-      <section ref={heroRef} className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
+      <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
 
-        {/* Interactive silk ribbons */}
-        <SilkRibbons sectionRef={heroRef as React.RefObject<HTMLElement>} />
+        {/* Three.js data tunnel — GPU-accelerated, lightweight */}
+        <DataTunnel />
 
         {/* Left fade so text stays crisp on white */}
         <div
