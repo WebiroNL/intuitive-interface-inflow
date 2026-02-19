@@ -5,6 +5,8 @@ interface Props {
   className?: string;
 }
 
+const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
+
 export function SilkWaves({ className = "" }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -12,6 +14,7 @@ export function SilkWaves({ className = "" }: Props) {
   const pathsRef = useRef<SVGPathElement[]>([]);
   const mouseRef = useRef({ x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false });
   const rafRef = useRef<number>();
+  const frameRef = useRef(0);
   const noise2D = useRef(createNoise2D());
 
   useEffect(() => {
@@ -33,10 +36,11 @@ export function SilkWaves({ className = "" }: Props) {
       pathsRef.current = [];
       linesRef.current = [];
 
-      const xGap = 3;
-      const yGap = 3;
-      const oWidth = width + 200;
-      const oHeight = height + 40;
+      const mobile = isMobile();
+      const xGap = mobile ? 6 : 3;
+      const yGap = mobile ? 6 : 3;
+      const oWidth = width + (mobile ? 60 : 200);
+      const oHeight = height + (mobile ? 20 : 40);
       const totalLines = Math.ceil(oWidth / xGap);
       const totalPoints = Math.ceil(oHeight / yGap);
       const xStart = (width - xGap * totalLines) / 2;
@@ -157,6 +161,12 @@ export function SilkWaves({ className = "" }: Props) {
     };
 
     const tick = (time: number) => {
+      frameRef.current++;
+      // On mobile, render at ~30fps by skipping every other frame
+      if (isMobile() && frameRef.current % 2 !== 0) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
       const mouse = mouseRef.current;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
@@ -225,7 +235,7 @@ export function SilkWaves({ className = "" }: Props) {
       className={`absolute inset-0 overflow-hidden ${className}`}
       style={{ pointerEvents: "none" }}
     >
-      <svg ref={svgRef} style={{ display: "block" }} />
+      <svg ref={svgRef} style={{ display: "block", willChange: "transform" }} />
     </div>
   );
 }
