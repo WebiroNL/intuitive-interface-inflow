@@ -186,9 +186,12 @@ const Home = () => {
       </section>
 
       {/* ══════ TOOLS STRIP ══════ */}
-      <div className="border-t border-border bg-background overflow-hidden">
-        <div className="py-8">
-          <div className="flex animate-[marquee_40s_linear_infinite] hover:[animation-play-state:paused] w-max gap-x-10">
+      <div className="border-t border-border/60 bg-background overflow-hidden relative">
+        {/* Fade edges */}
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="py-7">
+          <div className="flex animate-[marquee_50s_linear_infinite] hover:[animation-play-state:paused] w-max gap-x-14 md:gap-x-20">
             {[...Array(2)].map((_, setIdx) => (
               [
                 { name: "Figma", src: "/images/tools/figma.svg" },
@@ -206,17 +209,13 @@ const Home = () => {
                 { name: "After Effects", src: "/images/tools/aftereffects.svg" },
                 { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
               ].map((tool) => (
-                <div key={`${setIdx}-${tool.name}`} className="flex items-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity cursor-default flex-shrink-0">
-                  <img
-                    src={tool.src}
-                    alt={tool.name}
-                    className="h-5 w-auto object-contain"
-                    style={tool.filter ? { filter: tool.filter } : undefined}
-                  />
-                  <span className="text-[13px] font-semibold text-foreground/80 tracking-tight whitespace-nowrap">
-                    {tool.name}
-                  </span>
-                </div>
+                <img
+                  key={`${setIdx}-${tool.name}`}
+                  src={tool.src}
+                  alt={tool.name}
+                  className="h-7 md:h-8 w-auto object-contain flex-shrink-0 opacity-50 hover:opacity-80 transition-opacity"
+                  style={tool.filter ? { filter: tool.filter } : undefined}
+                />
               ))
             ))}
           </div>
