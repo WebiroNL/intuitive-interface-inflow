@@ -186,12 +186,13 @@ const Home = () => {
       </section>
 
       {/* ══════ TOOLS STRIP ══════ */}
-      <div className="border-t border-border/60 bg-background overflow-hidden relative">
-        {/* Fade edges */}
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-        <div className="py-7">
-          <div className="flex animate-[marquee_50s_linear_infinite] hover:[animation-play-state:paused] w-max gap-x-14 md:gap-x-20">
+      <div className="border-t border-border/60 bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7 overflow-hidden">
+          <div
+            className="tools-strip flex animate-[marquee_50s_linear_infinite] w-max gap-x-10 md:gap-x-14"
+            onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
+          >
             {[...Array(2)].map((_, setIdx) => (
               [
                 { name: "Figma", src: "/images/tools/figma.svg" },
@@ -201,7 +202,7 @@ const Home = () => {
                 { name: "Shopify", src: "/images/tools/shopify.svg" },
                 { name: "WordPress", src: "/images/tools/wordpress.svg" },
                 { name: "React", src: "/images/tools/react.svg" },
-                { name: "Vercel", src: "/images/tools/vercel.svg", filter: "brightness(0)" },
+                { name: "Vercel", src: "/images/tools/vercel.svg" },
                 { name: "Google Ads", src: "/images/tools/googleads.svg" },
                 { name: "Meta Ads", src: "/images/tools/meta.svg" },
                 { name: "Photoshop", src: "/images/tools/photoshop.svg" },
@@ -209,13 +210,19 @@ const Home = () => {
                 { name: "After Effects", src: "/images/tools/aftereffects.svg" },
                 { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
               ].map((tool) => (
-                <img
+                <div
                   key={`${setIdx}-${tool.name}`}
-                  src={tool.src}
-                  alt={tool.name}
-                  className="h-7 md:h-8 w-auto object-contain flex-shrink-0 opacity-50 hover:opacity-80 transition-opacity"
-                  style={tool.filter ? { filter: tool.filter } : undefined}
-                />
+                  className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
+                >
+                  <img
+                    src={tool.src}
+                    alt={tool.name}
+                    className="h-5 w-auto object-contain"
+                  />
+                  <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
+                    {tool.name}
+                  </span>
+                </div>
               ))
             ))}
           </div>
