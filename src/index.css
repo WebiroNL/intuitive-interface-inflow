@@ -330,3 +330,14 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground/50;
 }
+
+/* Tools strip: on hover, dim non-hovered items */
+.tools-strip:hover .tool-item {
+  filter: grayscale(100%);
+  opacity: 0.35;
+  transition: all 0.3s ease;
+}
+.tools-strip:hover .tool-item:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
