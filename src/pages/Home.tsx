@@ -190,23 +190,29 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
             {[
-              { name: "Figma", src: "/images/tools/figma.svg", filter: undefined },
-              { name: "Framer", src: "/images/tools/framer.svg", filter: "brightness(0) saturate(100%) invert(15%) sepia(5%) saturate(300%) hue-rotate(180deg) brightness(80%)" },
-              { name: "Webflow", src: "/images/tools/webflow.svg", filter: "brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(1000%) hue-rotate(210deg) brightness(85%)" },
-              { name: "Shopify", src: "/images/tools/shopify.svg", filter: "brightness(0) saturate(100%) invert(38%) sepia(60%) saturate(400%) hue-rotate(90deg) brightness(85%)" },
-              { name: "WordPress", src: "/images/tools/wordpress.svg", filter: "brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(300%) hue-rotate(170deg) brightness(75%)" },
-              { name: "React", src: "/images/tools/react.svg", filter: undefined },
+              { name: "Figma", src: "/images/tools/figma.svg" },
+              { name: "Framer", src: "/images/tools/framer.svg" },
+              { name: "Spline", src: "/images/tools/spline.svg" },
+              { name: "Webflow", src: "/images/tools/webflow.svg" },
+              { name: "Shopify", src: "/images/tools/shopify.svg" },
+              { name: "WordPress", src: "/images/tools/wordpress.svg" },
+              { name: "React", src: "/images/tools/react.svg" },
               { name: "Vercel", src: "/images/tools/vercel.svg", filter: "brightness(0)" },
-              { name: "Google Ads", src: "/images/tools/googleads.svg", filter: undefined },
+              { name: "Google Ads", src: "/images/tools/googleads.svg" },
+              { name: "Meta Ads", src: "/images/tools/meta.svg" },
+              { name: "Photoshop", src: "/images/tools/photoshop.svg" },
+              { name: "Illustrator", src: "/images/tools/illustrator.svg" },
+              { name: "After Effects", src: "/images/tools/aftereffects.svg" },
+              { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
             ].map((tool) => (
-              <div key={tool.name} className="flex items-center gap-2.5 opacity-50 hover:opacity-80 transition-opacity cursor-default">
+              <div key={tool.name} className="flex items-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity cursor-default">
                 <img
                   src={tool.src}
                   alt={tool.name}
                   className="h-5 w-auto object-contain"
                   style={tool.filter ? { filter: tool.filter } : undefined}
                 />
-                <span className="text-[15px] font-semibold text-foreground/80 tracking-tight">
+                <span className="text-[13px] font-semibold text-foreground/80 tracking-tight">
                   {tool.name}
                 </span>
               </div>
