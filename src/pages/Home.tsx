@@ -303,6 +303,81 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ══════ BILLING MODEL BENTO ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Left card — pricing model mockup */}
+            <div className="relative rounded-2xl border border-border bg-card overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/8 pointer-events-none" />
+              <div className="relative p-10">
+                <h3 className="text-[22px] font-bold text-foreground leading-snug mb-8">
+                  Kies het pakket dat bij je past
+                </h3>
+
+                {/* Mock pricing UI */}
+                <div className="rounded-xl border border-border/60 bg-background overflow-hidden">
+                  <div className="px-5 py-4 border-b border-border/40 flex items-center justify-between">
+                    <div>
+                      <p className="text-[14px] font-bold text-foreground">Pro Plan</p>
+                      <p className="text-[12px] text-muted-foreground">Maandelijks gefactureerd</p>
+                    </div>
+                    <div className="px-2.5 py-1 rounded-md bg-primary/10 text-primary text-[11px] font-bold">Populair</div>
+                  </div>
+
+                  <div className="px-5 py-4 border-b border-border/40">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-[12px] text-muted-foreground">Pagina's</p>
+                      <p className="text-[12px] font-semibold text-foreground">€ 89 per extra pagina</p>
+                    </div>
+                  </div>
+
+                  <div className="px-5 py-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Projectmeter</p>
+                    <p className="text-[12px] text-muted-foreground mb-2">Pagina's opgeleverd deze maand</p>
+                    <div className="w-full h-2 rounded-full bg-muted/60 overflow-hidden mb-2">
+                      <div className="h-full rounded-full bg-primary/70 w-[68%]" />
+                    </div>
+                    <p className="text-[20px] font-bold text-foreground tracking-tight">127</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right card — transparent pricing */}
+            <div className="relative rounded-2xl border border-border bg-card overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/4 via-transparent to-accent/8 pointer-events-none" />
+              <div className="relative p-10">
+                <h3 className="text-[22px] font-bold text-foreground leading-snug mb-8">
+                  Transparante prijzen, geen verrassingen
+                </h3>
+
+                {/* Mock invoice UI */}
+                <div className="rounded-xl border border-border/60 bg-background overflow-hidden">
+                  <div className="px-5 py-4 border-b border-border/40">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Overzicht</p>
+                    {[
+                      { item: "Website design & development", price: "€ 449" },
+                      { item: "Extra pagina (×3)", price: "€ 267" },
+                      { item: "CMS integratie", price: "€ 149" },
+                    ].map(({ item, price }) => (
+                      <div key={item} className="flex items-center justify-between py-1.5">
+                        <p className="text-[13px] text-muted-foreground">{item}</p>
+                        <p className="text-[13px] font-semibold text-foreground">{price}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="px-5 py-4 flex items-center justify-between">
+                    <p className="text-[14px] font-bold text-foreground">Totaal</p>
+                    <p className="text-[14px] font-bold text-foreground">€ 865</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ══════ STATS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
