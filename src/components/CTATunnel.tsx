@@ -1,15 +1,11 @@
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
 const PARAMS = {
-  colorBg: "#080808",
-  colorLine: "#373f48",
-  colorSignal: "#8fc9ff",
-  useColor2: false,
-  colorSignal2: "#ff0055",
+  colorLine: "#3a4dea",
+  colorSignal: "#3a4dea",
+  colorSignal2: "#c8a800",
+  useColor2: true,
   lineCount: 80,
   spreadHeight: 30.33,
   spreadDepth: 0,
@@ -18,12 +14,10 @@ const PARAMS = {
   curvePower: 0.8265,
   waveSpeed: 2.48,
   waveHeight: 0.145,
-  lineOpacity: 0.557,
+  lineOpacity: 0.35,
   signalCount: 94,
   speedGlobal: 0.345,
   trailLength: 3,
-  bloomStrength: 3.0,
-  bloomRadius: 0.5,
 };
 
 const SEGMENT_COUNT = 150;
@@ -42,34 +36,18 @@ export function CTATunnel({ className = "" }: Props) {
     const W = el.clientWidth;
     const H = el.clientHeight;
 
-    // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(PARAMS.colorBg);
-    scene.fog = new THREE.FogExp2(new THREE.Color(PARAMS.colorBg).getHex(), 0.002);
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(45, W / H, 1, 1000);
     camera.position.set(0, 0, 90);
     camera.lookAt(0, 0, 0);
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0);
     renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.appendChild(renderer.domElement);
 
-    // Post-processing
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(W, H),
-      PARAMS.bloomStrength,
-      PARAMS.bloomRadius,
-      0
-    );
-    composer.addPass(bloomPass);
-
-    // Content group — centered
     const contentGroup = new THREE.Group();
     contentGroup.position.set(
       (PARAMS.curveLength - PARAMS.straightLength) / 2,
@@ -78,7 +56,6 @@ export function CTATunnel({ className = "" }: Props) {
     );
     scene.add(contentGroup);
 
-    // Path math
     function getPathPoint(t: number, lineIndex: number, time: number): THREE.Vector3 {
       const totalLen = PARAMS.curveLength + PARAMS.straightLength;
       const currentX = -PARAMS.curveLength + t * totalLen;
@@ -99,7 +76,6 @@ export function CTATunnel({ className = "" }: Props) {
       return new THREE.Vector3(currentX, y, 0);
     }
 
-    // Materials
     const bgMaterial = new THREE.LineBasicMaterial({
       color: PARAMS.colorLine,
       transparent: true,
@@ -109,7 +85,7 @@ export function CTATunnel({ className = "" }: Props) {
 
     const signalMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       depthWrite: false,
       depthTest: false,
       transparent: true,
@@ -121,7 +97,6 @@ export function CTATunnel({ className = "" }: Props) {
       return PARAMS.useColor2 && Math.random() > 0.5 ? color2 : color1;
     }
 
-    // Background lines
     const backgroundLines: THREE.Line[] = [];
     for (let i = 0; i < PARAMS.lineCount; i++) {
       const geo = new THREE.BufferGeometry();
@@ -134,7 +109,6 @@ export function CTATunnel({ className = "" }: Props) {
       backgroundLines.push(line);
     }
 
-    // Signals
     type Signal = {
       mesh: THREE.Line;
       laneIndex: number;
@@ -167,7 +141,6 @@ export function CTATunnel({ className = "" }: Props) {
     };
     for (let i = 0; i < PARAMS.signalCount; i++) createSignal();
 
-    // Animation
     const clock = new THREE.Clock();
     let rafId: number;
     let alive = true;
@@ -225,22 +198,19 @@ export function CTATunnel({ className = "" }: Props) {
         sig.mesh.geometry.attributes.color.needsUpdate = true;
       });
 
-      composer.render();
+      renderer.render(scene, camera);
     }
     animate();
 
-    // Resize
     const onResize = () => {
       const w = el.clientWidth;
       const h = el.clientHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-      composer.setSize(w, h);
     };
     window.addEventListener("resize", onResize);
 
-    // Cleanup
     return () => {
       alive = false;
       cancelAnimationFrame(rafId);
@@ -256,7 +226,10 @@ export function CTATunnel({ className = "" }: Props) {
     <div
       ref={mountRef}
       className={`absolute inset-0 w-full h-full ${className}`}
-      style={{ pointerEvents: "none" }}
+      style={{
+        pointerEvents: "none",
+        mixBlendMode: "multiply",
+      }}
     />
   );
 }
