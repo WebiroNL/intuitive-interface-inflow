@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Rocket, MessageCircle } from 'lucide-react';
 import { useRef } from 'react';
-import { CTATunnel } from '@/components/CTATunnel';
+import { SilkRibbons } from '@/components/SilkRibbons';
 
 interface CTASectionProps {
   title?: string;
@@ -49,10 +49,18 @@ export function CTASection({
   const displayButtonLink = primaryButtonLink || buttonLink;
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-background">
+    <section ref={sectionRef} className="relative bg-background border-t border-border overflow-hidden">
 
-      {/* Data tunnel canvas */}
-      <CTATunnel />
+      {/* Silk ribbon canvas */}
+      <SilkRibbons sectionRef={sectionRef as React.RefObject<HTMLElement>} />
+
+      {/* Left fade so text stays crisp */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to right, hsl(var(--background)) 30%, hsl(var(--background) / 0.6) 55%, transparent 80%)'
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -85,8 +93,8 @@ export function CTASection({
           {/* Right: two feature cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border rounded-lg overflow-hidden border border-border">
             {featureCards.map((card) => (
-              <div key={card.heading} className="bg-card backdrop-blur-sm p-7 flex flex-col gap-4">
-                <div className="w-9 h-9 rounded-md border border-border flex items-center justify-center bg-muted">
+              <div key={card.heading} className="bg-background/80 backdrop-blur-sm p-7 flex flex-col gap-4">
+                <div className="w-9 h-9 rounded-md border border-border flex items-center justify-center bg-background">
                   {card.icon}
                 </div>
                 <div>
