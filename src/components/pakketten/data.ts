@@ -328,7 +328,7 @@ export const addOns: AddOn[] = [
     price: 199,
     period: "eenmalig",
     description: "Booking tool integratie & inrichting",
-    icon: "📅",
+    icon: "calendar-check",
     category: "setup-functionaliteit",
     features: [
       "Calendly of booking tool integratie",
