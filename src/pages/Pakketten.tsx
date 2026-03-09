@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { updatePageMeta } from "@/utils/seo";
+import { StepChoice, FlowType } from "@/components/pakketten/StepChoice";
 import { StepIndicator } from "@/components/pakketten/StepIndicator";
 import { StepPackage } from "@/components/pakketten/StepPackage";
 import { StepCmsHosting } from "@/components/pakketten/StepCmsHosting";
 import { StepAddOns } from "@/components/pakketten/StepAddOns";
+import { StepMarketing } from "@/components/pakketten/StepMarketing";
 import { StepBriefing } from "@/components/pakketten/StepBriefing";
 import { StepOverview } from "@/components/pakketten/StepOverview";
 import { SelectionSidebar } from "@/components/pakketten/SelectionSidebar";
@@ -31,20 +33,33 @@ const emptyBriefing: BriefingData = {
   akkoord: false,
 };
 
+/*
+  Flow "website":  0→Choice  1→Package  2→CMS  3→AddOns  4→Marketing  5→Briefing  6→Overview
+  Flow "marketing": 0→Choice  1→Marketing  2→Briefing  3→Overview
+*/
+
+const websiteStepLabels = ["Keuze", "Website pakket", "CMS & Hosting", "Add-ons", "Marketing", "Briefing", "Overzicht"];
+const marketingStepLabels = ["Keuze", "Marketing", "Briefing", "Overzicht"];
+
 const Pakketten = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
+  const [flowType, setFlowType] = useState<FlowType | null>(null);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
   const [selectedCmsHosting, setSelectedCmsHosting] = useState<string | null>(null);
   const [contractDuration, setContractDuration] = useState<ContractDuration>("maandelijks");
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
+  const [selectedMarketing, setSelectedMarketing] = useState<string[]>([]);
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
 
   useEffect(() => {
     updatePageMeta(
-      "Pakketten - Website pakketten vanaf €449",
-      "Bekijk onze website pakketten. Van basic websites tot uitgebreide e-commerce oplossingen. Transparante prijzen en geen verborgen kosten. Vanaf €449."
+      "Pakketten - Website & Marketing vanaf €449",
+      "Bekijk onze website pakketten en marketing diensten. Van basic websites tot complete marketing automation. Transparante prijzen, geen verborgen kosten."
     );
   }, []);
+
+  const totalSteps = flowType === "website" ? 6 : flowType === "marketing" ? 3 : 0;
+  const stepLabels = flowType === "website" ? websiteStepLabels : marketingStepLabels;
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns((prev) =>
@@ -52,29 +67,88 @@ const Pakketten = () => {
     );
   };
 
+  const toggleMarketing = (id: string) => {
+    setSelectedMarketing((prev) =>
+      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
+    );
+  };
+
   const canNext = () => {
-    switch (step) {
-      case 1: return !!selectedPackage;
-      case 2: return !!selectedCmsHosting;
-      case 3: return true;
-      case 4: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
-      case 5: return true;
-      default: return false;
+    if (step === 0) return !!flowType;
+
+    if (flowType === "website") {
+      switch (step) {
+        case 1: return !!selectedPackage;
+        case 2: return !!selectedCmsHosting;
+        case 3: return true; // add-ons optional
+        case 4: return true; // marketing optional
+        case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 6: return true;
+        default: return false;
+      }
     }
+
+    if (flowType === "marketing") {
+      switch (step) {
+        case 1: return selectedMarketing.length > 0;
+        case 2: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 3: return true;
+        default: return false;
+      }
+    }
+
+    return false;
   };
 
   const handleNext = () => {
-    if (step === 5) {
+    if (step === totalSteps) {
       window.location.href = "/contact";
       return;
     }
-    setStep((s) => Math.min(s + 1, 5));
+    setStep((s) => Math.min(s + 1, totalSteps));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handlePrev = () => {
-    setStep((s) => Math.max(s - 1, 1));
+    if (step === 1) {
+      // Go back to choice, reset flow
+      setStep(0);
+      return;
+    }
+    setStep((s) => Math.max(s - 1, 0));
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleFlowSelect = (flow: FlowType) => {
+    setFlowType(flow);
+  };
+
+  // Render current step content
+  const renderStep = () => {
+    if (step === 0) {
+      return <StepChoice selected={flowType} onSelect={handleFlowSelect} />;
+    }
+
+    if (flowType === "website") {
+      switch (step) {
+        case 1: return <StepPackage selected={selectedPackage} onSelect={setSelectedPackage} />;
+        case 2: return <StepCmsHosting selected={selectedCmsHosting} onSelect={setSelectedCmsHosting} contractDuration={contractDuration} onContractChange={setContractDuration} />;
+        case 3: return <StepAddOns selected={selectedAddOns} onToggle={toggleAddOn} contractDuration={contractDuration} onContractChange={setContractDuration} />;
+        case 4: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} />;
+        case 5: return <StepBriefing data={briefing} onChange={setBriefing} />;
+        case 6: return <StepOverview selectedPackage={selectedPackage} selectedCmsHosting={selectedCmsHosting} contractDuration={contractDuration} selectedAddOns={selectedAddOns} selectedMarketing={selectedMarketing} briefing={briefing} flowType="website" />;
+      }
+    }
+
+    if (flowType === "marketing") {
+      switch (step) {
+        case 1: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} />;
+        case 2: return <StepBriefing data={briefing} onChange={setBriefing} />;
+        case 3: return <StepOverview selectedPackage={null} selectedCmsHosting={null} contractDuration={contractDuration} selectedAddOns={[]} selectedMarketing={selectedMarketing} briefing={briefing} flowType="marketing" />;
+      }
+    }
+
+    return null;
   };
 
   return (
@@ -84,7 +158,7 @@ const Pakketten = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
           <div className="max-w-3xl">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
-              Nog geen website? Kies hieronder je pakket.
+              Website of marketing nodig? Configureer hieronder.
             </p>
             <h1
               className="font-bold tracking-[-0.03em] leading-[1.05] mb-6"
@@ -94,14 +168,8 @@ const Pakketten = () => {
               <span className="text-primary">.</span>
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed mb-6 max-w-[520px]">
-              Van basis website tot complete webshop. Transparante prijzen, geen verborgen kosten.
+              Van website bouw tot online marketing. Transparante prijzen, geen verborgen kosten.
             </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>•</span>
-              <Link to="/marketing" className="text-primary hover:underline inline-flex items-center gap-1">
-                Al een website? Bekijk onze marketingdiensten <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -109,60 +177,39 @@ const Pakketten = () => {
       {/* ══════ CONFIGURATOR ══════ */}
       <section className="border-b border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
-          <StepIndicator currentStep={step} />
+          {step > 0 && flowType && (
+            <StepIndicator
+              currentStep={step}
+              stepLabels={stepLabels.slice(1)}
+              totalSteps={totalSteps}
+            />
+          )}
 
-          <div className="grid lg:grid-cols-[1fr_340px] gap-10">
-            <div>
-              {step === 1 && (
-                <StepPackage selected={selectedPackage} onSelect={setSelectedPackage} />
-              )}
-              {step === 2 && (
-                <StepCmsHosting
-                  selected={selectedCmsHosting}
-                  onSelect={setSelectedCmsHosting}
-                  contractDuration={contractDuration}
-                  onContractChange={setContractDuration}
-                />
-              )}
-              {step === 3 && (
-                <StepAddOns
-                  selected={selectedAddOns}
-                  onToggle={toggleAddOn}
-                  contractDuration={contractDuration}
-                  onContractChange={setContractDuration}
-                />
-              )}
-              {step === 4 && (
-                <StepBriefing data={briefing} onChange={setBriefing} />
-              )}
-              {step === 5 && (
-                <StepOverview
+          <div className={step > 0 && flowType ? "grid lg:grid-cols-[1fr_340px] gap-10" : ""}>
+            <div>{renderStep()}</div>
+
+            {step > 0 && flowType && (
+              <div className="hidden lg:block">
+                <SelectionSidebar
+                  step={step}
+                  totalSteps={totalSteps}
+                  flowType={flowType}
                   selectedPackage={selectedPackage}
                   selectedCmsHosting={selectedCmsHosting}
                   contractDuration={contractDuration}
                   selectedAddOns={selectedAddOns}
-                  briefing={briefing}
+                  selectedMarketing={selectedMarketing}
+                  onNext={handleNext}
+                  onPrev={handlePrev}
+                  canNext={canNext()}
                 />
-              )}
-            </div>
-
-            <div className="hidden lg:block">
-              <SelectionSidebar
-                step={step}
-                selectedPackage={selectedPackage}
-                selectedCmsHosting={selectedCmsHosting}
-                contractDuration={contractDuration}
-                selectedAddOns={selectedAddOns}
-                onNext={handleNext}
-                onPrev={handlePrev}
-                canNext={canNext()}
-              />
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile nav */}
           <div className="lg:hidden mt-8 flex gap-3">
-            {step > 1 && (
+            {step > 0 && (
               <button
                 onClick={handlePrev}
                 className="flex-1 py-3 rounded-[6px] border border-input text-foreground font-semibold text-[14px]"
@@ -175,13 +222,13 @@ const Pakketten = () => {
               disabled={!canNext()}
               className="flex-1 py-3 rounded-[6px] bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-50"
             >
-              {step === 5 ? "Versturen" : "Volgende stap"}
+              {step === 0 ? "Volgende stap" : step === totalSteps ? "Versturen" : "Volgende stap"}
             </button>
           </div>
         </div>
       </section>
 
-      <ComparisonTable />
+      {(!flowType || flowType === "website") && <ComparisonTable />}
       <CTASection />
     </main>
   );
