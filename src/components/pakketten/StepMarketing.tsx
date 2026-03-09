@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Megaphone, Settings, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { marketingServices } from "./data";
