@@ -313,7 +313,7 @@ export const addOns: AddOn[] = [
     price: 499,
     period: "eenmalig",
     description: "Chatbot installatie, configuratie & design",
-    icon: "🤖",
+    icon: "bot",
     category: "setup-functionaliteit",
     features: [
       "Chatbot installatie & configuratie",
