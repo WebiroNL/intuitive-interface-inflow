@@ -407,7 +407,7 @@ export const addOns: AddOn[] = [
     price: 149,
     period: "eenmalig",
     description: "Privacy policy, cookie banner & disclaimer",
-    icon: "🔒",
+    icon: "shield",
     category: "setup-content",
     features: [
       "Privacy policy & algemene voorwaarden",
