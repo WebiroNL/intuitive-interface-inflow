@@ -253,7 +253,7 @@ export const addOns: AddOn[] = [
     price: "Op aanvraag",
     period: "per maand",
     description: "Google Ads & Meta campagnes",
-    icon: "📣",
+    icon: "megaphone",
     category: "marketing",
     features: [
       "Strategie & doelgroep targeting",
