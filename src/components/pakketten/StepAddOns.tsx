@@ -4,6 +4,17 @@ import { useState } from "react";
 import { addOns, addOnCategoryLabels, contractDiscounts } from "./data";
 import { ContractDuration } from "./types";
 
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  wrench: Wrench, calendar: Calendar, "message-circle": MessageCircle, megaphone: Megaphone,
+  globe: Globe, mail: Mail, "bar-chart-3": BarChart3, bot: Bot, "calendar-check": CalendarCheck,
+  link: Link, palette: Palette, lightbulb: Lightbulb, sparkles: Sparkles, shield: Shield, "pen-tool": PenTool,
+};
+
+function AddonIcon({ name }: { name: string }) {
+  const Icon = iconMap[name];
+  return Icon ? <Icon className="w-4 h-4" /> : null;
+}
+
 interface StepAddOnsProps {
   selected: string[];
   onToggle: (id: string) => void;
