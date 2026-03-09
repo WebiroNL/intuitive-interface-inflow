@@ -218,7 +218,7 @@ export const addOns: AddOn[] = [
     price: 24,
     period: "per maand",
     description: "Online afspraken plannen en beheren",
-    icon: "📅",
+    icon: "calendar",
     category: "widgets",
     features: [
       "Kalender synchronisatie",
