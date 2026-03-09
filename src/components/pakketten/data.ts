@@ -359,7 +359,7 @@ export const addOns: AddOn[] = [
     price: 249,
     period: "eenmalig",
     description: "Professioneel logo ontwerp met revisies",
-    icon: "🎨",
+    icon: "palette",
     category: "setup-design",
     features: [
       "Professioneel logo ontwerp",
