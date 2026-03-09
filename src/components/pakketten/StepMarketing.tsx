@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp, Megaphone, Settings, Bot } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Megaphone, Settings, Bot, Megaphone, Settings, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { marketingServices } from "./data";
@@ -66,7 +66,7 @@ export function StepMarketing({ selected, onToggle }: StepMarketingProps) {
                                 isSelected ? "bg-primary text-primary-foreground" : "bg-muted"
                               }`}
                             >
-                              {isSelected ? <Check className="w-4 h-4" /> : <span className="text-[11px] font-bold text-muted-foreground">{cat === "ads" ? "AD" : cat === "automation" ? "AU" : "AI"}</span>}
+                              {isSelected ? <Checkcat === "ads" ? <Megaphone className="w-4 h-4" /> : cat === "automation" ? <Settings className="w-4 h-4" /> : <Bot className="w-4 h-4" /tion" ? "AU" : "AI"}</span>}
                             </div>
                             <span className="font-semibold text-foreground text-[13px]">{service.name}</span>
                           </div>
