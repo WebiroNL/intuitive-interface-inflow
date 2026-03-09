@@ -202,7 +202,7 @@ export const addOns: AddOn[] = [
     price: 79,
     period: "per maand",
     description: "Onderhoud, updates en kleine aanpassingen",
-    icon: "🔧",
+    icon: "wrench",
     category: "onderhoud",
     features: [
       "Kleine aanpassingen (max 1 uur/maand)",
@@ -218,7 +218,7 @@ export const addOns: AddOn[] = [
     price: 24,
     period: "per maand",
     description: "Online afspraken plannen en beheren",
-    icon: "📅",
+    icon: "calendar",
     category: "widgets",
     features: [
       "Kalender synchronisatie",
@@ -235,7 +235,7 @@ export const addOns: AddOn[] = [
     price: 49,
     period: "per maand",
     description: "Intelligente chatbot met OpenAI integratie",
-    icon: "💬",
+    icon: "message-circle",
     category: "widgets",
     features: [
       "GPT-4 AI assistent",
@@ -253,7 +253,7 @@ export const addOns: AddOn[] = [
     price: "Op aanvraag",
     period: "per maand",
     description: "Google Ads & Meta campagnes",
-    icon: "📣",
+    icon: "megaphone",
     category: "marketing",
     features: [
       "Strategie & doelgroep targeting",
@@ -269,7 +269,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Domeinregistratie, hosting & DNS configuratie",
-    icon: "🌐",
+    icon: "globe",
     category: "setup-technisch",
     features: [
       "Domeinregistratie assistentie",
@@ -283,7 +283,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Professionele e-mail adressen configureren",
-    icon: "📧",
+    icon: "mail",
     category: "setup-technisch",
     features: [
       "Professionele e-mail adressen",
@@ -297,7 +297,7 @@ export const addOns: AddOn[] = [
     price: 249,
     period: "eenmalig",
     description: "Analytics account, tracking & rapportage",
-    icon: "📊",
+    icon: "bar-chart-3",
     category: "setup-technisch",
     features: [
       "Analytics account aanmaken",
@@ -313,7 +313,7 @@ export const addOns: AddOn[] = [
     price: 499,
     period: "eenmalig",
     description: "Chatbot installatie, configuratie & design",
-    icon: "🤖",
+    icon: "bot",
     category: "setup-functionaliteit",
     features: [
       "Chatbot installatie & configuratie",
@@ -328,7 +328,7 @@ export const addOns: AddOn[] = [
     price: 199,
     period: "eenmalig",
     description: "Booking tool integratie & inrichting",
-    icon: "📅",
+    icon: "calendar-check",
     category: "setup-functionaliteit",
     features: [
       "Calendly of booking tool integratie",
@@ -343,7 +343,7 @@ export const addOns: AddOn[] = [
     price: 199,
     period: "eenmalig",
     description: "Mailchimp, Zapier, CRM & API koppelingen",
-    icon: "🔗",
+    icon: "link",
     category: "setup-functionaliteit",
     features: [
       "Mailchimp, Zapier, CRM koppelingen",
@@ -359,7 +359,7 @@ export const addOns: AddOn[] = [
     price: 249,
     period: "eenmalig",
     description: "Professioneel logo ontwerp met revisies",
-    icon: "🎨",
+    icon: "palette",
     category: "setup-design",
     features: [
       "Professioneel logo ontwerp",
@@ -374,7 +374,7 @@ export const addOns: AddOn[] = [
     price: 49,
     period: "eenmalig",
     description: "Strategisch naamadvies met domeincheck",
-    icon: "💡",
+    icon: "lightbulb",
     category: "setup-design",
     features: [
       "Strategisch naamadvies",
@@ -389,7 +389,7 @@ export const addOns: AddOn[] = [
     price: 1499,
     period: "eenmalig",
     description: "Complete brandbook, kleurenpalet & templates",
-    icon: "✨",
+    icon: "sparkles",
     category: "setup-design",
     features: [
       "Complete brandbook (digitaal)",
@@ -407,7 +407,7 @@ export const addOns: AddOn[] = [
     price: 149,
     period: "eenmalig",
     description: "Privacy policy, cookie banner & disclaimer",
-    icon: "🔒",
+    icon: "shield",
     category: "setup-content",
     features: [
       "Privacy policy & algemene voorwaarden",
@@ -421,7 +421,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Professionele SEO-teksten per pagina",
-    icon: "✍️",
+    icon: "pen-tool",
     category: "setup-content",
     features: [
       "SEO-geoptimaliseerde teksten",
@@ -433,13 +433,13 @@ export const addOns: AddOn[] = [
 ];
 
 export const addOnCategoryLabels: Record<string, string> = {
-  "onderhoud": "🔧 Onderhoud & Support",
-  "widgets": "🔌 Webiro Widgets (Maandelijks)",
-  "marketing": "📣 Webiro Marketing",
-  "setup-technisch": "⚙️ Setup — Technisch",
-  "setup-functionaliteit": "⚙️ Setup — Functionaliteit & Integraties",
-  "setup-design": "🎨 Setup — Design & Branding",
-  "setup-content": "📄 Setup — Content & Compliance",
+  "onderhoud": "Onderhoud & Support",
+  "widgets": "Webiro Widgets (Maandelijks)",
+  "marketing": "Webiro Marketing",
+  "setup-technisch": "Setup — Technisch",
+  "setup-functionaliteit": "Setup — Functionaliteit & Integraties",
+  "setup-design": "Setup — Design & Branding",
+  "setup-content": "Setup — Content & Compliance",
 };
 
 export const marketingServices: MarketingService[] = [

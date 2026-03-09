@@ -165,7 +165,7 @@ export function StepOverview({ selectedPackage, selectedCmsHosting, contractDura
               )}
             </div>
             {typeof cmsHosting?.price === "number" && cmsHosting.price > 0 && (
-              <p className="text-[12px] text-primary font-medium">✅ Eerste maand CMS gratis</p>
+              <p className="text-[12px] text-primary font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Eerste maand CMS gratis</p>
             )}
           </div>
 

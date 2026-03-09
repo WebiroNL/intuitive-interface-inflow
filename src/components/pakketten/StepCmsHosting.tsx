@@ -104,7 +104,7 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
                 <p className="text-[13px] text-muted-foreground mb-4">{tier.description}</p>
 
                 {typeof tier.price === "number" && tier.price > 0 && (
-                  <p className="text-[12px] text-primary font-medium mb-4">✅ Eerste maand gratis</p>
+                  <p className="text-[12px] text-primary font-medium mb-4 flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Eerste maand gratis</p>
                 )}
 
                 <ul className="space-y-1.5 mb-5">

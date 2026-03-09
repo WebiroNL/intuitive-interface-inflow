@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Megaphone, Settings, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { marketingServices } from "./data";
@@ -9,9 +9,9 @@ interface StepMarketingProps {
 }
 
 const categoryLabels: Record<string, string> = {
-  ads: "📣 Advertenties",
-  automation: "⚙️ Marketing Automation",
-  ai: "🤖 AI & Support",
+  ads: "Advertenties",
+  automation: "Marketing Automation",
+  ai: "AI & Support",
 };
 
 export function StepMarketing({ selected, onToggle }: StepMarketingProps) {
@@ -66,7 +66,15 @@ export function StepMarketing({ selected, onToggle }: StepMarketingProps) {
                                 isSelected ? "bg-primary text-primary-foreground" : "bg-muted"
                               }`}
                             >
-                              {isSelected ? <Check className="w-4 h-4" /> : (cat === "ads" ? "📣" : cat === "automation" ? "⚙️" : "🤖")}
+                              {isSelected ? (
+                                <Check className="w-4 h-4" />
+                              ) : cat === "ads" ? (
+                                <Megaphone className="w-4 h-4" />
+                              ) : cat === "automation" ? (
+                                <Settings className="w-4 h-4" />
+                              ) : (
+                                <Bot className="w-4 h-4" />
+                              )}
                             </div>
                             <span className="font-semibold text-foreground text-[13px]">{service.name}</span>
                           </div>

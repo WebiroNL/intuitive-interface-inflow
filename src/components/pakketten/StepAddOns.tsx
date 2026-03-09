@@ -1,8 +1,19 @@
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Wrench, Calendar, MessageCircle, Megaphone, Globe, Mail, BarChart3, Bot, CalendarCheck, Link, Palette, Lightbulb, Sparkles, Shield, PenTool } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { addOns, addOnCategoryLabels, contractDiscounts } from "./data";
 import { ContractDuration } from "./types";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  wrench: Wrench, calendar: Calendar, "message-circle": MessageCircle, megaphone: Megaphone,
+  globe: Globe, mail: Mail, "bar-chart-3": BarChart3, bot: Bot, "calendar-check": CalendarCheck,
+  link: Link, palette: Palette, lightbulb: Lightbulb, sparkles: Sparkles, shield: Shield, "pen-tool": PenTool,
+};
+
+function AddonIcon({ name }: { name: string }) {
+  const Icon = iconMap[name];
+  return Icon ? <Icon className="w-4 h-4" /> : null;
+}
 
 interface StepAddOnsProps {
   selected: string[];
@@ -79,11 +90,11 @@ export function StepAddOns({ selected, onToggle, contractDuration, onContractCha
                     >
                       <div className="flex items-start gap-3 p-4">
                         <div
-                          className={`w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0 ${
-                            isSelected ? "bg-primary text-primary-foreground" : "bg-muted"
+                          className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                            isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                           }`}
                         >
-                          {isSelected ? <Check className="w-4 h-4" /> : addon.icon}
+                          {isSelected ? <Check className="w-4 h-4" /> : <AddonIcon name={addon.icon} />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start gap-2">
