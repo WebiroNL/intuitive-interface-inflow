@@ -269,7 +269,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Domeinregistratie, hosting & DNS configuratie",
-    icon: "🌐",
+    icon: "globe",
     category: "setup-technisch",
     features: [
       "Domeinregistratie assistentie",
