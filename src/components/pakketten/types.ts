@@ -12,19 +12,10 @@ export interface Package {
   details?: string[];
 }
 
-export interface CmsOption {
+export interface CmsHostingTier {
   id: string;
   name: string;
-  price: number;
-  description: string;
-  features: string[];
-  recommended?: boolean;
-}
-
-export interface HostingOption {
-  id: string;
-  name: string;
-  price: number;
+  price: number | string;
   period: string;
   description: string;
   features: string[];
@@ -34,30 +25,49 @@ export interface HostingOption {
 export interface AddOn {
   id: string;
   name: string;
-  price: number;
+  price: number | string;
   period: "eenmalig" | "per maand";
   description: string;
   icon: string;
-  category: "seo" | "marketing" | "functionaliteit" | "onderhoud";
+  category: string;
+  features?: string[];
+}
+
+export type ContractDuration = "maandelijks" | "jaarlijks" | "2jaar";
+
+export interface MarketingService {
+  id: string;
+  name: string;
+  setupPrice?: number;
+  monthlyPrice: number;
+  description: string;
+  features: string[];
+  category: "ads" | "automation" | "ai";
 }
 
 export interface BriefingData {
+  naam: string;
   bedrijfsnaam: string;
-  contactpersoon: string;
+  kvkNummer?: string;
+  btwNummer?: string;
   email: string;
   telefoon: string;
   website?: string;
-  branche: string;
+  doelWebsite: string;
   doelgroep: string;
-  doel: string;
+  inspiratieWebsites?: string;
+  gewensteOpleverdatum?: string;
   opmerkingen?: string;
+  kortingscode?: string;
+  emailUpdates: boolean;
+  akkoord: boolean;
 }
 
 export interface ConfiguratorState {
   step: number;
   selectedPackage: string | null;
-  selectedCms: string | null;
-  selectedHosting: string | null;
+  selectedCmsHosting: string | null;
+  contractDuration: ContractDuration;
   selectedAddOns: string[];
   briefing: BriefingData;
 }
