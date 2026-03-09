@@ -421,7 +421,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Professionele SEO-teksten per pagina",
-    icon: "✍️",
+    icon: "pen-tool",
     category: "setup-content",
     features: [
       "SEO-geoptimaliseerde teksten",
