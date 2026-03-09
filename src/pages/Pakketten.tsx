@@ -121,6 +121,9 @@ const Pakketten = () => {
 
   const handleFlowSelect = (flow: FlowType) => {
     setFlowType(flow);
+    // Auto-advance to step 1 when a flow is selected
+    setStep(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Render current step content
