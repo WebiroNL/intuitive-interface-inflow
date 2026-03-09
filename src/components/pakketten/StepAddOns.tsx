@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Wrench, Calendar, MessageCircle, Megaphone, Globe, Mail, BarChart3, Bot, CalendarCheck, Link, Palette, Lightbulb, Sparkles, Shield, PenTool } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { addOns, addOnCategoryLabels, contractDiscounts } from "./data";
