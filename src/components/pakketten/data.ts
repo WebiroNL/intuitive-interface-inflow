@@ -433,13 +433,13 @@ export const addOns: AddOn[] = [
 ];
 
 export const addOnCategoryLabels: Record<string, string> = {
-  "onderhoud": "🔧 Onderhoud & Support",
-  "widgets": "🔌 Webiro Widgets (Maandelijks)",
-  "marketing": "📣 Webiro Marketing",
-  "setup-technisch": "⚙️ Setup — Technisch",
-  "setup-functionaliteit": "⚙️ Setup — Functionaliteit & Integraties",
-  "setup-design": "🎨 Setup — Design & Branding",
-  "setup-content": "📄 Setup — Content & Compliance",
+  "onderhoud": "Onderhoud & Support",
+  "widgets": "Webiro Widgets (Maandelijks)",
+  "marketing": "Webiro Marketing",
+  "setup-technisch": "Setup — Technisch",
+  "setup-functionaliteit": "Setup — Functionaliteit & Integraties",
+  "setup-design": "Setup — Design & Branding",
+  "setup-content": "Setup — Content & Compliance",
 };
 
 export const marketingServices: MarketingService[] = [

@@ -66,7 +66,7 @@ export function StepMarketing({ selected, onToggle }: StepMarketingProps) {
                                 isSelected ? "bg-primary text-primary-foreground" : "bg-muted"
                               }`}
                             >
-                              {isSelected ? <Check className="w-4 h-4" /> : (cat === "ads" ? "📣" : cat === "automation" ? "⚙️" : "🤖")}
+                              {isSelected ? <Check className="w-4 h-4" /> : <span className="text-[11px] font-bold text-muted-foreground">{cat === "ads" ? "AD" : cat === "automation" ? "AU" : "AI"}</span>}
                             </div>
                             <span className="font-semibold text-foreground text-[13px]">{service.name}</span>
                           </div>
