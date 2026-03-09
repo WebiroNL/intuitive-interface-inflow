@@ -297,7 +297,7 @@ export const addOns: AddOn[] = [
     price: 249,
     period: "eenmalig",
     description: "Analytics account, tracking & rapportage",
-    icon: "📊",
+    icon: "bar-chart-3",
     category: "setup-technisch",
     features: [
       "Analytics account aanmaken",
