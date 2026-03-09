@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { TypewriterText } from "@/components/TypewriterText";
-import { CTASection } from "@/components/CTASection";
+import { ArrowRight } from "lucide-react";
 import { updatePageMeta } from "@/utils/seo";
 import { StepIndicator } from "@/components/pakketten/StepIndicator";
 import { StepPackage } from "@/components/pakketten/StepPackage";
@@ -12,25 +10,32 @@ import { StepBriefing } from "@/components/pakketten/StepBriefing";
 import { StepOverview } from "@/components/pakketten/StepOverview";
 import { SelectionSidebar } from "@/components/pakketten/SelectionSidebar";
 import { ComparisonTable } from "@/components/pakketten/ComparisonTable";
-import { BriefingData } from "@/components/pakketten/types";
+import { CTASection } from "@/components/CTASection";
+import { BriefingData, ContractDuration } from "@/components/pakketten/types";
 
 const emptyBriefing: BriefingData = {
+  naam: "",
   bedrijfsnaam: "",
-  contactpersoon: "",
+  kvkNummer: "",
+  btwNummer: "",
   email: "",
   telefoon: "",
   website: "",
-  branche: "",
+  doelWebsite: "",
   doelgroep: "",
-  doel: "",
+  inspiratieWebsites: "",
+  gewensteOpleverdatum: "",
   opmerkingen: "",
+  kortingscode: "",
+  emailUpdates: false,
+  akkoord: false,
 };
 
 const Pakketten = () => {
   const [step, setStep] = useState(1);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
-  const [selectedCms, setSelectedCms] = useState<string | null>(null);
-  const [selectedHosting, setSelectedHosting] = useState<string | null>(null);
+  const [selectedCmsHosting, setSelectedCmsHosting] = useState<string | null>(null);
+  const [contractDuration, setContractDuration] = useState<ContractDuration>("maandelijks");
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
 
@@ -50,9 +55,9 @@ const Pakketten = () => {
   const canNext = () => {
     switch (step) {
       case 1: return !!selectedPackage;
-      case 2: return !!selectedCms && !!selectedHosting;
-      case 3: return true; // add-ons are optional
-      case 4: return !!(briefing.bedrijfsnaam && briefing.email && briefing.contactpersoon && briefing.telefoon);
+      case 2: return !!selectedCmsHosting;
+      case 3: return true;
+      case 4: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
       case 5: return true;
       default: return false;
     }
@@ -60,7 +65,6 @@ const Pakketten = () => {
 
   const handleNext = () => {
     if (step === 5) {
-      // Submit — for now navigate to contact
       window.location.href = "/contact";
       return;
     }
@@ -74,57 +78,59 @@ const Pakketten = () => {
   };
 
   return (
-    <main>
-      {/* Hero */}
-      <section className="pt-32 pb-12 bg-gradient-to-br from-secondary via-background to-background">
-        <div className="container-webiro text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium">
-                Nog geen website? Kies hieronder je pakket.
-              </span>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-4">
-              <span>•</span>
-              <Link to="/marketing" className="text-primary hover:underline">
-                Al een website? Bekijk onze marketingdiensten
-              </Link>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              <TypewriterText text="Kies jouw pakket" speed={60} />
+    <main className="bg-background">
+      {/* ══════ HERO ══════ */}
+      <section className="border-b border-border bg-background pt-[100px]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
+          <div className="max-w-3xl">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
+              Nog geen website? Kies hieronder je pakket.
+            </p>
+            <h1
+              className="font-bold tracking-[-0.03em] leading-[1.05] mb-6"
+              style={{ fontSize: "clamp(2.4rem, 4.8vw, 4rem)" }}
+            >
+              <span className="text-foreground">Kies jouw pakket</span>
               <span className="text-primary">.</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-[16px] text-muted-foreground leading-relaxed mb-6 max-w-[520px]">
               Van basis website tot complete webshop. Transparante prijzen, geen verborgen kosten.
             </p>
-          </motion.div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>•</span>
+              <Link to="/marketing" className="text-primary hover:underline inline-flex items-center gap-1">
+                Al een website? Bekijk onze marketingdiensten <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Configurator */}
-      <section className="py-12 md:py-20">
-        <div className="container-webiro">
+      {/* ══════ CONFIGURATOR ══════ */}
+      <section className="border-b border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
           <StepIndicator currentStep={step} />
 
-          <div className="grid lg:grid-cols-[1fr_320px] gap-8">
+          <div className="grid lg:grid-cols-[1fr_340px] gap-10">
             <div>
               {step === 1 && (
                 <StepPackage selected={selectedPackage} onSelect={setSelectedPackage} />
               )}
               {step === 2 && (
                 <StepCmsHosting
-                  selectedCms={selectedCms}
-                  selectedHosting={selectedHosting}
-                  onSelectCms={setSelectedCms}
-                  onSelectHosting={setSelectedHosting}
+                  selected={selectedCmsHosting}
+                  onSelect={setSelectedCmsHosting}
+                  contractDuration={contractDuration}
+                  onContractChange={setContractDuration}
                 />
               )}
               {step === 3 && (
-                <StepAddOns selected={selectedAddOns} onToggle={toggleAddOn} />
+                <StepAddOns
+                  selected={selectedAddOns}
+                  onToggle={toggleAddOn}
+                  contractDuration={contractDuration}
+                  onContractChange={setContractDuration}
+                />
               )}
               {step === 4 && (
                 <StepBriefing data={briefing} onChange={setBriefing} />
@@ -132,21 +138,20 @@ const Pakketten = () => {
               {step === 5 && (
                 <StepOverview
                   selectedPackage={selectedPackage}
-                  selectedCms={selectedCms}
-                  selectedHosting={selectedHosting}
+                  selectedCmsHosting={selectedCmsHosting}
+                  contractDuration={contractDuration}
                   selectedAddOns={selectedAddOns}
                   briefing={briefing}
                 />
               )}
             </div>
 
-            {/* Sidebar */}
             <div className="hidden lg:block">
               <SelectionSidebar
                 step={step}
                 selectedPackage={selectedPackage}
-                selectedCms={selectedCms}
-                selectedHosting={selectedHosting}
+                selectedCmsHosting={selectedCmsHosting}
+                contractDuration={contractDuration}
                 selectedAddOns={selectedAddOns}
                 onNext={handleNext}
                 onPrev={handlePrev}
@@ -155,12 +160,12 @@ const Pakketten = () => {
             </div>
           </div>
 
-          {/* Mobile navigation */}
+          {/* Mobile nav */}
           <div className="lg:hidden mt-8 flex gap-3">
             {step > 1 && (
               <button
                 onClick={handlePrev}
-                className="flex-1 py-3 rounded-xl border-2 border-border text-foreground font-semibold"
+                className="flex-1 py-3 rounded-[6px] border border-input text-foreground font-semibold text-[14px]"
               >
                 Vorige stap
               </button>
@@ -168,7 +173,7 @@ const Pakketten = () => {
             <button
               onClick={handleNext}
               disabled={!canNext()}
-              className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-50"
+              className="flex-1 py-3 rounded-[6px] bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-50"
             >
               {step === 5 ? "Versturen" : "Volgende stap"}
             </button>

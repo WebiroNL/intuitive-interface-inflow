@@ -1,12 +1,12 @@
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { packages, cmsOptions, hostingOptions, addOns } from "./data";
+import { packages, cmsHostingTiers, addOns, contractDiscounts } from "./data";
+import { ContractDuration } from "./types";
 
 interface SelectionSidebarProps {
   step: number;
   selectedPackage: string | null;
-  selectedCms: string | null;
-  selectedHosting: string | null;
+  selectedCmsHosting: string | null;
+  contractDuration: ContractDuration;
   selectedAddOns: string[];
   onNext: () => void;
   onPrev: () => void;
@@ -16,38 +16,39 @@ interface SelectionSidebarProps {
 export function SelectionSidebar({
   step,
   selectedPackage,
-  selectedCms,
-  selectedHosting,
+  selectedCmsHosting,
+  contractDuration,
   selectedAddOns,
   onNext,
   onPrev,
   canNext,
 }: SelectionSidebarProps) {
   const pkg = packages.find((p) => p.id === selectedPackage);
-  const cms = cmsOptions.find((c) => c.id === selectedCms);
-  const hosting = hostingOptions.find((h) => h.id === selectedHosting);
+  const cmsHosting = cmsHostingTiers.find((t) => t.id === selectedCmsHosting);
   const addOnItems = addOns.filter((a) => selectedAddOns.includes(a.id));
+  const discount = contractDiscounts[contractDuration].discount;
 
   const eenmalig =
     (typeof pkg?.price === "number" ? pkg.price : 0) +
-    (cms?.price || 0) +
-    addOnItems.filter((a) => a.period === "eenmalig").reduce((s, a) => s + a.price, 0);
+    addOnItems.filter((a) => a.period === "eenmalig" && typeof a.price === "number").reduce((s, a) => s + (a.price as number), 0);
 
-  const maandelijks =
-    (hosting?.price || 0) +
-    addOnItems.filter((a) => a.period === "per maand").reduce((s, a) => s + a.price, 0);
+  const cmsMonthly = typeof cmsHosting?.price === "number" ? Math.round(cmsHosting.price * (1 - discount)) : 0;
+  const addonsMonthly = addOnItems
+    .filter((a) => a.period === "per maand" && typeof a.price === "number")
+    .reduce((s, a) => s + Math.round((a.price as number) * (1 - discount)), 0);
+  const maandelijks = cmsMonthly + addonsMonthly;
 
   const stepLabels = ["", "Naar CMS & Hosting", "Naar Add-ons", "Naar Briefing", "Naar Overzicht", "Versturen"];
 
   return (
-    <div className="sticky top-28 p-5 rounded-2xl border-2 border-border bg-card">
-      <h3 className="font-bold text-foreground mb-4">Jouw selectie</h3>
+    <div className="sticky top-28 rounded-xl border border-border bg-card p-5">
+      <h3 className="text-[14px] font-bold text-foreground mb-4">Jouw selectie</h3>
 
       {!selectedPackage && step === 1 && (
-        <p className="text-sm text-muted-foreground">Selecteer een pakket om te beginnen</p>
+        <p className="text-[13px] text-muted-foreground">Selecteer een pakket om te beginnen</p>
       )}
 
-      <div className="space-y-2 text-sm">
+      <div className="space-y-2 text-[13px]">
         {pkg && (
           <div className="flex justify-between">
             <span className="text-muted-foreground">{pkg.name}</span>
@@ -56,59 +57,62 @@ export function SelectionSidebar({
             </span>
           </div>
         )}
-        {cms && cms.price > 0 && (
+        {cmsHosting && (
           <div className="flex justify-between">
-            <span className="text-muted-foreground">{cms.name}</span>
-            <span className="font-semibold text-foreground">€{cms.price}</span>
-          </div>
-        )}
-        {hosting && (
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">{hosting.name}</span>
-            <span className="font-semibold text-foreground">€{hosting.price}/mnd</span>
+            <span className="text-muted-foreground">{cmsHosting.name}</span>
+            <span className="font-semibold text-foreground">
+              {typeof cmsHosting.price === "number"
+                ? cmsHosting.price === 0 ? "Gratis" : `€${cmsMonthly}/mnd`
+                : cmsHosting.price}
+            </span>
           </div>
         )}
         {addOnItems.map((a) => (
           <div key={a.id} className="flex justify-between">
             <span className="text-muted-foreground">{a.name}</span>
             <span className="font-semibold text-foreground">
-              €{a.price}{a.period === "per maand" ? "/mnd" : ""}
+              {typeof a.price === "string" ? a.price : (
+                <>€{a.period === "per maand" ? Math.round((a.price as number) * (1 - discount)) : a.price}{a.period === "per maand" ? "/mnd" : ""}</>
+              )}
             </span>
           </div>
         ))}
       </div>
 
       {(eenmalig > 0 || maandelijks > 0) && (
-        <div className="mt-4 pt-4 border-t border-border space-y-1">
+        <div className="mt-4 pt-4 border-t border-border space-y-1.5">
           {eenmalig > 0 && (
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Eenmalig</span>
+            <div className="flex justify-between text-[13px]">
+              <span className="text-muted-foreground">Eenmalig</span>
               <span className="font-bold text-foreground">€{eenmalig}</span>
             </div>
           )}
           {maandelijks > 0 && (
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Maandelijks</span>
+            <div className="flex justify-between text-[13px]">
+              <span className="text-muted-foreground">Maandelijks</span>
               <span className="font-bold text-foreground">€{maandelijks}/mnd</span>
             </div>
           )}
-          <p className="text-xs text-muted-foreground">ex. btw</p>
+          <p className="text-[11px] text-muted-foreground">ex. btw</p>
         </div>
       )}
 
       <div className="mt-6 space-y-2">
-        <Button
-          className="w-full"
+        <button
           onClick={onNext}
           disabled={!canNext}
+          className="w-full inline-flex items-center justify-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           {stepLabels[step]}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+          <ArrowRight className="w-4 h-4" />
+        </button>
         {step > 1 && (
-          <Button variant="outline" className="w-full" onClick={onPrev}>
+          <button
+            onClick={onPrev}
+            className="w-full px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+          >
             Vorige stap
-          </Button>
+          </button>
         )}
       </div>
     </div>
