@@ -343,7 +343,7 @@ export const addOns: AddOn[] = [
     price: 199,
     period: "eenmalig",
     description: "Mailchimp, Zapier, CRM & API koppelingen",
-    icon: "🔗",
+    icon: "link",
     category: "setup-functionaliteit",
     features: [
       "Mailchimp, Zapier, CRM koppelingen",
