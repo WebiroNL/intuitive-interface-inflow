@@ -9,9 +9,9 @@ interface StepMarketingProps {
 }
 
 const categoryLabels: Record<string, string> = {
-  ads: "📣 Advertenties",
-  automation: "⚙️ Marketing Automation",
-  ai: "🤖 AI & Support",
+  ads: "Advertenties",
+  automation: "Marketing Automation",
+  ai: "AI & Support",
 };
 
 export function StepMarketing({ selected, onToggle }: StepMarketingProps) {
