@@ -283,7 +283,7 @@ export const addOns: AddOn[] = [
     price: 99,
     period: "eenmalig",
     description: "Professionele e-mail adressen configureren",
-    icon: "📧",
+    icon: "mail",
     category: "setup-technisch",
     features: [
       "Professionele e-mail adressen",
