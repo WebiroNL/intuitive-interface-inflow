@@ -389,7 +389,7 @@ export const addOns: AddOn[] = [
     price: 1499,
     period: "eenmalig",
     description: "Complete brandbook, kleurenpalet & templates",
-    icon: "✨",
+    icon: "sparkles",
     category: "setup-design",
     features: [
       "Complete brandbook (digitaal)",
