@@ -1,147 +1,147 @@
 import { useState } from 'react';
-import { Check, Target, Mail, Bot, ArrowRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-interface Service {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-  price: number;
-  description: string;
-}
+import { motion } from 'framer-motion';
+import { marketingServices } from './pakketten/data';
 
 export function MarketingConfigurator() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
-
-  const services: Service[] = [
-    {
-      id: 'google-ads',
-      name: 'Google Ads',
-      icon: <Target className="w-5 h-5" />,
-      price: 500,
-      description: 'Bereik klanten die actief zoeken naar jouw diensten'
-    },
-    {
-      id: 'meta-ads',
-      name: 'Meta Ads (Facebook & Instagram)',
-      icon: <Target className="w-5 h-5" />,
-      price: 500,
-      description: 'Adverteer op het grootste social media platform'
-    },
-    {
-      id: 'tiktok-ads',
-      name: 'TikTok Ads',
-      icon: <Target className="w-5 h-5" />,
-      price: 500,
-      description: 'Bereik een jonger publiek met korte video content'
-    },
-    {
-      id: 'email-automation',
-      name: 'E-mail Marketing Automation',
-      icon: <Mail className="w-5 h-5" />,
-      price: 350,
-      description: 'Automatische e-mail flows en lead nurturing'
-    },
-    {
-      id: 'whatsapp-automation',
-      name: 'WhatsApp Automation',
-      icon: <Mail className="w-5 h-5" />,
-      price: 400,
-      description: 'Automatische berichten en klantenservice via WhatsApp'
-    },
-    {
-      id: 'ai-chatbot',
-      name: 'AI Support Chatbot',
-      icon: <Bot className="w-5 h-5" />,
-      price: 450,
-      description: '24/7 klantenondersteuning met AI'
-    }
-  ];
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleService = (id: string) => {
-    setSelectedServices(prev => 
-      prev.includes(id) 
+    setSelectedServices(prev =>
+      prev.includes(id)
         ? prev.filter(s => s !== id)
         : [...prev, id]
     );
   };
 
-  const totalPrice = services
-    .filter(s => selectedServices.includes(s.id))
-    .reduce((sum, s) => sum + s.price, 0);
+  const selected = marketingServices.filter(s => selectedServices.includes(s.id));
+  const totalSetup = selected.reduce((sum, s) => sum + (s.setupPrice || 0), 0);
+  const totalMonthly = selected.reduce((sum, s) => sum + s.monthlyPrice, 0);
+
+  const categoryLabels: Record<string, string> = {
+    ads: "Advertenties",
+    automation: "Marketing Automation",
+    ai: "AI & Support",
+  };
+  const categories = [...new Set(marketingServices.map(s => s.category))];
 
   return (
-    <div className="bg-white dark:bg-[#1A1720] rounded-3xl p-8 shadow-xl border border-gray-200 dark:border-gray-800">
-      <h3 className="text-2xl font-bold text-[#110E13] dark:text-white mb-2">
-        Stel je marketingpakket samen
+    <div className="rounded-xl border border-border bg-card p-8">
+      <h3
+        className="font-bold tracking-[-0.025em] leading-[1.1] mb-2"
+        style={{ fontSize: "clamp(1.3rem, 2vw, 1.6rem)" }}
+      >
+        <span className="text-foreground">Stel je marketingpakket samen</span>
+        <span className="text-primary">.</span>
       </h3>
-      <p className="text-[#110E13]/70 dark:text-gray-400 mb-8">
-        Selecteer de diensten die je nodig hebt en ontvang direct een prijsindicatie
+      <p className="text-[14px] text-muted-foreground mb-8">
+        Selecteer de diensten die je nodig hebt en ontvang direct een prijsindicatie.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-8">
-        {services.map(service => (
-          <button
-            key={service.id}
-            onClick={() => toggleService(service.id)}
-            className={`flex items-start gap-4 p-4 rounded-2xl border-2 transition-all text-left ${
-              selectedServices.includes(service.id)
-                ? 'border-[#3A4DEA] bg-[#3A4DEA]/5 dark:bg-[#3A4DEA]/10'
-                : 'border-gray-200 dark:border-gray-700 hover:border-[#3A4DEA]/50'
-            }`}
-          >
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-              selectedServices.includes(service.id)
-                ? 'bg-[#3A4DEA] text-white'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-            }`}>
-              {selectedServices.includes(service.id) ? (
-                <Check className="w-5 h-5" />
-              ) : (
-                service.icon
-              )}
+      <div className="space-y-8 mb-8">
+        {categories.map(cat => (
+          <div key={cat}>
+            <h4 className="text-[13px] font-bold text-foreground mb-3 border-b border-border pb-2">
+              {categoryLabels[cat]}
+            </h4>
+            <div className="grid md:grid-cols-2 gap-3">
+              {marketingServices
+                .filter(s => s.category === cat)
+                .map((service, i) => {
+                  const isSelected = selectedServices.includes(service.id);
+                  return (
+                    <motion.div
+                      key={service.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.03 }}
+                      onClick={() => toggleService(service.id)}
+                      className={`rounded-xl border transition-all cursor-pointer ${
+                        isSelected
+                          ? "border-primary bg-primary/[0.03] ring-1 ring-primary/20"
+                          : "border-border bg-background hover:border-primary/40"
+                      }`}
+                    >
+                      <div className="p-4">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <div className="flex items-center gap-2">
+                            <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
+                              isSelected ? "bg-primary text-primary-foreground" : "border border-input"
+                            }`}>
+                              {isSelected && <Check className="w-3 h-3" />}
+                            </div>
+                            <span className="font-semibold text-foreground text-[13px]">{service.name}</span>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            {service.setupPrice && (
+                              <p className="text-[11px] text-muted-foreground">€{service.setupPrice} setup</p>
+                            )}
+                            <p className="text-primary font-bold text-[13px]">€{service.monthlyPrice}/mnd</p>
+                          </div>
+                        </div>
+                        <p className="text-[12px] text-muted-foreground ml-7">{service.description}</p>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedId(expandedId === service.id ? null : service.id);
+                          }}
+                          className="text-[12px] text-primary font-medium flex items-center gap-0.5 mt-2 ml-7 hover:underline"
+                        >
+                          {expandedId === service.id ? "Minder" : "Wat is inbegrepen"}
+                          {expandedId === service.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        </button>
+
+                        {expandedId === service.id && (
+                          <ul className="mt-2 ml-7 space-y-1">
+                            {service.features.map(f => (
+                              <li key={f} className="flex items-start gap-1.5 text-[12px] text-muted-foreground">
+                                <Check className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                                {f}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
             </div>
-            <div className="flex-1">
-              <div className="flex justify-between items-start">
-                <span className="font-semibold text-[#110E13] dark:text-white">
-                  {service.name}
-                </span>
-                <span className="text-[#3A4DEA] font-bold">
-                  €{service.price}/mnd
-                </span>
-              </div>
-              <p className="text-sm text-[#110E13]/60 dark:text-gray-400 mt-1">
-                {service.description}
-              </p>
-            </div>
-          </button>
+          </div>
         ))}
       </div>
 
       {/* Total & CTA */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border">
         <div>
-          <p className="text-sm text-[#110E13]/60 dark:text-gray-400">
-            Geschatte maandelijkse kosten
+          {totalSetup > 0 && (
+            <p className="text-[13px] text-muted-foreground">
+              Eenmalige setup: <span className="font-bold text-foreground">€{totalSetup}</span>
+            </p>
+          )}
+          <p className="text-[13px] text-muted-foreground">
+            Maandelijkse kosten
           </p>
-          <p className="text-3xl font-bold text-[#3A4DEA]">
-            €{totalPrice}<span className="text-lg font-normal">/maand</span>
+          <p className="text-[28px] font-bold text-primary">
+            €{totalMonthly}<span className="text-[14px] font-normal text-muted-foreground">/maand</span>
           </p>
-          <p className="text-xs text-[#110E13]/50 dark:text-gray-500">
-            Exclusief BTW en advertentiebudget
+          <p className="text-[11px] text-muted-foreground">
+            Ex. BTW en advertentiebudget
           </p>
         </div>
-        
+
         <Link
           to="/contact"
-          className={`inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold transition-all ${
+          className={`inline-flex items-center gap-2 px-6 py-[11px] rounded-[6px] text-[14px] font-semibold transition-all ${
             selectedServices.length > 0
-              ? 'bg-[#3A4DEA] text-white hover:bg-[#2f3ec7] shadow-lg hover:shadow-xl'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+              ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+              : 'bg-muted text-muted-foreground cursor-not-allowed'
           }`}
         >
           Plan een strategiecall
-          <ArrowRight className="w-5 h-5" />
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </div>

@@ -1,123 +1,137 @@
 import { Check, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { cmsOptions, hostingOptions } from "./data";
+import { cmsHostingTiers, contractDiscounts } from "./data";
+import { ContractDuration } from "./types";
 
 interface StepCmsHostingProps {
-  selectedCms: string | null;
-  selectedHosting: string | null;
-  onSelectCms: (id: string) => void;
-  onSelectHosting: (id: string) => void;
+  selected: string | null;
+  onSelect: (id: string) => void;
+  contractDuration: ContractDuration;
+  onContractChange: (d: ContractDuration) => void;
 }
 
-export function StepCmsHosting({ selectedCms, selectedHosting, onSelectCms, onSelectHosting }: StepCmsHostingProps) {
+export function StepCmsHosting({ selected, onSelect, contractDuration, onContractChange }: StepCmsHostingProps) {
   return (
-    <div className="space-y-12">
-      {/* CMS */}
-      <div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">
-          Content Management Systeem<span className="text-primary">.</span>
+    <div>
+      <div className="mb-8">
+        <h2
+          className="font-bold tracking-[-0.025em] leading-[1.1] mb-2"
+          style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)" }}
+        >
+          <span className="text-foreground">CMS & Hosting</span>
+          <span className="text-primary">.</span>
         </h2>
-        <p className="text-muted-foreground mb-6">
-          Wil je zelf je website kunnen aanpassen? Kies een CMS dat bij je past.
+        <p className="text-[14px] text-muted-foreground mb-1">
+          Kies een CMS & hosting pakket. Eerste maand gratis.
         </p>
-
-        <div className="grid md:grid-cols-3 gap-4">
-          {cmsOptions.map((opt, i) => (
-            <motion.div
-              key={opt.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => onSelectCms(opt.id)}
-              className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all ${
-                selectedCms === opt.id
-                  ? "border-primary bg-primary/5 shadow-lg"
-                  : "border-border bg-card hover:border-primary/50"
-              }`}
-            >
-              {opt.recommended && (
-                <span className="absolute -top-2.5 right-4 inline-flex items-center gap-1 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-                  <Star className="w-3 h-3" /> Aanbevolen
-                </span>
-              )}
-              <h3 className="font-bold text-foreground">{opt.name}</h3>
-              <p className="text-2xl font-bold text-foreground mt-2">
-                {opt.price === 0 ? "Gratis" : `€${opt.price}`}
-                {opt.price > 0 && <span className="text-sm font-normal text-muted-foreground ml-1">eenmalig</span>}
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">{opt.description}</p>
-              <ul className="mt-4 space-y-1.5">
-                {opt.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className={`mt-4 text-center py-2 rounded-xl text-sm font-semibold ${
-                selectedCms === opt.id
-                  ? "bg-primary text-primary-foreground"
-                  : "border border-border text-foreground"
-              }`}>
-                {selectedCms === opt.id ? "✓ Geselecteerd" : "Selecteer"}
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
 
-      {/* Hosting */}
-      <div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">
-          Hosting & Domein<span className="text-primary">.</span>
-        </h2>
-        <p className="text-muted-foreground mb-6">
-          Kies een hostingpakket voor je website. Alle pakketten inclusief SSL en backups.
-        </p>
+      {/* Contract duration toggle */}
+      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60 w-fit mb-8">
+        {(Object.entries(contractDiscounts) as [ContractDuration, { label: string; discount: number }][]).map(([key, { label }]) => (
+          <button
+            key={key}
+            onClick={() => onContractChange(key)}
+            className={`px-4 py-2 rounded-md text-[13px] font-medium transition-all ${
+              contractDuration === key
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-4">
-          {hostingOptions.map((opt, i) => (
+      <div className="grid md:grid-cols-2 gap-4">
+        {cmsHostingTiers.map((tier, i) => {
+          const isCustom = typeof tier.price === "string";
+          const isSelected = selected === tier.id;
+          const discount = contractDiscounts[contractDuration].discount;
+          const displayPrice = typeof tier.price === "number" && tier.price > 0
+            ? Math.round(tier.price * (1 - discount))
+            : tier.price;
+
+          return (
             <motion.div
-              key={opt.id}
-              initial={{ opacity: 0, y: 20 }}
+              key={tier.id}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => onSelectHosting(opt.id)}
-              className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all ${
-                selectedHosting === opt.id
-                  ? "border-primary bg-primary/5 shadow-lg"
-                  : "border-border bg-card hover:border-primary/50"
+              transition={{ delay: i * 0.04 }}
+              onClick={() => onSelect(tier.id)}
+              className={`relative rounded-2xl border transition-all cursor-pointer overflow-hidden ${
+                isSelected
+                  ? "border-primary bg-primary/[0.03] shadow-md ring-1 ring-primary/20"
+                  : tier.recommended
+                  ? "border-primary/30 bg-card hover:border-primary/60"
+                  : "border-border bg-card hover:border-primary/40"
               }`}
             >
-              {opt.recommended && (
-                <span className="absolute -top-2.5 right-4 inline-flex items-center gap-1 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-                  <Star className="w-3 h-3" /> Aanbevolen
-                </span>
+              {tier.recommended && (
+                <div className="absolute -top-px left-0 right-0 h-[3px] bg-primary rounded-t-2xl" />
               )}
-              <h3 className="font-bold text-foreground">{opt.name}</h3>
-              <p className="text-2xl font-bold text-foreground mt-2">
-                €{opt.price}<span className="text-sm font-normal text-muted-foreground ml-1">{opt.period}</span>
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">{opt.description}</p>
-              <ul className="mt-4 space-y-1.5">
-                {opt.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className={`mt-4 text-center py-2 rounded-xl text-sm font-semibold ${
-                selectedHosting === opt.id
-                  ? "bg-primary text-primary-foreground"
-                  : "border border-border text-foreground"
-              }`}>
-                {selectedHosting === opt.id ? "✓ Geselecteerd" : "Selecteer"}
+
+              <div className="p-6">
+                {tier.recommended && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full mb-3">
+                    <Star className="w-3 h-3" /> Populair
+                  </span>
+                )}
+
+                <h3 className="text-[18px] font-bold text-foreground">{tier.name}</h3>
+                <div className="mt-2 mb-3">
+                  {typeof displayPrice === "number" ? (
+                    displayPrice === 0 ? (
+                      <span className="text-[24px] font-bold text-foreground">Gratis</span>
+                    ) : (
+                      <>
+                        <span className="text-[28px] font-bold text-foreground">€{displayPrice}</span>
+                        <span className="text-[13px] text-muted-foreground ml-1">/maand (ex. btw)</span>
+                        {discount > 0 && typeof tier.price === "number" && tier.price > 0 && (
+                          <span className="ml-2 text-[12px] text-green-600 font-medium dark:text-green-400">
+                            was €{tier.price}
+                          </span>
+                        )}
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <span className="text-[22px] font-bold text-foreground">{displayPrice}</span>
+                      <span className="text-[13px] text-muted-foreground ml-1">{tier.period}</span>
+                    </>
+                  )}
+                </div>
+                <p className="text-[13px] text-muted-foreground mb-4">{tier.description}</p>
+
+                {typeof tier.price === "number" && tier.price > 0 && (
+                  <p className="text-[12px] text-primary font-medium mb-4">✅ Eerste maand gratis</p>
+                )}
+
+                <ul className="space-y-1.5 mb-5">
+                  {tier.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-[13px] text-muted-foreground">
+                      <Check className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className={`w-full text-center py-2.5 rounded-[6px] font-semibold text-[13px] transition-colors ${
+                  isSelected
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-input text-foreground hover:border-primary"
+                }`}>
+                  {isSelected ? "✓ Geselecteerd" : isCustom ? "Offerte aanvragen" : "Selecteer"}
+                </div>
               </div>
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
       </div>
+
+      <p className="text-[12px] text-muted-foreground mt-6">
+        Eerste maand gratis. Daarna maandelijks opzegbaar. Jaarcontract = 10% korting. 2-jarig contract = 20% korting.
+      </p>
     </div>
   );
 }
