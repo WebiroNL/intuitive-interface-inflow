@@ -235,7 +235,7 @@ export const addOns: AddOn[] = [
     price: 49,
     period: "per maand",
     description: "Intelligente chatbot met OpenAI integratie",
-    icon: "💬",
+    icon: "message-circle",
     category: "widgets",
     features: [
       "GPT-4 AI assistent",
