@@ -202,7 +202,7 @@ export const addOns: AddOn[] = [
     price: 79,
     period: "per maand",
     description: "Onderhoud, updates en kleine aanpassingen",
-    icon: "🔧",
+    icon: "wrench",
     category: "onderhoud",
     features: [
       "Kleine aanpassingen (max 1 uur/maand)",
