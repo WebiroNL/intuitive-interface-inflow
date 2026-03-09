@@ -374,7 +374,7 @@ export const addOns: AddOn[] = [
     price: 49,
     period: "eenmalig",
     description: "Strategisch naamadvies met domeincheck",
-    icon: "💡",
+    icon: "lightbulb",
     category: "setup-design",
     features: [
       "Strategisch naamadvies",
