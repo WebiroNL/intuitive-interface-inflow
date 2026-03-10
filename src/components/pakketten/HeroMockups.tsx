@@ -36,7 +36,7 @@ const WebsiteMockup = () => (
       <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
       <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
     </div>
-    <div className="absolute inset-0 top-9 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+    <div className="absolute inset-0 top-9 bg-gradient-to-br from-primary/5 via-background to-primary/10 flex flex-col">
       {/* Nav */}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30">
         <div className="w-12 h-3 rounded-sm bg-primary/40" />
@@ -47,28 +47,28 @@ const WebsiteMockup = () => (
         </div>
       </div>
       {/* Content */}
-      <div className="px-4 py-4">
+      <div className="px-4 py-3 flex-shrink-0">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: "75%" }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="h-4 rounded bg-foreground/15 mb-2"
+          className="h-3.5 rounded bg-foreground/15 mb-1.5"
         />
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: "50%" }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="h-3 rounded bg-foreground/10 mb-4"
+          className="h-2.5 rounded bg-foreground/10 mb-3"
         />
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1 }}
-          className="w-20 h-6 rounded bg-primary/50"
+          className="w-16 h-5 rounded bg-primary/50"
         />
       </div>
-      {/* Cards */}
-      <div className="absolute bottom-3 left-4 right-4 grid grid-cols-3 gap-2">
+      {/* Cards — pushed to bottom */}
+      <div className="mt-auto px-4 pb-3 grid grid-cols-3 gap-2">
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
@@ -77,9 +77,9 @@ const WebsiteMockup = () => (
             transition={{ delay: 1.2 + i * 0.15 }}
             className="rounded-lg border border-border/30 bg-background/60 p-2"
           >
-            <div className="w-6 h-6 rounded mb-1.5 bg-primary/30" />
-            <div className="w-full h-2 rounded bg-foreground/10 mb-1" />
-            <div className="w-2/3 h-1.5 rounded bg-foreground/8" />
+            <div className="w-5 h-5 rounded mb-1 bg-primary/30" />
+            <div className="w-full h-1.5 rounded bg-foreground/10 mb-0.5" />
+            <div className="w-2/3 h-1 rounded bg-foreground/8" />
           </motion.div>
         ))}
       </div>
