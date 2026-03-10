@@ -27,9 +27,9 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {packages.map((pkg, index) => {
-          const isCustom = typeof pkg.price === "string";
+      {/* Selectable packages — 3 columns */}
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
+        {packages.filter(p => typeof p.price === "number").map((pkg, index) => {
           const isSelected = selected === pkg.id;
 
           return (
@@ -38,16 +38,14 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.4 }}
-              className={`group relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
-                isCustom ? "cursor-default" : "cursor-pointer"
-              } ${
+              className={`group relative rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${
                 isSelected
                   ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
                   : pkg.popular
                   ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
                   : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
               }`}
-              onClick={() => !isCustom && onSelect(pkg.id)}
+              onClick={() => onSelect(pkg.id)}
             >
               {pkg.popular && (
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
@@ -72,17 +70,13 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                 <p className="text-[13px] text-muted-foreground mt-1 mb-5">{pkg.description}</p>
 
                 <div className="mb-6">
-                  {typeof pkg.price === "number" ? (
-                    <div className="flex items-baseline gap-2">
-                      {pkg.oldPrice && (
-                        <span className="text-[14px] text-muted-foreground line-through">€{pkg.oldPrice}</span>
-                      )}
-                      <span className="text-[32px] font-bold text-foreground tracking-[-0.02em]">€{pkg.price}</span>
-                      <span className="text-[13px] text-muted-foreground">eenmalig (ex. btw)</span>
-                    </div>
-                  ) : (
-                    <span className="text-[24px] font-bold text-foreground">{pkg.price}</span>
-                  )}
+                  <div className="flex items-baseline gap-2">
+                    {pkg.oldPrice && (
+                      <span className="text-[14px] text-muted-foreground line-through">€{pkg.oldPrice}</span>
+                    )}
+                    <span className="text-[32px] font-bold text-foreground tracking-[-0.02em]">€{pkg.price}</span>
+                    <span className="text-[13px] text-muted-foreground">eenmalig (ex. btw)</span>
+                  </div>
                 </div>
 
                 <div className="space-y-3 mb-5">
@@ -130,36 +124,69 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                   )}
                 </AnimatePresence>
 
-                {isCustom ? (
-                  <Link
-                    to="/contact"
-                    className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border-2 border-primary text-primary font-semibold text-[13px] hover:bg-primary/5 transition-colors"
-                  >
-                    Offerte aanvragen
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                ) : (
-                  <div
-                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-[13px] transition-all ${
-                      isSelected
-                        ? "bg-primary text-primary-foreground"
-                        : "border border-border text-foreground group-hover:border-primary/40"
-                    }`}
-                  >
-                    {isSelected ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        Geselecteerd
-                      </>
-                    ) : (
-                      "Selecteer pakket"
-                    )}
-                  </div>
-                )}
+                <div
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-[13px] transition-all ${
+                    isSelected
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-border text-foreground group-hover:border-primary/40"
+                  }`}
+                >
+                  {isSelected ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Geselecteerd
+                    </>
+                  ) : (
+                    "Selecteer pakket"
+                  )}
+                </div>
               </div>
             </motion.div>
           );
         })}
+      </div>
+
+      {/* Custom packages — 2 columns, same width */}
+      <div className="grid md:grid-cols-2 gap-4">
+        {packages.filter(p => typeof p.price === "string").map((pkg, index) => (
+          <motion.div
+            key={pkg.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: (index + 3) * 0.05, duration: 0.4 }}
+            className="group relative rounded-2xl border-2 border-border bg-card overflow-hidden"
+          >
+            <div className="p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary mb-1">{pkg.badge}</p>
+              <h3 className="text-[18px] font-bold text-foreground tracking-[-0.01em]">{pkg.name}</h3>
+              <p className="text-[13px] text-muted-foreground mt-1 mb-5">{pkg.description}</p>
+
+              <div className="mb-6">
+                <span className="text-[24px] font-bold text-foreground">{pkg.price}</span>
+              </div>
+
+              <div className="space-y-3 mb-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground">Wat je krijgt</p>
+                <ul className="space-y-2">
+                  {pkg.whatYouGet.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-[13px] text-muted-foreground">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Link
+                to="/contact"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border-2 border-primary text-primary font-semibold text-[13px] hover:bg-primary/5 transition-colors"
+              >
+                Offerte aanvragen
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
