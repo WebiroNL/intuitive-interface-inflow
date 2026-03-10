@@ -92,6 +92,8 @@ function AppContent() {
             <Route path="/sitemap.xml" element={<SitemapRedirect />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:handle" element={<ProductDetail />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
