@@ -162,8 +162,13 @@ const stats = [
 
 export function PakkettenHero() {
   return (
-    <section className="border-b border-border bg-background pt-[100px] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
+    <section className="relative border-b border-border bg-background pt-[100px] overflow-hidden">
+      <SilkWaves variant="pakketten" />
+      <div
+        className="absolute inset-y-0 left-0 w-[55%] pointer-events-none z-[1]"
+        style={{ background: "linear-gradient(to right, hsl(var(--background)) 40%, hsl(var(--background)/0.6) 70%, transparent 100%)" }}
+      />
+      <div className="relative z-[2] max-w-7xl mx-auto px-6 lg:px-12 pb-16">
         <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
           {/* Left — Text */}
           <div>
