@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Sparkles, Palette, Type, Layout, MessageCircle, Send,
-  Loader2, RefreshCw, Check, AlertTriangle,
+  Loader2, RefreshCw, Check, AlertTriangle, Phone, User, Building,
   UtensilsCrossed, ShoppingBag, Briefcase, Monitor, Heart, PenTool,
   Target, DollarSign, Star, BookOpen, Mail, Building2,
   Minus, Zap, Leaf, BarChart3, Gem, Puzzle,
