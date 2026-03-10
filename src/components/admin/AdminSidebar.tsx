@@ -22,6 +22,7 @@ const navItems = [
   { label: 'Berichten', href: '/admin/messages', icon: MessageSquare },
   { label: 'Producten', href: '/admin/products', icon: Package },
   { label: 'Integraties', href: '/admin/integrations', icon: Plug },
+  { label: 'Moodboards', href: '/admin/moodboards', icon: Palette },
   { label: 'Instellingen', href: '/admin/settings', icon: Settings },
 ];
 
