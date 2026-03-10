@@ -13,28 +13,28 @@ interface StepCmsHostingProps {
 export function StepCmsHosting({ selected, onSelect, contractDuration, onContractChange }: StepCmsHostingProps) {
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-10">
         <h2
-          className="font-bold tracking-[-0.025em] leading-[1.1] mb-2"
-          style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)" }}
+          className="font-bold tracking-[-0.03em] leading-[1.08] mb-3"
+          style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}
         >
           <span className="text-foreground">CMS & Hosting</span>
           <span className="text-primary">.</span>
         </h2>
-        <p className="text-[14px] text-muted-foreground mb-1">
+        <p className="text-[15px] text-muted-foreground leading-relaxed max-w-lg">
           Kies een CMS & hosting pakket. Eerste maand gratis.
         </p>
       </div>
 
       {/* Contract duration toggle */}
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60 w-fit mb-8">
+      <div className="inline-flex items-center gap-0.5 p-1 rounded-xl bg-muted/60 border border-border mb-10">
         {(Object.entries(contractDiscounts) as [ContractDuration, { label: string; discount: number }][]).map(([key, { label }]) => (
           <button
             key={key}
             onClick={() => onContractChange(key)}
-            className={`px-4 py-2 rounded-md text-[13px] font-medium transition-all ${
+            className={`px-5 py-2.5 rounded-lg text-[13px] font-medium transition-all ${
               contractDuration === key
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-card text-foreground shadow-sm border border-border"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -55,73 +55,86 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
           return (
             <motion.div
               key={tier.id}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04 }}
+              transition={{ delay: i * 0.05, duration: 0.4 }}
               onClick={() => onSelect(tier.id)}
-              className={`relative rounded-2xl border transition-all cursor-pointer overflow-hidden ${
+              className={`group relative rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${
                 isSelected
-                  ? "border-primary bg-primary/[0.03] shadow-md ring-1 ring-primary/20"
+                  ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
                   : tier.recommended
-                  ? "border-primary/30 bg-card hover:border-primary/60"
-                  : "border-border bg-card hover:border-primary/40"
+                  ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
+                  : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
               }`}
             >
               {tier.recommended && (
-                <div className="absolute -top-px left-0 right-0 h-[3px] bg-primary rounded-t-2xl" />
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
               )}
 
               <div className="p-6">
-                {tier.recommended && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full mb-3">
-                    <Star className="w-3 h-3" /> Populair
-                  </span>
-                )}
+                <div className="min-h-[28px] mb-2">
+                  {tier.recommended && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full">
+                      <Star className="w-3 h-3" /> Populair
+                    </span>
+                  )}
+                </div>
 
-                <h3 className="text-[18px] font-bold text-foreground">{tier.name}</h3>
-                <div className="mt-2 mb-3">
+                <h3 className="text-[18px] font-bold text-foreground tracking-[-0.01em]">{tier.name}</h3>
+                <div className="mt-3 mb-4">
                   {typeof displayPrice === "number" ? (
                     displayPrice === 0 ? (
-                      <span className="text-[24px] font-bold text-foreground">Gratis</span>
+                      <span className="text-[28px] font-bold text-foreground">Gratis</span>
                     ) : (
-                      <>
-                        <span className="text-[28px] font-bold text-foreground">€{displayPrice}</span>
-                        <span className="text-[13px] text-muted-foreground ml-1">/maand (ex. btw)</span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-[32px] font-bold text-foreground tracking-[-0.02em]">€{displayPrice}</span>
+                        <span className="text-[13px] text-muted-foreground">/maand (ex. btw)</span>
                         {discount > 0 && typeof tier.price === "number" && tier.price > 0 && (
-                          <span className="ml-2 text-[12px] text-green-600 font-medium dark:text-green-400">
+                          <span className="text-[12px] text-green-600 font-medium dark:text-green-400">
                             was €{tier.price}
                           </span>
                         )}
-                      </>
+                      </div>
                     )
                   ) : (
-                    <>
-                      <span className="text-[22px] font-bold text-foreground">{displayPrice}</span>
-                      <span className="text-[13px] text-muted-foreground ml-1">{tier.period}</span>
-                    </>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-[24px] font-bold text-foreground">{displayPrice}</span>
+                      <span className="text-[13px] text-muted-foreground">{tier.period}</span>
+                    </div>
                   )}
                 </div>
-                <p className="text-[13px] text-muted-foreground mb-4">{tier.description}</p>
+                <p className="text-[13px] text-muted-foreground mb-5">{tier.description}</p>
 
                 {typeof tier.price === "number" && tier.price > 0 && (
-                  <p className="text-[12px] text-primary font-medium mb-4 flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Eerste maand gratis</p>
+                  <p className="text-[12px] text-primary font-medium mb-5 flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5" /> Eerste maand gratis
+                  </p>
                 )}
 
-                <ul className="space-y-1.5 mb-5">
+                <ul className="space-y-2 mb-6">
                   {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-[13px] text-muted-foreground">
-                      <Check className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] text-muted-foreground">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                       {f}
                     </li>
                   ))}
                 </ul>
 
-                <div className={`w-full text-center py-2.5 rounded-[6px] font-semibold text-[13px] transition-colors ${
+                <div className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-[13px] transition-all ${
                   isSelected
                     ? "bg-primary text-primary-foreground"
-                    : "border border-input text-foreground hover:border-primary"
+                    : "border border-border text-foreground group-hover:border-primary/40"
                 }`}>
-                  {isSelected ? "✓ Geselecteerd" : isCustom ? "Offerte aanvragen" : "Selecteer"}
+                  {isSelected ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Geselecteerd
+                    </>
+                  ) : isCustom ? (
+                    "Offerte aanvragen"
+                  ) : (
+                    "Selecteer"
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -129,7 +142,7 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
         })}
       </div>
 
-      <p className="text-[12px] text-muted-foreground mt-6">
+      <p className="text-[12px] text-muted-foreground mt-8">
         Eerste maand gratis. Daarna maandelijks opzegbaar. Jaarcontract = 10% korting. 2-jarig contract = 20% korting.
       </p>
     </div>

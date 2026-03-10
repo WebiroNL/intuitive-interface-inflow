@@ -37,15 +37,15 @@ export function StepOverview({ selectedPackage, selectedCmsHosting, contractDura
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-10">
         <h2
-          className="font-bold tracking-[-0.025em] leading-[1.1] mb-2"
-          style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)" }}
+          className="font-bold tracking-[-0.03em] leading-[1.08] mb-3"
+          style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}
         >
           <span className="text-foreground">Jouw overzicht</span>
           <span className="text-primary">.</span>
         </h2>
-        <p className="text-[14px] text-muted-foreground">
+        <p className="text-[15px] text-muted-foreground leading-relaxed">
           Controleer je selectie. Na het versturen nemen wij binnen 24 uur contact op.
         </p>
       </div>
@@ -55,47 +55,59 @@ export function StepOverview({ selectedPackage, selectedCmsHosting, contractDura
         <div className="space-y-4">
           {flowType === "website" && (
             <>
-              <div className="p-5 rounded-xl border border-border bg-card">
-                <h3 className="text-[13px] font-bold text-foreground mb-3">Website pakket</h3>
-                {pkg ? (
-                  <div className="flex justify-between items-center">
-                    <span className="text-[13px] text-muted-foreground">{pkg.name}</span>
-                    <span className="font-bold text-foreground text-[14px]">
-                      {typeof pkg.price === "number" ? `€${pkg.price}` : pkg.price}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="text-[13px] text-muted-foreground">Niet geselecteerd</span>
-                )}
+              <div className="rounded-xl border border-border bg-card overflow-hidden">
+                <div className="px-5 py-3 bg-muted/30 border-b border-border">
+                  <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">Website pakket</h3>
+                </div>
+                <div className="p-5">
+                  {pkg ? (
+                    <div className="flex justify-between items-center">
+                      <span className="text-[14px] text-foreground font-medium">{pkg.name}</span>
+                      <span className="font-bold text-foreground text-[16px]">
+                        {typeof pkg.price === "number" ? `€${pkg.price}` : pkg.price}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-[13px] text-muted-foreground">Niet geselecteerd</span>
+                  )}
+                </div>
               </div>
 
-              <div className="p-5 rounded-xl border border-border bg-card">
-                <h3 className="text-[13px] font-bold text-foreground mb-3">CMS & Hosting</h3>
-                {cmsHosting ? (
-                  <div className="flex justify-between items-center">
-                    <span className="text-[13px] text-muted-foreground">{cmsHosting.name}</span>
-                    <span className="font-bold text-foreground text-[14px]">
-                      {typeof cmsHosting.price === "number"
-                        ? cmsHosting.price === 0 ? "Gratis" : `€${cmsMonthly}/mnd`
-                        : cmsHosting.price}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="text-[13px] text-muted-foreground">Niet geselecteerd</span>
-                )}
-                <p className="text-[11px] text-muted-foreground mt-1">
-                  Contract: {contractDiscounts[contractDuration].label}
-                </p>
+              <div className="rounded-xl border border-border bg-card overflow-hidden">
+                <div className="px-5 py-3 bg-muted/30 border-b border-border">
+                  <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">CMS & Hosting</h3>
+                </div>
+                <div className="p-5">
+                  {cmsHosting ? (
+                    <>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[14px] text-foreground font-medium">{cmsHosting.name}</span>
+                        <span className="font-bold text-foreground text-[16px]">
+                          {typeof cmsHosting.price === "number"
+                            ? cmsHosting.price === 0 ? "Gratis" : `€${cmsMonthly}/mnd`
+                            : cmsHosting.price}
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-muted-foreground mt-1">
+                        Contract: {contractDiscounts[contractDuration].label}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-[13px] text-muted-foreground">Niet geselecteerd</span>
+                  )}
+                </div>
               </div>
 
               {selectedAddOnItems.length > 0 && (
-                <div className="p-5 rounded-xl border border-border bg-card">
-                  <h3 className="text-[13px] font-bold text-foreground mb-3">Add-ons</h3>
-                  <div className="space-y-2">
+                <div className="rounded-xl border border-border bg-card overflow-hidden">
+                  <div className="px-5 py-3 bg-muted/30 border-b border-border">
+                    <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">Add-ons</h3>
+                  </div>
+                  <div className="p-5 space-y-2.5">
                     {selectedAddOnItems.map((a) => (
                       <div key={a.id} className="flex justify-between items-center">
-                        <span className="text-[12px] text-muted-foreground flex items-center gap-1.5">
-                          <Check className="w-3 h-3 text-primary" />
+                        <span className="text-[13px] text-foreground flex items-center gap-2">
+                          <Check className="w-3.5 h-3.5 text-primary" />
                           {a.name}
                         </span>
                         <span className="font-bold text-foreground text-[13px]">
@@ -112,13 +124,15 @@ export function StepOverview({ selectedPackage, selectedCmsHosting, contractDura
           )}
 
           {marketingItems.length > 0 && (
-            <div className="p-5 rounded-xl border border-border bg-card">
-              <h3 className="text-[13px] font-bold text-foreground mb-3">Marketing diensten</h3>
-              <div className="space-y-2">
+            <div className="rounded-xl border border-border bg-card overflow-hidden">
+              <div className="px-5 py-3 bg-muted/30 border-b border-border">
+                <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">Marketing diensten</h3>
+              </div>
+              <div className="p-5 space-y-2.5">
                 {marketingItems.map((m) => (
                   <div key={m.id} className="flex justify-between items-center">
-                    <span className="text-[12px] text-muted-foreground flex items-center gap-1.5">
-                      <Check className="w-3 h-3 text-primary" />
+                    <span className="text-[13px] text-foreground flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-primary" />
                       {m.name}
                     </span>
                     <div className="text-right">
@@ -136,48 +150,56 @@ export function StepOverview({ selectedPackage, selectedCmsHosting, contractDura
 
         {/* Totals + contact */}
         <div className="space-y-4">
-          <div className="p-5 rounded-xl border-2 border-primary bg-primary/[0.03]">
-            <h3 className="text-[13px] font-bold text-foreground mb-4">Totaaloverzicht</h3>
-            <div className="space-y-3 mb-4">
-              {eenmalig > 0 && (
-                <div>
-                  <div className="flex justify-between">
-                    <span className="text-[13px] text-muted-foreground">Eenmalig (ex. BTW)</span>
-                    <span className="text-[18px] font-bold text-foreground">€{eenmalig}</span>
+          <div className="rounded-xl border-2 border-primary bg-primary/[0.03] overflow-hidden">
+            <div className="px-5 py-3 bg-primary/[0.06] border-b border-primary/20">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">Totaaloverzicht</h3>
+            </div>
+            <div className="p-5">
+              <div className="space-y-4">
+                {eenmalig > 0 && (
+                  <div>
+                    <div className="flex justify-between">
+                      <span className="text-[13px] text-muted-foreground">Eenmalig (ex. BTW)</span>
+                      <span className="text-[20px] font-bold text-foreground">€{eenmalig}</span>
+                    </div>
+                    <div className="flex justify-between mt-0.5">
+                      <span className="text-[11px] text-muted-foreground">incl. 21% BTW</span>
+                      <span className="text-[13px] text-muted-foreground">€{eenmaligIncl}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[11px] text-muted-foreground">incl. 21% BTW</span>
-                    <span className="text-[13px] text-muted-foreground">€{eenmaligIncl}</span>
+                )}
+                {maandelijks > 0 && (
+                  <div className={eenmalig > 0 ? "border-t border-border pt-4" : ""}>
+                    <div className="flex justify-between">
+                      <span className="text-[13px] text-muted-foreground">Maandelijks (ex. BTW)</span>
+                      <span className="text-[20px] font-bold text-foreground">€{maandelijks}/mnd</span>
+                    </div>
+                    <div className="flex justify-between mt-0.5">
+                      <span className="text-[11px] text-muted-foreground">incl. 21% BTW</span>
+                      <span className="text-[13px] text-muted-foreground">€{maandelijksIncl}/mnd</span>
+                    </div>
                   </div>
-                </div>
-              )}
-              {maandelijks > 0 && (
-                <div className={eenmalig > 0 ? "border-t border-border pt-3" : ""}>
-                  <div className="flex justify-between">
-                    <span className="text-[13px] text-muted-foreground">Maandelijks (ex. BTW)</span>
-                    <span className="text-[18px] font-bold text-foreground">€{maandelijks}/mnd</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[11px] text-muted-foreground">incl. 21% BTW</span>
-                    <span className="text-[13px] text-muted-foreground">€{maandelijksIncl}/mnd</span>
-                  </div>
-                </div>
+                )}
+              </div>
+              {typeof cmsHosting?.price === "number" && cmsHosting.price > 0 && (
+                <p className="text-[12px] text-primary font-medium flex items-center gap-1.5 mt-4">
+                  <Check className="w-3.5 h-3.5" /> Eerste maand CMS gratis
+                </p>
               )}
             </div>
-            {typeof cmsHosting?.price === "number" && cmsHosting.price > 0 && (
-              <p className="text-[12px] text-primary font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Eerste maand CMS gratis</p>
-            )}
           </div>
 
-          <div className="p-5 rounded-xl border border-border bg-card">
-            <h3 className="text-[13px] font-bold text-foreground mb-3">Contactgegevens</h3>
-            <div className="space-y-1 text-[12px] text-muted-foreground">
-              <p><strong className="text-foreground">Naam:</strong> {briefing.naam || "—"}</p>
-              <p><strong className="text-foreground">Bedrijf:</strong> {briefing.bedrijfsnaam || "—"}</p>
-              <p><strong className="text-foreground">E-mail:</strong> {briefing.email || "—"}</p>
-              <p><strong className="text-foreground">Telefoon:</strong> {briefing.telefoon || "—"}</p>
-              {briefing.kvkNummer && <p><strong className="text-foreground">KVK:</strong> {briefing.kvkNummer}</p>}
-              {briefing.btwNummer && <p><strong className="text-foreground">BTW:</strong> {briefing.btwNummer}</p>}
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-5 py-3 bg-muted/30 border-b border-border">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground">Contactgegevens</h3>
+            </div>
+            <div className="p-5 space-y-1.5 text-[13px]">
+              <p><span className="font-medium text-foreground">Naam:</span> <span className="text-muted-foreground">{briefing.naam || "—"}</span></p>
+              <p><span className="font-medium text-foreground">Bedrijf:</span> <span className="text-muted-foreground">{briefing.bedrijfsnaam || "—"}</span></p>
+              <p><span className="font-medium text-foreground">E-mail:</span> <span className="text-muted-foreground">{briefing.email || "—"}</span></p>
+              <p><span className="font-medium text-foreground">Telefoon:</span> <span className="text-muted-foreground">{briefing.telefoon || "—"}</span></p>
+              {briefing.kvkNummer && <p><span className="font-medium text-foreground">KVK:</span> <span className="text-muted-foreground">{briefing.kvkNummer}</span></p>}
+              {briefing.btwNummer && <p><span className="font-medium text-foreground">BTW:</span> <span className="text-muted-foreground">{briefing.btwNummer}</span></p>}
             </div>
           </div>
         </div>
