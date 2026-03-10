@@ -98,6 +98,10 @@ export default function MoodboardTool() {
   const [chatInput, setChatInput] = useState("");
   const [isChatting, setIsChatting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [moodboardId, setMoodboardId] = useState<string | null>(null);
+  const [contactForm, setContactForm] = useState({ naam: "", email: "", telefoon: "", bedrijfsnaam: "" });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
