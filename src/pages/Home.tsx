@@ -246,9 +246,10 @@ const Home = () => {
 
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="relative rounded-2xl border border-border bg-card overflow-hidden group">
+            {/* Website card */}
+            <div className="relative rounded-2xl border border-border bg-card overflow-hidden group flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/8 pointer-events-none" />
-              <div className="relative p-10">
+              <div className="relative p-10 flex flex-col flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary mb-5">Website bouwen</p>
                 <h3 className="text-[22px] font-bold text-foreground leading-snug mb-3 max-w-[300px]">
                   Geen website? Wij bouwen hem voor je.
@@ -264,18 +265,21 @@ const Home = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-                  Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="mt-auto">
+                  <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
+                    Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
               <div className="px-10 pb-10">
                 <WebsiteMockup accent="primary" />
               </div>
             </div>
 
-            <div className="relative rounded-2xl border border-border bg-card overflow-hidden group">
+            {/* Marketing card */}
+            <div className="relative rounded-2xl border border-border bg-card overflow-hidden group flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-accent/4 via-transparent to-accent/8 pointer-events-none" />
-              <div className="relative p-10">
+              <div className="relative p-10 flex flex-col flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent mb-5">Marketing & Groei</p>
                 <h3 className="text-[22px] font-bold text-foreground leading-snug mb-3 max-w-[300px]">
                   Al een website? Laat hem harder werken.
@@ -291,9 +295,11 @@ const Home = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to="/marketing" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
-                  Bekijk marketingpakketten <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="mt-auto">
+                  <Link to="/marketing" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
+                    Bekijk marketingpakketten <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
               <div className="px-10 pb-10">
                 <MarketingMockup />
