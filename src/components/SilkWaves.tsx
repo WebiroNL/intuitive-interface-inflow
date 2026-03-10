@@ -103,19 +103,21 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
       mouse.ly = mouse.y;
       mouse.a = Math.atan2(dy, dx);
 
+      const cfg = variantConfig[variant];
       // Breathing gradient opacity
-      const t = time * 0.0006;
+      const t = time * 0.0006 * cfg.speed;
       const alpha1 = 0.30 + Math.sin(t * 1.1) * 0.15;
       const alpha2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
       const alpha3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
 
       // Build gradient
+      const [c1, c2, c3] = cfg.colors;
       const grad = ctx.createLinearGradient(0, 0, width, 0);
-      grad.addColorStop(0,    `hsla(234,82%,57%,0.04)`);
-      grad.addColorStop(0.25, `hsla(234,82%,57%,${alpha1.toFixed(2)})`);
-      grad.addColorStop(0.5,  `hsla(248,80%,59%,${alpha2.toFixed(2)})`);
-      grad.addColorStop(0.75, `hsla(259,79%,61%,${alpha3.toFixed(2)})`);
-      grad.addColorStop(1,    `hsla(259,79%,61%,0.04)`);
+      grad.addColorStop(0,    `hsla(${c1},0.04)`);
+      grad.addColorStop(0.25, `hsla(${c1},${alpha1.toFixed(2)})`);
+      grad.addColorStop(0.5,  `hsla(${c2},${alpha2.toFixed(2)})`);
+      grad.addColorStop(0.75, `hsla(${c3},${alpha3.toFixed(2)})`);
+      grad.addColorStop(1,    `hsla(${c3},0.04)`);
 
       ctx.clearRect(0, 0, width, height);
 
@@ -126,7 +128,7 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
         const line = points[i];
         ctx.beginPath();
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.4;
+        ctx.lineWidth = cfg.lineWidth;
 
         for (let j = 0; j < line.length; j++) {
           const p = line[j];
