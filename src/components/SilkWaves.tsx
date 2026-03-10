@@ -135,11 +135,11 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
 
           // Wave
           const move = noise(
-            (p.x + time * 0.008) * 0.002,
-            (p.y + time * 0.003) * 0.0015
+            (p.x + time * 0.008 * cfg.speed) * 0.002,
+            (p.y + time * 0.003 * cfg.speed) * 0.0015
           ) * 10;
-          p.wx = Math.cos(move) * 30;
-          p.wy = Math.sin(move) * 14;
+          p.wx = Math.cos(move) * 30 * cfg.waveAmp;
+          p.wy = Math.sin(move) * 14 * cfg.waveAmp;
 
           // Cursor interaction
           const ddx = p.x - mouse.sx;
