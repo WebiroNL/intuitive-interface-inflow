@@ -11,6 +11,7 @@ const AdminMessages = lazy(() => import('./admin/AdminMessages'));
 const AdminProducts = lazy(() => import('./admin/AdminProducts'));
 const AdminIntegrations = lazy(() => import('./admin/AdminIntegrations'));
 const AdminSettings = lazy(() => import('./admin/AdminSettings'));
+const AdminMoodboards = lazy(() => import('./admin/AdminMoodboards'));
 
 function AdminFallback() {
   return (
