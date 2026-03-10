@@ -97,6 +97,7 @@ function AppContent() {
             <Route path="/shop/:handle" element={<ProductDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route path="/moodboard" element={<MoodboardTool />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
