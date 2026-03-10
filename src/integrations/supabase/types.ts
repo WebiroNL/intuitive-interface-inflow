@@ -59,6 +59,56 @@ export type Database = {
         }
         Relationships: []
       }
+      moodboard_results: {
+        Row: {
+          ai_result: Json | null
+          bedrijfsnaam: string | null
+          created_at: string
+          email: string | null
+          id: string
+          lead_id: string | null
+          naam: string | null
+          notities: string | null
+          quiz_answers: Json
+          status: string | null
+          telefoon: string | null
+        }
+        Insert: {
+          ai_result?: Json | null
+          bedrijfsnaam?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          lead_id?: string | null
+          naam?: string | null
+          notities?: string | null
+          quiz_answers?: Json
+          status?: string | null
+          telefoon?: string | null
+        }
+        Update: {
+          ai_result?: Json | null
+          bedrijfsnaam?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          lead_id?: string | null
+          naam?: string | null
+          notities?: string | null
+          quiz_answers?: Json
+          status?: string | null
+          telefoon?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "moodboard_results_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           add_ons: Json | null
