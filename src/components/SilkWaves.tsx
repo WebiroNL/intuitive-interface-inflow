@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import { createNoise2D } from "simplex-noise";
 
+export type SilkWavesVariant = "default" | "pakketten" | "marketing" | "contact" | "proces";
+
 interface Props {
   className?: string;
+  variant?: SilkWavesVariant;
 }
 
 const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
