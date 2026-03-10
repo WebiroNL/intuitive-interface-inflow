@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Users, MousePointerClick, BarChart3 } from "lucide-react";
+import { SilkWaves } from "@/components/SilkWaves";
 
 /* ─── Animated counter ─── */
 function AnimCounter({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
