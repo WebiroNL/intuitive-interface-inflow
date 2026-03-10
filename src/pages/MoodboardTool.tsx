@@ -1,55 +1,71 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
-import { ArrowRight, ArrowLeft, Sparkles, Palette, Type, Layout, MessageCircle, Send, Loader2, RefreshCw, Check, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight, ArrowLeft, Sparkles, Palette, Type, Layout, MessageCircle, Send,
+  Loader2, RefreshCw, Check, ChevronRight, AlertTriangle,
+  UtensilsCrossed, ShoppingBag, Briefcase, Monitor, Heart, PenTool,
+  Target, DollarSign, Star, BookOpen, Mail, Building2,
+  Minus, Zap, Leaf, BarChart3, Gem, Puzzle,
+  Moon, Sun, TreePine, Waves, Rainbow, Circle,
+  FileText, Files, Layers, Library, HelpCircle,
+  Coins, CreditCard, Trophy, Award
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updatePageMeta } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import type { LucideIcon } from "lucide-react";
 
 /* ─── Quiz Data ─── */
-const quizSteps = [
+const quizSteps: Array<{
+  id: string;
+  question: string;
+  subtitle: string;
+  options: string[];
+  icons: LucideIcon[];
+}> = [
   {
     id: "branche",
     question: "In welke branche\nzit je?",
     subtitle: "Dit helpt ons de juiste visuele taal te kiezen.",
     options: ["Horeca", "Retail / E-commerce", "Dienstverlening", "Tech / SaaS", "Gezondheid / Wellness", "Creatief / Design"],
-    icons: ["🍽️", "🛍️", "💼", "💻", "🧘", "🎨"],
+    icons: [UtensilsCrossed, ShoppingBag, Briefcase, Monitor, Heart, PenTool],
   },
   {
     id: "doel",
     question: "Wat is het belangrijkste\ndoel van je website?",
     subtitle: "We stemmen het design af op jouw conversiedoel.",
     options: ["Meer klanten aantrekken", "Online verkopen", "Professionele uitstraling", "Informatie delen", "Leads genereren", "Merk opbouwen"],
-    icons: ["🎯", "💰", "✨", "📖", "📩", "🏗️"],
+    icons: [Target, DollarSign, Star, BookOpen, Mail, Building2],
   },
   {
     id: "stijl",
     question: "Welke stijl past\nbij jouw merk?",
     subtitle: "Kies de richting die het beste aanvoelt.",
     options: ["Minimalistisch & clean", "Bold & opvallend", "Warm & organisch", "Zakelijk & professioneel", "Luxe & premium", "Speels & creatief"],
-    icons: ["◻️", "⚡", "🌿", "📊", "💎", "🎪"],
+    icons: [Minus, Zap, Leaf, BarChart3, Gem, Puzzle],
   },
   {
     id: "kleuren",
     question: "Welke kleurrichting\nspreekt je aan?",
     subtitle: "De basis voor jouw kleurenpalet.",
     options: ["Donker & sophisticated", "Licht & fris", "Aarde-tinten & warm", "Blauw & vertrouwen", "Levendig & energiek", "Neutraal & tijdloos"],
-    icons: ["🌑", "☀️", "🪵", "🌊", "🌈", "⚪"],
+    icons: [Moon, Sun, TreePine, Waves, Rainbow, Circle],
   },
   {
     id: "paginas",
     question: "Hoeveel pagina's\nheb je nodig?",
     subtitle: "Bepaalt de complexiteit en het pakket.",
     options: ["1 pagina (one-pager)", "2-5 pagina's", "5-10 pagina's", "10+ pagina's", "Weet ik nog niet"],
-    icons: ["1️⃣", "📄", "📑", "📚", "🤷"],
+    icons: [FileText, Files, Layers, Library, HelpCircle],
   },
   {
     id: "budget",
     question: "Wat is je\nbudget indicatie?",
     subtitle: "We adviseren altijd eerlijk, nooit het duurste.",
     options: ["€500 - €1.000", "€1.000 - €2.000", "€2.000 - €5.000", "€5.000+", "Weet ik nog niet"],
-    icons: ["💵", "💶", "💎", "🏆", "🤷"],
+    icons: [Coins, CreditCard, Gem, Trophy, HelpCircle],
   },
 ];
 
@@ -77,7 +93,7 @@ interface MoodboardResult {
 function GradientOrb({ color, size, x, y, delay }: { color: string; size: number; x: string; y: string; delay: number }) {
   return (
     <motion.div
-      className="absolute rounded-full blur-3xl opacity-20 pointer-events-none"
+      className="absolute rounded-full blur-3xl opacity-15 pointer-events-none"
       style={{ width: size, height: size, left: x, top: y, background: color }}
       animate={{ scale: [1, 1.2, 1], x: [0, 30, -20, 0], y: [0, -20, 15, 0] }}
       transition={{ duration: 8, repeat: Infinity, delay, ease: "easeInOut" }}
@@ -85,21 +101,74 @@ function GradientOrb({ color, size, x, y, delay }: { color: string; size: number
   );
 }
 
+/* ─── Decorative floating grid lines (Stripe-style) ─── */
+function DecorativeGrid() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+      {/* Horizontal lines */}
+      {[20, 40, 60, 80].map((top) => (
+        <motion.div
+          key={`h-${top}`}
+          className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent"
+          style={{ top: `${top}%` }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: top * 0.01, duration: 1 }}
+        />
+      ))}
+      {/* Decorative dots at intersections */}
+      {[
+        { x: "15%", y: "20%" }, { x: "85%", y: "40%" },
+        { x: "25%", y: "60%" }, { x: "75%", y: "80%" },
+      ].map((pos, i) => (
+        <motion.div
+          key={`dot-${i}`}
+          className="absolute w-1.5 h-1.5 rounded-full bg-primary/20"
+          style={{ left: pos.x, top: pos.y }}
+          animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 3, repeat: Infinity, delay: i * 0.7 }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ─── Decorative floating card (fills empty space on quiz left side) ─── */
+function FloatingDecor({ step }: { step: number }) {
+  const labels = ["Branche", "Doel", "Stijl", "Kleuren", "Pagina's", "Budget"];
+  return (
+    <motion.div
+      className="hidden lg:flex absolute -bottom-8 -left-4 flex-col gap-2"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 }}
+    >
+      {/* Mini summary of answered questions */}
+      <div className="bg-card/60 backdrop-blur-md border border-border/40 rounded-2xl p-4 shadow-lg shadow-primary/5 max-w-[220px]">
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-3 font-medium">Jouw selectie</p>
+        {labels.slice(0, step).map((label, i) => (
+          <div key={label} className="flex items-center gap-2 mb-1.5 last:mb-0">
+            <Check className="w-3 h-3 text-primary shrink-0" />
+            <span className="text-xs text-muted-foreground truncate">{label}</span>
+          </div>
+        ))}
+        {step === 0 && <p className="text-xs text-muted-foreground/60 italic">Begin met je eerste keuze</p>}
+      </div>
+    </motion.div>
+  );
+}
+
 /* ─── Step dots ─── */
-function StepDots({ current, total, completed }: { current: number; total: number; completed: boolean }) {
+function StepDots({ current, total }: { current: number; total: number }) {
   return (
     <div className="flex items-center gap-2">
       {Array.from({ length: total }).map((_, i) => (
         <motion.div
           key={i}
           className={`rounded-full transition-all duration-300 ${
-            completed || i < current
-              ? "bg-primary"
-              : i === current
-              ? "bg-primary"
-              : "bg-border"
+            i < current ? "bg-primary" : i === current ? "bg-primary" : "bg-border"
           }`}
-          animate={{ width: i === current && !completed ? 24 : 8, height: 8 }}
+          animate={{ width: i === current ? 24 : 8, height: 8 }}
           transition={{ duration: 0.3 }}
         />
       ))}
@@ -117,7 +186,6 @@ function GeneratingAnimation() {
       exit={{ opacity: 0 }}
       className="flex flex-col items-center justify-center py-32"
     >
-      {/* Animated rings */}
       <div className="relative w-32 h-32 mb-10">
         {[0, 1, 2].map((i) => (
           <motion.div
@@ -144,7 +212,19 @@ function GeneratingAnimation() {
       >
         AI analyseert je voorkeuren...
       </motion.h2>
-      <p className="text-muted-foreground text-lg">Een moment, we creëren je unieke moodboard.</p>
+      <p className="text-muted-foreground text-lg">Een moment, we creeren je unieke moodboard.</p>
+
+      {/* Decorative loading bars */}
+      <div className="flex gap-3 mt-10">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <motion.div
+            key={i}
+            className="w-2 rounded-full bg-primary/20"
+            animate={{ height: [16, 40, 16] }}
+            transition={{ duration: 1, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+          />
+        ))}
+      </div>
     </motion.div>
   );
 }
@@ -231,12 +311,13 @@ export default function MoodboardTool() {
 
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated gradient orbs */}
+      {/* Background layers */}
       <GradientOrb color="hsl(var(--primary))" size={600} x="-10%" y="-20%" delay={0} />
       <GradientOrb color="hsl(var(--accent))" size={500} x="70%" y="10%" delay={2} />
       <GradientOrb color="hsl(var(--primary))" size={400} x="20%" y="70%" delay={4} />
+      <DecorativeGrid />
 
-      {/* Thin progress line */}
+      {/* Progress line */}
       <div className="fixed top-[72px] left-0 right-0 z-30">
         <motion.div
           className="h-[2px] bg-gradient-to-r from-primary via-accent to-primary"
@@ -257,11 +338,10 @@ export default function MoodboardTool() {
               exit={{ opacity: 0, x: -60 }}
               transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              {/* Two-column layout on desktop */}
               <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start min-h-[60vh]">
                 {/* Left: Question */}
-                <div className="flex flex-col justify-center">
-                  <StepDots current={step} total={quizSteps.length} completed={false} />
+                <div className="flex flex-col justify-center relative">
+                  <StepDots current={step} total={quizSteps.length} />
 
                   <motion.p
                     className="text-sm font-medium text-primary mt-8 mb-4 tracking-wide uppercase"
@@ -301,37 +381,42 @@ export default function MoodboardTool() {
                       </button>
                     </motion.div>
                   )}
+
+                  <FloatingDecor step={step} />
                 </div>
 
                 {/* Right: Options */}
                 <div className="flex flex-col justify-center">
                   <div className="space-y-3">
-                    {quizSteps[step].options.map((option, i) => (
-                      <motion.button
-                        key={option}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15 + i * 0.05, duration: 0.3 }}
-                        onClick={() => handleAnswer(option)}
-                        onMouseEnter={() => setHoveredOption(i)}
-                        onMouseLeave={() => setHoveredOption(null)}
-                        className={`w-full text-left group relative flex items-center gap-4 px-6 py-5 rounded-2xl border transition-all duration-300 ${
-                          answers[quizSteps[step].id] === option
-                            ? "border-primary bg-primary/5 shadow-[0_0_0_1px_hsl(var(--primary)/0.3)]"
-                            : "border-border/60 bg-card/50 backdrop-blur-sm hover:border-primary/40 hover:bg-card hover:shadow-lg hover:shadow-primary/5"
-                        }`}
-                      >
-                        <span className="text-2xl w-10 h-10 flex items-center justify-center rounded-xl bg-muted/50 group-hover:bg-primary/10 transition-colors shrink-0">
-                          {quizSteps[step].icons[i]}
-                        </span>
-                        <span className="text-base font-medium text-foreground flex-1">{option}</span>
-                        <ChevronRight
-                          className={`w-5 h-5 text-muted-foreground transition-all duration-300 ${
-                            hoveredOption === i ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+                    {quizSteps[step].options.map((option, i) => {
+                      const Icon = quizSteps[step].icons[i];
+                      return (
+                        <motion.button
+                          key={option}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.15 + i * 0.05, duration: 0.3 }}
+                          onClick={() => handleAnswer(option)}
+                          onMouseEnter={() => setHoveredOption(i)}
+                          onMouseLeave={() => setHoveredOption(null)}
+                          className={`w-full text-left group relative flex items-center gap-4 px-6 py-5 rounded-2xl border transition-all duration-300 ${
+                            answers[quizSteps[step].id] === option
+                              ? "border-primary bg-primary/5 shadow-[0_0_0_1px_hsl(var(--primary)/0.3)]"
+                              : "border-border/60 bg-card/50 backdrop-blur-sm hover:border-primary/40 hover:bg-card hover:shadow-lg hover:shadow-primary/5"
                           }`}
-                        />
-                      </motion.button>
-                    ))}
+                        >
+                          <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/50 group-hover:bg-primary/10 transition-colors shrink-0">
+                            <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                          </div>
+                          <span className="text-base font-medium text-foreground flex-1">{option}</span>
+                          <ChevronRight
+                            className={`w-5 h-5 text-muted-foreground transition-all duration-300 ${
+                              hoveredOption === i ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+                            }`}
+                          />
+                        </motion.button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -350,7 +435,7 @@ export default function MoodboardTool() {
               className="flex flex-col items-center justify-center py-32"
             >
               <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center mb-6">
-                <span className="text-3xl">⚠️</span>
+                <AlertTriangle className="w-8 h-8 text-destructive" />
               </div>
               <h2 className="text-2xl font-bold text-foreground mb-3">Er ging iets mis</h2>
               <p className="text-muted-foreground mb-8 text-center max-w-md">{error}</p>
@@ -391,7 +476,7 @@ export default function MoodboardTool() {
                 </p>
               </motion.div>
 
-              {/* ── Color palette - full width hero ── */}
+              {/* Color palette */}
               <motion.div
                 className="mb-8"
                 initial={{ opacity: 0, y: 20 }}
@@ -418,7 +503,7 @@ export default function MoodboardTool() {
                 </div>
               </motion.div>
 
-              {/* ── Bento grid ── */}
+              {/* Bento grid */}
               <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 {/* Typography - spans 2 cols */}
                 <motion.div
@@ -513,15 +598,13 @@ export default function MoodboardTool() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.65 }}
                 >
-                  {/* Decorative gradient blob */}
                   <div className="absolute -top-20 -right-20 w-60 h-60 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-
                   <div className="relative z-10">
                     <div className="flex items-start justify-between gap-6 flex-wrap">
                       <div className="flex-1 min-w-[280px]">
                         <div className="flex items-center gap-3 mb-4">
                           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-primary" />
+                            <Award className="w-5 h-5 text-primary" />
                           </div>
                           <div>
                             <h3 className="font-semibold text-foreground">Pakketadvies</h3>
