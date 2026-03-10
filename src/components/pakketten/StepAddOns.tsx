@@ -1,5 +1,5 @@
 import { Check, ChevronDown, ChevronUp, Wrench, Calendar, MessageCircle, Megaphone, Globe, Mail, BarChart3, Bot, CalendarCheck, Link, Palette, Lightbulb, Sparkles, Shield, PenTool } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { addOns, addOnCategoryLabels, contractDiscounts } from "./data";
 import { ContractDuration } from "./types";
@@ -29,28 +29,28 @@ export function StepAddOns({ selected, onToggle, contractDuration, onContractCha
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-10">
         <h2
-          className="font-bold tracking-[-0.025em] leading-[1.1] mb-2"
-          style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)" }}
+          className="font-bold tracking-[-0.03em] leading-[1.08] mb-3"
+          style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}
         >
           <span className="text-foreground">Kies je add-ons</span>
           <span className="text-primary">.</span>
         </h2>
-        <p className="text-[14px] text-muted-foreground">
+        <p className="text-[15px] text-muted-foreground leading-relaxed max-w-lg">
           Optioneel. Breid je website uit met extra diensten en widgets.
         </p>
       </div>
 
-      {/* Contract duration (applies to monthly add-ons too) */}
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60 w-fit mb-8">
+      {/* Contract duration */}
+      <div className="inline-flex items-center gap-0.5 p-1 rounded-xl bg-muted/60 border border-border mb-10">
         {(Object.entries(contractDiscounts) as [ContractDuration, { label: string; discount: number }][]).map(([key, { label }]) => (
           <button
             key={key}
             onClick={() => onContractChange(key)}
-            className={`px-4 py-2 rounded-md text-[13px] font-medium transition-all ${
+            className={`px-5 py-2.5 rounded-lg text-[13px] font-medium transition-all ${
               contractDuration === key
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-card text-foreground shadow-sm border border-border"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -62,7 +62,7 @@ export function StepAddOns({ selected, onToggle, contractDuration, onContractCha
       <div className="space-y-10">
         {categories.map((cat) => (
           <div key={cat}>
-            <h3 className="text-[14px] font-bold text-foreground mb-4 border-b border-border pb-2">
+            <h3 className="text-[14px] font-bold text-foreground mb-4 border-b border-border pb-3">
               {addOnCategoryLabels[cat] || cat}
             </h3>
             <div className="grid md:grid-cols-2 gap-3">
@@ -78,27 +78,27 @@ export function StepAddOns({ selected, onToggle, contractDuration, onContractCha
                   return (
                     <motion.div
                       key={addon.id}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.03 }}
+                      transition={{ delay: i * 0.04, duration: 0.35 }}
                       onClick={() => !isCustomPrice && onToggle(addon.id)}
-                      className={`rounded-xl border transition-all ${isCustomPrice ? "cursor-default" : "cursor-pointer"} ${
+                      className={`group rounded-xl border-2 transition-all duration-200 ${isCustomPrice ? "cursor-default" : "cursor-pointer"} ${
                         isSelected
-                          ? "border-primary bg-primary/[0.03] ring-1 ring-primary/20"
-                          : "border-border bg-card hover:border-primary/40"
+                          ? "border-primary bg-primary/[0.03] shadow-md shadow-primary/5"
+                          : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
                       }`}
                     >
                       <div className="flex items-start gap-3 p-4">
                         <div
-                          className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                            isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                          className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                            isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                           }`}
                         >
                           {isSelected ? <Check className="w-4 h-4" /> : <AddonIcon name={addon.icon} />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start gap-2">
-                            <span className="font-semibold text-foreground text-[13px]">{addon.name}</span>
+                            <span className="font-semibold text-foreground text-[14px] tracking-[-0.01em]">{addon.name}</span>
                             <span className="text-primary font-bold text-[13px] whitespace-nowrap">
                               {isCustomPrice ? (
                                 <span>{addon.price}</span>
@@ -124,18 +124,25 @@ export function StepAddOns({ selected, onToggle, contractDuration, onContractCha
                         </div>
                       </div>
 
-                      {expandedAddon === addon.id && addon.features && (
-                        <div className="px-4 pb-4 pt-0 ml-12">
-                          <ul className="space-y-1">
-                            {addon.features.map((f) => (
-                              <li key={f} className="flex items-start gap-1.5 text-[12px] text-muted-foreground">
-                                <Check className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
-                                {f}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <AnimatePresence>
+                        {expandedAddon === addon.id && addon.features && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="px-4 pb-4 pt-0 ml-12 overflow-hidden"
+                          >
+                            <ul className="space-y-1.5">
+                              {addon.features.map((f) => (
+                                <li key={f} className="flex items-start gap-2 text-[12px] text-muted-foreground">
+                                  <Check className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                                  {f}
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   );
                 })}

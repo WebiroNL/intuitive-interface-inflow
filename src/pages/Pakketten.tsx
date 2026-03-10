@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { updatePageMeta } from "@/utils/seo";
 import { StepChoice, FlowType } from "@/components/pakketten/StepChoice";
 import { StepIndicator } from "@/components/pakketten/StepIndicator";
@@ -80,8 +79,8 @@ const Pakketten = () => {
       switch (step) {
         case 1: return !!selectedPackage;
         case 2: return !!selectedCmsHosting;
-        case 3: return true; // add-ons optional
-        case 4: return true; // marketing optional
+        case 3: return true;
+        case 4: return true;
         case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
         case 6: return true;
         default: return false;
@@ -111,7 +110,6 @@ const Pakketten = () => {
 
   const handlePrev = () => {
     if (step === 1) {
-      // Go back to choice, reset flow
       setStep(0);
       return;
     }
@@ -121,12 +119,10 @@ const Pakketten = () => {
 
   const handleFlowSelect = (flow: FlowType) => {
     setFlowType(flow);
-    // Auto-advance to step 1 when a flow is selected
     setStep(1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Render current step content
   const renderStep = () => {
     if (step === 0) {
       return <StepChoice selected={flowType} onSelect={handleFlowSelect} />;
@@ -137,7 +133,7 @@ const Pakketten = () => {
         case 1: return <StepPackage selected={selectedPackage} onSelect={setSelectedPackage} />;
         case 2: return <StepCmsHosting selected={selectedCmsHosting} onSelect={setSelectedCmsHosting} contractDuration={contractDuration} onContractChange={setContractDuration} />;
         case 3: return <StepAddOns selected={selectedAddOns} onToggle={toggleAddOn} contractDuration={contractDuration} onContractChange={setContractDuration} />;
-        case 4: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} />;
+        case 4: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} contractDuration={contractDuration} onContractChange={setContractDuration} />;
         case 5: return <StepBriefing data={briefing} onChange={setBriefing} />;
         case 6: return <StepOverview selectedPackage={selectedPackage} selectedCmsHosting={selectedCmsHosting} contractDuration={contractDuration} selectedAddOns={selectedAddOns} selectedMarketing={selectedMarketing} briefing={briefing} flowType="website" />;
       }
@@ -145,7 +141,7 @@ const Pakketten = () => {
 
     if (flowType === "marketing") {
       switch (step) {
-        case 1: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} />;
+        case 1: return <StepMarketing selected={selectedMarketing} onToggle={toggleMarketing} contractDuration={contractDuration} onContractChange={setContractDuration} />;
         case 2: return <StepBriefing data={briefing} onChange={setBriefing} />;
         case 3: return <StepOverview selectedPackage={null} selectedCmsHosting={null} contractDuration={contractDuration} selectedAddOns={[]} selectedMarketing={selectedMarketing} briefing={briefing} flowType="marketing" />;
       }
@@ -156,18 +152,18 @@ const Pakketten = () => {
 
   return (
     <main className="bg-background">
-      {/* ══════ HERO ══════ */}
+      {/* Hero */}
       <section className="border-b border-border bg-background pt-[100px]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
           <div className="max-w-3xl">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
-              Website of marketing nodig? Configureer hieronder.
+              Pakket samenstellen
             </p>
             <h1
               className="font-bold tracking-[-0.03em] leading-[1.05] mb-6"
               style={{ fontSize: "clamp(2.4rem, 4.8vw, 4rem)" }}
             >
-              <span className="text-foreground">Kies jouw pakket</span>
+              <span className="text-foreground">Configureer jouw pakket</span>
               <span className="text-primary">.</span>
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed mb-6 max-w-[520px]">
@@ -177,7 +173,7 @@ const Pakketten = () => {
         </div>
       </section>
 
-      {/* ══════ CONFIGURATOR ══════ */}
+      {/* Configurator */}
       <section className="border-b border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
           {step > 0 && flowType && (
@@ -211,23 +207,37 @@ const Pakketten = () => {
           </div>
 
           {/* Mobile nav */}
-          <div className="lg:hidden mt-8 flex gap-3">
-            {step > 0 && (
+          {step > 0 && (
+            <div className="lg:hidden mt-10 flex gap-3">
               <button
                 onClick={handlePrev}
-                className="flex-1 py-3 rounded-[6px] border border-input text-foreground font-semibold text-[14px]"
+                className="flex-1 py-3.5 rounded-lg border border-border text-foreground font-semibold text-[14px] hover:bg-muted/40 transition-colors"
               >
                 Vorige stap
               </button>
-            )}
-            <button
-              onClick={handleNext}
-              disabled={!canNext()}
-              className="flex-1 py-3 rounded-[6px] bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-50"
-            >
-              {step === 0 ? "Volgende stap" : step === totalSteps ? "Versturen" : "Volgende stap"}
-            </button>
-          </div>
+              <button
+                onClick={handleNext}
+                disabled={!canNext()}
+                className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-40"
+              >
+                {step === totalSteps ? "Versturen" : "Volgende stap"}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {step === 0 && (
+            <div className="lg:hidden mt-8">
+              <button
+                onClick={handleNext}
+                disabled={!canNext()}
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-40"
+              >
+                Volgende stap
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
