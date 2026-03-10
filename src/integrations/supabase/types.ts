@@ -14,16 +14,176 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          bedrijfsnaam: string | null
+          bericht: string | null
+          bron: string | null
+          created_at: string
+          email: string
+          id: string
+          naam: string
+          notities: string | null
+          status: string | null
+          telefoon: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          bedrijfsnaam?: string | null
+          bericht?: string | null
+          bron?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          naam: string
+          notities?: string | null
+          status?: string | null
+          telefoon?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          bedrijfsnaam?: string | null
+          bericht?: string | null
+          bron?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          naam?: string
+          notities?: string | null
+          status?: string | null
+          telefoon?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          add_ons: Json | null
+          briefing: Json | null
+          btw: number | null
+          cms_hosting: string | null
+          contract_duur: string | null
+          created_at: string
+          id: string
+          lead_id: string | null
+          maandelijks: number | null
+          marketing_services: Json | null
+          order_number: string | null
+          pakket: string | null
+          status: string | null
+          subtotaal: number | null
+          totaal: number | null
+          updated_at: string
+        }
+        Insert: {
+          add_ons?: Json | null
+          briefing?: Json | null
+          btw?: number | null
+          cms_hosting?: string | null
+          contract_duur?: string | null
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          maandelijks?: number | null
+          marketing_services?: Json | null
+          order_number?: string | null
+          pakket?: string | null
+          status?: string | null
+          subtotaal?: number | null
+          totaal?: number | null
+          updated_at?: string
+        }
+        Update: {
+          add_ons?: Json | null
+          briefing?: Json | null
+          btw?: number | null
+          cms_hosting?: string | null
+          contract_duur?: string | null
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          maandelijks?: number | null
+          marketing_services?: Json | null
+          order_number?: string | null
+          pakket?: string | null
+          status?: string | null
+          subtotaal?: number | null
+          totaal?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +310,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
