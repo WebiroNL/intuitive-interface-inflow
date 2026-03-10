@@ -15,6 +15,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Pakketten = lazy(() => import("./pages/Pakketten"));
 const Proces = lazy(() => import("./pages/Proces"));
 const Marketing = lazy(() => import("./pages/Marketing"));
+const Oplossingen = lazy(() => import("./pages/Oplossingen"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
