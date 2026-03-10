@@ -10,7 +10,17 @@ interface Props {
 
 const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
 
-export function SilkWaves({ className = "" }: Props) {
+const variantConfig: Record<SilkWavesVariant, {
+  colors: [string, string, string]; speed: number; waveAmp: number; lineWidth: number;
+}> = {
+  default:    { colors: ["234,82%,57%", "248,80%,59%", "259,79%,61%"], speed: 1, waveAmp: 1, lineWidth: 1.4 },
+  pakketten:  { colors: ["234,82%,57%", "220,70%,55%", "248,80%,59%"], speed: 0.7, waveAmp: 1.3, lineWidth: 1.2 },
+  marketing:  { colors: ["248,80%,59%", "280,70%,55%", "310,65%,55%"], speed: 1.2, waveAmp: 0.8, lineWidth: 1.6 },
+  contact:    { colors: ["220,75%,55%", "234,82%,57%", "200,70%,50%"], speed: 0.5, waveAmp: 1.5, lineWidth: 1.0 },
+  proces:     { colors: ["259,79%,61%", "234,82%,57%", "210,75%,55%"], speed: 0.9, waveAmp: 1.1, lineWidth: 1.3 },
+};
+
+export function SilkWaves({ className = "", variant = "default" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>();
   const noise2D = useRef(createNoise2D());
