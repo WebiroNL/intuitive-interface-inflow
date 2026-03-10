@@ -81,6 +81,7 @@ function AppContent() {
             <Route path="/pakketten" element={<Pakketten />} />
             <Route path="/proces" element={<Proces />} />
             <Route path="/marketing" element={<Marketing />} />
+            <Route path="/oplossingen" element={<Oplossingen />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
