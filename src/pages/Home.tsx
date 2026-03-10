@@ -296,7 +296,7 @@ const Home = () => {
                   ))}
                 </ul>
                 <div className="mt-auto">
-                  <Link to="/marketing" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
+                  <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
                     Bekijk marketingpakketten <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
