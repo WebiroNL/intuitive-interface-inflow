@@ -144,7 +144,7 @@ export default function MoodboardTool() {
 
   return (
     <>
-      <StructuredData type="WebPage" data={{ name: "AI Moodboard Generator", description: "Ontdek jouw perfecte webdesign stijl" }} />
+      <StructuredData type="WebSite" data={{ name: "AI Moodboard Generator", description: "Ontdek jouw perfecte webdesign stijl" }} />
 
       <main className="min-h-screen bg-background pt-24 pb-20">
         {/* Progress bar */}
