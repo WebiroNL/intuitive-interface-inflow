@@ -178,6 +178,49 @@ export default function MoodboardTool() {
     setResult(null);
     setChatMessages([]);
     setError(null);
+    setMoodboardId(null);
+    setContactSubmitted(false);
+    setContactForm({ naam: "", email: "", telefoon: "", bedrijfsnaam: "" });
+  };
+
+  const submitContact = async () => {
+    if (!contactForm.naam.trim() || !contactForm.email.trim()) return;
+    setContactLoading(true);
+    try {
+      // Create lead
+      const { data: lead } = await supabase
+        .from("leads")
+        .insert({
+          naam: contactForm.naam.trim(),
+          email: contactForm.email.trim(),
+          telefoon: contactForm.telefoon.trim() || null,
+          bedrijfsnaam: contactForm.bedrijfsnaam.trim() || null,
+          bron: "moodboard",
+          bericht: `Moodboard quiz ingevuld. Pakketadvies: ${result?.pakketAdvies?.aanbevolen || "onbekend"}`,
+        } as any)
+        .select("id")
+        .single();
+
+      // Link lead to moodboard result
+      if (lead && moodboardId) {
+        await supabase
+          .from("moodboard_results" as any)
+          .update({
+            naam: contactForm.naam.trim(),
+            email: contactForm.email.trim(),
+            telefoon: contactForm.telefoon.trim() || null,
+            bedrijfsnaam: contactForm.bedrijfsnaam.trim() || null,
+            lead_id: (lead as any).id,
+          } as any)
+          .eq("id", moodboardId);
+      }
+
+      setContactSubmitted(true);
+    } catch {
+      // Silently fail
+    } finally {
+      setContactLoading(false);
+    }
   };
 
   const progress = result ? 100 : ((step) / quizSteps.length) * 100;
