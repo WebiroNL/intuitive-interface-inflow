@@ -136,6 +136,14 @@ export default function MoodboardTool() {
       if (fnError) throw fnError;
       if (data?.error) throw new Error(data.error);
       setResult(data.result);
+
+      // Save to database
+      const { data: inserted } = await supabase
+        .from("moodboard_results" as any)
+        .insert({ quiz_answers: quizAnswers, ai_result: data.result } as any)
+        .select("id")
+        .single();
+      if (inserted) setMoodboardId((inserted as any).id);
     } catch (e: any) {
       setError(e.message || "Er ging iets mis. Probeer het opnieuw.");
     } finally {
