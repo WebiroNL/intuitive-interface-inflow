@@ -4,11 +4,11 @@ import { Link, useLocation } from "react-router-dom";
 import webiroLogo from "@/assets/logo-webiro.svg";
 
 const navLinks = [
+  { label: "Oplossingen", href: "/oplossingen", hasDropdown: true },
   { label: "Diensten", href: "/pakketten", hasDropdown: true },
-  { label: "Oplossingen", href: "/marketing", hasDropdown: true },
   { label: "Proces", href: "/proces", hasDropdown: false },
   { label: "Blog", href: "/blog", hasDropdown: false },
-  { label: "Prijzen", href: "/pakketten", hasDropdown: false },
+  { label: "Shop", href: "/shop", hasDropdown: false },
 ];
 
 const Navbar = () => {

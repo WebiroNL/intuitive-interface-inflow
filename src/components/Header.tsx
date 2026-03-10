@@ -5,11 +5,11 @@ import webiroLogo from '@/assets/logo-webiro.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
-  { label: "Diensten",    href: "/pakketten", dropdown: true },
-  { label: "Oplossingen", href: "/marketing",  dropdown: true },
-  { label: "Proces",      href: "/proces",     dropdown: false },
-  { label: "Blog",        href: "/blog",       dropdown: false },
-  { label: "Prijzen",     href: "/pakketten",  dropdown: false },
+  { label: "Oplossingen", href: "/oplossingen", dropdown: true },
+  { label: "Diensten",    href: "/pakketten",    dropdown: true },
+  { label: "Proces",      href: "/proces",       dropdown: false },
+  { label: "Blog",        href: "/blog",         dropdown: false },
+  { label: "Shop",        href: "/shop",         dropdown: false },
 ];
 
 export function Header() {
