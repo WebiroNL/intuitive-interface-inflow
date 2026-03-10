@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { updatePageMeta } from "@/utils/seo";
+import { PakkettenHero } from "@/components/pakketten/HeroMockups";
 import { StepChoice, FlowType } from "@/components/pakketten/StepChoice";
 import { StepIndicator } from "@/components/pakketten/StepIndicator";
 import { StepPackage } from "@/components/pakketten/StepPackage";
@@ -153,25 +154,7 @@ const Pakketten = () => {
   return (
     <main className="bg-background">
       {/* Hero */}
-      <section className="border-b border-border bg-background pt-[100px]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
-          <div className="max-w-3xl">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
-              Pakket samenstellen
-            </p>
-            <h1
-              className="font-bold tracking-[-0.03em] leading-[1.05] mb-6"
-              style={{ fontSize: "clamp(2.4rem, 4.8vw, 4rem)" }}
-            >
-              <span className="text-foreground">Configureer jouw pakket</span>
-              <span className="text-primary">.</span>
-            </h1>
-            <p className="text-[16px] text-muted-foreground leading-relaxed mb-6 max-w-[520px]">
-              Van website bouw tot online marketing. Transparante prijzen, geen verborgen kosten.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PakkettenHero />
 
       {/* Configurator */}
       <section className="border-b border-border bg-background">
