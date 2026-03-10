@@ -580,6 +580,94 @@ export default function MoodboardTool() {
                 </div>
               </section>
 
+              {/* ── Contact CTA ── */}
+              <section className="border border-border rounded-2xl overflow-hidden mb-16">
+                <div className="bg-card p-8 md:p-10">
+                  {contactSubmitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center py-6"
+                    >
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <Check className="w-6 h-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">Bedankt voor je interesse</h3>
+                      <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                        We nemen zo snel mogelijk contact met je op om je project te bespreken.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <>
+                      <div className="flex items-start gap-4 mb-8">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                          <Mail className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground mb-1">Klaar om te starten?</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Laat je gegevens achter en we nemen contact op om je moodboard te bespreken.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4 mb-6">
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            value={contactForm.naam}
+                            onChange={(e) => setContactForm(f => ({ ...f, naam: e.target.value }))}
+                            placeholder="Je naam *"
+                            className="pl-10 h-11"
+                          />
+                        </div>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            type="email"
+                            value={contactForm.email}
+                            onChange={(e) => setContactForm(f => ({ ...f, email: e.target.value }))}
+                            placeholder="Je e-mailadres *"
+                            className="pl-10 h-11"
+                          />
+                        </div>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            value={contactForm.telefoon}
+                            onChange={(e) => setContactForm(f => ({ ...f, telefoon: e.target.value }))}
+                            placeholder="Telefoonnummer"
+                            className="pl-10 h-11"
+                          />
+                        </div>
+                        <div className="relative">
+                          <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            value={contactForm.bedrijfsnaam}
+                            onChange={(e) => setContactForm(f => ({ ...f, bedrijfsnaam: e.target.value }))}
+                            placeholder="Bedrijfsnaam"
+                            className="pl-10 h-11"
+                          />
+                        </div>
+                      </div>
+
+                      <Button
+                        onClick={submitContact}
+                        disabled={contactLoading || !contactForm.naam.trim() || !contactForm.email.trim()}
+                        className="gap-2 h-11 px-6"
+                      >
+                        {contactLoading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Send className="w-4 h-4" />
+                        )}
+                        Neem contact met mij op
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </section>
+
               {/* ── CTA ── */}
               <div className="flex items-center justify-center gap-3 border-t border-border pt-12">
                 <Link to="/pakketten">
