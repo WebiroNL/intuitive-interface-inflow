@@ -1,13 +1,26 @@
 import { useEffect, useRef } from "react";
 import { createNoise2D } from "simplex-noise";
 
+export type SilkWavesVariant = "default" | "pakketten" | "marketing" | "contact" | "proces";
+
 interface Props {
   className?: string;
+  variant?: SilkWavesVariant;
 }
 
 const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
 
-export function SilkWaves({ className = "" }: Props) {
+const variantConfig: Record<SilkWavesVariant, {
+  colors: [string, string, string]; speed: number; waveAmp: number; lineWidth: number;
+}> = {
+  default:    { colors: ["234,82%,57%", "248,80%,59%", "259,79%,61%"], speed: 1, waveAmp: 1, lineWidth: 1.4 },
+  pakketten:  { colors: ["234,82%,57%", "220,70%,55%", "248,80%,59%"], speed: 0.7, waveAmp: 1.3, lineWidth: 1.2 },
+  marketing:  { colors: ["248,80%,59%", "280,70%,55%", "310,65%,55%"], speed: 1.2, waveAmp: 0.8, lineWidth: 1.6 },
+  contact:    { colors: ["220,75%,55%", "234,82%,57%", "200,70%,50%"], speed: 0.5, waveAmp: 1.5, lineWidth: 1.0 },
+  proces:     { colors: ["259,79%,61%", "234,82%,57%", "210,75%,55%"], speed: 0.9, waveAmp: 1.1, lineWidth: 1.3 },
+};
+
+export function SilkWaves({ className = "", variant = "default" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>();
   const noise2D = useRef(createNoise2D());
@@ -90,19 +103,21 @@ export function SilkWaves({ className = "" }: Props) {
       mouse.ly = mouse.y;
       mouse.a = Math.atan2(dy, dx);
 
+      const cfg = variantConfig[variant];
       // Breathing gradient opacity
-      const t = time * 0.0006;
+      const t = time * 0.0006 * cfg.speed;
       const alpha1 = 0.30 + Math.sin(t * 1.1) * 0.15;
       const alpha2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
       const alpha3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
 
       // Build gradient
+      const [c1, c2, c3] = cfg.colors;
       const grad = ctx.createLinearGradient(0, 0, width, 0);
-      grad.addColorStop(0,    `hsla(234,82%,57%,0.04)`);
-      grad.addColorStop(0.25, `hsla(234,82%,57%,${alpha1.toFixed(2)})`);
-      grad.addColorStop(0.5,  `hsla(248,80%,59%,${alpha2.toFixed(2)})`);
-      grad.addColorStop(0.75, `hsla(259,79%,61%,${alpha3.toFixed(2)})`);
-      grad.addColorStop(1,    `hsla(259,79%,61%,0.04)`);
+      grad.addColorStop(0,    `hsla(${c1},0.04)`);
+      grad.addColorStop(0.25, `hsla(${c1},${alpha1.toFixed(2)})`);
+      grad.addColorStop(0.5,  `hsla(${c2},${alpha2.toFixed(2)})`);
+      grad.addColorStop(0.75, `hsla(${c3},${alpha3.toFixed(2)})`);
+      grad.addColorStop(1,    `hsla(${c3},0.04)`);
 
       ctx.clearRect(0, 0, width, height);
 
@@ -113,18 +128,18 @@ export function SilkWaves({ className = "" }: Props) {
         const line = points[i];
         ctx.beginPath();
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.4;
+        ctx.lineWidth = cfg.lineWidth;
 
         for (let j = 0; j < line.length; j++) {
           const p = line[j];
 
           // Wave
           const move = noise(
-            (p.x + time * 0.008) * 0.002,
-            (p.y + time * 0.003) * 0.0015
+            (p.x + time * 0.008 * cfg.speed) * 0.002,
+            (p.y + time * 0.003 * cfg.speed) * 0.0015
           ) * 10;
-          p.wx = Math.cos(move) * 30;
-          p.wy = Math.sin(move) * 14;
+          p.wx = Math.cos(move) * 30 * cfg.waveAmp;
+          p.wy = Math.sin(move) * 14 * cfg.waveAmp;
 
           // Cursor interaction
           const ddx = p.x - mouse.sx;
