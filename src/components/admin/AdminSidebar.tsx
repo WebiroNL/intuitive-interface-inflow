@@ -11,6 +11,7 @@ import {
   Package,
   MessageSquare,
   Plug,
+  Palette,
 } from 'lucide-react';
 
 const navItems = [
