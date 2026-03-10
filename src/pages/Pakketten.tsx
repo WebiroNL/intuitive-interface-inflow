@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { updatePageMeta } from "@/utils/seo";
+import { PakkettenHero } from "@/components/pakketten/HeroMockups";
 import { StepChoice, FlowType } from "@/components/pakketten/StepChoice";
 import { StepIndicator } from "@/components/pakketten/StepIndicator";
 import { StepPackage } from "@/components/pakketten/StepPackage";
