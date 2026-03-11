@@ -38,19 +38,19 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: Mail,
+      icon: Mail01Icon,
       label: "E-mail",
       value: "info@webiro.nl",
       href: "mailto:info@webiro.nl",
     },
     {
-      icon: Phone,
+      icon: CallIcon,
       label: "Telefoon",
       value: "085 505 505 4",
       href: "tel:0855055054",
     },
     {
-      icon: MapPin,
+      icon: Location01Icon,
       label: "Locatie",
       value: "Nederland",
       href: null,
