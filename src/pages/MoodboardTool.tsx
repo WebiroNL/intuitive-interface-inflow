@@ -38,7 +38,7 @@ import {
   Moon01Icon,
   Sun01Icon,
   Tree02Icon,
-  WavesIcon,
+  WaveIcon,
   ColorsIcon,
   CircleIcon,
   File01Icon,
