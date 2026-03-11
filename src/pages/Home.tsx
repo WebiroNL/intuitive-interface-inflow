@@ -152,20 +152,20 @@ const Home = () => {
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
           <div className="max-w-[640px]">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
-              Professionele websites voor ondernemers
+              Websites · Marketing · Automation
             </p>
 
             <h1
               className="font-bold tracking-[-0.03em] leading-[1.05] mb-8"
               style={{ fontSize: "clamp(2.6rem, 5.2vw, 4.5rem)" }}
             >
-              <span className="text-foreground">De website-infrastructuur</span>
+              <span className="text-foreground">De digitale infrastructuur</span>
               <br />
-              <span className="text-primary/70">om jouw bedrijf te laten groeien.</span>
+              <span className="text-primary/70">voor groeiende bedrijven.</span>
             </h1>
 
             <p className="text-[16px] text-muted-foreground leading-relaxed mb-10 max-w-[480px]">
-              Professionele websites, marketing en automation — van je eerste klant tot duizenden. Binnen 7 dagen live.
+              Professionele websites, advertentiecampagnes en slimme automation — van eerste klant tot schaalbare groei. Binnen 7 dagen live.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
