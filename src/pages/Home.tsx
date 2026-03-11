@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon } from '@hugeicons/core-free-icons';
+import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon, RocketIcon, MessageMultiple01Icon, Search01Icon } from '@hugeicons/core-free-icons';
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
@@ -12,7 +12,7 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
   <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
     <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
       <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
-      <span className="w-2.5 h-2.5 rounded-full bg-[hsl(44,90%,60%)]/70" />
+      <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
       <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
       <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
     </div>
@@ -47,7 +47,7 @@ const MarketingMockup = () => (
   <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
     <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
       <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
-      <span className="w-2.5 h-2.5 rounded-full bg-[hsl(44,90%,60%)]/70" />
+      <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
       <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
       <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
     </div>
@@ -72,13 +72,32 @@ const MarketingMockup = () => (
   </div>
 );
 
-const clientNames = ["Matrix City", "CKN Legal", "Elektroza", "Coco De Rio", "Prokick Academie"];
-
 const stats = [
   { number: "7 dagen", label: "gemiddelde levertijd" },
   { number: "50+", label: "websites opgeleverd" },
   { number: "98%", label: "klanttevredenheid" },
   { number: "€449", label: "instapprijs" },
+];
+
+const processSteps = [
+  {
+    number: "01",
+    icon: MessageMultiple01Icon,
+    title: "Gratis kennismaking",
+    desc: "We bespreken je doelen, doelgroep en wensen in een kort gesprek. Je ontvangt direct een helder voorstel.",
+  },
+  {
+    number: "02",
+    icon: PaintBrushIcon,
+    title: "Design & development",
+    desc: "We ontwerpen en bouwen jouw website op maat. Je ziet live mee en geeft feedback tot het perfect is.",
+  },
+  {
+    number: "03",
+    icon: RocketIcon,
+    title: "Live binnen 7 dagen",
+    desc: "Na goedkeuring gaat je website live. Inclusief hosting, domein-configuratie en SEO-optimalisatie.",
+  },
 ];
 
 const whyItems = [
@@ -105,30 +124,11 @@ const reviews = [
 ];
 
 const Home = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const paused = useRef(false);
-
   useEffect(() => {
     updatePageMeta(
       "Webiro – Websites, marketing & automation voor ondernemers",
       "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    let raf: number;
-    const tick = () => {
-      if (!paused.current) {
-        const half = el.scrollWidth / 2;
-        if (el.scrollLeft >= half) el.scrollLeft = 0;
-        else el.scrollLeft += 0.7;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
@@ -139,22 +139,16 @@ const Home = () => {
 
       {/* ══════ HERO ══════ */}
       <section className="relative min-h-[680px] flex items-center overflow-hidden bg-background pt-[60px]">
-
-        {/* SVG silk waves — lightweight, mouse-interactive, white bg */}
         <SilkWaves />
-
-        {/* Left fade so text stays crisp on white */}
         <div
           className="absolute inset-y-0 left-0 w-[65%] pointer-events-none"
           style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 50%, hsl(var(--background)/0.6) 75%, transparent 100%)" }}
         />
-
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
           <div className="max-w-[640px]">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
               Websites · Marketing · Automation
             </p>
-
             <h1
               className="font-bold tracking-[-0.03em] leading-[1.05] mb-8"
               style={{ fontSize: "clamp(2.6rem, 5.2vw, 4.5rem)" }}
@@ -163,23 +157,21 @@ const Home = () => {
               <br />
               <span className="text-primary/70">voor groeiende bedrijven.</span>
             </h1>
-
             <p className="text-[16px] text-muted-foreground leading-relaxed mb-10 max-w-[480px]">
               Professionele websites, advertentiecampagnes en slimme automation — van eerste klant tot schaalbare groei. Binnen 7 dagen live.
             </p>
-
             <div className="flex flex-wrap items-center gap-3">
               <Link
-                to="/intake"
+                to="/pakketten"
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
-                Gratis gesprek <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
               </Link>
               <Link
-                to="/contact"
+                to="/intake"
                 className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
               >
-                Contact sales
+                Gratis gesprek
               </Link>
             </div>
           </div>
@@ -215,11 +207,7 @@ const Home = () => {
                   key={`${setIdx}-${tool.name}`}
                   className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
                 >
-                  <img
-                    src={tool.src}
-                    alt={tool.name}
-                    className="h-5 w-auto object-contain"
-                  />
+                  <img src={tool.src} alt={tool.name} className="h-5 w-auto object-contain" loading="lazy" />
                   <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
                     {tool.name}
                   </span>
@@ -230,6 +218,19 @@ const Home = () => {
         </div>
       </div>
 
+      {/* ══════ STATS — social proof right after hero ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
+            {stats.map(({ number, label }) => (
+              <div key={label} className="px-8 first:pl-0 last:pr-0 py-4">
+                <p className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-1">{number}</p>
+                <p className="text-sm text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
@@ -239,8 +240,8 @@ const Home = () => {
               className="font-bold tracking-[-0.025em] leading-[1.08]"
               style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
             >
-              <span className="text-foreground">Flexibele oplossingen voor elk bedrijf.</span>{" "}
-              <span className="text-muted-foreground font-bold">Groei met een aanpak die aansluit op waar jij nu staat.</span>
+              <span className="text-foreground">Twee trajecten, één doel: groei.</span>{" "}
+              <span className="text-muted-foreground font-bold">Kies wat bij jou past.</span>
             </h2>
           </div>
         </div>
@@ -268,7 +269,7 @@ const Home = () => {
                 </ul>
                 <div className="mt-auto">
                   <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-                    Bekijk websitepakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                    Configureer je pakket <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -298,7 +299,7 @@ const Home = () => {
                 </ul>
                 <div className="mt-auto">
                   <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
-                    Bekijk marketingpakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                    Bekijk marketingdiensten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -310,91 +311,47 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════ BILLING MODEL BENTO ══════ */}
+      {/* ══════ HOW IT WORKS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Left card — pricing model mockup */}
-            <div className="relative rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/8 pointer-events-none" />
-              <div className="relative p-10">
-                <h3 className="text-[22px] font-bold text-foreground leading-snug mb-8">
-                  Kies het pakket dat bij je past
-                </h3>
-
-                {/* Mock pricing UI */}
-                <div className="rounded-xl border border-border/60 bg-background overflow-hidden">
-                  <div className="px-5 py-4 border-b border-border/40 flex items-center justify-between">
-                    <div>
-                      <p className="text-[14px] font-bold text-foreground">Pro Plan</p>
-                      <p className="text-[12px] text-muted-foreground">Maandelijks gefactureerd</p>
-                    </div>
-                    <div className="px-2.5 py-1 rounded-md bg-primary/10 text-primary text-[11px] font-bold">Populair</div>
-                  </div>
-
-                  <div className="px-5 py-4 border-b border-border/40">
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-[12px] text-muted-foreground">Pagina's</p>
-                      <p className="text-[12px] font-semibold text-foreground">€ 89 per extra pagina</p>
-                    </div>
-                  </div>
-
-                  <div className="px-5 py-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Projectmeter</p>
-                    <p className="text-[12px] text-muted-foreground mb-2">Pagina's opgeleverd deze maand</p>
-                    <div className="w-full h-2 rounded-full bg-muted/60 overflow-hidden mb-2">
-                      <div className="h-full rounded-full bg-primary/70 w-[68%]" />
-                    </div>
-                    <p className="text-[20px] font-bold text-foreground tracking-tight">127</p>
-                  </div>
-                </div>
-              </div>
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start">
+            <div>
+              <h2
+                className="font-bold tracking-[-0.025em] leading-[1.08] mb-4"
+                style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
+              >
+                Hoe het werkt
+              </h2>
+              <p className="text-muted-foreground text-base leading-relaxed mb-8">
+                Van eerste gesprek tot live website in drie stappen. Duidelijk, snel en zonder verrassingen.
+              </p>
+              <Link
+                to="/proces"
+                className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
+              >
+                Bekijk het volledige proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+              </Link>
             </div>
 
-            {/* Right card — transparent pricing */}
-            <div className="relative rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/4 via-transparent to-accent/8 pointer-events-none" />
-              <div className="relative p-10">
-                <h3 className="text-[22px] font-bold text-foreground leading-snug mb-8">
-                  Transparante prijzen, geen verrassingen
-                </h3>
-
-                {/* Mock invoice UI */}
-                <div className="rounded-xl border border-border/60 bg-background overflow-hidden">
-                  <div className="px-5 py-4 border-b border-border/40">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Overzicht</p>
-                    {[
-                      { item: "Website design & development", price: "€ 449" },
-                      { item: "Extra pagina (×3)", price: "€ 267" },
-                      { item: "CMS integratie", price: "€ 149" },
-                    ].map(({ item, price }) => (
-                      <div key={item} className="flex items-center justify-between py-1.5">
-                        <p className="text-[13px] text-muted-foreground">{item}</p>
-                        <p className="text-[13px] font-semibold text-foreground">{price}</p>
-                      </div>
-                    ))}
+            <div className="space-y-6">
+              {processSteps.map(({ number, icon, title, desc }) => (
+                <div key={number} className="flex gap-5">
+                  <div className="flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
+                    </div>
+                    {number !== "03" && (
+                      <div className="w-px flex-1 bg-border mt-2" />
+                    )}
                   </div>
-                  <div className="px-5 py-4 flex items-center justify-between">
-                    <p className="text-[14px] font-bold text-foreground">Totaal</p>
-                    <p className="text-[14px] font-bold text-foreground">€ 865</p>
+                  <div className="pb-6">
+                    <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {number}</p>
+                    <h3 className="text-[16px] font-semibold text-foreground mb-1.5">{title}</h3>
+                    <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════ STATS ══════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
-            {stats.map(({ number, label }) => (
-              <div key={label} className="px-8 first:pl-0 last:pr-0 py-4">
-                <p className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-1">{number}</p>
-                <p className="text-sm text-muted-foreground">{label}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -413,7 +370,7 @@ const Home = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyItems.map(({ icon, title, desc }) => (
               <div key={title} className="group">
-                <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
                   <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
@@ -489,23 +446,6 @@ const Home = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ══════ MARQUEE ══════ */}
-      <section className="border-t border-border overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="flex gap-12 py-5 overflow-x-hidden whitespace-nowrap"
-          onMouseEnter={() => { paused.current = true; }}
-          onMouseLeave={() => { paused.current = false; }}
-          style={{ scrollbarWidth: "none" }}
-        >
-          {[...clientNames, ...clientNames].map((n, i) => (
-            <span key={i} className="text-[13px] font-semibold text-muted-foreground/40 uppercase tracking-[0.12em] flex-shrink-0">
-              {n}
-            </span>
-          ))}
         </div>
       </section>
 

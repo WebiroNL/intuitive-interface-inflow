@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowLeft01Icon,
@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { updatePageMeta } from "@/utils/seo";
 import { storefrontApiRequest, ShopifyProduct } from "@/lib/shopify";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const PRODUCT_BY_HANDLE_QUERY = `
   query GetProductByHandle($handle: String!) {
@@ -24,50 +26,31 @@ const PRODUCT_BY_HANDLE_QUERY = `
       descriptionHtml
       handle
       priceRange {
-        minVariantPrice {
-          amount
-          currencyCode
-        }
-        maxVariantPrice {
-          amount
-          currencyCode
-        }
+        minVariantPrice { amount currencyCode }
+        maxVariantPrice { amount currencyCode }
       }
       images(first: 10) {
-        edges {
-          node {
-            url
-            altText
-          }
-        }
+        edges { node { url altText } }
       }
       variants(first: 20) {
         edges {
           node {
-            id
-            title
-            price {
-              amount
-              currencyCode
-            }
+            id title
+            price { amount currencyCode }
             availableForSale
-            selectedOptions {
-              name
-              value
-            }
+            selectedOptions { name value }
           }
         }
       }
-      options {
-        name
-        values
-      }
+      options { name values }
     }
   }
 `;
 
 export default function ProductDetail() {
   const { handle } = useParams<{ handle: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [product, setProduct] = useState<ShopifyProduct["node"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
@@ -84,9 +67,7 @@ export default function ProductDetail() {
           setProduct(productData);
           const defaults: Record<string, string> = {};
           productData.options?.forEach((option: { name: string; values: string[] }) => {
-            if (option.values.length > 0) {
-              defaults[option.name] = option.values[0];
-            }
+            if (option.values.length > 0) defaults[option.name] = option.values[0];
           });
           setSelectedOptions(defaults);
           if (productData.variants?.edges?.length > 0) {
@@ -109,25 +90,29 @@ export default function ProductDetail() {
 
   useEffect(() => {
     if (!product) return;
-    const matchingVariant = product.variants?.edges?.find((v) => {
-      return v.node.selectedOptions?.every(
-        (opt) => selectedOptions[opt.name] === opt.value
-      );
-    });
-    if (matchingVariant) {
-      setSelectedVariant(matchingVariant.node.id);
-    }
+    const matchingVariant = product.variants?.edges?.find((v) =>
+      v.node.selectedOptions?.every((opt) => selectedOptions[opt.name] === opt.value)
+    );
+    if (matchingVariant) setSelectedVariant(matchingVariant.node.id);
   }, [selectedOptions, product]);
 
-  const getCurrentVariant = () => {
-    return product?.variants?.edges?.find((v) => v.node.id === selectedVariant)?.node;
-  };
+  const getCurrentVariant = () =>
+    product?.variants?.edges?.find((v) => v.node.id === selectedVariant)?.node;
 
-  const formatPrice = (amount: string, currencyCode: string) => {
-    return new Intl.NumberFormat('nl-NL', {
-      style: 'currency',
-      currency: currencyCode,
-    }).format(parseFloat(amount));
+  const formatPrice = (amount: string, currencyCode: string) =>
+    new Intl.NumberFormat('nl-NL', { style: 'currency', currency: currencyCode }).format(parseFloat(amount));
+
+  const handleAddToCart = () => {
+    if (!user) {
+      toast.info("Log in om producten aan je winkelwagen toe te voegen", {
+        action: {
+          label: "Inloggen",
+          onClick: () => navigate("/account/login", { state: { returnTo: `/shop/${handle}` } }),
+        },
+      });
+      return;
+    }
+    toast.success(`${product?.title} toegevoegd aan winkelwagen`);
   };
 
   if (loading) {
@@ -170,10 +155,7 @@ export default function ProductDetail() {
     <main className="min-h-screen bg-background">
       <div className="pt-28 pb-4 px-4 border-b border-border/50">
         <div className="container-webiro">
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-          >
+          <Link to="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
             <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
             Terug naar shop
           </Link>
@@ -193,15 +175,10 @@ export default function ProductDetail() {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <HugeiconsIcon icon={ShoppingCart01Icon} size={64} className="text-muted-foreground/30 mx-auto mb-4" />
-                      <p className="text-muted-foreground text-sm">Productafbeelding</p>
-                    </div>
+                    <HugeiconsIcon icon={ShoppingCart01Icon} size={64} className="text-muted-foreground/30 mx-auto mb-4" />
                   </div>
                 )}
-                <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
-                  Webiro
-                </Badge>
+                <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Webiro</Badge>
               </div>
               {images.length > 1 && (
                 <div className="flex gap-3 overflow-x-auto pb-2">
@@ -210,16 +187,10 @@ export default function ProductDetail() {
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
                       className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                        selectedImage === idx
-                          ? 'border-primary ring-2 ring-primary/20'
-                          : 'border-transparent hover:border-muted-foreground/30'
+                        selectedImage === idx ? 'border-primary ring-2 ring-primary/20' : 'border-transparent hover:border-muted-foreground/30'
                       }`}
                     >
-                      <img
-                        src={img.node.url}
-                        alt={img.node.altText || `${product.title} ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={img.node.url} alt={img.node.altText || `${product.title} ${idx + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -229,13 +200,11 @@ export default function ProductDetail() {
             <div className="space-y-6">
               <div>
                 <Badge variant="secondary" className="mb-3">NFC Producten</Badge>
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  {product.title}
-                </h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{product.title}</h1>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <HugeiconsIcon key={i} icon={StarIcon} size={16} className="fill-amber-400 text-amber-400" />
+                      <HugeiconsIcon key={i} icon={StarIcon} size={16} className="fill-webiro-yellow text-webiro-yellow" />
                     ))}
                   </div>
                   <span className="text-sm">Nieuw product</span>
@@ -247,24 +216,19 @@ export default function ProductDetail() {
                   <span className="text-3xl font-bold text-primary">
                     {currentVariant
                       ? formatPrice(currentVariant.price.amount, currentVariant.price.currencyCode)
-                      : formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)
-                    }
+                      : formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
                   </span>
                   <span className="text-muted-foreground text-sm">incl. BTW</span>
                 </div>
               </div>
 
-              <p className="text-muted-foreground leading-relaxed">
-                {product.description}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{product.description}</p>
 
               {product.options && product.options.length > 0 && product.options[0].name !== 'Title' && (
                 <div className="space-y-4">
                   {product.options.map((option) => (
                     <div key={option.name}>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {option.name}
-                      </label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{option.name}</label>
                       <div className="flex flex-wrap gap-2">
                         {option.values.map((value) => (
                           <button
@@ -286,29 +250,27 @@ export default function ProductDetail() {
               )}
 
               <div className="space-y-3 pt-4">
-                <Button size="lg" className="w-full text-lg py-6 rounded-full">
+                <Button size="lg" className="w-full text-lg py-6 rounded-full" onClick={handleAddToCart}>
                   <HugeiconsIcon icon={ShoppingCart01Icon} size={20} className="mr-2" />
-                  In winkelwagen
+                  {user ? "In winkelwagen" : "Inloggen om te bestellen"}
                 </Button>
                 <p className="text-center text-sm text-muted-foreground">
-                  <HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} className="inline mr-1 text-green-500" />
+                  <HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} className="inline mr-1 text-primary" />
                   Direct leverbaar • Gratis verzending vanaf €50
                 </p>
               </div>
 
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border/50">
-                <div className="text-center">
-                  <HugeiconsIcon icon={TruckIcon} size={24} className="mx-auto mb-2 text-primary" />
-                  <p className="text-xs text-muted-foreground">Snelle levering</p>
-                </div>
-                <div className="text-center">
-                  <HugeiconsIcon icon={ShieldKeyIcon} size={24} className="mx-auto mb-2 text-primary" />
-                  <p className="text-xs text-muted-foreground">Veilig betalen</p>
-                </div>
-                <div className="text-center">
-                  <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={24} className="mx-auto mb-2 text-primary" />
-                  <p className="text-xs text-muted-foreground">14 dagen retour</p>
-                </div>
+                {[
+                  { icon: TruckIcon, label: "Snelle levering" },
+                  { icon: ShieldKeyIcon, label: "Veilig betalen" },
+                  { icon: ArrowTurnBackwardIcon, label: "14 dagen retour" },
+                ].map(({ icon, label }) => (
+                  <div key={label} className="text-center">
+                    <HugeiconsIcon icon={icon} size={24} className="mx-auto mb-2 text-primary" />
+                    <p className="text-xs text-muted-foreground">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -317,37 +279,21 @@ export default function ProductDetail() {
 
       <section className="py-16 px-4 bg-muted/30">
         <div className="container-webiro">
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
-            Waarom kiezen voor Webiro NFC?
-          </h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Waarom kiezen voor Webiro NFC?</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-background rounded-2xl p-6 border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <HugeiconsIcon icon={CheckmarkBadge01Icon} size={24} className="text-primary" />
+            {[
+              { icon: CheckmarkBadge01Icon, title: "Plug & Play", desc: "Wij programmeren alles voor je. Ontvang je product en begin direct met verzamelen van reviews." },
+              { icon: StarIcon, title: "Premium Kwaliteit", desc: "Hoogwaardige materialen die jarenlang meegaan. Waterdicht en krasbestendig." },
+              { icon: ShieldKeyIcon, title: "Nederlandse Support", desc: "Hulp nodig? Ons team staat klaar om je te helpen met installatie en configuratie." },
+            ].map(({ icon, title, desc }) => (
+              <div key={title} className="bg-background rounded-2xl p-6 border border-border/50">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <HugeiconsIcon icon={icon} size={24} className="text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{title}</h3>
+                <p className="text-sm text-muted-foreground">{desc}</p>
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Plug & Play</h3>
-              <p className="text-sm text-muted-foreground">
-                Wij programmeren alles voor je. Ontvang je product en begin direct met verzamelen van reviews.
-              </p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <HugeiconsIcon icon={StarIcon} size={24} className="text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Premium Kwaliteit</h3>
-              <p className="text-sm text-muted-foreground">
-                Hoogwaardige materialen die jarenlang meegaan. Waterdicht en krasbestendig.
-              </p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <HugeiconsIcon icon={ShieldKeyIcon} size={24} className="text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Nederlandse Support</h3>
-              <p className="text-sm text-muted-foreground">
-                Hulp nodig? Ons team staat klaar om je te helpen met installatie en configuratie.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
