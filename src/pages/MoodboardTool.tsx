@@ -85,7 +85,7 @@ const quizSteps = [
     question: "Welke kleurrichting spreekt je aan?",
     subtitle: "De basis voor jouw kleurenpalet.",
     options: ["Donker & sophisticated", "Licht & fris", "Aarde-tinten & warm", "Blauw & vertrouwen", "Levendig & energiek", "Neutraal & tijdloos"],
-    icons: [Moon01Icon, Sun01Icon, Tree02Icon, Ocean01Icon, Colour01Icon, CircleIcon],
+    icons: [Moon01Icon, Sun01Icon, Tree02Icon, WaveIcon, ColorsIcon, CircleIcon],
   },
   {
     id: "paginas",
