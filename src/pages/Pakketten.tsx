@@ -237,6 +237,42 @@ const Pakketten = () => {
     return null;
   };
 
+  if (submitted) {
+    return (
+      <main className="bg-background pt-[60px]">
+        <section className="min-h-[60vh] flex items-center justify-center">
+          <div className="max-w-lg text-center px-6 py-20">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+              <Check className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-3">Bestelling geplaatst!</h1>
+            <p className="text-muted-foreground mb-2">
+              Bedankt voor je bestelling. We nemen binnen 24 uur contact met je op.
+            </p>
+            <p className="text-sm text-muted-foreground mb-8">
+              We hebben een bevestigingsmail gestuurd naar <strong className="text-foreground">{briefing.email}</strong>.
+              Bevestig je e-mail om in te loggen en je bestelling te volgen.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => navigate('/account/login')}
+                className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+              >
+                Inloggen <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate('/')}
+                className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+              >
+                Terug naar home
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="bg-background">
       {/* Hero */}
