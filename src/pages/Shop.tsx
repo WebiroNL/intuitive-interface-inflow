@@ -52,12 +52,12 @@ export default function Shop() {
               {/* Trust strip */}
               <div className="flex flex-wrap gap-6 text-[13px] text-muted-foreground">
                 {[
-                  { icon: Truck, text: "Gratis verzending v/a €50" },
-                  { icon: Shield, text: "14 dagen retour" },
-                  { icon: Zap, text: "Direct leverbaar" },
-                ].map(({ icon: Icon, text }) => (
+                  { icon: Truck01Icon, text: "Gratis verzending v/a €50" },
+                  { icon: ShieldKeyIcon, text: "14 dagen retour" },
+                  { icon: FlashIcon, text: "Direct leverbaar" },
+                ].map(({ icon, text }) => (
                   <div key={text} className="flex items-center gap-2">
-                    <Icon size={15} className="text-primary" />
+                    <HugeiconsIcon icon={icon} size={15} className="text-primary" />
                     {text}
                   </div>
                 ))}
