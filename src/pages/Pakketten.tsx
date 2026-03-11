@@ -99,7 +99,7 @@ const Pakketten = () => {
     if (flowType === "marketing") {
       switch (step) {
         case 1: return selectedMarketing.length > 0;
-        case 2: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 2: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.wachtwoord && briefing.wachtwoord.length >= 6 && briefing.akkoord);
         case 3: return true;
         default: return false;
       }
