@@ -23,7 +23,7 @@ import {
 const websiteSteps = [
   {
     number: "01",
-    icon: Handshake01Icon,
+    icon: Handshake02Icon,
     title: "Kennismaking & briefing",
     duration: "Dag 1",
     description:
