@@ -64,7 +64,7 @@ const quizSteps = [
     question: "In welke branche zit je?",
     subtitle: "Dit helpt ons de juiste visuele taal te kiezen.",
     options: ["Horeca", "Retail / E-commerce", "Dienstverlening", "Tech / SaaS", "Gezondheid / Wellness", "Creatief / Design"],
-    icons: [Restaurant01Icon, ShoppingBag01Icon, Briefcase01Icon, Monitor01Icon, FavouriteIcon, PaintBrushIcon],
+    icons: [Restaurant01Icon, ShoppingBag01Icon, Briefcase01Icon, ComputerIcon, FavouriteIcon, PaintBrushIcon],
   },
   {
     id: "doel",
