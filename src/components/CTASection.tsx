@@ -27,7 +27,7 @@ const featureCards = [
     linkTo: '/intake',
   },
   {
-    icon: <MessageCircle size={18} className="text-primary" />,
+    icon: <HugeiconsIcon icon={MessageMultiple01Icon} size={18} className="text-primary" />,
     heading: 'Liever eerst praten?',
     body: 'Stel al je vragen via WhatsApp of e-mail — we reageren snel.',
     linkLabel: 'Neem contact op',
