@@ -215,7 +215,7 @@ export default function Shop() {
                 desc: "Wij programmeren alles voor je. Ontvang, plaats en begin direct met verzamelen.",
               },
               {
-                icon: Star,
+                icon: StarIcon,
                 title: "Premium kwaliteit",
                 desc: "Hoogwaardige materialen die jarenlang meegaan. Waterdicht, krasbestendig en stijlvol.",
               },
