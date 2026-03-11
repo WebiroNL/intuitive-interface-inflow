@@ -233,7 +233,7 @@ const Proces = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-              <HugeiconsIcon icon={BarChart01Icon} size={16} className="text-accent" />
+              <HugeiconsIcon icon={BarChartIcon} size={16} className="text-accent" />
             </div>
             <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent">
               Marketing traject

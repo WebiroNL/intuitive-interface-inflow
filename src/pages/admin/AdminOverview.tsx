@@ -72,7 +72,7 @@ const AdminOverview = () => {
     { label: 'Totaal omzet', value: `€${stats.totalRevenue.toLocaleString('nl-NL')}`, icon: DollarCircleIcon, color: 'text-emerald-600' },
     { label: 'Maandelijks terugkerend', value: `€${stats.monthlyRecurring.toLocaleString('nl-NL')}/mnd`, icon: ChartIncreaseIcon, color: 'text-primary' },
     { label: 'Totaal orders', value: stats.totalOrders.toString(), icon: ShoppingCart01Icon, color: 'text-orange-500' },
-    { label: 'Totaal leads', value: stats.totalLeads.toString(), icon: UserGroup01Icon, color: 'text-violet-500' },
+    { label: 'Totaal leads', value: stats.totalLeads.toString(), icon: UserGroup02Icon, color: 'text-violet-500' },
   ];
 
   const statusBadge = (status: string) => {

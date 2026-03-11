@@ -332,7 +332,7 @@ export default function ProductDetail() {
             </div>
             <div className="bg-background rounded-2xl p-6 border border-border/50">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <HugeiconsIcon icon={Star01Icon} size={24} className="text-primary" />
+                <HugeiconsIcon icon={StarIcon} size={24} className="text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Premium Kwaliteit</h3>
               <p className="text-sm text-muted-foreground">

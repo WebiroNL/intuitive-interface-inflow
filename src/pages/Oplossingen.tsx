@@ -267,9 +267,9 @@ const Oplossingen = () => {
             {[
               { icon: FlashIcon, title: "Snel geleverd", desc: "Geen maanden wachten. Jouw website of campagne is binnen 7 dagen live." },
               { icon: Target01Icon, title: "Resultaatgericht", desc: "Alles wat we doen is gericht op meetbaar resultaat: meer leads, meer omzet." },
-              { icon: UserGroup01Icon, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
+              { icon: UserGroup02Icon, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
               { icon: ChartLineData01Icon, title: "Data-gedreven", desc: "Beslissingen op basis van data, niet onderbuikgevoel. Transparante rapportages." },
-              { icon: BarChart01Icon, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
+              { icon: BarChartIcon, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
               { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation — je hoeft niet te shoppen bij 5 bureaus." },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="group">

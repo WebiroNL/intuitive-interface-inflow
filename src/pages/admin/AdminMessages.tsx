@@ -19,7 +19,7 @@ const AdminMessages = () => {
           We werken aan een realtime livechat integratie waarmee je direct met bezoekers en klanten kunt communiceren.
         </p>
         <div className="flex items-center gap-2 mt-4 text-xs text-muted-foreground">
-          <HugeiconsIcon icon={HammerIcon} size={14} />
+          <HugeiconsIcon icon={Settings02Icon} size={14} />
           In ontwikkeling
         </div>
       </Card>
