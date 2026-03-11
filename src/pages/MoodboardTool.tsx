@@ -92,7 +92,7 @@ const quizSteps = [
     question: "Hoeveel pagina's heb je nodig?",
     subtitle: "Bepaalt de complexiteit en het pakket.",
     options: ["1 pagina (one-pager)", "2-5 pagina's", "5-10 pagina's", "10+ pagina's", "Weet ik nog niet"],
-    icons: [File01Icon, Files01Icon, Layers01Icon, Library01Icon, HelpCircleIcon],
+    icons: [File01Icon, Files01Icon, Layers01Icon, LibraryIcon, HelpCircleIcon],
   },
   {
     id: "budget",
