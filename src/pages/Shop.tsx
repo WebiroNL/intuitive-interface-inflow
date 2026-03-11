@@ -180,7 +180,7 @@ export default function Shop() {
           ) : (
             <div className="text-center py-20">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                <ShoppingBag className="w-8 h-8 text-muted-foreground" />
+                <HugeiconsIcon icon={ShoppingBag01Icon} className="w-8 h-8 text-muted-foreground" />
               </div>
               <h2 className="text-xl font-semibold text-foreground mb-2">Geen producten gevonden</h2>
               <p className="text-sm text-muted-foreground max-w-md mx-auto">
