@@ -434,7 +434,7 @@ const Home = () => {
               </h2>
             </div>
             <Link to="/contact" className="hidden md:inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-              Bekijk meer <ArrowRight className="w-4 h-4" />
+              Bekijk meer <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
