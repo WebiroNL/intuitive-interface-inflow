@@ -225,7 +225,7 @@ const Contact = () => {
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <info.icon className="w-6 h-6 text-primary" />
+                        <HugeiconsIcon icon={info.icon} className="w-6 h-6 text-primary" />
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">{info.label}</p>
