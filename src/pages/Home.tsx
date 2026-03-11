@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Star, Zap, Palette, Headphones, TrendingUp, Clock, Shield } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, CheckmarkCircle02Icon, Star01Icon, FlashIcon, PaintBrushIcon, Headset01Icon, TrendingUp01Icon, Clock01Icon, ShieldKeyIcon } from '@hugeicons/core-free-icons';
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
