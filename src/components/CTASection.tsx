@@ -106,7 +106,7 @@ export function CTASection({
                   to={card.linkTo}
                   className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline mt-auto"
                 >
-                  {card.linkLabel} <ArrowRight size={13} />
+                  {card.linkLabel} <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
                 </Link>
               </div>
             ))}

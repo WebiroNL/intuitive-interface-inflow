@@ -80,7 +80,7 @@ const AdminLogin = () => {
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Inloggen...' : (
-              <>Inloggen <ArrowRight size={16} className="ml-1" /></>
+              <>Inloggen <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-1" /></>
             )}
           </Button>
         </form>
