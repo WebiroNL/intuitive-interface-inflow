@@ -235,7 +235,7 @@ export default function ProductDetail() {
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <HugeiconsIcon key={i} icon={Star01Icon} size={16} className="fill-amber-400 text-amber-400" />
+                      <HugeiconsIcon key={i} icon={StarIcon} size={16} className="fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                   <span className="text-sm">Nieuw product</span>
