@@ -5,8 +5,8 @@ import {
   ArrowLeft01Icon,
   ShoppingCart01Icon,
   CheckmarkBadge01Icon,
-  Star01Icon,
-  Truck01Icon,
+  StarIcon,
+  TruckIcon,
   ShieldKeyIcon,
   ArrowTurnBackwardIcon,
 } from "@hugeicons/core-free-icons";

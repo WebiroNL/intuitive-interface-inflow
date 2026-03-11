@@ -80,7 +80,7 @@ const marketingSteps = [
   },
   {
     number: "03",
-    icon: BarChart01Icon,
+    icon: BarChartIcon,
     title: "Optimalisatie & schaling",
     duration: "Maand 1–3",
     description:

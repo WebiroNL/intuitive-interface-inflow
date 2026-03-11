@@ -22,7 +22,7 @@ const navItems = [
   { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
   { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
   { label: 'Producten', href: '/admin/products', icon: Package01Icon },
-  { label: 'Integraties', href: '/admin/integrations', icon: PlugSocket01Icon },
+  { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];

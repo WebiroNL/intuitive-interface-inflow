@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ShoppingCart01Icon,
-  UserGroup01Icon,
+  UserGroup02Icon,
   ChartIncreaseIcon,
   DollarCircleIcon,
   ArrowUpRight01Icon,

@@ -17,7 +17,7 @@ import {
   CheckmarkCircle02Icon,
   FlashIcon,
   Target01Icon,
-  UserGroup01Icon,
+  UserGroup02Icon,
   ChartLineData01Icon,
 } from "@hugeicons/core-free-icons";
 

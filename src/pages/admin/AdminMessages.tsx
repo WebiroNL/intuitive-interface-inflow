@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MessageMultiple01Icon, HammerIcon } from "@hugeicons/core-free-icons";
+import { MessageMultiple01Icon, Wrench01Icon } from "@hugeicons/core-free-icons";
 
 const AdminMessages = () => {
   return (

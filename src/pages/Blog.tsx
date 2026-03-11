@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon, Calendar01Icon, Clock01Icon, User01Icon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Calendar01Icon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
