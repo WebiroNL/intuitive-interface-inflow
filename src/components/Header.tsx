@@ -144,12 +144,22 @@ export function Header() {
                 {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
                 {theme === 'dark' ? 'Licht thema' : 'Donker thema'}
               </button>
-              <Link
-                to="/contact"
-                className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
-              >
-                Inloggen
-              </Link>
+              {user ? (
+                <Link
+                  to="/account"
+                  className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
+                >
+                  <HugeiconsIcon icon={User03Icon} size={14} />
+                  Mijn Account
+                </Link>
+              ) : (
+                <Link
+                  to="/account/login"
+                  className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
+                >
+                  Inloggen
+                </Link>
+              )}
               <Link
                 to="/intake"
                 className="py-2.5 px-3 bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] text-center hover:bg-primary/90 transition-colors"
