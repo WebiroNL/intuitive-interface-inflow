@@ -23,7 +23,7 @@ import {
 const websiteSteps = [
   {
     number: "01",
-    icon: UserMultiple02Icon,
+    icon: UserGroup02Icon,
     title: "Kennismaking & briefing",
     duration: "Dag 1",
     description:
