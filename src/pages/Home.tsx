@@ -173,7 +173,7 @@ const Home = () => {
                 to="/intake"
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
-                Gratis gesprek <ArrowRight className="w-4 h-4" />
+                Gratis gesprek <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
               </Link>
               <Link
                 to="/contact"
