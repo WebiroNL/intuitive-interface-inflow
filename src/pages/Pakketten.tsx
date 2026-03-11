@@ -322,11 +322,11 @@ const Pakketten = () => {
               </button>
               <button
                 onClick={handleNext}
-                disabled={!canNext()}
+                disabled={!canNext() || submitting}
                 className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-40"
               >
-                {step === totalSteps ? "Versturen" : "Volgende stap"}
-                <ArrowRight className="w-4 h-4" />
+                {submitting ? "Bezig..." : step === totalSteps ? "Bestelling plaatsen" : "Volgende stap"}
+                {!submitting && <ArrowRight className="w-4 h-4" />}
               </button>
             </div>
           )}
