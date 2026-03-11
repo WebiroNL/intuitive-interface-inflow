@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
