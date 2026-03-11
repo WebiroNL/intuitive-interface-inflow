@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ShoppingBag01Icon, ArrowRight01Icon, Truck01Icon, ShieldKeyIcon, FlashIcon, StarIcon } from '@hugeicons/core-free-icons';
+import { ShoppingBag01Icon, ArrowRight01Icon, TruckIcon, ShieldKeyIcon, FlashIcon, StarIcon } from '@hugeicons/core-free-icons';
 import { updatePageMeta } from "@/utils/seo";
 import { fetchProducts, ShopifyProduct } from "@/lib/shopify";
 import { CTASection } from "@/components/CTASection";
