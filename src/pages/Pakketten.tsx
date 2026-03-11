@@ -14,6 +14,10 @@ import { SelectionSidebar } from "@/components/pakketten/SelectionSidebar";
 import { ComparisonTable } from "@/components/pakketten/ComparisonTable";
 import { CTASection } from "@/components/CTASection";
 import { BriefingData, ContractDuration } from "@/components/pakketten/types";
+import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "@/components/pakketten/data";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const emptyBriefing: BriefingData = {
   naam: "",
@@ -29,6 +33,7 @@ const emptyBriefing: BriefingData = {
   gewensteOpleverdatum: "",
   opmerkingen: "",
   kortingscode: "",
+  wachtwoord: "",
   emailUpdates: false,
   akkoord: false,
 };
