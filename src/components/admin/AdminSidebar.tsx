@@ -11,7 +11,7 @@ import {
   Logout01Icon,
   Package01Icon,
   MessageMultiple01Icon,
-  PlugSocket01Icon,
+  PlugSocketIcon,
   PaintBrushIcon,
 } from "@hugeicons/core-free-icons";
 
