@@ -59,6 +59,7 @@ export interface BriefingData {
   gewensteOpleverdatum?: string;
   opmerkingen?: string;
   kortingscode?: string;
+  wachtwoord: string;
   emailUpdates: boolean;
   akkoord: boolean;
 }
