@@ -411,10 +411,10 @@ const Home = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {whyItems.map(({ icon: Icon, title, desc }) => (
+            {whyItems.map(({ icon, title, desc }) => (
               <div key={title} className="group">
                 <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  <Icon className="w-5 h-5 text-primary" />
+                  <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
