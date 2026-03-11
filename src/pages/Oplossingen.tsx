@@ -11,7 +11,7 @@ import {
   AiBrainIcon,
   Mail01Icon,
   Search01Icon,
-  BarChart01Icon,
+  BarChartIcon,
   Megaphone01Icon,
   PaintBrushIcon,
   CheckmarkCircle02Icon,
