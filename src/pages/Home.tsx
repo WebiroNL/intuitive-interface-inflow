@@ -110,8 +110,8 @@ const Home = () => {
 
   useEffect(() => {
     updatePageMeta(
-      "Webiro – Moderne websites binnen 7 dagen",
-      "Binnen 7 dagen online met jouw droomsite. Professionele websites voor ondernemers. Betaalbaar vanaf €449."
+      "Webiro – Websites, marketing & automation voor ondernemers",
+      "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
   }, []);
 
