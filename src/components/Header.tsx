@@ -100,7 +100,7 @@ export function Header() {
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
+            {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
           </button>
         </div>
       </div>
