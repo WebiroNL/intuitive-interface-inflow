@@ -61,7 +61,7 @@ export function Header() {
               >
                 {link.label}
                 {link.dropdown && (
-                  <ChevronDown size={13} className="mt-[1px] opacity-55" strokeWidth={2.2} />
+                  <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="mt-[1px] opacity-55" />
                 )}
               </Link>
             ))}
