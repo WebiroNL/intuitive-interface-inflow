@@ -52,7 +52,7 @@ export default function Shop() {
               {/* Trust strip */}
               <div className="flex flex-wrap gap-6 text-[13px] text-muted-foreground">
                 {[
-                  { icon: Truck01Icon, text: "Gratis verzending v/a €50" },
+                  { icon: TruckIcon, text: "Gratis verzending v/a €50" },
                   { icon: ShieldKeyIcon, text: "14 dagen retour" },
                   { icon: FlashIcon, text: "Direct leverbaar" },
                 ].map(({ icon, text }) => (
