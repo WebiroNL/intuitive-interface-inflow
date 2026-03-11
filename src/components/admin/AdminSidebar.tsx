@@ -18,8 +18,8 @@ import {
 const navItems = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
-  { label: 'Leads', href: '/admin/leads', icon: UserGroup01Icon },
-  { label: 'Statistieken', href: '/admin/stats', icon: BarChart01Icon },
+  { label: 'Leads', href: '/admin/leads', icon: UserGroup02Icon },
+  { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
   { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
   { label: 'Producten', href: '/admin/products', icon: Package01Icon },
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocket01Icon },
