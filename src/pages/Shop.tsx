@@ -220,7 +220,7 @@ export default function Shop() {
                 desc: "Hoogwaardige materialen die jarenlang meegaan. Waterdicht, krasbestendig en stijlvol.",
               },
               {
-                icon: Shield,
+                icon: ShieldKeyIcon,
                 title: "Nederlandse support",
                 desc: "Hulp nodig? Ons team staat klaar voor installatie, configuratie en al je vragen.",
               },
