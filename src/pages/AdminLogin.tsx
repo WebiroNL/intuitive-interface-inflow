@@ -51,7 +51,7 @@ const AdminLogin = () => {
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">E-mailadres</label>
             <div className="relative">
-              <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <HugeiconsIcon icon={Mail01Icon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="email"
                 value={email}
