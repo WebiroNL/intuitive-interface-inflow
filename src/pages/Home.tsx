@@ -291,7 +291,7 @@ const Home = () => {
                 <ul className="space-y-2 mb-8">
                   {["Google & Meta advertenties", "E-mail automation", "AI chatbot & leads"].map((c) => (
                     <li key={c} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 text-accent" />
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} className="w-3.5 h-3.5 flex-shrink-0 text-accent" />
                       {c}
                     </li>
                   ))}
