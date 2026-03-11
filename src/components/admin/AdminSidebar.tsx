@@ -5,8 +5,8 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   DashboardSquare01Icon,
   ShoppingCart01Icon,
-  UserGroup01Icon,
-  BarChart01Icon,
+  UserGroup02Icon,
+  BarChartIcon,
   Settings01Icon,
   Logout01Icon,
   Package01Icon,
