@@ -44,7 +44,7 @@ import {
   File01Icon,
   Files01Icon,
   Layers01Icon,
-  Library01Icon,
+  LibraryIcon,
   HelpCircleIcon,
   Coins01Icon,
   CreditCardIcon,
