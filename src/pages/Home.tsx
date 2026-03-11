@@ -466,7 +466,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="mb-12">
             <div className="flex items-center gap-1 mb-3">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-primary text-primary" />)}
+              {[...Array(5)].map((_, i) => <HugeiconsIcon key={i} icon={StarIcon} className="w-4 h-4 fill-primary text-primary" />)}
               <span className="text-[13px] font-semibold text-muted-foreground ml-2">5.0 — gebaseerd op klantreviews</span>
             </div>
             <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
