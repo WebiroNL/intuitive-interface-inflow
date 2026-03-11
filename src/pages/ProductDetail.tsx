@@ -298,7 +298,7 @@ export default function ProductDetail() {
 
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border/50">
                 <div className="text-center">
-                  <HugeiconsIcon icon={Truck01Icon} size={24} className="mx-auto mb-2 text-primary" />
+                  <HugeiconsIcon icon={TruckIcon} size={24} className="mx-auto mb-2 text-primary" />
                   <p className="text-xs text-muted-foreground">Snelle levering</p>
                 </div>
                 <div className="text-center">
