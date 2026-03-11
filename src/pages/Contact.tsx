@@ -204,7 +204,7 @@ const Contact = () => {
                     ) : (
                       <>
                         Verstuur bericht
-                        <Send className="ml-2 h-4 w-4" />
+                        <HugeiconsIcon icon={SentIcon} className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>
