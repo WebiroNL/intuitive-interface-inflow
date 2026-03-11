@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Star, Zap, Palette, Headphones, TrendingUp, Clock, Shield } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon } from '@hugeicons/core-free-icons';
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
@@ -81,12 +82,12 @@ const stats = [
 ];
 
 const whyItems = [
-  { icon: Clock, title: "Live binnen 7 dagen", desc: "Van briefing naar live website in één week. Geen maanden wachten of vage planning." },
-  { icon: Palette, title: "Volledig op maat", desc: "Elk design is uniek voor jouw merk. Geen templates of standaard thema's." },
-  { icon: TrendingUp, title: "Conversiegericht", desc: "Gebouwd om bezoekers te overtuigen. Meer leads, meer klanten, meer omzet." },
-  { icon: Headphones, title: "Persoonlijk contact", desc: "Direct met je designer. Snelle antwoorden, geen tussenlagen of account managers." },
-  { icon: Zap, title: "Doorlopende support", desc: "Na oplevering blijven we beschikbaar voor updates, vragen en doorontwikkeling." },
-  { icon: Shield, title: "Betaalbaar & transparant", desc: "Vaste prijzen zonder verrassingen. Je weet altijd precies waar je aan toe bent." },
+  { icon: Clock01Icon, title: "Live binnen 7 dagen", desc: "Van briefing naar live website in één week. Geen maanden wachten of vage planning." },
+  { icon: PaintBrushIcon, title: "Volledig op maat", desc: "Elk design is uniek voor jouw merk. Geen templates of standaard thema's." },
+  { icon: ChartIncreaseIcon, title: "Conversiegericht", desc: "Gebouwd om bezoekers te overtuigen. Meer leads, meer klanten, meer omzet." },
+  { icon: HeadsetIcon, title: "Persoonlijk contact", desc: "Direct met je designer. Snelle antwoorden, geen tussenlagen of account managers." },
+  { icon: FlashIcon, title: "Doorlopende support", desc: "Na oplevering blijven we beschikbaar voor updates, vragen en doorontwikkeling." },
+  { icon: ShieldKeyIcon, title: "Betaalbaar & transparant", desc: "Vaste prijzen zonder verrassingen. Je weet altijd precies waar je aan toe bent." },
 ];
 
 const showcase = [
@@ -172,7 +173,7 @@ const Home = () => {
                 to="/intake"
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
-                Gratis gesprek <ArrowRight className="w-4 h-4" />
+                Gratis gesprek <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
               </Link>
               <Link
                 to="/contact"
@@ -260,14 +261,14 @@ const Home = () => {
                 <ul className="space-y-2 mb-8">
                   {["Modern & mobielvriendelijk", "Conversiegericht design", "Eenvoudig te beheren"].map((c) => (
                     <li key={c} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 text-primary" />
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} className="w-3.5 h-3.5 flex-shrink-0 text-primary" />
                       {c}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-auto">
                   <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-                    Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
+                    Bekijk websitepakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -290,14 +291,14 @@ const Home = () => {
                 <ul className="space-y-2 mb-8">
                   {["Google & Meta advertenties", "E-mail automation", "AI chatbot & leads"].map((c) => (
                     <li key={c} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 text-accent" />
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} className="w-3.5 h-3.5 flex-shrink-0 text-accent" />
                       {c}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-auto">
                   <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent hover:gap-3 transition-all">
-                    Bekijk marketingpakketten <ArrowRight className="w-4 h-4" />
+                    Bekijk marketingpakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -410,10 +411,10 @@ const Home = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {whyItems.map(({ icon: Icon, title, desc }) => (
+            {whyItems.map(({ icon, title, desc }) => (
               <div key={title} className="group">
                 <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  <Icon className="w-5 h-5 text-primary" />
+                  <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
@@ -433,7 +434,7 @@ const Home = () => {
               </h2>
             </div>
             <Link to="/contact" className="hidden md:inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-              Bekijk meer <ArrowRight className="w-4 h-4" />
+              Bekijk meer <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -451,7 +452,7 @@ const Home = () => {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">{cat}</p>
                   <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
-                    Bekijk website <ArrowRight className="w-3.5 h-3.5" />
+                    Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </a>
@@ -465,7 +466,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="mb-12">
             <div className="flex items-center gap-1 mb-3">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-primary text-primary" />)}
+              {[...Array(5)].map((_, i) => <HugeiconsIcon key={i} icon={StarIcon} className="w-4 h-4 fill-primary text-primary" />)}
               <span className="text-[13px] font-semibold text-muted-foreground ml-2">5.0 — gebaseerd op klantreviews</span>
             </div>
             <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>

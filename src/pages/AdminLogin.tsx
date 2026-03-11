@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { LockPasswordIcon, Mail01Icon, ArrowRight01Icon, Alert02Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 
 const AdminLogin = () => {
@@ -42,7 +43,7 @@ const AdminLogin = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-              <AlertCircle size={16} />
+              <HugeiconsIcon icon={Alert02Icon} size={16} />
               {error}
             </div>
           )}
@@ -50,7 +51,7 @@ const AdminLogin = () => {
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">E-mailadres</label>
             <div className="relative">
-              <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <HugeiconsIcon icon={Mail01Icon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="email"
                 value={email}
@@ -65,7 +66,7 @@ const AdminLogin = () => {
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">Wachtwoord</label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <HugeiconsIcon icon={LockPasswordIcon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="password"
                 value={password}
@@ -79,7 +80,7 @@ const AdminLogin = () => {
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Inloggen...' : (
-              <>Inloggen <ArrowRight size={16} className="ml-1" /></>
+              <>Inloggen <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-1" /></>
             )}
           </Button>
         </form>

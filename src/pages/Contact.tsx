@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SentIcon, Mail01Icon, CallIcon, Location01Icon } from '@hugeicons/core-free-icons';
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,19 +38,19 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: Mail,
+      icon: Mail01Icon,
       label: "E-mail",
       value: "info@webiro.nl",
       href: "mailto:info@webiro.nl",
     },
     {
-      icon: Phone,
+      icon: CallIcon,
       label: "Telefoon",
       value: "085 505 505 4",
       href: "tel:0855055054",
     },
     {
-      icon: MapPin,
+      icon: Location01Icon,
       label: "Locatie",
       value: "Nederland",
       href: null,
@@ -203,7 +204,7 @@ const Contact = () => {
                     ) : (
                       <>
                         Verstuur bericht
-                        <Send className="ml-2 h-4 w-4" />
+                        <HugeiconsIcon icon={SentIcon} className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>
@@ -224,7 +225,7 @@ const Contact = () => {
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <info.icon className="w-6 h-6 text-primary" />
+                        <HugeiconsIcon icon={info.icon} className="w-6 h-6 text-primary" />
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">{info.label}</p>

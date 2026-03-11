@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Rocket, MessageCircle } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, RocketIcon, MessageMultiple01Icon } from '@hugeicons/core-free-icons';
 import { useRef } from 'react';
 import { SilkRibbons } from '@/components/SilkRibbons';
 
@@ -19,14 +20,14 @@ interface CTASectionProps {
 
 const featureCards = [
   {
-    icon: <Rocket size={18} className="text-primary" />,
+    icon: <HugeiconsIcon icon={RocketIcon} size={18} className="text-primary" />,
     heading: 'Start vandaag nog',
     body: 'Plan een gratis intake en we bouwen jouw website binnen 2 weken.',
     linkLabel: 'Intake plannen',
     linkTo: '/intake',
   },
   {
-    icon: <MessageCircle size={18} className="text-primary" />,
+    icon: <HugeiconsIcon icon={MessageMultiple01Icon} size={18} className="text-primary" />,
     heading: 'Liever eerst praten?',
     body: 'Stel al je vragen via WhatsApp of e-mail — we reageren snel.',
     linkLabel: 'Neem contact op',
@@ -79,7 +80,7 @@ export function CTASection({
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
               >
                 {displayButtonText}
-                <ArrowRight size={15} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
               </Link>
               <Link
                 to="/contact"
@@ -105,7 +106,7 @@ export function CTASection({
                   to={card.linkTo}
                   className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline mt-auto"
                 >
-                  {card.linkLabel} <ArrowRight size={13} />
+                  {card.linkLabel} <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
                 </Link>
               </div>
             ))}

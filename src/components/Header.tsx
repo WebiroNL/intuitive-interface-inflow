@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, ChevronDown } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -60,7 +61,7 @@ export function Header() {
               >
                 {link.label}
                 {link.dropdown && (
-                  <ChevronDown size={13} className="mt-[1px] opacity-55" strokeWidth={2.2} />
+                  <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="mt-[1px] opacity-55" />
                 )}
               </Link>
             ))}
@@ -73,7 +74,7 @@ export function Header() {
               className="p-[7px] text-muted-foreground hover:text-foreground transition-colors rounded-[5px] hover:bg-muted/40"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+              {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
             </button>
 
             {/* Outlined — "Sign in" */}
@@ -99,7 +100,7 @@ export function Header() {
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
+            {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
           </button>
         </div>
       </div>
@@ -119,7 +120,7 @@ export function Header() {
                 }`}
               >
                 {link.label}
-                {link.dropdown && <ChevronDown size={13} className="opacity-50" />}
+                {link.dropdown && <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="opacity-50" />}
               </Link>
             ))}
 
@@ -128,7 +129,7 @@ export function Header() {
                 onClick={toggleTheme}
                 className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium text-muted-foreground hover:text-foreground rounded-[5px] hover:bg-muted/20 transition-colors"
               >
-                {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+                {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
                 {theme === 'dark' ? 'Licht thema' : 'Donker thema'}
               </button>
               <Link
