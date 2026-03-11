@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
-import { ShoppingCart, Users, TrendingUp, DollarSign, ArrowUpRight, Clock } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ShoppingCart01Icon,
+  UserGroup01Icon,
+  ChartIncreaseIcon,
+  DollarCircleIcon,
+  ArrowUpRight01Icon,
+  Clock01Icon,
+} from "@hugeicons/core-free-icons";
 
 interface Stats {
   totalOrders: number;
@@ -61,10 +69,10 @@ const AdminOverview = () => {
   };
 
   const statCards = [
-    { label: 'Totaal omzet', value: `€${stats.totalRevenue.toLocaleString('nl-NL')}`, icon: DollarSign, color: 'text-emerald-600' },
-    { label: 'Maandelijks terugkerend', value: `€${stats.monthlyRecurring.toLocaleString('nl-NL')}/mnd`, icon: TrendingUp, color: 'text-primary' },
-    { label: 'Totaal orders', value: stats.totalOrders.toString(), icon: ShoppingCart, color: 'text-orange-500' },
-    { label: 'Totaal leads', value: stats.totalLeads.toString(), icon: Users, color: 'text-violet-500' },
+    { label: 'Totaal omzet', value: `€${stats.totalRevenue.toLocaleString('nl-NL')}`, icon: DollarCircleIcon, color: 'text-emerald-600' },
+    { label: 'Maandelijks terugkerend', value: `€${stats.monthlyRecurring.toLocaleString('nl-NL')}/mnd`, icon: ChartIncreaseIcon, color: 'text-primary' },
+    { label: 'Totaal orders', value: stats.totalOrders.toString(), icon: ShoppingCart01Icon, color: 'text-orange-500' },
+    { label: 'Totaal leads', value: stats.totalLeads.toString(), icon: UserGroup01Icon, color: 'text-violet-500' },
   ];
 
   const statusBadge = (status: string) => {
@@ -85,13 +93,11 @@ const AdminOverview = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">Overzicht van je bedrijfsactiviteiten</p>
       </div>
 
-      {/* Stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {statCards.map((stat) => (
           <Card key={stat.label} className="p-5 border border-border">
@@ -101,18 +107,17 @@ const AdminOverview = () => {
                 <p className="text-2xl font-semibold text-foreground mt-1">{stat.value}</p>
               </div>
               <div className={`p-2 rounded-lg bg-muted/50 ${stat.color}`}>
-                <stat.icon size={18} />
+                <HugeiconsIcon icon={stat.icon} size={18} />
               </div>
             </div>
           </Card>
         ))}
       </div>
 
-      {/* Quick stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card className="p-4 border border-border flex items-center gap-3">
           <div className="p-2 rounded-lg bg-primary/10 text-primary">
-            <ArrowUpRight size={18} />
+            <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">{stats.newLeadsToday} nieuwe leads vandaag</p>
@@ -121,7 +126,7 @@ const AdminOverview = () => {
         </Card>
         <Card className="p-4 border border-border flex items-center gap-3">
           <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
-            <Clock size={18} />
+            <HugeiconsIcon icon={Clock01Icon} size={18} />
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">{stats.pendingOrders} openstaande orders</p>
@@ -130,9 +135,7 @@ const AdminOverview = () => {
         </Card>
       </div>
 
-      {/* Recent activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent leads */}
         <Card className="border border-border">
           <div className="p-4 border-b border-border">
             <h2 className="text-sm font-semibold text-foreground">Recente leads</h2>
@@ -154,7 +157,6 @@ const AdminOverview = () => {
           </div>
         </Card>
 
-        {/* Recent orders */}
         <Card className="border border-border">
           <div className="p-4 border-b border-border">
             <h2 className="text-sm font-semibold text-foreground">Recente orders</h2>

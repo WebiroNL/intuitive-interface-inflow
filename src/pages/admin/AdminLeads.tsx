@@ -4,7 +4,8 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Search, Eye, X } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Search01Icon, ViewIcon } from "@hugeicons/core-free-icons";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
@@ -67,10 +68,9 @@ const AdminLeads = () => {
         <p className="text-sm text-muted-foreground mt-1">Beheer binnenkomende aanvragen en contactverzoeken</p>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <HugeiconsIcon icon={Search01Icon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Zoek op naam, email of bedrijf..."
             value={search}
@@ -90,7 +90,6 @@ const AdminLeads = () => {
         </select>
       </div>
 
-      {/* Table */}
       <Card className="border border-border overflow-hidden">
         <Table>
           <TableHeader>
@@ -130,7 +129,7 @@ const AdminLeads = () => {
                       size="icon"
                       onClick={() => { setSelected(lead); setNotes(lead.notities || ''); }}
                     >
-                      <Eye size={16} />
+                      <HugeiconsIcon icon={ViewIcon} size={16} />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -140,7 +139,6 @@ const AdminLeads = () => {
         </Table>
       </Card>
 
-      {/* Detail dialog */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-lg">
           <DialogHeader>

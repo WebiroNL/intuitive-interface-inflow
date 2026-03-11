@@ -3,26 +3,27 @@ import { Link } from "react-router-dom";
 import { updatePageMeta } from "@/utils/seo";
 import { StructuredData } from "@/components/StructuredData";
 import { CTASection } from "@/components/CTASection";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  ArrowRight,
-  Globe,
-  TrendingUp,
-  Bot,
-  Mail,
-  Search,
-  BarChart3,
-  Megaphone,
-  Palette,
-  CheckCircle,
-  Zap,
-  Target,
-  Users,
-  LineChart,
-} from "lucide-react";
+  ArrowRight01Icon,
+  Globe02Icon,
+  ChartIncreaseIcon,
+  AiBrainIcon,
+  Mail01Icon,
+  Search01Icon,
+  BarChart01Icon,
+  Megaphone01Icon,
+  PaintBrushIcon,
+  CheckmarkCircle02Icon,
+  FlashIcon,
+  Target01Icon,
+  UserGroup01Icon,
+  ChartLineData01Icon,
+} from "@hugeicons/core-free-icons";
 
 const solutions = [
   {
-    icon: Globe,
+    icon: Globe02Icon,
     tag: "Websites",
     title: "Professionele websites",
     description: "Moderne, snelle websites die bezoekers omzetten in klanten. Op maat gebouwd voor jouw merk en doelgroep.",
@@ -32,7 +33,7 @@ const solutions = [
     color: "primary",
   },
   {
-    icon: Megaphone,
+    icon: Megaphone01Icon,
     tag: "Advertising",
     title: "Google & Meta Ads",
     description: "Gerichte advertentiecampagnes die de juiste klanten bereiken. Van setup tot optimalisatie en rapportage.",
@@ -42,7 +43,7 @@ const solutions = [
     color: "accent",
   },
   {
-    icon: Mail,
+    icon: Mail01Icon,
     tag: "E-mail",
     title: "E-mail marketing & automation",
     description: "Automatische e-mailflows die leads opwarmen en klanten behouden. Van welkomstreeks tot re-engagement.",
@@ -52,7 +53,7 @@ const solutions = [
     color: "primary",
   },
   {
-    icon: Bot,
+    icon: AiBrainIcon,
     tag: "AI",
     title: "AI chatbots & leadgeneratie",
     description: "Slimme chatbots die 24/7 vragen beantwoorden, afspraken inplannen en leads kwalificeren.",
@@ -62,7 +63,7 @@ const solutions = [
     color: "accent",
   },
   {
-    icon: Search,
+    icon: Search01Icon,
     tag: "SEO",
     title: "Zoekmachine optimalisatie",
     description: "Hoger in Google verschijnen met een doordachte SEO-strategie. Meer organisch verkeer, minder advertentiekosten.",
@@ -72,7 +73,7 @@ const solutions = [
     color: "primary",
   },
   {
-    icon: Palette,
+    icon: PaintBrushIcon,
     tag: "Branding",
     title: "Branding & visuele identiteit",
     description: "Een herkenbaar merk dat vertrouwen wekt. Logo, huisstijl, typografie en brandguide voor consistente communicatie.",
@@ -131,7 +132,7 @@ const Oplossingen = () => {
                 to="/intake"
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
-                Gratis strategiegesprek <ArrowRight className="w-4 h-4" />
+                Gratis strategiegesprek <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Link>
               <Link
                 to="/pakketten"
@@ -183,7 +184,7 @@ const Oplossingen = () => {
                 <div className="relative p-8 flex flex-col flex-1">
                   <div className="flex items-center gap-3 mb-5">
                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${sol.color === 'primary' ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent'}`}>
-                      <sol.icon size={20} />
+                      <HugeiconsIcon icon={sol.icon} size={20} />
                     </div>
                     <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{sol.tag}</span>
                   </div>
@@ -192,7 +193,7 @@ const Oplossingen = () => {
                   <ul className="space-y-2 mb-6">
                     {sol.features.map((f) => (
                       <li key={f} className="flex items-center gap-2 text-[13px] text-muted-foreground">
-                        <CheckCircle className={`w-3.5 h-3.5 flex-shrink-0 ${sol.color === 'primary' ? 'text-primary' : 'text-accent'}`} />
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className={`flex-shrink-0 ${sol.color === 'primary' ? 'text-primary' : 'text-accent'}`} />
                         {f}
                       </li>
                     ))}
@@ -202,7 +203,7 @@ const Oplossingen = () => {
                       to={sol.link}
                       className={`inline-flex items-center gap-1.5 text-[14px] font-semibold ${sol.color === 'primary' ? 'text-primary' : 'text-accent'} hover:gap-3 transition-all`}
                     >
-                      {sol.linkText} <ArrowRight className="w-4 h-4" />
+                      {sol.linkText} <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
                     </Link>
                   </div>
                 </div>
@@ -230,7 +231,7 @@ const Oplossingen = () => {
                 to="/proces"
                 className="inline-flex items-center gap-2 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
               >
-                Meer over ons proces <ArrowRight className="w-4 h-4" />
+                Meer over ons proces <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Link>
             </div>
 
@@ -264,16 +265,16 @@ const Oplossingen = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: Zap, title: "Snel geleverd", desc: "Geen maanden wachten. Jouw website of campagne is binnen 7 dagen live." },
-              { icon: Target, title: "Resultaatgericht", desc: "Alles wat we doen is gericht op meetbaar resultaat: meer leads, meer omzet." },
-              { icon: Users, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
-              { icon: LineChart, title: "Data-gedreven", desc: "Beslissingen op basis van data, niet onderbuikgevoel. Transparante rapportages." },
-              { icon: BarChart3, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
-              { icon: CheckCircle, title: "Alles onder één dak", desc: "Website, marketing, branding en automation — je hoeft niet te shoppen bij 5 bureaus." },
-            ].map(({ icon: Icon, title, desc }) => (
+              { icon: FlashIcon, title: "Snel geleverd", desc: "Geen maanden wachten. Jouw website of campagne is binnen 7 dagen live." },
+              { icon: Target01Icon, title: "Resultaatgericht", desc: "Alles wat we doen is gericht op meetbaar resultaat: meer leads, meer omzet." },
+              { icon: UserGroup01Icon, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
+              { icon: ChartLineData01Icon, title: "Data-gedreven", desc: "Beslissingen op basis van data, niet onderbuikgevoel. Transparante rapportages." },
+              { icon: BarChart01Icon, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
+              { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation — je hoeft niet te shoppen bij 5 bureaus." },
+            ].map(({ icon, title, desc }) => (
               <div key={title} className="group">
                 <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  <Icon className="w-5 h-5 text-primary" />
+                  <HugeiconsIcon icon={icon} size={20} className="text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
