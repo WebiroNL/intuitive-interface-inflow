@@ -51,6 +51,7 @@ const AdminDashboard = () => {
             <Route path="products" element={<AdminProducts />} />
             <Route path="integrations" element={<AdminIntegrations />} />
             <Route path="moodboards" element={<AdminMoodboards />} />
+            <Route path="blog" element={<AdminBlog />} />
             <Route path="settings" element={<AdminSettings />} />
           </Routes>
         </Suspense>
