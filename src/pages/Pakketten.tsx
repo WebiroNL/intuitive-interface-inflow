@@ -55,6 +55,9 @@ const Pakketten = () => {
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [selectedMarketing, setSelectedMarketing] = useState<string[]>([]);
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     updatePageMeta(
