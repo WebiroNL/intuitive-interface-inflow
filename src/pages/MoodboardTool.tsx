@@ -99,7 +99,7 @@ const quizSteps = [
     question: "Wat is je budget indicatie?",
     subtitle: "We adviseren altijd eerlijk, nooit het duurste.",
     options: ["€500 - €1.000", "€1.000 - €2.000", "€2.000 - €5.000", "€5.000+", "Weet ik nog niet"],
-    icons: [Coins01Icon, CreditCardIcon, Diamond01Icon, Trophy01Icon, HelpCircleIcon],
+    icons: [Coins01Icon, CreditCardIcon, Diamond01Icon, Award02Icon, HelpCircleIcon],
   },
 ];
 
