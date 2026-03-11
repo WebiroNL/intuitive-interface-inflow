@@ -79,13 +79,23 @@ export function Header() {
               {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
             </button>
 
-            {/* Outlined — "Sign in" */}
-            <Link
-              to="/contact"
-              className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
-            >
-              Inloggen
-            </Link>
+            {/* Account / Sign in */}
+            {user ? (
+              <Link
+                to="/account"
+                className="inline-flex items-center gap-1.5 px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
+              >
+                <HugeiconsIcon icon={User03Icon} size={14} />
+                Account
+              </Link>
+            ) : (
+              <Link
+                to="/account/login"
+                className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
+              >
+                Inloggen
+              </Link>
+            )}
 
             {/* Filled CTA — "Contact sales" */}
             <Link
