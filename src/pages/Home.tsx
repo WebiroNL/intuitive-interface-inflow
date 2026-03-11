@@ -268,7 +268,7 @@ const Home = () => {
                 </ul>
                 <div className="mt-auto">
                   <Link to="/pakketten" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
-                    Bekijk websitepakketten <ArrowRight className="w-4 h-4" />
+                    Bekijk websitepakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
