@@ -99,6 +99,21 @@ export function StepBriefing({ data, onChange }: StepBriefingProps) {
           </div>
         </div>
 
+        {/* Account */}
+        <div className="mb-8">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-foreground mb-2">Account aanmaken</p>
+          <p className="text-[13px] text-muted-foreground mb-4">
+            Met je account kun je de status van je bestelling volgen.
+          </p>
+          <div className="max-w-xs space-y-1.5">
+            <Label htmlFor="wachtwoord" className="text-[13px] font-medium">Wachtwoord *</Label>
+            <Input id="wachtwoord" type="password" value={data.wachtwoord} onChange={(e) => update("wachtwoord", e.target.value)} placeholder="Minimaal 6 tekens" className="h-11" required minLength={6} />
+            {data.wachtwoord && data.wachtwoord.length < 6 && (
+              <p className="text-[12px] text-destructive">Minimaal 6 tekens vereist</p>
+            )}
+          </div>
+        </div>
+
         {/* Kortingscode */}
         <div className="mb-8">
           <div className="max-w-xs space-y-1.5">

@@ -14,6 +14,10 @@ import { SelectionSidebar } from "@/components/pakketten/SelectionSidebar";
 import { ComparisonTable } from "@/components/pakketten/ComparisonTable";
 import { CTASection } from "@/components/CTASection";
 import { BriefingData, ContractDuration } from "@/components/pakketten/types";
+import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "@/components/pakketten/data";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const emptyBriefing: BriefingData = {
   naam: "",
@@ -29,6 +33,7 @@ const emptyBriefing: BriefingData = {
   gewensteOpleverdatum: "",
   opmerkingen: "",
   kortingscode: "",
+  wachtwoord: "",
   emailUpdates: false,
   akkoord: false,
 };
@@ -50,6 +55,9 @@ const Pakketten = () => {
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [selectedMarketing, setSelectedMarketing] = useState<string[]>([]);
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     updatePageMeta(
@@ -82,7 +90,7 @@ const Pakketten = () => {
         case 2: return !!selectedCmsHosting;
         case 3: return true;
         case 4: return true;
-        case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.wachtwoord && briefing.wachtwoord.length >= 6 && briefing.akkoord);
         case 6: return true;
         default: return false;
       }
@@ -91,7 +99,7 @@ const Pakketten = () => {
     if (flowType === "marketing") {
       switch (step) {
         case 1: return selectedMarketing.length > 0;
-        case 2: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 2: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.wachtwoord && briefing.wachtwoord.length >= 6 && briefing.akkoord);
         case 3: return true;
         default: return false;
       }
@@ -100,9 +108,87 @@ const Pakketten = () => {
     return false;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === totalSteps) {
-      window.location.href = "/contact";
+      // Submit order + create account
+      setSubmitting(true);
+      try {
+        // 1. Create account
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: briefing.email,
+          password: briefing.wachtwoord,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { full_name: briefing.naam },
+          },
+        });
+        if (authError) throw new Error(authError.message);
+
+        const userId = authData.user?.id || null;
+
+        // 2. Calculate totals
+        const pkg = packages.find((p) => p.id === selectedPackage);
+        const cmsHosting = cmsHostingTiers.find((t) => t.id === selectedCmsHosting);
+        const selectedAddOnItems = addOns.filter((a) => selectedAddOns.includes(a.id));
+        const marketingItems = marketingServices.filter((s) => selectedMarketing.includes(s.id));
+        const discount = contractDiscounts[contractDuration].discount;
+
+        const eenmalig =
+          (typeof pkg?.price === "number" ? pkg.price : 0) +
+          selectedAddOnItems.filter((a) => a.period === "eenmalig" && typeof a.price === "number").reduce((s, a) => s + (a.price as number), 0) +
+          marketingItems.reduce((s, m) => s + (m.setupPrice || 0), 0);
+
+        const cmsMonthly = typeof cmsHosting?.price === "number" ? Math.round(cmsHosting.price * (1 - discount)) : 0;
+        const addonsMonthly = selectedAddOnItems
+          .filter((a) => a.period === "per maand" && typeof a.price === "number")
+          .reduce((s, a) => s + Math.round((a.price as number) * (1 - discount)), 0);
+        const marketingMonthly = marketingItems.reduce((s, m) => s + m.monthlyPrice, 0);
+        const maandelijks = cmsMonthly + addonsMonthly + marketingMonthly;
+
+        const btw = Math.round(eenmalig * 0.21);
+        const totaal = eenmalig + btw;
+
+        // 3. Create lead
+        const { data: lead } = await supabase
+          .from("leads")
+          .insert({
+            naam: briefing.naam,
+            email: briefing.email,
+            telefoon: briefing.telefoon || null,
+            bedrijfsnaam: briefing.bedrijfsnaam || null,
+            website: briefing.website || null,
+            bron: flowType === "website" ? "pakketten-website" : "pakketten-marketing",
+            bericht: `Pakket: ${pkg?.name || "Marketing"} | Doel: ${briefing.doelWebsite}`,
+          } as any)
+          .select("id")
+          .single();
+
+        // 4. Create order
+        await supabase
+          .from("orders")
+          .insert({
+            user_id: userId,
+            lead_id: (lead as any)?.id || null,
+            pakket: pkg?.name || null,
+            cms_hosting: cmsHosting?.name || null,
+            contract_duur: contractDuration,
+            add_ons: selectedAddOnItems.map((a) => ({ id: a.id, name: a.name, price: a.price, period: a.period })),
+            marketing_services: marketingItems.map((m) => ({ id: m.id, name: m.name, monthly: m.monthlyPrice, setup: m.setupPrice })),
+            briefing: briefing as any,
+            subtotaal: eenmalig,
+            btw,
+            totaal,
+            maandelijks,
+            status: "nieuw",
+          } as any);
+
+        setSubmitted(true);
+        toast.success("Bestelling succesvol geplaatst!");
+      } catch (e: any) {
+        toast.error(e.message || "Er ging iets mis. Probeer het opnieuw.");
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
     setStep((s) => Math.min(s + 1, totalSteps));
@@ -150,6 +236,42 @@ const Pakketten = () => {
 
     return null;
   };
+
+  if (submitted) {
+    return (
+      <main className="bg-background pt-[60px]">
+        <section className="min-h-[60vh] flex items-center justify-center">
+          <div className="max-w-lg text-center px-6 py-20">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+              <Check className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-3">Bestelling geplaatst!</h1>
+            <p className="text-muted-foreground mb-2">
+              Bedankt voor je bestelling. We nemen binnen 24 uur contact met je op.
+            </p>
+            <p className="text-sm text-muted-foreground mb-8">
+              We hebben een bevestigingsmail gestuurd naar <strong className="text-foreground">{briefing.email}</strong>.
+              Bevestig je e-mail om in te loggen en je bestelling te volgen.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => navigate('/account/login')}
+                className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+              >
+                Inloggen <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate('/')}
+                className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+              >
+                Terug naar home
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-background">
@@ -200,11 +322,11 @@ const Pakketten = () => {
               </button>
               <button
                 onClick={handleNext}
-                disabled={!canNext()}
+                disabled={!canNext() || submitting}
                 className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-40"
               >
-                {step === totalSteps ? "Versturen" : "Volgende stap"}
-                <ArrowRight className="w-4 h-4" />
+                {submitting ? "Bezig..." : step === totalSteps ? "Bestelling plaatsen" : "Volgende stap"}
+                {!submitting && <ArrowRight className="w-4 h-4" />}
               </button>
             </div>
           )}
