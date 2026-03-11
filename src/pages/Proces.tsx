@@ -12,7 +12,7 @@ import {
   RocketIcon,
   MessageMultiple01Icon,
   Search01Icon,
-  BarChart01Icon,
+  BarChartIcon,
   AiBrainIcon,
   Mail01Icon,
   Megaphone01Icon,
