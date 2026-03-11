@@ -452,7 +452,7 @@ const Home = () => {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">{cat}</p>
                   <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
-                    Bekijk website <ArrowRight className="w-3.5 h-3.5" />
+                    Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </a>
