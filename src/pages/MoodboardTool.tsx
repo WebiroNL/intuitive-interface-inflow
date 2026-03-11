@@ -48,7 +48,7 @@ import {
   HelpCircleIcon,
   Coins01Icon,
   CreditCardIcon,
-  TrophyIcon,
+  Award02Icon,
   Award01Icon,
 } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
