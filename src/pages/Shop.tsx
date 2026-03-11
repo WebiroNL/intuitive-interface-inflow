@@ -139,7 +139,7 @@ export default function Shop() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ShoppingBag className="w-12 h-12 text-muted-foreground/30" />
+                        <HugeiconsIcon icon={ShoppingBag01Icon} className="w-12 h-12 text-muted-foreground/30" />
                       </div>
                     )}
 
