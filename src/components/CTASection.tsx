@@ -80,7 +80,7 @@ export function CTASection({
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
               >
                 {displayButtonText}
-                <ArrowRight size={15} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
               </Link>
               <Link
                 to="/contact"
