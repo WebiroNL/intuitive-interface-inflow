@@ -127,6 +127,7 @@ export type Database = {
           subtotaal: number | null
           totaal: number | null
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           add_ons?: Json | null
@@ -145,6 +146,7 @@ export type Database = {
           subtotaal?: number | null
           totaal?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           add_ons?: Json | null
@@ -163,6 +165,7 @@ export type Database = {
           subtotaal?: number | null
           totaal?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {

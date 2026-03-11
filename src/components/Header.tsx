@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
@@ -19,6 +20,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -77,13 +79,23 @@ export function Header() {
               {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
             </button>
 
-            {/* Outlined — "Sign in" */}
-            <Link
-              to="/contact"
-              className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
-            >
-              Inloggen
-            </Link>
+            {/* Account / Sign in */}
+            {user ? (
+              <Link
+                to="/account"
+                className="inline-flex items-center gap-1.5 px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
+              >
+                <HugeiconsIcon icon={User03Icon} size={14} />
+                Account
+              </Link>
+            ) : (
+              <Link
+                to="/account/login"
+                className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
+              >
+                Inloggen
+              </Link>
+            )}
 
             {/* Filled CTA — "Contact sales" */}
             <Link
@@ -132,12 +144,22 @@ export function Header() {
                 {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon01Icon} size={15} />}
                 {theme === 'dark' ? 'Licht thema' : 'Donker thema'}
               </button>
-              <Link
-                to="/contact"
-                className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
-              >
-                Inloggen
-              </Link>
+              {user ? (
+                <Link
+                  to="/account"
+                  className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
+                >
+                  <HugeiconsIcon icon={User03Icon} size={14} />
+                  Mijn Account
+                </Link>
+              ) : (
+                <Link
+                  to="/account/login"
+                  className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
+                >
+                  Inloggen
+                </Link>
+              )}
               <Link
                 to="/intake"
                 className="py-2.5 px-3 bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] text-center hover:bg-primary/90 transition-colors"

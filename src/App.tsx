@@ -31,6 +31,9 @@ const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
+const AccountLogin = lazy(() => import("./pages/AccountLogin"));
+const AccountDashboard = lazy(() => import("./pages/AccountDashboard"));
+const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -97,6 +100,9 @@ function AppContent() {
             <Route path="/shop/:handle" element={<ProductDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route path="/account/login" element={<AccountLogin />} />
+            <Route path="/account/reset-password" element={<AccountResetPassword />} />
+            <Route path="/account" element={<AccountDashboard />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
