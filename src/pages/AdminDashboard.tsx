@@ -12,6 +12,7 @@ const AdminProducts = lazy(() => import('./admin/AdminProducts'));
 const AdminIntegrations = lazy(() => import('./admin/AdminIntegrations'));
 const AdminSettings = lazy(() => import('./admin/AdminSettings'));
 const AdminMoodboards = lazy(() => import('./admin/AdminMoodboards'));
+const AdminBlog = lazy(() => import('./admin/AdminBlog'));
 
 function AdminFallback() {
   return (
@@ -50,6 +51,7 @@ const AdminDashboard = () => {
             <Route path="products" element={<AdminProducts />} />
             <Route path="integrations" element={<AdminIntegrations />} />
             <Route path="moodboards" element={<AdminMoodboards />} />
+            <Route path="blog" element={<AdminBlog />} />
             <Route path="settings" element={<AdminSettings />} />
           </Routes>
         </Suspense>

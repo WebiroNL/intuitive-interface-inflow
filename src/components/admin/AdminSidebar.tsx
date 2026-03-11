@@ -13,6 +13,7 @@ import {
   MessageMultiple01Icon,
   PlugSocketIcon,
   PaintBrushIcon,
+  TextIcon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
@@ -24,6 +25,7 @@ const navItems = [
   { label: 'Producten', href: '/admin/products', icon: Package01Icon },
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
+  { label: 'Blog', href: '/admin/blog', icon: TextIcon },
   { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];
 
