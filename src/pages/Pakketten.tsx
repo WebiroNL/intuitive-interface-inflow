@@ -90,7 +90,7 @@ const Pakketten = () => {
         case 2: return !!selectedCmsHosting;
         case 3: return true;
         case 4: return true;
-        case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.akkoord);
+        case 5: return !!(briefing.naam && briefing.email && briefing.telefoon && briefing.doelWebsite && briefing.doelgroep && briefing.wachtwoord && briefing.wachtwoord.length >= 6 && briefing.akkoord);
         case 6: return true;
         default: return false;
       }
