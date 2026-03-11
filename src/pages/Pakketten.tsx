@@ -108,9 +108,87 @@ const Pakketten = () => {
     return false;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === totalSteps) {
-      window.location.href = "/contact";
+      // Submit order + create account
+      setSubmitting(true);
+      try {
+        // 1. Create account
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: briefing.email,
+          password: briefing.wachtwoord,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { full_name: briefing.naam },
+          },
+        });
+        if (authError) throw new Error(authError.message);
+
+        const userId = authData.user?.id || null;
+
+        // 2. Calculate totals
+        const pkg = packages.find((p) => p.id === selectedPackage);
+        const cmsHosting = cmsHostingTiers.find((t) => t.id === selectedCmsHosting);
+        const selectedAddOnItems = addOns.filter((a) => selectedAddOns.includes(a.id));
+        const marketingItems = marketingServices.filter((s) => selectedMarketing.includes(s.id));
+        const discount = contractDiscounts[contractDuration].discount;
+
+        const eenmalig =
+          (typeof pkg?.price === "number" ? pkg.price : 0) +
+          selectedAddOnItems.filter((a) => a.period === "eenmalig" && typeof a.price === "number").reduce((s, a) => s + (a.price as number), 0) +
+          marketingItems.reduce((s, m) => s + (m.setupPrice || 0), 0);
+
+        const cmsMonthly = typeof cmsHosting?.price === "number" ? Math.round(cmsHosting.price * (1 - discount)) : 0;
+        const addonsMonthly = selectedAddOnItems
+          .filter((a) => a.period === "per maand" && typeof a.price === "number")
+          .reduce((s, a) => s + Math.round((a.price as number) * (1 - discount)), 0);
+        const marketingMonthly = marketingItems.reduce((s, m) => s + m.monthlyPrice, 0);
+        const maandelijks = cmsMonthly + addonsMonthly + marketingMonthly;
+
+        const btw = Math.round(eenmalig * 0.21);
+        const totaal = eenmalig + btw;
+
+        // 3. Create lead
+        const { data: lead } = await supabase
+          .from("leads")
+          .insert({
+            naam: briefing.naam,
+            email: briefing.email,
+            telefoon: briefing.telefoon || null,
+            bedrijfsnaam: briefing.bedrijfsnaam || null,
+            website: briefing.website || null,
+            bron: flowType === "website" ? "pakketten-website" : "pakketten-marketing",
+            bericht: `Pakket: ${pkg?.name || "Marketing"} | Doel: ${briefing.doelWebsite}`,
+          } as any)
+          .select("id")
+          .single();
+
+        // 4. Create order
+        await supabase
+          .from("orders")
+          .insert({
+            user_id: userId,
+            lead_id: (lead as any)?.id || null,
+            pakket: pkg?.name || null,
+            cms_hosting: cmsHosting?.name || null,
+            contract_duur: contractDuration,
+            add_ons: selectedAddOnItems.map((a) => ({ id: a.id, name: a.name, price: a.price, period: a.period })),
+            marketing_services: marketingItems.map((m) => ({ id: m.id, name: m.name, monthly: m.monthlyPrice, setup: m.setupPrice })),
+            briefing: briefing as any,
+            subtotaal: eenmalig,
+            btw,
+            totaal,
+            maandelijks,
+            status: "nieuw",
+          } as any);
+
+        setSubmitted(true);
+        toast.success("Bestelling succesvol geplaatst!");
+      } catch (e: any) {
+        toast.error(e.message || "Er ging iets mis. Probeer het opnieuw.");
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
     setStep((s) => Math.min(s + 1, totalSteps));
