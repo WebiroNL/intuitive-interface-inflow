@@ -13,6 +13,7 @@ import {
   MessageMultiple01Icon,
   PlugSocketIcon,
   PaintBrushIcon,
+  TextIcon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
