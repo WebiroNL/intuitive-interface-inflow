@@ -1,71 +1,105 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  ArrowRight, ArrowLeft, Sparkles, Palette, Type, Layout, MessageCircle, Send,
-  Loader2, RefreshCw, Check, AlertTriangle, Phone, User, Building,
-  UtensilsCrossed, ShoppingBag, Briefcase, Monitor, Heart, PenTool,
-  Target, DollarSign, Star, BookOpen, Mail, Building2,
-  Minus, Zap, Leaf, BarChart3, Gem, Puzzle,
-  Moon, Sun, TreePine, Waves, Rainbow, Circle,
-  FileText, Files, Layers, Library, HelpCircle,
-  Coins, CreditCard, Trophy, Award
-} from "lucide-react";
+  ArrowRight01Icon,
+  ArrowLeft01Icon,
+  SparklesIcon,
+  PaintBoardIcon,
+  TextFontIcon,
+  LayoutTableIcon,
+  MessageMultiple01Icon,
+  SentIcon,
+  Loading01Icon,
+  RefreshIcon,
+  CheckmarkCircle02Icon,
+  AlertCircleIcon,
+  SmartPhone01Icon,
+  User03Icon,
+  Building06Icon,
+  Restaurant01Icon,
+  ShoppingBag01Icon,
+  Briefcase01Icon,
+  ComputerIcon,
+  FavouriteIcon,
+  PaintBrushIcon,
+  Target01Icon,
+  DollarCircleIcon,
+  StarIcon,
+  BookOpen01Icon,
+  Mail01Icon,
+  Building04Icon,
+  MinusSignIcon,
+  FlashIcon,
+  Leaf01Icon,
+  BarChartIcon,
+  Diamond01Icon,
+  PuzzleIcon,
+  Moon01Icon,
+  Sun01Icon,
+  Tree02Icon,
+  WaveIcon,
+  ColorsIcon,
+  CircleIcon,
+  File01Icon,
+  Files01Icon,
+  Layers01Icon,
+  LibraryIcon,
+  HelpCircleIcon,
+  Coins01Icon,
+  CreditCardIcon,
+  Award02Icon,
+  Award01Icon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updatePageMeta } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import type { LucideIcon } from "lucide-react";
 
 /* ─── Quiz Data ─── */
-const quizSteps: Array<{
-  id: string;
-  question: string;
-  subtitle: string;
-  options: string[];
-  icons: LucideIcon[];
-}> = [
+const quizSteps = [
   {
     id: "branche",
     question: "In welke branche zit je?",
     subtitle: "Dit helpt ons de juiste visuele taal te kiezen.",
     options: ["Horeca", "Retail / E-commerce", "Dienstverlening", "Tech / SaaS", "Gezondheid / Wellness", "Creatief / Design"],
-    icons: [UtensilsCrossed, ShoppingBag, Briefcase, Monitor, Heart, PenTool],
+    icons: [Restaurant01Icon, ShoppingBag01Icon, Briefcase01Icon, ComputerIcon, FavouriteIcon, PaintBrushIcon],
   },
   {
     id: "doel",
     question: "Wat is het belangrijkste doel?",
     subtitle: "We stemmen het design af op jouw conversiedoel.",
     options: ["Meer klanten aantrekken", "Online verkopen", "Professionele uitstraling", "Informatie delen", "Leads genereren", "Merk opbouwen"],
-    icons: [Target, DollarSign, Star, BookOpen, Mail, Building2],
+    icons: [Target01Icon, DollarCircleIcon, StarIcon, BookOpen01Icon, Mail01Icon, Building04Icon],
   },
   {
     id: "stijl",
     question: "Welke stijl past bij jouw merk?",
     subtitle: "Kies de richting die het beste aanvoelt.",
     options: ["Minimalistisch & clean", "Bold & opvallend", "Warm & organisch", "Zakelijk & professioneel", "Luxe & premium", "Speels & creatief"],
-    icons: [Minus, Zap, Leaf, BarChart3, Gem, Puzzle],
+    icons: [MinusSignIcon, FlashIcon, Leaf01Icon, BarChartIcon, Diamond01Icon, PuzzleIcon],
   },
   {
     id: "kleuren",
     question: "Welke kleurrichting spreekt je aan?",
     subtitle: "De basis voor jouw kleurenpalet.",
     options: ["Donker & sophisticated", "Licht & fris", "Aarde-tinten & warm", "Blauw & vertrouwen", "Levendig & energiek", "Neutraal & tijdloos"],
-    icons: [Moon, Sun, TreePine, Waves, Rainbow, Circle],
+    icons: [Moon01Icon, Sun01Icon, Tree02Icon, WaveIcon, ColorsIcon, CircleIcon],
   },
   {
     id: "paginas",
     question: "Hoeveel pagina's heb je nodig?",
     subtitle: "Bepaalt de complexiteit en het pakket.",
     options: ["1 pagina (one-pager)", "2-5 pagina's", "5-10 pagina's", "10+ pagina's", "Weet ik nog niet"],
-    icons: [FileText, Files, Layers, Library, HelpCircle],
+    icons: [File01Icon, Files01Icon, Layers01Icon, LibraryIcon, HelpCircleIcon],
   },
   {
     id: "budget",
     question: "Wat is je budget indicatie?",
     subtitle: "We adviseren altijd eerlijk, nooit het duurste.",
     options: ["€500 - €1.000", "€1.000 - €2.000", "€2.000 - €5.000", "€5.000+", "Weet ik nog niet"],
-    icons: [Coins, CreditCard, Gem, Trophy, HelpCircle],
+    icons: [Coins01Icon, CreditCardIcon, Diamond01Icon, Award02Icon, HelpCircleIcon],
   },
 ];
 
@@ -137,7 +171,6 @@ export default function MoodboardTool() {
       if (data?.error) throw new Error(data.error);
       setResult(data.result);
 
-      // Save to database
       const { data: inserted } = await supabase
         .from("moodboard_results" as any)
         .insert({ quiz_answers: quizAnswers, ai_result: data.result } as any)
@@ -187,7 +220,6 @@ export default function MoodboardTool() {
     if (!contactForm.naam.trim() || !contactForm.email.trim()) return;
     setContactLoading(true);
     try {
-      // Create lead
       const { data: lead } = await supabase
         .from("leads")
         .insert({
@@ -201,7 +233,6 @@ export default function MoodboardTool() {
         .select("id")
         .single();
 
-      // Link lead to moodboard result
       if (lead && moodboardId) {
         await supabase
           .from("moodboard_results" as any)
@@ -276,7 +307,7 @@ export default function MoodboardTool() {
               {/* Options grid */}
               <div className="w-full max-w-lg grid grid-cols-2 gap-3">
                 {quizSteps[step].options.map((option, i) => {
-                  const Icon = quizSteps[step].icons[i];
+                  const icon = quizSteps[step].icons[i];
                   const isSelected = answers[quizSteps[step].id] === option;
                   return (
                     <motion.button
@@ -294,9 +325,13 @@ export default function MoodboardTool() {
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
                         isSelected ? "bg-primary/10" : "bg-muted/60 group-hover:bg-primary/10"
                       }`}>
-                        <Icon className={`w-[18px] h-[18px] transition-colors ${
-                          isSelected ? "text-primary" : "text-muted-foreground group-hover:text-primary"
-                        }`} strokeWidth={1.8} />
+                        <HugeiconsIcon
+                          icon={icon}
+                          size={18}
+                          className={`transition-colors ${
+                            isSelected ? "text-primary" : "text-muted-foreground group-hover:text-primary"
+                          }`}
+                        />
                       </div>
                       <span className="text-sm font-medium text-foreground leading-snug">{option}</span>
                     </motion.button>
@@ -310,7 +345,7 @@ export default function MoodboardTool() {
                   onClick={() => setStep(step - 1)}
                   className="flex items-center gap-1.5 mt-8 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
                   Vorige
                 </button>
               )}
@@ -336,7 +371,7 @@ export default function MoodboardTool() {
                   />
                 ))}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                  <HugeiconsIcon icon={Loading01Icon} size={32} className="text-primary animate-spin" />
                 </div>
               </div>
               <h2 className="text-xl font-semibold text-foreground mb-2">Moodboard genereren</h2>
@@ -352,11 +387,11 @@ export default function MoodboardTool() {
               animate={{ opacity: 1 }}
               className="min-h-[calc(100vh-60px)] flex flex-col items-center justify-center"
             >
-              <AlertTriangle className="w-10 h-10 text-destructive mb-4" />
+              <HugeiconsIcon icon={AlertCircleIcon} size={40} className="text-destructive mb-4" />
               <h2 className="text-xl font-semibold text-foreground mb-2">Er ging iets mis</h2>
               <p className="text-sm text-muted-foreground mb-6 text-center max-w-sm">{error}</p>
               <Button onClick={restart} variant="outline" className="gap-2">
-                <RefreshCw className="w-4 h-4" /> Opnieuw
+                <HugeiconsIcon icon={RefreshIcon} size={16} /> Opnieuw
               </Button>
             </motion.div>
           )}
@@ -388,7 +423,7 @@ export default function MoodboardTool() {
               <section className="mb-16">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <Palette className="w-5 h-5 text-primary" />
+                    <HugeiconsIcon icon={PaintBoardIcon} size={20} className="text-primary" />
                     <h2 className="text-lg font-semibold text-foreground">Kleurenpalet</h2>
                   </div>
                 </div>
@@ -415,7 +450,7 @@ export default function MoodboardTool() {
               <section className="grid md:grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden mb-16">
                 <div className="bg-card p-8">
                   <div className="flex items-center gap-2 mb-6">
-                    <Type className="w-4 h-4 text-primary" />
+                    <HugeiconsIcon icon={TextFontIcon} size={16} className="text-primary" />
                     <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Typografie</h3>
                   </div>
                   <div className="space-y-6">
@@ -433,7 +468,7 @@ export default function MoodboardTool() {
 
                 <div className="bg-card p-8">
                   <div className="flex items-center gap-2 mb-6">
-                    <Sparkles className="w-4 h-4 text-primary" />
+                    <HugeiconsIcon icon={SparklesIcon} size={16} className="text-primary" />
                     <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Sfeer</h3>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -457,7 +492,7 @@ export default function MoodboardTool() {
               <section className="grid md:grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden mb-16">
                 <div className="bg-card p-8">
                   <div className="flex items-center gap-2 mb-4">
-                    <Layout className="w-4 h-4 text-primary" />
+                    <HugeiconsIcon icon={LayoutTableIcon} size={16} className="text-primary" />
                     <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Layout</h3>
                   </div>
                   <p className="text-sm text-foreground leading-relaxed">{result.moodboard.layoutStijl}</p>
@@ -465,7 +500,7 @@ export default function MoodboardTool() {
                 {result.moodboard.inspiratie && (
                   <div className="bg-card p-8">
                     <div className="flex items-center gap-2 mb-4">
-                      <Star className="w-4 h-4 text-primary" />
+                      <HugeiconsIcon icon={StarIcon} size={16} className="text-primary" />
                       <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Inspiratie</h3>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">{result.moodboard.inspiratie}</p>
@@ -478,7 +513,7 @@ export default function MoodboardTool() {
                 <div className="bg-card p-8 md:p-10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <Award className="w-5 h-5 text-primary" />
+                      <HugeiconsIcon icon={Award01Icon} size={20} className="text-primary" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-foreground mb-1">Pakketadvies</h3>
@@ -499,7 +534,7 @@ export default function MoodboardTool() {
                         <ul className="space-y-2.5">
                           {result.pakketAdvies.extras.map((extra) => (
                             <li key={extra} className="flex items-start gap-2 text-sm text-foreground">
-                              <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                              <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} className="text-primary mt-0.5 shrink-0" />
                               {extra}
                             </li>
                           ))}
@@ -514,7 +549,7 @@ export default function MoodboardTool() {
               <section className="border border-border rounded-2xl overflow-hidden mb-16">
                 <div className="bg-card p-8">
                   <div className="flex items-center gap-3 mb-6">
-                    <MessageCircle className="w-5 h-5 text-primary" />
+                    <HugeiconsIcon icon={MessageMultiple01Icon} size={20} className="text-primary" />
                     <div>
                       <h3 className="font-semibold text-foreground">Verfijn je concept</h3>
                       <p className="text-xs text-muted-foreground">Stel vragen of pas je moodboard aan</p>
@@ -574,7 +609,7 @@ export default function MoodboardTool() {
                       size="icon"
                       className="h-11 w-11 shrink-0"
                     >
-                      <Send className="w-4 h-4" />
+                      <HugeiconsIcon icon={SentIcon} size={16} />
                     </Button>
                   </div>
                 </div>
@@ -590,7 +625,7 @@ export default function MoodboardTool() {
                       className="text-center py-6"
                     >
                       <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                        <Check className="w-6 h-6 text-primary" />
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={24} className="text-primary" />
                       </div>
                       <h3 className="text-lg font-semibold text-foreground mb-2">Bedankt voor je interesse</h3>
                       <p className="text-sm text-muted-foreground max-w-md mx-auto">
@@ -601,7 +636,7 @@ export default function MoodboardTool() {
                     <>
                       <div className="flex items-start gap-4 mb-8">
                         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                          <Mail className="w-5 h-5 text-primary" />
+                          <HugeiconsIcon icon={Mail01Icon} size={20} className="text-primary" />
                         </div>
                         <div>
                           <h3 className="text-lg font-semibold text-foreground mb-1">Klaar om te starten?</h3>
@@ -613,7 +648,7 @@ export default function MoodboardTool() {
 
                       <div className="grid md:grid-cols-2 gap-4 mb-6">
                         <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <HugeiconsIcon icon={User03Icon} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                           <Input
                             value={contactForm.naam}
                             onChange={(e) => setContactForm(f => ({ ...f, naam: e.target.value }))}
@@ -622,7 +657,7 @@ export default function MoodboardTool() {
                           />
                         </div>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <HugeiconsIcon icon={Mail01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                           <Input
                             type="email"
                             value={contactForm.email}
@@ -632,7 +667,7 @@ export default function MoodboardTool() {
                           />
                         </div>
                         <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <HugeiconsIcon icon={SmartPhone01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                           <Input
                             value={contactForm.telefoon}
                             onChange={(e) => setContactForm(f => ({ ...f, telefoon: e.target.value }))}
@@ -641,7 +676,7 @@ export default function MoodboardTool() {
                           />
                         </div>
                         <div className="relative">
-                          <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <HugeiconsIcon icon={Building06Icon} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                           <Input
                             value={contactForm.bedrijfsnaam}
                             onChange={(e) => setContactForm(f => ({ ...f, bedrijfsnaam: e.target.value }))}
@@ -657,9 +692,9 @@ export default function MoodboardTool() {
                         className="gap-2 h-11 px-6"
                       >
                         {contactLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <HugeiconsIcon icon={Loading01Icon} size={16} className="animate-spin" />
                         ) : (
-                          <Send className="w-4 h-4" />
+                          <HugeiconsIcon icon={SentIcon} size={16} />
                         )}
                         Neem contact met mij op
                       </Button>
@@ -672,11 +707,11 @@ export default function MoodboardTool() {
               <div className="flex items-center justify-center gap-3 border-t border-border pt-12">
                 <Link to="/pakketten">
                   <Button size="lg" className="gap-2 h-12 px-7">
-                    Bekijk pakketten <ArrowRight className="w-4 h-4" />
+                    Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
                   </Button>
                 </Link>
                 <Button variant="outline" size="lg" onClick={restart} className="gap-2 h-12 px-7">
-                  <RefreshCw className="w-4 h-4" /> Opnieuw
+                  <HugeiconsIcon icon={RefreshIcon} size={16} /> Opnieuw
                 </Button>
               </div>
             </motion.div>
