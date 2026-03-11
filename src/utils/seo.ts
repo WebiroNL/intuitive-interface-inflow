@@ -1,14 +1,22 @@
-export const updatePageMeta = (title: string, description: string, canonicalPath?: string) => {
+export const updatePageMeta = (
+  title: string,
+  description: string,
+  canonicalPath?: string,
+  ogImage?: string
+) => {
   // Update title
-  document.title = `${title} | Webiro`;
+  document.title = title.includes('Webiro') ? title : `${title} | Webiro`;
   
   // Update meta description
-  const metaDescription = document.querySelector('meta[name="description"]');
-  if (metaDescription) {
-    metaDescription.setAttribute('content', description);
+  let metaDescription = document.querySelector('meta[name="description"]');
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta');
+    metaDescription.setAttribute('name', 'description');
+    document.head.appendChild(metaDescription);
   }
+  metaDescription.setAttribute('content', description.substring(0, 160));
   
-  // Update canonical link
+  // Canonical
   let canonical = document.querySelector('link[rel="canonical"]');
   if (!canonical) {
     canonical = document.createElement('link');
@@ -20,34 +28,28 @@ export const updatePageMeta = (title: string, description: string, canonicalPath
     : `https://www.webiro.nl${window.location.pathname}`;
   canonical.setAttribute('href', canonicalUrl);
   
-  // Update OG tags
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) {
-    ogTitle.setAttribute('content', title);
-  }
+  // OG tags
+  const setMeta = (attr: string, key: string, content: string) => {
+    let el = document.querySelector(`meta[${attr}="${key}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute('content', content);
+  };
+
+  setMeta('property', 'og:title', title);
+  setMeta('property', 'og:description', description.substring(0, 160));
+  setMeta('property', 'og:url', canonicalUrl);
+  setMeta('property', 'og:type', 'website');
   
-  const ogDescription = document.querySelector('meta[property="og:description"]');
-  if (ogDescription) {
-    ogDescription.setAttribute('content', description);
+  if (ogImage) {
+    setMeta('property', 'og:image', ogImage);
+    setMeta('name', 'twitter:image', ogImage);
   }
-  
-  // Update OG URL
-  let ogUrl = document.querySelector('meta[property="og:url"]');
-  if (!ogUrl) {
-    ogUrl = document.createElement('meta');
-    ogUrl.setAttribute('property', 'og:url');
-    document.head.appendChild(ogUrl);
-  }
-  ogUrl.setAttribute('content', canonicalUrl);
-  
-  // Update Twitter tags
-  const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-  if (twitterTitle) {
-    twitterTitle.setAttribute('content', title);
-  }
-  
-  const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-  if (twitterDescription) {
-    twitterDescription.setAttribute('content', description);
-  }
+
+  setMeta('name', 'twitter:title', title);
+  setMeta('name', 'twitter:description', description.substring(0, 160));
+  setMeta('name', 'twitter:card', 'summary_large_image');
 };

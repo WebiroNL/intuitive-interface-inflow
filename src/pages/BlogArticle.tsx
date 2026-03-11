@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import { updatePageMeta } from "@/utils/seo";
 import { CTASection } from "@/components/CTASection";
+import { StructuredData } from "@/components/StructuredData";
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -45,7 +46,9 @@ const BlogArticle = () => {
     if (article) {
       updatePageMeta(
         `${article.title} | Webiro Blog`,
-        article.excerpt || article.title
+        article.excerpt || article.title,
+        `/blog/${article.slug}`,
+        article.image_url || undefined
       );
     }
   }, [article]);
@@ -75,6 +78,20 @@ const BlogArticle = () => {
 
   return (
     <main className="bg-background pt-[60px]">
+      {/* Structured data for this blog post */}
+      <StructuredData
+        type="BlogPosting"
+        data={{
+          title: article.title,
+          excerpt: article.excerpt,
+          image_url: article.image_url,
+          author: article.author,
+          published_at: article.published_at,
+          updated_at: article.updated_at,
+          slug: article.slug,
+        }}
+      />
+
       {/* ══════ HEADER ══════ */}
       <section className="border-b border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
@@ -117,10 +134,7 @@ const BlogArticle = () => {
             {article.tags && article.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
                 {article.tags.map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="text-[11px] px-2 py-0.5 bg-muted text-muted-foreground rounded"
-                  >
+                  <span key={tag} className="text-[11px] px-2 py-0.5 bg-muted text-muted-foreground rounded">
                     {tag}
                   </span>
                 ))}
@@ -138,6 +152,7 @@ const BlogArticle = () => {
               src={article.image_url}
               alt={article.title}
               className="w-full rounded-2xl aspect-video object-cover"
+              loading="lazy"
             />
           </div>
         </section>
@@ -181,9 +196,7 @@ const BlogArticle = () => {
                   )}
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-2 text-[12px] text-muted-foreground">
-                      <span className="font-bold uppercase tracking-wide text-primary text-[11px]">
-                        {post.category}
-                      </span>
+                      <span className="font-bold uppercase tracking-wide text-primary text-[11px]">{post.category}</span>
                       <span>·</span>
                       <span>{formatDate(post.published_at)}</span>
                     </div>
