@@ -20,7 +20,7 @@ interface CTASectionProps {
 
 const featureCards = [
   {
-    icon: <Rocket size={18} className="text-primary" />,
+    icon: <HugeiconsIcon icon={RocketIcon} size={18} className="text-primary" />,
     heading: 'Start vandaag nog',
     body: 'Plan een gratis intake en we bouwen jouw website binnen 2 weken.',
     linkLabel: 'Intake plannen',
