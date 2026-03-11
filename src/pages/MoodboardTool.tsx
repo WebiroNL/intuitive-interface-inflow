@@ -20,7 +20,7 @@ import {
   Restaurant01Icon,
   ShoppingBag01Icon,
   Briefcase01Icon,
-  Monitor01Icon,
+  ComputerIcon,
   FavouriteIcon,
   PaintBrushIcon,
   Target01Icon,
