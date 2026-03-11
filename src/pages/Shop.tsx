@@ -210,7 +210,7 @@ export default function Shop() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: Zap,
+                icon: FlashIcon,
                 title: "Plug & Play",
                 desc: "Wij programmeren alles voor je. Ontvang, plaats en begin direct met verzamelen.",
               },
