@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
-import { Settings, Shield, Bell } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Settings01Icon, ShieldKeyIcon, Notification01Icon } from "@hugeicons/core-free-icons";
 
 const AdminSettings = () => {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ const AdminSettings = () => {
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
-              <Settings size={18} />
+              <HugeiconsIcon icon={Settings01Icon} size={18} />
             </div>
             <h3 className="text-sm font-semibold text-foreground">Account</h3>
           </div>
@@ -41,7 +42,7 @@ const AdminSettings = () => {
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
-              <Shield size={18} />
+              <HugeiconsIcon icon={ShieldKeyIcon} size={18} />
             </div>
             <h3 className="text-sm font-semibold text-foreground">Beveiliging</h3>
           </div>
@@ -53,7 +54,7 @@ const AdminSettings = () => {
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
-              <Bell size={18} />
+              <HugeiconsIcon icon={Notification01Icon} size={18} />
             </div>
             <h3 className="text-sm font-semibold text-foreground">Notificaties</h3>
           </div>

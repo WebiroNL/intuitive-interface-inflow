@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
-import { CheckCircle2, ExternalLink } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 
 const integrations = [
   {
@@ -47,7 +48,7 @@ const AdminIntegrations = () => {
           <Card key={int.name} className="border border-border p-5 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className={`p-2.5 rounded-lg ${int.connected ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}>
-                <CheckCircle2 size={20} />
+                <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} />
               </div>
               <div>
                 <p className="text-sm font-semibold text-foreground">{int.name}</p>

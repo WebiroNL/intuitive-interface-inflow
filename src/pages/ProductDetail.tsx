@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ShoppingCart, Check, Star, Truck, Shield, RotateCcw } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowLeft01Icon,
+  ShoppingCart01Icon,
+  CheckmarkBadge01Icon,
+  StarIcon,
+  TruckIcon,
+  ShieldKeyIcon,
+  ArrowTurnBackwardIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { updatePageMeta } from "@/utils/seo";
@@ -68,15 +77,11 @@ export default function ProductDetail() {
   useEffect(() => {
     async function loadProduct() {
       if (!handle) return;
-      
       try {
         const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
         const productData = data?.data?.productByHandle;
-        
         if (productData) {
           setProduct(productData);
-          
-          // Set default selected options
           const defaults: Record<string, string> = {};
           productData.options?.forEach((option: { name: string; values: string[] }) => {
             if (option.values.length > 0) {
@@ -84,12 +89,9 @@ export default function ProductDetail() {
             }
           });
           setSelectedOptions(defaults);
-          
-          // Set first variant as selected
           if (productData.variants?.edges?.length > 0) {
             setSelectedVariant(productData.variants.edges[0].node.id);
           }
-          
           updatePageMeta(
             productData.title,
             productData.description?.substring(0, 155) || `Bekijk ${productData.title} bij Webiro Shop`,
@@ -102,20 +104,16 @@ export default function ProductDetail() {
         setLoading(false);
       }
     }
-    
     loadProduct();
   }, [handle]);
 
-  // Find variant based on selected options
   useEffect(() => {
     if (!product) return;
-    
     const matchingVariant = product.variants?.edges?.find((v) => {
       return v.node.selectedOptions?.every(
         (opt) => selectedOptions[opt.name] === opt.value
       );
     });
-    
     if (matchingVariant) {
       setSelectedVariant(matchingVariant.node.id);
     }
@@ -156,7 +154,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold text-foreground mb-4">Product niet gevonden</h1>
           <Button asChild>
             <Link to="/shop">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} className="mr-2" />
               Terug naar shop
             </Link>
           </Button>
@@ -170,24 +168,21 @@ export default function ProductDetail() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Breadcrumb */}
       <div className="pt-28 pb-4 px-4 border-b border-border/50">
         <div className="container-webiro">
-          <Link 
-            to="/shop" 
+          <Link
+            to="/shop"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
             Terug naar shop
           </Link>
         </div>
       </div>
 
-      {/* Product Section */}
       <section className="py-12 px-4">
         <div className="container-webiro">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Image Gallery */}
             <div className="space-y-4">
               <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-3xl overflow-hidden relative group">
                 {images[selectedImage]?.node ? (
@@ -199,19 +194,15 @@ export default function ProductDetail() {
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="text-center">
-                      <ShoppingCart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+                      <HugeiconsIcon icon={ShoppingCart01Icon} size={64} className="text-muted-foreground/30 mx-auto mb-4" />
                       <p className="text-muted-foreground text-sm">Productafbeelding</p>
                     </div>
                   </div>
                 )}
-                
-                {/* Floating badge */}
                 <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
                   Webiro
                 </Badge>
               </div>
-              
-              {/* Thumbnail gallery */}
               {images.length > 1 && (
                 <div className="flex gap-3 overflow-x-auto pb-2">
                   {images.map((img, idx) => (
@@ -219,8 +210,8 @@ export default function ProductDetail() {
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
                       className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                        selectedImage === idx 
-                          ? 'border-primary ring-2 ring-primary/20' 
+                        selectedImage === idx
+                          ? 'border-primary ring-2 ring-primary/20'
                           : 'border-transparent hover:border-muted-foreground/30'
                       }`}
                     >
@@ -235,30 +226,26 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Product Info */}
             <div className="space-y-6">
               <div>
                 <Badge variant="secondary" className="mb-3">NFC Producten</Badge>
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                   {product.title}
                 </h1>
-                
-                {/* Rating placeholder */}
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      <HugeiconsIcon key={i} icon={StarIcon} size={16} className="fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                   <span className="text-sm">Nieuw product</span>
                 </div>
               </div>
 
-              {/* Price */}
               <div className="py-4 border-y border-border/50">
                 <div className="flex items-baseline gap-3">
                   <span className="text-3xl font-bold text-primary">
-                    {currentVariant 
+                    {currentVariant
                       ? formatPrice(currentVariant.price.amount, currentVariant.price.currencyCode)
                       : formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)
                     }
@@ -267,12 +254,10 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Description */}
               <p className="text-muted-foreground leading-relaxed">
                 {product.description}
               </p>
 
-              {/* Options */}
               {product.options && product.options.length > 0 && product.options[0].name !== 'Title' && (
                 <div className="space-y-4">
                   {product.options.map((option) => (
@@ -300,30 +285,28 @@ export default function ProductDetail() {
                 </div>
               )}
 
-              {/* Add to Cart */}
               <div className="space-y-3 pt-4">
                 <Button size="lg" className="w-full text-lg py-6 rounded-full">
-                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  <HugeiconsIcon icon={ShoppingCart01Icon} size={20} className="mr-2" />
                   In winkelwagen
                 </Button>
                 <p className="text-center text-sm text-muted-foreground">
-                  <Check className="w-4 h-4 inline mr-1 text-green-500" />
+                  <HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} className="inline mr-1 text-green-500" />
                   Direct leverbaar • Gratis verzending vanaf €50
                 </p>
               </div>
 
-              {/* Trust badges */}
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border/50">
                 <div className="text-center">
-                  <Truck className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <HugeiconsIcon icon={TruckIcon} size={24} className="mx-auto mb-2 text-primary" />
                   <p className="text-xs text-muted-foreground">Snelle levering</p>
                 </div>
                 <div className="text-center">
-                  <Shield className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <HugeiconsIcon icon={ShieldKeyIcon} size={24} className="mx-auto mb-2 text-primary" />
                   <p className="text-xs text-muted-foreground">Veilig betalen</p>
                 </div>
                 <div className="text-center">
-                  <RotateCcw className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={24} className="mx-auto mb-2 text-primary" />
                   <p className="text-xs text-muted-foreground">14 dagen retour</p>
                 </div>
               </div>
@@ -332,7 +315,6 @@ export default function ProductDetail() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container-webiro">
           <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
@@ -341,7 +323,7 @@ export default function ProductDetail() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-background rounded-2xl p-6 border border-border/50">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Check className="w-6 h-6 text-primary" />
+                <HugeiconsIcon icon={CheckmarkBadge01Icon} size={24} className="text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Plug & Play</h3>
               <p className="text-sm text-muted-foreground">
@@ -350,7 +332,7 @@ export default function ProductDetail() {
             </div>
             <div className="bg-background rounded-2xl p-6 border border-border/50">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Star className="w-6 h-6 text-primary" />
+                <HugeiconsIcon icon={StarIcon} size={24} className="text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Premium Kwaliteit</h3>
               <p className="text-sm text-muted-foreground">
@@ -359,7 +341,7 @@ export default function ProductDetail() {
             </div>
             <div className="bg-background rounded-2xl p-6 border border-border/50">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-primary" />
+                <HugeiconsIcon icon={ShieldKeyIcon} size={24} className="text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Nederlandse Support</h3>
               <p className="text-sm text-muted-foreground">

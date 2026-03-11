@@ -4,7 +4,8 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Search, Eye, Palette, ExternalLink } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Search01Icon, ViewIcon, PaintBrushIcon } from "@hugeicons/core-free-icons";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
@@ -70,15 +71,6 @@ const AdminMoodboards = () => {
     }
   };
 
-  const getQuizSummary = (r: any) => {
-    try {
-      const qa = r.quiz_answers || {};
-      return Object.entries(qa).map(([k, v]) => `${k}: ${v}`).join(' | ');
-    } catch {
-      return '—';
-    }
-  };
-
   return (
     <div className="space-y-6">
       <div>
@@ -86,10 +78,9 @@ const AdminMoodboards = () => {
         <p className="text-sm text-muted-foreground mt-1">Bekijk AI moodboard resultaten en contactgegevens</p>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <HugeiconsIcon icon={Search01Icon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Zoek op naam, email of bedrijf..."
             value={search}
@@ -99,7 +90,6 @@ const AdminMoodboards = () => {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="p-4 border border-border">
           <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-medium">Totaal</p>
@@ -121,7 +111,6 @@ const AdminMoodboards = () => {
         </Card>
       </div>
 
-      {/* Table */}
       <Card className="border border-border overflow-hidden">
         <Table>
           <TableHeader>
@@ -163,7 +152,7 @@ const AdminMoodboards = () => {
                       size="icon"
                       onClick={() => { setSelected(item); setNotes(item.notities || ''); }}
                     >
-                      <Eye size={16} />
+                      <HugeiconsIcon icon={ViewIcon} size={16} />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -173,18 +162,16 @@ const AdminMoodboards = () => {
         </Table>
       </Card>
 
-      {/* Detail dialog */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-primary" />
+              <HugeiconsIcon icon={PaintBrushIcon} size={20} className="text-primary" />
               Moodboard Details
             </DialogTitle>
           </DialogHeader>
           {selected && (
             <div className="space-y-6 text-sm">
-              {/* Contact info */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <p className="text-muted-foreground">Naam</p>
@@ -204,7 +191,6 @@ const AdminMoodboards = () => {
                 </div>
               </div>
 
-              {/* Quiz answers */}
               <div>
                 <p className="text-muted-foreground mb-2 font-medium">Quiz antwoorden</p>
                 <div className="bg-muted/30 p-4 rounded-lg space-y-2">
@@ -217,7 +203,6 @@ const AdminMoodboards = () => {
                 </div>
               </div>
 
-              {/* AI Result summary */}
               {selected.ai_result && (
                 <>
                   <div>
@@ -251,7 +236,6 @@ const AdminMoodboards = () => {
                 </>
               )}
 
-              {/* Status */}
               <div>
                 <p className="text-muted-foreground mb-1">Status wijzigen</p>
                 <select
@@ -268,7 +252,6 @@ const AdminMoodboards = () => {
                 </select>
               </div>
 
-              {/* Notes */}
               <div>
                 <p className="text-muted-foreground mb-1">Notities</p>
                 <Textarea

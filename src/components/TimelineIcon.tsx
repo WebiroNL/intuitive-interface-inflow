@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import type { IconSvgElement } from "@hugeicons/react";
 
 interface TimelineIconProps {
-  icon: LucideIcon;
+  icon: IconSvgElement;
   isActive?: boolean;
   isCompleted?: boolean;
   delay?: number;
 }
 
 export function TimelineIcon({ 
-  icon: Icon, 
+  icon, 
   isActive = false, 
   isCompleted = false,
   delay = 0 
@@ -31,7 +32,7 @@ export function TimelineIcon({
         transition-all duration-300
       `}
     >
-      <Icon className="w-7 h-7" />
+      <HugeiconsIcon icon={icon} size={28} />
       
       {isActive && (
         <motion.div

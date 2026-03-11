@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Check, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkBadge01Icon, ArrowDown01Icon, ArrowUp01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { marketingServices } from './pakketten/data';
@@ -70,7 +71,7 @@ export function MarketingConfigurator() {
                             <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
                               isSelected ? "bg-primary text-primary-foreground" : "border border-input"
                             }`}>
-                              {isSelected && <Check className="w-3 h-3" />}
+                              {isSelected && <HugeiconsIcon icon={CheckmarkBadge01Icon} size={12} />}
                             </div>
                             <span className="font-semibold text-foreground text-[13px]">{service.name}</span>
                           </div>
@@ -91,14 +92,14 @@ export function MarketingConfigurator() {
                           className="text-[12px] text-primary font-medium flex items-center gap-0.5 mt-2 ml-7 hover:underline"
                         >
                           {expandedId === service.id ? "Minder" : "Wat is inbegrepen"}
-                          {expandedId === service.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                          <HugeiconsIcon icon={expandedId === service.id ? ArrowUp01Icon : ArrowDown01Icon} size={12} />
                         </button>
 
                         {expandedId === service.id && (
                           <ul className="mt-2 ml-7 space-y-1">
                             {service.features.map(f => (
                               <li key={f} className="flex items-start gap-1.5 text-[12px] text-muted-foreground">
-                                <Check className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                                <HugeiconsIcon icon={CheckmarkBadge01Icon} size={12} className="text-primary mt-0.5 flex-shrink-0" />
                                 {f}
                               </li>
                             ))}
@@ -141,7 +142,7 @@ export function MarketingConfigurator() {
           }`}
         >
           Plan een strategiecall
-          <ArrowRight className="w-4 h-4" />
+          <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
         </Link>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { ArrowRight, Calendar, Clock, User } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon, Calendar01Icon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -105,10 +106,10 @@ const Blog = () => {
                       {featuredPost.categoryEmoji} {featuredPost.category}
                     </span>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Calendar className="w-3 h-3" /> {featuredPost.date}
+                      <HugeiconsIcon icon={Calendar01Icon} size={12} /> {featuredPost.date}
                     </span>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> {featuredPost.readTime} lezen
+                      <HugeiconsIcon icon={Clock01Icon} size={12} /> {featuredPost.readTime} lezen
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
@@ -116,7 +117,7 @@ const Blog = () => {
                   </h3>
                   <p className="text-muted-foreground mb-6">{featuredPost.excerpt}</p>
                   <span className="text-sm font-medium text-primary flex items-center gap-1">
-                    Lees meer <ArrowRight className="w-4 h-4" />
+                    Lees meer <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
                   </span>
                 </div>
               </Link>

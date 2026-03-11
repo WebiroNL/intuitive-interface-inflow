@@ -1,29 +1,30 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import webiroLogo from '@/assets/logo-webiro.svg';
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  LayoutDashboard,
-  ShoppingCart,
-  Users,
-  BarChart3,
-  Settings,
-  LogOut,
-  Package,
-  MessageSquare,
-  Plug,
-  Palette,
-} from 'lucide-react';
+  DashboardSquare01Icon,
+  ShoppingCart01Icon,
+  UserGroup02Icon,
+  BarChartIcon,
+  Settings01Icon,
+  Logout01Icon,
+  Package01Icon,
+  MessageMultiple01Icon,
+  PlugSocketIcon,
+  PaintBrushIcon,
+} from "@hugeicons/core-free-icons";
 
 const navItems = [
-  { label: 'Overzicht', href: '/admin', icon: LayoutDashboard },
-  { label: 'Orders', href: '/admin/orders', icon: ShoppingCart },
-  { label: 'Leads', href: '/admin/leads', icon: Users },
-  { label: 'Statistieken', href: '/admin/stats', icon: BarChart3 },
-  { label: 'Berichten', href: '/admin/messages', icon: MessageSquare },
-  { label: 'Producten', href: '/admin/products', icon: Package },
-  { label: 'Integraties', href: '/admin/integrations', icon: Plug },
-  { label: 'Moodboards', href: '/admin/moodboards', icon: Palette },
-  { label: 'Instellingen', href: '/admin/settings', icon: Settings },
+  { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
+  { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
+  { label: 'Leads', href: '/admin/leads', icon: UserGroup02Icon },
+  { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
+  { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
+  { label: 'Producten', href: '/admin/products', icon: Package01Icon },
+  { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
+  { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
+  { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];
 
 export function AdminSidebar() {
@@ -35,7 +36,6 @@ export function AdminSidebar() {
 
   return (
     <aside className="w-[240px] h-screen bg-card border-r border-border flex flex-col flex-shrink-0 sticky top-0">
-      {/* Logo */}
       <div className="h-[60px] flex items-center px-5 border-b border-border">
         <Link to="/admin">
           <img src={webiroLogo} alt="Webiro" className="h-[22px]" />
@@ -45,7 +45,6 @@ export function AdminSidebar() {
         </span>
       </div>
 
-      {/* Nav */}
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => (
           <Link
@@ -57,13 +56,12 @@ export function AdminSidebar() {
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
             }`}
           >
-            <item.icon size={16} strokeWidth={1.8} />
+            <HugeiconsIcon icon={item.icon} size={16} />
             {item.label}
           </Link>
         ))}
       </nav>
 
-      {/* User & Sign out */}
       <div className="border-t border-border p-3 space-y-1">
         <div className="px-3 py-1.5">
           <p className="text-[12px] font-medium text-foreground truncate">{user?.email}</p>
@@ -73,7 +71,7 @@ export function AdminSidebar() {
           onClick={signOut}
           className="flex items-center gap-2.5 w-full px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
         >
-          <LogOut size={16} strokeWidth={1.8} />
+          <HugeiconsIcon icon={Logout01Icon} size={16} />
           Uitloggen
         </button>
       </div>

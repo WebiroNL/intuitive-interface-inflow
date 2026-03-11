@@ -3,26 +3,27 @@ import { Link } from "react-router-dom";
 import { updatePageMeta } from "@/utils/seo";
 import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  ArrowRight,
-  CheckCircle,
-  Handshake,
-  Palette,
-  Rocket,
-  MessageCircle,
-  Search,
-  BarChart3,
-  Bot,
-  Mail,
-  Megaphone,
-  Globe,
-} from "lucide-react";
+  ArrowRight01Icon,
+  CheckmarkCircle02Icon,
+  UserGroup02Icon,
+  PaintBrushIcon,
+  RocketIcon,
+  MessageMultiple01Icon,
+  Search01Icon,
+  BarChartIcon,
+  AiBrainIcon,
+  Mail01Icon,
+  Megaphone01Icon,
+  Globe02Icon,
+} from "@hugeicons/core-free-icons";
 
 /* ─── Shared step data ─── */
 const websiteSteps = [
   {
     number: "01",
-    icon: Handshake,
+    icon: UserGroup02Icon,
     title: "Kennismaking & briefing",
     duration: "Dag 1",
     description:
@@ -31,7 +32,7 @@ const websiteSteps = [
   },
   {
     number: "02",
-    icon: Palette,
+    icon: PaintBrushIcon,
     title: "Design & revisies",
     duration: "Dag 2–5",
     description:
@@ -40,7 +41,7 @@ const websiteSteps = [
   },
   {
     number: "03",
-    icon: Rocket,
+    icon: RocketIcon,
     title: "Development & lancering",
     duration: "Dag 5–7",
     description:
@@ -49,7 +50,7 @@ const websiteSteps = [
   },
   {
     number: "04",
-    icon: MessageCircle,
+    icon: MessageMultiple01Icon,
     title: "Support & groei",
     duration: "Doorlopend",
     description:
@@ -61,7 +62,7 @@ const websiteSteps = [
 const marketingSteps = [
   {
     number: "01",
-    icon: Search,
+    icon: Search01Icon,
     title: "Analyse & strategie",
     duration: "Week 1",
     description:
@@ -70,7 +71,7 @@ const marketingSteps = [
   },
   {
     number: "02",
-    icon: Megaphone,
+    icon: Megaphone01Icon,
     title: "Setup & lancering",
     duration: "Week 2",
     description:
@@ -79,7 +80,7 @@ const marketingSteps = [
   },
   {
     number: "03",
-    icon: BarChart3,
+    icon: BarChartIcon,
     title: "Optimalisatie & schaling",
     duration: "Maand 1–3",
     description:
@@ -88,7 +89,7 @@ const marketingSteps = [
   },
   {
     number: "04",
-    icon: Bot,
+    icon: AiBrainIcon,
     title: "Automatiseren & opschalen",
     duration: "Doorlopend",
     description:
@@ -159,7 +160,7 @@ const Proces = () => {
                 to="/intake"
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
-                Start je project <ArrowRight className="w-4 h-4" />
+                Start je project <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Link>
               <Link
                 to="/pakketten"
@@ -177,7 +178,7 @@ const Proces = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Globe size={16} className="text-primary" />
+              <HugeiconsIcon icon={Globe02Icon} size={16} className="text-primary" />
             </div>
             <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
               Website traject
@@ -202,7 +203,7 @@ const Proces = () => {
               >
                 <div className="flex lg:flex-col items-center lg:items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center flex-shrink-0">
-                    <step.icon size={22} className="text-primary" />
+                    <HugeiconsIcon icon={step.icon} size={22} className="text-primary" />
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-primary tracking-wide">STAP {step.number}</span>
@@ -215,7 +216,7 @@ const Proces = () => {
                   <div className="grid sm:grid-cols-2 gap-2">
                     {step.deliverables.map((d) => (
                       <div key={d} className="flex items-center gap-2 text-[13px] text-muted-foreground">
-                        <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-primary flex-shrink-0" />
                         {d}
                       </div>
                     ))}
@@ -232,7 +233,7 @@ const Proces = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-              <BarChart3 size={16} className="text-accent" />
+              <HugeiconsIcon icon={BarChartIcon} size={16} className="text-accent" />
             </div>
             <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent">
               Marketing traject
@@ -257,7 +258,7 @@ const Proces = () => {
               >
                 <div className="flex lg:flex-col items-center lg:items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-accent/8 flex items-center justify-center flex-shrink-0">
-                    <step.icon size={22} className="text-accent" />
+                    <HugeiconsIcon icon={step.icon} size={22} className="text-accent" />
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-accent tracking-wide">STAP {step.number}</span>
@@ -270,7 +271,7 @@ const Proces = () => {
                   <div className="grid sm:grid-cols-2 gap-2">
                     {step.deliverables.map((d) => (
                       <div key={d} className="flex items-center gap-2 text-[13px] text-muted-foreground">
-                        <CheckCircle className="w-3.5 h-3.5 text-accent flex-shrink-0" />
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-accent flex-shrink-0" />
                         {d}
                       </div>
                     ))}
@@ -300,7 +301,7 @@ const Proces = () => {
                 to="/contact"
                 className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
               >
-                Contact opnemen <ArrowRight className="w-4 h-4" />
+                Contact opnemen <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Link>
             </div>
 
