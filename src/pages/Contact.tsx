@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SentIcon, Mail01Icon, CallIcon, Location01Icon } from '@hugeicons/core-free-icons';
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
