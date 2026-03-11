@@ -147,7 +147,7 @@ export default function Shop() {
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                       <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-background text-foreground text-[13px] font-semibold rounded-lg">
-                        Bekijk product <ArrowRight size={14} />
+                        Bekijk product <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
                       </span>
                     </div>
 
