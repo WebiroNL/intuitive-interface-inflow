@@ -7,7 +7,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
-  Handshake02Icon,
+  Handshake01Icon,
   PaintBrushIcon,
   RocketIcon,
   MessageMultiple01Icon,
