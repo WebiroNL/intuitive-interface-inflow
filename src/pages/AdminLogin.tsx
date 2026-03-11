@@ -43,7 +43,7 @@ const AdminLogin = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-              <AlertCircle size={16} />
+              <HugeiconsIcon icon={Alert02Icon} size={16} />
               {error}
             </div>
           )}
