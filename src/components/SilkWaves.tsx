@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createNoise2D } from "simplex-noise";
 
 export type SilkWavesVariant = "default" | "pakketten" | "marketing" | "contact" | "proces";
