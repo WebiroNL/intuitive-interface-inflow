@@ -123,6 +123,23 @@ const reviews = [
   { name: "Rian M.", role: "Elektroza", text: "Helder en overzichtelijk, precies wat ik nodig had voor mijn elektriciensbedrijf.", initials: "RM" },
 ];
 
+const tools = [
+  { name: "Figma", src: "/images/tools/figma.svg" },
+  { name: "Framer", src: "/images/tools/framer.svg" },
+  { name: "Spline", src: "/images/tools/spline.svg" },
+  { name: "Webflow", src: "/images/tools/webflow.svg" },
+  { name: "Shopify", src: "/images/tools/shopify.svg" },
+  { name: "WordPress", src: "/images/tools/wordpress.svg" },
+  { name: "React", src: "/images/tools/react.svg" },
+  { name: "Vercel", src: "/images/tools/vercel.svg" },
+  { name: "Google Ads", src: "/images/tools/googleads.svg" },
+  { name: "Meta Ads", src: "/images/tools/meta.svg" },
+  { name: "Photoshop", src: "/images/tools/photoshop.svg" },
+  { name: "Illustrator", src: "/images/tools/illustrator.svg" },
+  { name: "After Effects", src: "/images/tools/aftereffects.svg" },
+  { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
+];
+
 const Home = () => {
   useEffect(() => {
     updatePageMeta(
@@ -180,40 +197,29 @@ const Home = () => {
 
       {/* ══════ TOOLS STRIP ══════ */}
       <div className="border-t border-border/60 bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7 overflow-hidden relative">
-          <div
-            className="tools-strip flex animate-[marquee_50s_linear_infinite] w-max gap-x-10 md:gap-x-14"
-            onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
-          >
-            {[...Array(2)].map((_, setIdx) => (
-              [
-                { name: "Figma", src: "/images/tools/figma.svg" },
-                { name: "Framer", src: "/images/tools/framer.svg" },
-                { name: "Spline", src: "/images/tools/spline.svg" },
-                { name: "Webflow", src: "/images/tools/webflow.svg" },
-                { name: "Shopify", src: "/images/tools/shopify.svg" },
-                { name: "WordPress", src: "/images/tools/wordpress.svg" },
-                { name: "React", src: "/images/tools/react.svg" },
-                { name: "Vercel", src: "/images/tools/vercel.svg" },
-                { name: "Google Ads", src: "/images/tools/googleads.svg" },
-                { name: "Meta Ads", src: "/images/tools/meta.svg" },
-                { name: "Photoshop", src: "/images/tools/photoshop.svg" },
-                { name: "Illustrator", src: "/images/tools/illustrator.svg" },
-                { name: "After Effects", src: "/images/tools/aftereffects.svg" },
-                { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
-              ].map((tool) => (
-                <div
-                  key={`${setIdx}-${tool.name}`}
-                  className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
-                >
-                  <img src={tool.src} alt={tool.name} className="h-5 w-auto object-contain" loading="lazy" />
-                  <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
-                    {tool.name}
-                  </span>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7">
+          <div className="overflow-hidden px-1 sm:px-2">
+            <div
+              className="tools-strip flex w-max animate-[marquee_42s_linear_infinite] [will-change:transform]"
+              onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
+            >
+              {[0, 1].map((setIdx) => (
+                <div key={setIdx} className="flex items-center gap-x-10 md:gap-x-14 flex-shrink-0">
+                  {tools.map((tool) => (
+                    <div
+                      key={`${setIdx}-${tool.name}`}
+                      className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
+                    >
+                      <img src={tool.src} alt={tool.name} className="h-5 w-auto object-contain" loading="lazy" />
+                      <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
+                        {tool.name}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
