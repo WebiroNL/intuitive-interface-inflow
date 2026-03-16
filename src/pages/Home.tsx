@@ -179,8 +179,8 @@ const Home = () => {
       </section>
 
       {/* ══════ TOOLS STRIP ══════ */}
-      <div className="border-t border-border/60 bg-background overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7 overflow-hidden">
+      <div className="border-t border-border/60 bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7 overflow-hidden relative">
           <div
             className="tools-strip flex animate-[marquee_50s_linear_infinite] w-max gap-x-10 md:gap-x-14"
             onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
