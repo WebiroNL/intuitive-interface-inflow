@@ -8,7 +8,7 @@ interface Props {
   variant?: SilkWavesVariant;
 }
 
-const isMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
+const checkMobile = () => window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
 
 const variantConfig: Record<SilkWavesVariant, {
   colors: [string, string, string]; speed: number; waveAmp: number; lineWidth: number;
@@ -24,28 +24,15 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>();
   const noise2D = useRef(createNoise2D());
-  const [mobile] = useState(() => isMobile());
+  const [mobile] = useState(() => checkMobile());
   const stateRef = useRef({
     mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
     frame: 0,
   });
 
-  // On mobile, render nothing — use a static CSS gradient instead for performance
-  if (mobile) {
-    const cfg = variantConfig[variant];
-    const [c1, , c3] = cfg.colors;
-    return (
-      <div
-        className={`absolute inset-0 overflow-hidden ${className}`}
-        style={{
-          pointerEvents: "none",
-          background: `linear-gradient(135deg, hsla(${c1}, 0.08) 0%, hsla(${c3}, 0.06) 100%)`,
-        }}
-      />
-    );
-  }
-
   useEffect(() => {
+    if (mobile) return; // Skip canvas setup on mobile
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
@@ -53,21 +40,17 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
 
     let width = 0;
     let height = 0;
-    let xGap = 3;
-    let yGap = 3;
+    let xGap = 4;
+    let yGap = 4;
     let totalLines = 0;
     let totalPoints = 0;
     let xStart = 0;
     let yStart = 0;
 
-    // Pre-allocated point arrays for performance
     type Point = { x: number; y: number; wx: number; wy: number; cx: number; cy: number; cvx: number; cvy: number };
     let points: Point[][] = [];
 
     const setupGrid = () => {
-      const mobile = isMobile();
-      xGap = mobile ? 8 : 4;
-      yGap = mobile ? 8 : 4;
       width = canvas.offsetWidth;
       height = canvas.offsetHeight;
       canvas.width = width * devicePixelRatio;
@@ -85,13 +68,7 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
       for (let i = 0; i <= totalLines; i++) {
         const line: Point[] = [];
         for (let j = 0; j <= totalPoints; j++) {
-          line.push({
-            x: xStart + xGap * i,
-            y: yStart + yGap * j,
-            wx: 0, wy: 0,
-            cx: 0, cy: 0,
-            cvx: 0, cvy: 0,
-          });
+          line.push({ x: xStart + xGap * i, y: yStart + yGap * j, wx: 0, wy: 0, cx: 0, cy: 0, cvx: 0, cvy: 0 });
         }
         points.push(line);
       }
@@ -100,12 +77,6 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
     const tick = (time: number) => {
       const state = stateRef.current;
       state.frame++;
-
-      // Throttle to ~30fps on mobile
-      if (isMobile() && state.frame % 2 !== 0) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
-      }
 
       const mouse = state.mouse;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
@@ -120,13 +91,11 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
       mouse.a = Math.atan2(dy, dx);
 
       const cfg = variantConfig[variant];
-      // Breathing gradient opacity
       const t = time * 0.0006 * cfg.speed;
       const alpha1 = 0.30 + Math.sin(t * 1.1) * 0.15;
       const alpha2 = 0.26 + Math.sin(t * 0.9 + 1) * 0.12;
       const alpha3 = 0.24 + Math.sin(t * 1.3 + 2) * 0.12;
 
-      // Build gradient
       const [c1, c2, c3] = cfg.colors;
       const grad = ctx.createLinearGradient(0, 0, width, 0);
       grad.addColorStop(0,    `hsla(${c1},0.04)`);
@@ -148,16 +117,10 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
 
         for (let j = 0; j < line.length; j++) {
           const p = line[j];
-
-          // Wave
-          const move = noise(
-            (p.x + time * 0.008 * cfg.speed) * 0.002,
-            (p.y + time * 0.003 * cfg.speed) * 0.0015
-          ) * 10;
+          const move = noise((p.x + time * 0.008 * cfg.speed) * 0.002, (p.y + time * 0.003 * cfg.speed) * 0.0015) * 10;
           p.wx = Math.cos(move) * 30 * cfg.waveAmp;
           p.wy = Math.sin(move) * 14 * cfg.waveAmp;
 
-          // Cursor interaction
           const ddx = p.x - mouse.sx;
           const ddy = p.y - mouse.sy;
           const dd = Math.hypot(ddx, ddy);
@@ -182,14 +145,11 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
           if (j === 0) ctx.moveTo(fx, fy);
           else ctx.lineTo(fx, fy);
         }
-
         ctx.stroke();
       }
 
       rafRef.current = requestAnimationFrame(tick);
     };
-
-    const handleResize = () => setupGrid();
 
     const handleMouseMove = (e: MouseEvent) => {
       const bounds = canvas.getBoundingClientRect();
@@ -203,39 +163,36 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
       }
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const bounds = canvas.getBoundingClientRect();
-      const mouse = stateRef.current.mouse;
-      mouse.x = e.touches[0].clientX - bounds.left;
-      mouse.y = e.touches[0].clientY - bounds.top + window.scrollY;
-      if (!mouse.set) {
-        mouse.sx = mouse.x; mouse.sy = mouse.y;
-        mouse.lx = mouse.x; mouse.ly = mouse.y;
-        mouse.set = true;
-      }
-    };
-
     setupGrid();
     rafRef.current = requestAnimationFrame(tick);
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", setupGrid);
     window.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", setupGrid);
       window.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("touchmove", handleTouchMove);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [mobile, variant]);
+
+  // Mobile: static gradient fallback
+  if (mobile) {
+    const cfg = variantConfig[variant];
+    const [c1, , c3] = cfg.colors;
+    return (
+      <div
+        className={`absolute inset-0 overflow-hidden ${className}`}
+        style={{
+          pointerEvents: "none",
+          background: `linear-gradient(135deg, hsla(${c1}, 0.08) 0%, hsla(${c3}, 0.06) 100%)`,
+        }}
+      />
+    );
+  }
 
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`} style={{ pointerEvents: "none" }}>
-      <canvas
-        ref={canvasRef}
-        style={{ display: "block", width: "100%", height: "100%" }}
-      />
+      <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} />
     </div>
   );
 }
