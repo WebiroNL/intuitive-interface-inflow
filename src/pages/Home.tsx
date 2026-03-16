@@ -123,6 +123,23 @@ const reviews = [
   { name: "Rian M.", role: "Elektroza", text: "Helder en overzichtelijk, precies wat ik nodig had voor mijn elektriciensbedrijf.", initials: "RM" },
 ];
 
+const tools = [
+  { name: "Figma", src: "/images/tools/figma.svg" },
+  { name: "Framer", src: "/images/tools/framer.svg" },
+  { name: "Spline", src: "/images/tools/spline.svg" },
+  { name: "Webflow", src: "/images/tools/webflow.svg" },
+  { name: "Shopify", src: "/images/tools/shopify.svg" },
+  { name: "WordPress", src: "/images/tools/wordpress.svg" },
+  { name: "React", src: "/images/tools/react.svg" },
+  { name: "Vercel", src: "/images/tools/vercel.svg" },
+  { name: "Google Ads", src: "/images/tools/googleads.svg" },
+  { name: "Meta Ads", src: "/images/tools/meta.svg" },
+  { name: "Photoshop", src: "/images/tools/photoshop.svg" },
+  { name: "Illustrator", src: "/images/tools/illustrator.svg" },
+  { name: "After Effects", src: "/images/tools/aftereffects.svg" },
+  { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
+];
+
 const Home = () => {
   useEffect(() => {
     updatePageMeta(
