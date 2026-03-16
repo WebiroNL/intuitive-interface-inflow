@@ -24,10 +24,26 @@ export function SilkWaves({ className = "", variant = "default" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>();
   const noise2D = useRef(createNoise2D());
+  const [mobile] = useState(() => isMobile());
   const stateRef = useRef({
     mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
     frame: 0,
   });
+
+  // On mobile, render nothing — use a static CSS gradient instead for performance
+  if (mobile) {
+    const cfg = variantConfig[variant];
+    const [c1, , c3] = cfg.colors;
+    return (
+      <div
+        className={`absolute inset-0 overflow-hidden ${className}`}
+        style={{
+          pointerEvents: "none",
+          background: `linear-gradient(135deg, hsla(${c1}, 0.08) 0%, hsla(${c3}, 0.06) 100%)`,
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
