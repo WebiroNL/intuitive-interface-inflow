@@ -125,8 +125,8 @@ export function WireframeTerrain() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 10000);
-    camera.position.set(0, 5, 8);
-    camera.lookAt(new THREE.Vector3(0, 0, -2));
+    camera.position.set(0, 3, 6);
+    camera.lookAt(new THREE.Vector3(0, -1, -2));
 
     const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
     renderer.setSize(width, height);
@@ -134,15 +134,15 @@ export function WireframeTerrain() {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // Webiro Blue as wireframe color
-    const segments = isMobile ? 120 : 280;
+    const segments = isMobile ? 120 : 324;
 
+    // Match CodePen GUI values: speed 0.53, elevation -0.5, noise_range -0.5, sombrero_amp -0.3, sombrero_freq 10
     const uniforms = {
       time: { value: 0 },
-      speed: { value: 0.6 },
-      elevation: { value: 1.0 },
-      noise_range: { value: 2.14 },
-      sombrero_amplitude: { value: 0.6 },
+      speed: { value: 0.53 },
+      elevation: { value: -0.5 },
+      noise_range: { value: -0.5 },
+      sombrero_amplitude: { value: -0.3 },
       sombrero_frequency: { value: 10.0 },
       line_color: { value: new THREE.Color(0x3A4DEA) }, // Webiro Blue
     };
