@@ -53,14 +53,6 @@ export function CTASection({
       {/* Aurora stripe animated background */}
       <AuroraBackground />
 
-      {/* Left fade so content stays crisp */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to right, hsl(var(--background)) 25%, hsl(var(--background) / 0.5) 50%, transparent 80%)'
-        }}
-      />
-
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
