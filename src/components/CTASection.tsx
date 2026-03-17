@@ -105,7 +105,6 @@ export function CTASection({
                 </div>
               </div>
             </div>
-            </div>
           </div>
 
           {/* Right: two feature cards */}
