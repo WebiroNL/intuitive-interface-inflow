@@ -72,6 +72,7 @@ const VERTEX_SHADER = `
   uniform float speed;
   uniform float elevation;
   uniform float noise_range;
+  uniform float perlin_passes;
   uniform float sombrero_amplitude;
   uniform float sombrero_frequency;
   uniform vec3 line_color;
@@ -83,13 +84,20 @@ const VERTEX_SHADER = `
     v_uv = uv;
     v_line_color = line_color;
 
-    float displacement = pnoise(0.4 * position + vec3(0.0, speed * time, 0.0), vec3(100.0)) * noise_range;
-    displacement += pnoise(2.0 * position + vec3(0.0, speed * time * 5.0, 0.0), vec3(100.0)) * 0.3 * noise_range;
-    displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    // First perlin pass
+    float displacement = pnoise(0.4 * position + vec3(0.0, speed * time, 0.0), vec3(100.0)) * 1.0 * noise_range;
+
+    if (perlin_passes > 2.0) {
+      displacement += pnoise(2.0 * position + vec3(0.0, speed * time * 5.0, 0.0), vec3(100.0)) * 0.3 * noise_range;
+      displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    } else if (perlin_passes > 1.0) {
+      displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    }
 
     float dist = sqrt(((uv.x-0.5) * (uv.x-0.5)) + ((uv.y-0.5) * (uv.y-0.5)));
     float z = sombrero_amplitude * sin(((time * 0.5 * speed) - (dist * sombrero_frequency)) * M_PI);
 
+    // Sinus elevation
     displacement = displacement + (sin(position.x / 2.0 - M_PI / 2.0)) * elevation;
 
     vec3 newPosition = vec3(position.x, position.y, displacement + z);
@@ -141,6 +149,7 @@ export function WireframeTerrain() {
       speed: { value: 0.09 },
       elevation: { value: 0 },
       noise_range: { value: 1.3 },
+      perlin_passes: { value: 1.0 },
       sombrero_amplitude: { value: 0.3 },
       sombrero_frequency: { value: 10.0 },
       line_color: { value: new THREE.Color(0x3A4DEA) },
@@ -155,10 +164,31 @@ export function WireframeTerrain() {
       uniforms,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = -0.5;
-    scene.add(mesh);
+    // Floor mesh (solid ground plane like original CodePen)
+    const floorGeo = new THREE.PlaneGeometry(20, 20, 1, 1);
+    const floorMat = new THREE.ShaderMaterial({
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: FRAGMENT_SHADER,
+      wireframe: false,
+      transparent: true,
+      uniforms: {
+        ...uniforms,
+        // Override line_color for floor with a darker tint
+        line_color: { value: new THREE.Color(0x1a1a2e) },
+      },
+    });
+
+    const group = new THREE.Group();
+
+    const wireframeMesh = new THREE.Mesh(geometry, material);
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+
+    group.add(floorMesh);
+    group.add(wireframeMesh);
+
+    group.rotation.x = -Math.PI / 2;
+    group.position.y = -0.5;
+    scene.add(group);
 
     const clock = new THREE.Clock(true);
 
@@ -184,6 +214,8 @@ export function WireframeTerrain() {
       renderer.dispose();
       geometry.dispose();
       material.dispose();
+      floorGeo.dispose();
+      floorMat.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
