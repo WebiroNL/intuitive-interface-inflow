@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon, RocketIcon, MessageMultiple01Icon } from '@hugeicons/core-free-icons';
-import { WireframeTerrain } from '@/components/WireframeTerrain';
+import { SunburstBackground } from '@/components/SunburstBackground';
 
 interface CTASectionProps {
   title?: string;
@@ -72,7 +72,7 @@ export function CTASection({
       </svg>
 
       {/* Aurora stripe animated background */}
-      <WireframeTerrain />
+      <SunburstBackground />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
