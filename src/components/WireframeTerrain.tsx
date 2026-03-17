@@ -213,7 +213,7 @@ export function WireframeTerrain() {
     <div
       ref={containerRef}
       className="absolute inset-0 pointer-events-none overflow-hidden"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.7 }}
     />
   );
 }
