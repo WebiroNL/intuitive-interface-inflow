@@ -214,6 +214,8 @@ export function WireframeTerrain() {
       renderer.dispose();
       geometry.dispose();
       material.dispose();
+      floorGeo.dispose();
+      floorMat.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
