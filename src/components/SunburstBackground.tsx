@@ -66,7 +66,7 @@ export function SunburstBackground() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Background: white (light) or dark (dark mode)
+      // Background: theme base + radial gradient glow
       const isDark = themeRef.current === 'dark';
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
       ctx.fillRect(0, 0, w, h);
