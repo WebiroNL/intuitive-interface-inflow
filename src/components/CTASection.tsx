@@ -49,6 +49,27 @@ export function CTASection({
 
   return (
     <section className="relative bg-background border-t border-border overflow-hidden">
+      {/* SVG Filters for Liquid Glass effect */}
+      <svg style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}>
+        <defs>
+          <filter id="liquid-glass-filter" x="-50%" y="-50%" width="200%" height="200%" colorInterpolationFilters="sRGB">
+            {/* Create turbulence for organic distortion */}
+            <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="2" result="noise" />
+            {/* Displacement map for refraction */}
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            {/* Slight blur for glass softness */}
+            <feGaussianBlur in="displaced" stdDeviation="0.8" result="blurred" />
+            {/* Boost saturation slightly */}
+            <feColorMatrix in="blurred" type="saturate" values="1.15" result="saturated" />
+            {/* Brighten slightly for glass sheen */}
+            <feComponentTransfer in="saturated">
+              <feFuncR type="linear" slope="1.05" intercept="0.03" />
+              <feFuncG type="linear" slope="1.05" intercept="0.03" />
+              <feFuncB type="linear" slope="1.05" intercept="0.03" />
+            </feComponentTransfer>
+          </filter>
+        </defs>
+      </svg>
 
       {/* Aurora stripe animated background */}
       <WireframeTerrain />
