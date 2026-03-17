@@ -49,6 +49,27 @@ export function CTASection({
 
   return (
     <section className="relative bg-background border-t border-border overflow-hidden">
+      {/* SVG Filters for Liquid Glass effect */}
+      <svg style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}>
+        <defs>
+          <filter id="liquid-glass-filter" x="-50%" y="-50%" width="200%" height="200%" colorInterpolationFilters="sRGB">
+            {/* Create turbulence for organic distortion */}
+            <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="2" result="noise" />
+            {/* Displacement map for refraction */}
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            {/* Slight blur for glass softness */}
+            <feGaussianBlur in="displaced" stdDeviation="0.8" result="blurred" />
+            {/* Boost saturation slightly */}
+            <feColorMatrix in="blurred" type="saturate" values="1.15" result="saturated" />
+            {/* Brighten slightly for glass sheen */}
+            <feComponentTransfer in="saturated">
+              <feFuncR type="linear" slope="1.05" intercept="0.03" />
+              <feFuncG type="linear" slope="1.05" intercept="0.03" />
+              <feFuncB type="linear" slope="1.05" intercept="0.03" />
+            </feComponentTransfer>
+          </filter>
+        </defs>
+      </svg>
 
       {/* Aurora stripe animated background */}
       <WireframeTerrain />
@@ -63,23 +84,25 @@ export function CTASection({
               {title}
             </h2>
             <div className="glassmorphism-card rounded-2xl px-6 py-6 max-w-sm">
-              <p className="text-foreground/90 text-base lg:text-lg leading-relaxed mb-5">
-                {displayDescription}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to={displayButtonLink}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
-                >
-                  {displayButtonText}
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 text-foreground rounded-md font-semibold hover:bg-foreground/10 transition-all text-sm"
-                >
-                  Contact opnemen
-                </Link>
+              <div className="relative z-10">
+                <p className="text-foreground/90 text-base lg:text-lg leading-relaxed mb-5">
+                  {displayDescription}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    to={displayButtonLink}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
+                  >
+                    {displayButtonText}
+                    <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 text-foreground rounded-md font-semibold hover:bg-foreground/10 transition-all text-sm"
+                  >
+                    Contact opnemen
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
