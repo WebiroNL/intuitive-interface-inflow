@@ -62,23 +62,25 @@ export function CTASection({
             <h2 className="aurora-text text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-6" data-text={title}>
               {title}
             </h2>
-            <p className="text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 max-w-sm">
-              {displayDescription}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                to={displayButtonLink}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
-              >
-                {displayButtonText}
-                <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-all text-sm"
-              >
-                Contact opnemen
-              </Link>
+            <div className="liquid-glass rounded-xl px-6 py-5 inline-block max-w-sm">
+              <p className="text-foreground/80 text-base lg:text-lg leading-relaxed mb-5">
+                {displayDescription}
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to={displayButtonLink}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
+                >
+                  {displayButtonText}
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-foreground rounded-md font-semibold hover:bg-white/10 transition-all text-sm backdrop-blur-sm"
+                >
+                  Contact opnemen
+                </Link>
+              </div>
             </div>
           </div>
 
