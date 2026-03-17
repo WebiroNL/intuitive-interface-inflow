@@ -51,7 +51,7 @@ export function CTASection({
     <section className="relative bg-background border-t border-border overflow-hidden">
 
       {/* Aurora stripe animated background */}
-      <AuroraBackground />
+      <WireframeTerrain />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
