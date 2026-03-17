@@ -106,7 +106,7 @@ const FRAGMENT_SHADER = `
   #define M_PI 3.1415926535897932384626433832795
 
   void main() {
-    float alpha = sin(v_uv.y * M_PI) * 0.35;
+    float alpha = sin(v_uv.y * M_PI) * 0.5;
     gl_FragColor = vec4(v_line_color, alpha);
   }
 `;
