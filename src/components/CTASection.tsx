@@ -53,7 +53,7 @@ export function CTASection({
       {/* Aurora stripe animated background */}
       <AuroraBackground />
 
-      {/* Left fade so text stays crisp */}
+      {/* Left fade so content stays crisp */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -66,7 +66,8 @@ export function CTASection({
 
           {/* Left: heading + buttons */}
           <div>
-            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-6">
+            {/* Frosted glass text effect */}
+            <h2 className="aurora-text text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-6" data-text={title}>
               {title}
             </h2>
             <p className="text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 max-w-sm">
