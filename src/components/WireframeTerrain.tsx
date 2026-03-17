@@ -125,8 +125,8 @@ export function WireframeTerrain() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 10000);
-    camera.position.set(0, 1, 7);
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.position.set(0, 5, 8);
+    camera.lookAt(new THREE.Vector3(0, 0, -2));
 
     const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
     renderer.setSize(width, height);
