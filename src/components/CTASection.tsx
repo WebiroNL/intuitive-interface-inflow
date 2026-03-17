@@ -72,7 +72,7 @@ export function CTASection({
       </svg>
 
       {/* Aurora stripe animated background */}
-      <WireframeTerrain />
+      <SunburstBackground />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
