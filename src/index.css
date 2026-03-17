@@ -377,6 +377,20 @@
   z-index: 1;
 }
 
+/* Dark mode: invert the blend so text stays visible */
+.dark .aurora-text {
+  filter: invert(0);
+}
+
+.dark .aurora-text::before {
+  background: black;
+  text-shadow: 0 0 1px #000;
+  background-color: black;
+  -webkit-text-stroke: 1px black;
+  -webkit-backdrop-filter: blur(19px) brightness(0.08);
+  backdrop-filter: blur(19px) brightness(0.08);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
