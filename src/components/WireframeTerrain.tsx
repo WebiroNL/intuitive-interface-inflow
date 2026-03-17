@@ -106,7 +106,7 @@ const FRAGMENT_SHADER = `
   #define M_PI 3.1415926535897932384626433832795
 
   void main() {
-    float alpha = sin(v_uv.y * M_PI) * 0.35;
+    float alpha = sin(v_uv.y * M_PI) * 0.5;
     gl_FragColor = vec4(v_line_color, alpha);
   }
 `;
@@ -125,8 +125,8 @@ export function WireframeTerrain() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 10000);
-    camera.position.set(0, 1, 7);
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.position.set(0, 5, 8);
+    camera.lookAt(new THREE.Vector3(0, 0, -2));
 
     const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
     renderer.setSize(width, height);
@@ -213,7 +213,7 @@ export function WireframeTerrain() {
     <div
       ref={containerRef}
       className="absolute inset-0 pointer-events-none overflow-hidden"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.7 }}
     />
   );
 }
