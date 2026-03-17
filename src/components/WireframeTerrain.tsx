@@ -164,31 +164,10 @@ export function WireframeTerrain() {
       uniforms,
     });
 
-    // Floor mesh (solid ground plane like original CodePen)
-    const floorGeo = new THREE.PlaneGeometry(20, 20, 1, 1);
-    const floorMat = new THREE.ShaderMaterial({
-      vertexShader: VERTEX_SHADER,
-      fragmentShader: FRAGMENT_SHADER,
-      wireframe: false,
-      transparent: true,
-      uniforms: {
-        ...uniforms,
-        // Override line_color for floor with a darker tint
-        line_color: { value: new THREE.Color(0x1a1a2e) },
-      },
-    });
-
-    const group = new THREE.Group();
-
-    const wireframeMesh = new THREE.Mesh(geometry, material);
-    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-
-    group.add(floorMesh);
-    group.add(wireframeMesh);
-
-    group.rotation.x = -Math.PI / 2;
-    group.position.y = -0.5;
-    scene.add(group);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = -0.5;
+    scene.add(mesh);
 
     const clock = new THREE.Clock(true);
 
@@ -214,8 +193,6 @@ export function WireframeTerrain() {
       renderer.dispose();
       geometry.dispose();
       material.dispose();
-      floorGeo.dispose();
-      floorMat.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
