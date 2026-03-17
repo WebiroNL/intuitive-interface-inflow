@@ -72,6 +72,7 @@ const VERTEX_SHADER = `
   uniform float speed;
   uniform float elevation;
   uniform float noise_range;
+  uniform float perlin_passes;
   uniform float sombrero_amplitude;
   uniform float sombrero_frequency;
   uniform vec3 line_color;
@@ -83,13 +84,20 @@ const VERTEX_SHADER = `
     v_uv = uv;
     v_line_color = line_color;
 
-    float displacement = pnoise(0.4 * position + vec3(0.0, speed * time, 0.0), vec3(100.0)) * noise_range;
-    displacement += pnoise(2.0 * position + vec3(0.0, speed * time * 5.0, 0.0), vec3(100.0)) * 0.3 * noise_range;
-    displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    // First perlin pass
+    float displacement = pnoise(0.4 * position + vec3(0.0, speed * time, 0.0), vec3(100.0)) * 1.0 * noise_range;
+
+    if (perlin_passes > 2.0) {
+      displacement += pnoise(2.0 * position + vec3(0.0, speed * time * 5.0, 0.0), vec3(100.0)) * 0.3 * noise_range;
+      displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    } else if (perlin_passes > 1.0) {
+      displacement += pnoise(8.0 * position + vec3(0.0, speed * time * 20.0, 0.0), vec3(100.0)) * 0.1 * noise_range;
+    }
 
     float dist = sqrt(((uv.x-0.5) * (uv.x-0.5)) + ((uv.y-0.5) * (uv.y-0.5)));
     float z = sombrero_amplitude * sin(((time * 0.5 * speed) - (dist * sombrero_frequency)) * M_PI);
 
+    // Sinus elevation
     displacement = displacement + (sin(position.x / 2.0 - M_PI / 2.0)) * elevation;
 
     vec3 newPosition = vec3(position.x, position.y, displacement + z);
