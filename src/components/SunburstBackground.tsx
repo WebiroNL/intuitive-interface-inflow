@@ -71,18 +71,18 @@ export function SunburstBackground() {
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
       ctx.fillRect(0, 0, w, h);
 
-      // Radial gradient overlay: warm center bottom → purple → transparent edges
-      const rg = ctx.createRadialGradient(w / 2, h * 0.95, 0, w / 2, h * 0.5, Math.max(w, h) * 0.75);
+      // Compact Stripe-style radial gradient — tight purple/pink glow from bottom center
+      const rg = ctx.createRadialGradient(w / 2, h, 0, w / 2, h * 0.7, Math.min(w, h) * 0.55);
       if (isDark) {
-        rg.addColorStop(0.00, 'rgba(58, 77, 234, 0.35)');
-        rg.addColorStop(0.25, 'rgba(138, 79, 232, 0.25)');
-        rg.addColorStop(0.55, 'rgba(100, 60, 200, 0.12)');
+        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.5)');
+        rg.addColorStop(0.30, 'rgba(100, 60, 200, 0.3)');
+        rg.addColorStop(0.60, 'rgba(58, 77, 234, 0.12)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg.addColorStop(0.00, 'rgba(255, 190, 120, 0.45)');
-        rg.addColorStop(0.20, 'rgba(230, 140, 170, 0.35)');
-        rg.addColorStop(0.45, 'rgba(180, 130, 220, 0.25)');
-        rg.addColorStop(0.70, 'rgba(200, 190, 240, 0.12)');
+        rg.addColorStop(0.00, 'rgba(220, 140, 200, 0.55)');
+        rg.addColorStop(0.25, 'rgba(180, 120, 220, 0.4)');
+        rg.addColorStop(0.50, 'rgba(140, 100, 230, 0.2)');
+        rg.addColorStop(0.75, 'rgba(200, 190, 240, 0.08)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg;
