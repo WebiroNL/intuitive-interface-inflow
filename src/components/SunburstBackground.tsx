@@ -66,9 +66,26 @@ export function SunburstBackground() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Background: white (light) or dark (dark mode)
+      // Background: theme base + radial gradient glow
       const isDark = themeRef.current === 'dark';
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
+      ctx.fillRect(0, 0, w, h);
+
+      // Radial gradient overlay: warm center bottom → purple → transparent edges
+      const rg = ctx.createRadialGradient(w / 2, h * 0.95, 0, w / 2, h * 0.5, Math.max(w, h) * 0.75);
+      if (isDark) {
+        rg.addColorStop(0.00, 'rgba(58, 77, 234, 0.35)');
+        rg.addColorStop(0.25, 'rgba(138, 79, 232, 0.25)');
+        rg.addColorStop(0.55, 'rgba(100, 60, 200, 0.12)');
+        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      } else {
+        rg.addColorStop(0.00, 'rgba(255, 190, 120, 0.45)');
+        rg.addColorStop(0.20, 'rgba(230, 140, 170, 0.35)');
+        rg.addColorStop(0.45, 'rgba(180, 130, 220, 0.25)');
+        rg.addColorStop(0.70, 'rgba(200, 190, 240, 0.12)');
+        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      }
+      ctx.fillStyle = rg;
       ctx.fillRect(0, 0, w, h);
 
       const originX = w / 2;
