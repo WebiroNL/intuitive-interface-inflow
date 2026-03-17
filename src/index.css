@@ -314,11 +314,11 @@
   );
   --rainbow: repeating-linear-gradient(
     100deg,
-    #60a5fa 10%,
-    #e879f9 15%,
-    #60a5fa 20%,
-    #5eead4 25%,
-    #60a5fa 30%
+    #3A4DEA 10%,
+    #8A4FE8 15%,
+    #3A4DEA 20%,
+    #FFD75C 25%,
+    #3A4DEA 30%
   );
   position: absolute;
   inset: 0;
