@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Spoke {
   angle: number;
@@ -16,6 +17,13 @@ export function SunburstBackground() {
   const mouseRef = useRef({ x: -9999, y: -9999, sx: -9999, sy: -9999 });
   const spokesRef = useRef<Spoke[]>([]);
   const tRef = useRef(0);
+  const { theme } = useTheme();
+  const themeRef = useRef(theme);
+
+  // Keep theme ref in sync
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   const SPOKE_COUNT = 180;
   const REPULSE_RADIUS = 140;
@@ -43,30 +51,28 @@ export function SunburstBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let W = canvas.width = canvas.offsetWidth;
-    let H = canvas.height = canvas.offsetHeight;
-    initSpokes(W, H);
+    let W = canvas.width = canvas.offsetWidth * 2;
+    let H = canvas.height = canvas.offsetHeight * 2;
+    ctx.scale(2, 2);
+    initSpokes(W / 2, H / 2);
 
     const draw = () => {
       const m = mouseRef.current;
       m.sx += (m.x - m.sx) * 0.07;
       m.sy += (m.y - m.sy) * 0.07;
 
-      ctx.clearRect(0, 0, W, H);
+      const w = W / 2;
+      const h = H / 2;
 
-      // Webiro-branded background: deep blue center → purple edges
-      const cx = W / 2;
-      const bg = ctx.createRadialGradient(cx, H * 0.9, 0, cx, H * 0.45, Math.max(W, H) * 0.92);
-      bg.addColorStop(0.00, '#3A4DEA');  // webiro blue
-      bg.addColorStop(0.18, '#5B4FE8');
-      bg.addColorStop(0.45, '#8A4FE8');  // webiro purple
-      bg.addColorStop(0.75, '#6B5CE0');
-      bg.addColorStop(1.00, '#1a1a2e');  // dark
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, W, H);
+      ctx.clearRect(0, 0, w, h);
 
-      const originX = W / 2;
-      const originY = H + 10;
+      // Background: white (light) or dark (dark mode)
+      const isDark = themeRef.current === 'dark';
+      ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
+      ctx.fillRect(0, 0, w, h);
+
+      const originX = w / 2;
+      const originY = h + 10;
       const t = tRef.current;
 
       spokesRef.current.forEach(s => {
@@ -87,28 +93,29 @@ export function SunburstBackground() {
           ey += Math.sin(ang) * force;
         }
 
-        // Webiro color gradient: blue near origin → purple/yellow at tips
-        const frac = Math.min(s.len / (Math.min(W, H) * 0.85), 1);
-        const r = Math.round(58 + frac * 80);    // 58 → 138 (blue→purple)
-        const g = Math.round(77 - frac * 20);     // 77 → 57
-        const b = Math.round(234 - frac * 2);     // 234 → 232
+        // Aurora/hero colors: blue → purple gradient (same as hero banner)
+        const frac = Math.min(s.len / (Math.min(w, h) * 0.85), 1);
+        // #3A4DEA (58,77,234) → #8A4FE8 (138,79,232) → #FFD75C (255,215,92)
+        const r = Math.round(58 + frac * 80);
+        const g = Math.round(77 + frac * 2);
+        const b = Math.round(234 - frac * 2);
 
         const lw = 0.55 + (breath + 1) * 0.15;
 
         ctx.beginPath();
         ctx.moveTo(originX, originY);
         ctx.lineTo(ex, ey);
-        ctx.strokeStyle = `rgba(${r},${g},${b},${(s.opacity * 0.45).toFixed(2)})`;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${(s.opacity * 0.35).toFixed(2)})`;
         ctx.lineWidth = lw;
         ctx.stroke();
 
-        // Dot with slight yellow tint at tips
-        const dotR = Math.round(r + frac * 117);  // → 255 (yellow)
-        const dotG = Math.round(g + frac * 138);   // → 215 (yellow)
-        const dotB = Math.round(b - frac * 142);   // → 92  (yellow)
+        // Dots: yellow (#FFD75C) tint at tips
+        const dotR = Math.round(58 + frac * 197);
+        const dotG = Math.round(77 + frac * 138);
+        const dotB = Math.round(234 - frac * 142);
         ctx.beginPath();
         ctx.arc(ex, ey, s.dotR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${Math.min(dotR, 255)},${Math.min(dotG, 255)},${Math.max(dotB, 0)},${s.opacity.toFixed(2)})`;
+        ctx.fillStyle = `rgba(${Math.min(dotR, 255)},${Math.min(dotG, 255)},${Math.max(dotB, 0)},${(s.opacity * 0.8).toFixed(2)})`;
         ctx.fill();
       });
 
@@ -117,6 +124,10 @@ export function SunburstBackground() {
     };
 
     animRef.current = requestAnimationFrame(draw);
+
+    // Mouse events on the SECTION parent, not just canvas
+    const section = canvas.closest('section');
+    const target = section || canvas;
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -133,21 +144,23 @@ export function SunburstBackground() {
       mouseRef.current.y = e.touches[0].clientY - rect.top;
     };
     const onResize = () => {
-      W = canvas.width = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
-      initSpokes(W, H);
+      W = canvas.width = canvas.offsetWidth * 2;
+      H = canvas.height = canvas.offsetHeight * 2;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(2, 2);
+      initSpokes(W / 2, H / 2);
     };
 
-    canvas.addEventListener('mousemove', onMove);
-    canvas.addEventListener('mouseleave', onLeave);
-    canvas.addEventListener('touchmove', onTouch, { passive: true });
+    target.addEventListener('mousemove', onMove as EventListener);
+    target.addEventListener('mouseleave', onLeave);
+    target.addEventListener('touchmove', onTouch as EventListener, { passive: true });
     window.addEventListener('resize', onResize);
 
     return () => {
       cancelAnimationFrame(animRef.current);
-      canvas.removeEventListener('mousemove', onMove);
-      canvas.removeEventListener('mouseleave', onLeave);
-      canvas.removeEventListener('touchmove', onTouch);
+      target.removeEventListener('mousemove', onMove as EventListener);
+      target.removeEventListener('mouseleave', onLeave);
+      target.removeEventListener('touchmove', onTouch as EventListener);
       window.removeEventListener('resize', onResize);
     };
   }, [initSpokes]);
@@ -156,7 +169,6 @@ export function SunburstBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ pointerEvents: 'auto' }}
     />
   );
 }
