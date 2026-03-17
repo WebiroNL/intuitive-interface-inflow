@@ -43,22 +43,21 @@ export function CTASection({
   primaryButtonText,
   primaryButtonLink,
 }: CTASectionProps) {
-  const sectionRef = useRef<HTMLElement>(null);
   const displayDescription = subtitle || description;
   const displayButtonText = primaryButtonText || buttonText;
   const displayButtonLink = primaryButtonLink || buttonLink;
 
   return (
-    <section ref={sectionRef} className="relative bg-background border-t border-border overflow-hidden">
+    <section className="relative bg-background border-t border-border overflow-hidden">
 
-      {/* Silk ribbon canvas */}
-      <SilkRibbons sectionRef={sectionRef as React.RefObject<HTMLElement>} />
+      {/* Aurora stripe animated background */}
+      <AuroraBackground />
 
       {/* Left fade so text stays crisp */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to right, hsl(var(--background)) 30%, hsl(var(--background) / 0.6) 55%, transparent 80%)'
+          background: 'linear-gradient(to right, hsl(var(--background)) 25%, hsl(var(--background) / 0.5) 50%, transparent 80%)'
         }}
       />
 
