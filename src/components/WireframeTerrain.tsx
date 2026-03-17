@@ -134,17 +134,16 @@ export function WireframeTerrain() {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    const segments = isMobile ? 120 : 324;
+    const segments = isMobile ? 100 : 147;
 
-    // Match CodePen GUI values: speed 0.53, elevation -0.5, noise_range -0.5, sombrero_amp -0.3, sombrero_freq 10
     const uniforms = {
       time: { value: 0 },
-      speed: { value: 0.53 },
-      elevation: { value: -0.5 },
-      noise_range: { value: -0.5 },
-      sombrero_amplitude: { value: -0.3 },
+      speed: { value: 0.09 },
+      elevation: { value: 0 },
+      noise_range: { value: 1.3 },
+      sombrero_amplitude: { value: 0.3 },
       sombrero_frequency: { value: 10.0 },
-      line_color: { value: new THREE.Color(0x3A4DEA) }, // Webiro Blue
+      line_color: { value: new THREE.Color(0x3A4DEA) },
     };
 
     const geometry = new THREE.PlaneGeometry(20, 20, segments, segments);
