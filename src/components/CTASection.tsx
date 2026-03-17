@@ -84,24 +84,27 @@ export function CTASection({
               {title}
             </h2>
             <div className="glassmorphism-card rounded-2xl px-6 py-6 max-w-sm">
-              <p className="text-foreground/90 text-base lg:text-lg leading-relaxed mb-5">
-                {displayDescription}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to={displayButtonLink}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
-                >
-                  {displayButtonText}
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 text-foreground rounded-md font-semibold hover:bg-foreground/10 transition-all text-sm"
-                >
-                  Contact opnemen
-                </Link>
+              <div className="relative z-10">
+                <p className="text-foreground/90 text-base lg:text-lg leading-relaxed mb-5">
+                  {displayDescription}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    to={displayButtonLink}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
+                  >
+                    {displayButtonText}
+                    <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 text-foreground rounded-md font-semibold hover:bg-foreground/10 transition-all text-sm"
+                  >
+                    Contact opnemen
+                  </Link>
+                </div>
               </div>
+            </div>
             </div>
           </div>
 
