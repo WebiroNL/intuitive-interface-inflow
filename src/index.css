@@ -303,7 +303,7 @@
 
 /* Aurora background effect */
 .aurora-hero {
-  --stripe-color: hsl(var(--background));
+  --stripe-color: #fff;
   --stripes: repeating-linear-gradient(
     100deg,
     var(--stripe-color) 0%,
@@ -342,31 +342,36 @@
 }
 
 /* Dark mode aurora */
+.dark .aurora-hero {
+  --stripe-color: #000;
+}
 .dark .aurora-hero,
 .dark .aurora-hero::after {
   filter: blur(10px) opacity(50%) saturate(200%);
 }
 
-/* Frosted glass text effect */
+/* Frosted glass text effect — uses backdrop-filter to blur the aurora through the text */
 .aurora-text {
   position: relative;
+  mix-blend-mode: difference;
+  filter: invert(1);
 }
 
 .aurora-text::before {
   content: attr(data-text);
   position: absolute;
   inset: 0;
-  background: hsl(var(--background));
-  text-shadow: 0 0 1px hsl(var(--background));
+  background: white;
+  text-shadow: 0 0 1px #fff;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-color: hsl(var(--background));
-  mask: linear-gradient(#000 0 0) luminance;
+  background-color: white;
   -webkit-mask: linear-gradient(#000 0 0) luminance;
-  backdrop-filter: blur(19px) brightness(12.5);
+  mask: linear-gradient(#000 0 0) luminance, alpha;
   -webkit-backdrop-filter: blur(19px) brightness(12.5);
-  -webkit-text-stroke: 1px hsl(var(--background));
+  backdrop-filter: blur(19px) brightness(12.5);
+  -webkit-text-stroke: 1px white;
   display: flex;
   margin: auto;
   z-index: 1;
