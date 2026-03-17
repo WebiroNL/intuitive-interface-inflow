@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon, RocketIcon, MessageMultiple01Icon } from '@hugeicons/core-free-icons';
-import { AuroraBackground } from '@/components/AuroraBackground';
+import { WireframeTerrain } from '@/components/WireframeTerrain';
 
 interface CTASectionProps {
   title?: string;
