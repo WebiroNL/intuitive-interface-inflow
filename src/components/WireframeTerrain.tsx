@@ -149,6 +149,7 @@ export function WireframeTerrain() {
       speed: { value: 0.09 },
       elevation: { value: 0 },
       noise_range: { value: 1.3 },
+      perlin_passes: { value: 1.0 },
       sombrero_amplitude: { value: 0.3 },
       sombrero_frequency: { value: 10.0 },
       line_color: { value: new THREE.Color(0x3A4DEA) },
@@ -163,10 +164,31 @@ export function WireframeTerrain() {
       uniforms,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = -0.5;
-    scene.add(mesh);
+    // Floor mesh (solid ground plane like original CodePen)
+    const floorGeo = new THREE.PlaneGeometry(20, 20, 1, 1);
+    const floorMat = new THREE.ShaderMaterial({
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: FRAGMENT_SHADER,
+      wireframe: false,
+      transparent: true,
+      uniforms: {
+        ...uniforms,
+        // Override line_color for floor with a darker tint
+        line_color: { value: new THREE.Color(0x1a1a2e) },
+      },
+    });
+
+    const group = new THREE.Group();
+
+    const wireframeMesh = new THREE.Mesh(geometry, material);
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+
+    group.add(floorMesh);
+    group.add(wireframeMesh);
+
+    group.rotation.x = -Math.PI / 2;
+    group.position.y = -0.5;
+    scene.add(group);
 
     const clock = new THREE.Clock(true);
 
