@@ -73,10 +73,10 @@ const MarketingMockup = () => (
 );
 
 const stats = [
-  { number: "7 dagen", label: "gemiddelde levertijd" },
-  { number: "5.0 ⭐", label: "Google Rating" },
-  { number: "100%", label: "op maat gemaakt" },
-  { number: "€0", label: "verborgen kosten" },
+  { number: "7", suffix: "dagen", label: "gemiddelde levertijd" },
+  { number: "5.0", suffix: "", label: "Google Rating", hasStars: true },
+  { number: "100", suffix: "%", label: "op maat gemaakt" },
+  { number: "€0", suffix: "", label: "verborgen kosten" },
 ];
 
 const processSteps = [
