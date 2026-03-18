@@ -347,6 +347,11 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
 @keyframes smoothBg {
   from { background-position: 50% 50%, 50% 50%; }
   to { background-position: 350% 50%, 350% 50%; }
