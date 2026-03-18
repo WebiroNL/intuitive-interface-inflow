@@ -443,7 +443,7 @@ const Home = () => {
           </div>
           {/* Row 1: 3 cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            {showcase.slice(0, 3).map(({ title, cat, url }) => (
+            {showcase.slice(0, 3).map(({ title, cat, url, services, desc }) => (
               <a
                 key={title}
                 href={url}
@@ -454,7 +454,13 @@ const Home = () => {
                 <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
                 <div className="p-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
-                  <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
+                  <h3 className="text-[18px] font-bold text-foreground mb-2">{title}</h3>
+                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{desc}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {services.map((s) => (
+                      <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{s}</span>
+                    ))}
+                  </div>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
                     Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                   </span>
@@ -464,7 +470,7 @@ const Home = () => {
           </div>
           {/* Row 2: 2 cards */}
           <div className="grid md:grid-cols-2 gap-4">
-            {showcase.slice(3, 5).map(({ title, cat, url }) => (
+            {showcase.slice(3, 5).map(({ title, cat, url, services, desc }) => (
               <a
                 key={title}
                 href={url}
@@ -475,7 +481,13 @@ const Home = () => {
                 <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
                 <div className="p-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
-                  <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
+                  <h3 className="text-[18px] font-bold text-foreground mb-2">{title}</h3>
+                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{desc}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {services.map((s) => (
+                      <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{s}</span>
+                    ))}
+                  </div>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
                     Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                   </span>
