@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { AnimatedStats } from "@/components/AnimatedStats";
 import { Link } from "react-router-dom";
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon, RocketIcon, MessageMultiple01Icon, Search01Icon } from '@hugeicons/core-free-icons';
