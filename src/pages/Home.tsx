@@ -265,19 +265,12 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ══════ STATS — Stripe-style dark section ══════ */}
-      <section className="relative bg-[hsl(var(--webiro-dark))] overflow-hidden">
-        {/* Subtle gradient glow */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 120%, hsl(var(--primary) / 0.15) 0%, transparent 70%)"
-        }} />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-24">
-          <div className="text-center mb-14">
+      {/* ══════ STATS ══════ */}
+      <section className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="text-center mb-16">
             <h2
-              className="font-bold tracking-[-0.03em] leading-[1.1] text-white"
+              className="font-bold tracking-[-0.03em] leading-[1.1] text-foreground"
               style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)" }}
             >
               Gebouwd voor resultaat
@@ -287,20 +280,20 @@ const Home = () => {
             {stats.map(({ number, suffix, label, hasStars }, i) => (
               <div
                 key={label}
-                className={`text-center px-6 py-4 ${i > 0 ? "border-l border-white/10" : ""}`}
+                className={`text-center py-4 ${i > 0 ? "border-l border-border" : ""}`}
               >
-                <p className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-1">
+                <p className="text-4xl lg:text-[3.2rem] font-bold tracking-[-0.03em] text-foreground mb-2">
                   {number}
                   {suffix && <span className="text-primary">{suffix}</span>}
                 </p>
                 {hasStars && (
-                  <div className="flex items-center justify-center gap-0.5 my-1">
+                  <div className="flex items-center justify-center gap-0.5 mb-2">
                     {[...Array(5)].map((_, j) => (
                       <HugeiconsIcon key={j} icon={StarIcon} className="w-3.5 h-3.5 fill-webiro-yellow text-webiro-yellow" />
                     ))}
                   </div>
                 )}
-                <p className="text-sm text-white/50">{label}</p>
+                <p className="text-[13px] text-muted-foreground leading-snug">{label}</p>
               </div>
             ))}
           </div>
