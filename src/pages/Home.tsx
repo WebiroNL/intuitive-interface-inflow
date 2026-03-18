@@ -265,14 +265,42 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ══════ STATS — social proof right after hero ══════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
-            {stats.map(({ number, label }) => (
-              <div key={label} className="px-8 first:pl-0 last:pr-0 py-4">
-                <p className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-1">{number}</p>
-                <p className="text-sm text-muted-foreground">{label}</p>
+      {/* ══════ STATS — Stripe-style dark section ══════ */}
+      <section className="relative bg-[hsl(var(--webiro-dark))] overflow-hidden">
+        {/* Subtle gradient glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse 80% 60% at 50% 120%, hsl(var(--primary) / 0.15) 0%, transparent 70%)"
+        }} />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-24">
+          <div className="text-center mb-14">
+            <h2
+              className="font-bold tracking-[-0.03em] leading-[1.1] text-white"
+              style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)" }}
+            >
+              Gebouwd voor resultaat
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {stats.map(({ number, suffix, label, hasStars }, i) => (
+              <div
+                key={label}
+                className={`text-center px-6 py-4 ${i > 0 ? "border-l border-white/10" : ""}`}
+              >
+                <p className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-1">
+                  {number}
+                  {suffix && <span className="text-primary">{suffix}</span>}
+                </p>
+                {hasStars && (
+                  <div className="flex items-center justify-center gap-0.5 my-1">
+                    {[...Array(5)].map((_, j) => (
+                      <HugeiconsIcon key={j} icon={StarIcon} className="w-3.5 h-3.5 fill-webiro-yellow text-webiro-yellow" />
+                    ))}
+                  </div>
+                )}
+                <p className="text-sm text-white/50">{label}</p>
               </div>
             ))}
           </div>
