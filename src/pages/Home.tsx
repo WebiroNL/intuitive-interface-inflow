@@ -104,6 +104,23 @@ const whyItems = [
   { icon: ShieldKeyIcon, title: "Betaalbaar & transparant", desc: "Vaste prijzen zonder verrassingen. Je weet altijd precies waar je aan toe bent." },
 ];
 
+const tools = [
+  { name: "Figma", src: "/images/tools/figma.svg" },
+  { name: "Framer", src: "/images/tools/framer.svg" },
+  { name: "Spline", src: "/images/tools/spline.svg" },
+  { name: "Webflow", src: "/images/tools/webflow.svg" },
+  { name: "Shopify", src: "/images/tools/shopify.svg" },
+  { name: "WordPress", src: "/images/tools/wordpress.svg" },
+  { name: "React", src: "/images/tools/react.svg" },
+  { name: "Vercel", src: "/images/tools/vercel.svg" },
+  { name: "Google Ads", src: "/images/tools/googleads.svg" },
+  { name: "Meta Ads", src: "/images/tools/meta.svg" },
+  { name: "Photoshop", src: "/images/tools/photoshop.svg" },
+  { name: "Illustrator", src: "/images/tools/illustrator.svg" },
+  { name: "After Effects", src: "/images/tools/aftereffects.svg" },
+  { name: "Premiere Pro", src: "/images/tools/premierepro.svg" },
+];
+
 const showcase = [
   { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren." },
   { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor." },
