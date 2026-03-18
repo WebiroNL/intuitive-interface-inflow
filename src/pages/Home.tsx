@@ -162,34 +162,75 @@ const Home = () => {
           style={{ zIndex: 1, background: "linear-gradient(to right, hsl(var(--background)) 50%, hsl(var(--background)/0.6) 75%, transparent 100%)" }}
         />
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
-          <div className="max-w-[640px]">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
-              Websites · Marketing · Automation
-            </p>
-            <h1
-              className="font-bold tracking-[-0.03em] leading-[1.05] mb-8"
-              style={{ fontSize: "clamp(2.6rem, 5.2vw, 4.5rem)" }}
-            >
-              <span className="text-foreground">De digitale infrastructuur</span>
-              <br />
-              <span className="text-primary/70">voor groeiende bedrijven.</span>
-            </h1>
-            <p className="text-[16px] text-muted-foreground leading-relaxed mb-10 max-w-[480px]">
-              Professionele websites, advertentiecampagnes en slimme automation — van eerste klant tot schaalbare groei. Binnen 7 dagen live.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Link
-                to="/pakketten"
-                className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
+            {/* Left — Text */}
+            <div>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
+                Websites · Marketing · Automation
+              </p>
+              <h1
+                className="font-bold tracking-[-0.03em] leading-[1.05] mb-8"
+                style={{ fontSize: "clamp(2.6rem, 5.2vw, 4.5rem)" }}
               >
-                Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/intake"
-                className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+                <span className="text-foreground">De digitale motor</span>
+                <br />
+                <span className="text-primary">achter groeiende bedrijven.</span>
+              </h1>
+              <p className="text-[16px] text-muted-foreground leading-relaxed mb-10 max-w-[480px]">
+                Wij bouwen jouw website, runnen je advertenties en automatiseren je marketing — zodat jij je kunt focussen op ondernemen. Live binnen 7 dagen.
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  to="/pakketten"
+                  className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+                >
+                  Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/intake"
+                  className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+                >
+                  Gratis gesprek
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — Browser Mockup */}
+            <div className="hidden lg:block">
+              <div
+                className="relative w-full rounded-2xl overflow-hidden border border-border/40 bg-card"
+                style={{
+                  aspectRatio: "16/10",
+                  boxShadow: "0 25px 60px -12px hsl(var(--primary) / 0.15), 0 12px 30px -8px rgba(0,0,0,0.1)",
+                  animation: "heroFloat 6s ease-in-out infinite",
+                }}
               >
-                Gratis gesprek
-              </Link>
+                {/* Browser bar */}
+                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border/30">
+                  <span className="w-3 h-3 rounded-full bg-[hsl(0,70%,60%)]" />
+                  <span className="w-3 h-3 rounded-full bg-[hsl(44,80%,55%)]" />
+                  <span className="w-3 h-3 rounded-full bg-[hsl(140,50%,50%)]" />
+                  <div className="ml-3 flex-1 h-5 rounded-md bg-muted/80 max-w-[200px]" />
+                </div>
+                {/* Gradient screen */}
+                <div className="absolute inset-0 top-[38px] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent">
+                  {/* Fake UI elements */}
+                  <div className="p-6">
+                    <div className="w-2/3 h-4 rounded bg-white/20 mb-3" />
+                    <div className="w-1/2 h-3 rounded bg-white/15 mb-6" />
+                    <div className="w-24 h-8 rounded-md bg-white/25" />
+                  </div>
+                  <div className="absolute bottom-4 left-6 right-6 grid grid-cols-3 gap-3">
+                    {[0, 1, 2].map((i) => (
+                      <div key={i} className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/10">
+                        <div className="w-8 h-8 rounded-md bg-white/20 mb-2" />
+                        <div className="w-full h-2 rounded bg-white/15 mb-1" />
+                        <div className="w-2/3 h-1.5 rounded bg-white/10" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
