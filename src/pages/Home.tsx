@@ -110,11 +110,11 @@ const whyItems = [
 ];
 
 const showcase = [
-  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", emoji: "💪" },
-  { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", emoji: "⚖️" },
-  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", emoji: "⚡" },
-  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", emoji: "🏖️" },
-  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", emoji: "⚽" },
+  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren." },
+  { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor." },
+  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio." },
+  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", services: ["Website", "Meta Ads", "E-mail"], desc: "Shopify webshop met Meta advertenties en geautomatiseerde e-mailflows voor hogere retentie." },
+  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", services: ["Website", "Google Ads"], desc: "Moderne website en Google Ads campagne die structureel nieuwe aanmeldingen genereren." },
 ];
 
 const reviews = [
