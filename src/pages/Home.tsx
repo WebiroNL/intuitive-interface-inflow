@@ -172,7 +172,7 @@ const Home = () => {
                 <span className="text-primary">achter groeiende bedrijven.</span>
               </h1>
               <p className="text-[16px] text-muted-foreground leading-relaxed mb-10 max-w-[480px]">
-                Wij bouwen jouw website, runnen je advertenties en automatiseren je marketing — zodat jij je kunt focussen op ondernemen. Live binnen 7 dagen.
+                Wij bouwen jouw website, runnen je advertenties en automatiseren je marketing zodat jij je kunt focussen op ondernemen.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
