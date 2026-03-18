@@ -73,12 +73,7 @@ const MarketingMockup = () => (
   </div>
 );
 
-const stats = [
-  { number: "7", suffix: "dagen", label: "gemiddelde levertijd" },
-  { number: "5.0", suffix: "", label: "Google Rating", hasStars: true },
-  { number: "100", suffix: "%", label: "op maat gemaakt" },
-  { number: "€0", suffix: "", label: "verborgen kosten" },
-];
+
 
 const processSteps = [
   {
