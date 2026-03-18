@@ -47,7 +47,7 @@ export function Header() {
 
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <img src={webiroLogo} alt="Webiro" className="h-[26px]" />
+            <img src={theme === 'dark' ? webiroLogoDark : webiroLogo} alt="Webiro" className="h-[26px]" />
           </Link>
 
           {/* Nav links — desktop */}
