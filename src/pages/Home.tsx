@@ -510,7 +510,7 @@ const Home = () => {
               Wat klanten zeggen
             </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
+          <div className="grid md:grid-cols-3 gap-4 mb-8 items-start">
             {reviews.map(({ name, role, text }) => (
               <div key={name} className="rounded-2xl border border-border bg-card p-8">
                 <div className="flex items-center gap-0.5 mb-4">
