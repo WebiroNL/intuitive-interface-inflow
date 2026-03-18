@@ -510,14 +510,14 @@ const Home = () => {
               Wat klanten zeggen
             </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-4 mb-8 items-start">
+          <div className="grid md:grid-cols-3 gap-4 mb-8 items-stretch">
             {reviews.map(({ name, role, text }) => (
-              <div key={name} className="rounded-2xl border border-border bg-card p-8">
+              <div key={name} className="rounded-2xl border border-border bg-card p-8 h-full flex flex-col">
                 <div className="flex items-center gap-0.5 mb-4">
                   {[...Array(5)].map((_, i) => <HugeiconsIcon key={i} icon={StarIcon} className="w-3.5 h-3.5 fill-webiro-yellow text-webiro-yellow" />)}
                 </div>
                 <p className="text-[14px] text-muted-foreground leading-relaxed mb-6">"{text}"</p>
-                <div className="flex items-center gap-3">
+                <div className="mt-auto flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0" />
                   <div>
                     <p className="text-[13px] font-semibold text-foreground">{name}</p>
