@@ -441,19 +441,40 @@ const Home = () => {
               Bekijk meer <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {showcase.map(({ title, cat, url, emoji }) => (
+          {/* Row 1: 3 cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+            {showcase.slice(0, 3).map(({ title, cat, url }) => (
               <a
                 key={title}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative rounded-2xl border border-border bg-card hover:border-primary/30 transition-all overflow-hidden p-8"
+                className="group rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative">
-                  <span className="text-3xl mb-4 block">{emoji}</span>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">{cat}</p>
+                <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
+                <div className="p-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
+                  <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
+                  <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
+                    Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+          {/* Row 2: 2 cards */}
+          <div className="grid md:grid-cols-2 gap-4">
+            {showcase.slice(3, 5).map(({ title, cat, url }) => (
+              <a
+                key={title}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
+                <div className="p-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
                   <h3 className="text-[18px] font-bold text-foreground mb-3">{title}</h3>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
                     Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
