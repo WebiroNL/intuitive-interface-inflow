@@ -266,40 +266,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ══════ STATS ══════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="text-center mb-16">
-            <h2
-              className="font-bold tracking-[-0.03em] leading-[1.1] text-foreground"
-              style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)" }}
-            >
-              Gebouwd voor resultaat
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {stats.map(({ number, suffix, label, hasStars }, i) => (
-              <div
-                key={label}
-                className={`text-center py-4 ${i > 0 ? "border-l border-border" : ""}`}
-              >
-                <p className="text-4xl lg:text-[3.2rem] font-bold tracking-[-0.03em] text-foreground mb-2">
-                  {number}
-                  {suffix && <span className="text-primary">{suffix}</span>}
-                </p>
-                {hasStars && (
-                  <div className="flex items-center justify-center gap-0.5 mb-2">
-                    {[...Array(5)].map((_, j) => (
-                      <HugeiconsIcon key={j} icon={StarIcon} className="w-3.5 h-3.5 fill-webiro-yellow text-webiro-yellow" />
-                    ))}
-                  </div>
-                )}
-                <p className="text-[13px] text-muted-foreground leading-snug">{label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <AnimatedStats />
 
       {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
