@@ -74,9 +74,9 @@ const MarketingMockup = () => (
 
 const stats = [
   { number: "7 dagen", label: "gemiddelde levertijd" },
-  { number: "50+", label: "websites opgeleverd" },
-  { number: "98%", label: "klanttevredenheid" },
-  { number: "€449", label: "instapprijs" },
+  { number: "5.0 ⭐", label: "Google Rating" },
+  { number: "100%", label: "op maat gemaakt" },
+  { number: "€0", label: "verborgen kosten" },
 ];
 
 const processSteps = [

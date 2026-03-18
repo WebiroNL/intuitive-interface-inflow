@@ -22,19 +22,19 @@ const services = [
     label: 'Websites & Apps',
     description: 'Custom webdesign, development en hosting — live binnen 7 dagen.',
     link: '/pakketten',
-    linkLabel: 'Bekijk pakketten',
+    linkLabel: 'Meer info',
   },
   {
     label: 'Marketing & Ads',
     description: 'Google & Meta Ads, e-mail automation en leadgeneratie.',
     link: '/pakketten',
-    linkLabel: 'Stel samen',
+    linkLabel: 'Meer info',
   },
   {
     label: 'AI & Automations',
     description: 'Chatbots, workflows en slimme integraties die tijd besparen.',
     link: '/contact',
-    linkLabel: 'Plan een call',
+    linkLabel: 'Meer info',
   },
 ];
 
