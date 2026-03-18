@@ -214,37 +214,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════ TOOLS STRIP ══════ */}
-      <div className="border-t border-border/60 bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-7">
-          <div className="overflow-hidden px-1 sm:px-2">
-            <div
-              className="tools-strip flex w-max animate-[marquee_42s_linear_infinite] [will-change:transform]"
-              onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
-            >
-              {[0, 1].map((setIdx) => (
-                <div key={setIdx} className="flex items-center gap-x-10 md:gap-x-14 flex-shrink-0">
-                  {tools.map((tool) => (
-                    <div
-                      key={`${setIdx}-${tool.name}`}
-                      className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
-                    >
-                      <img src={tool.src} alt={tool.name} className="h-5 w-auto object-contain" loading="lazy" />
-                      <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
-                        {tool.name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <AnimatedStats />
-
       {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-6">
