@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { AnimatedStats } from "@/components/AnimatedStats";
 import { Link } from "react-router-dom";
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon, RocketIcon, MessageMultiple01Icon, Search01Icon } from '@hugeicons/core-free-icons';
@@ -72,12 +73,7 @@ const MarketingMockup = () => (
   </div>
 );
 
-const stats = [
-  { number: "7", suffix: "dagen", label: "gemiddelde levertijd" },
-  { number: "5.0", suffix: "", label: "Google Rating", hasStars: true },
-  { number: "100", suffix: "%", label: "op maat gemaakt" },
-  { number: "€0", suffix: "", label: "verborgen kosten" },
-];
+
 
 const processSteps = [
   {
@@ -265,40 +261,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ══════ STATS ══════ */}
-      <section className="border-t border-border bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="text-center mb-16">
-            <h2
-              className="font-bold tracking-[-0.03em] leading-[1.1] text-foreground"
-              style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)" }}
-            >
-              Gebouwd voor resultaat
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {stats.map(({ number, suffix, label, hasStars }, i) => (
-              <div
-                key={label}
-                className={`text-center py-4 ${i > 0 ? "border-l border-border" : ""}`}
-              >
-                <p className="text-4xl lg:text-[3.2rem] font-bold tracking-[-0.03em] text-foreground mb-2">
-                  {number}
-                  {suffix && <span className="text-primary">{suffix}</span>}
-                </p>
-                {hasStars && (
-                  <div className="flex items-center justify-center gap-0.5 mb-2">
-                    {[...Array(5)].map((_, j) => (
-                      <HugeiconsIcon key={j} icon={StarIcon} className="w-3.5 h-3.5 fill-webiro-yellow text-webiro-yellow" />
-                    ))}
-                  </div>
-                )}
-                <p className="text-[13px] text-muted-foreground leading-snug">{label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <AnimatedStats />
 
       {/* ══════ SOLUTIONS ══════ */}
       <section className="border-t border-border bg-background">
