@@ -78,22 +78,31 @@ const MarketingMockup = () => (
 
 const processSteps = [
   {
+    id: 0,
     number: "01",
     icon: MessageMultiple01Icon,
+    tab: "Kennismaking",
     title: "Kennismaking & strategie",
-    desc: "We bespreken je doelen, doelgroep en wensen. Op basis daarvan stellen we een plan op dat past bij jouw situatie.",
+    desc: "We brengen doelen, doelgroep en prioriteiten scherp in kaart, zodat website en campagnes één duidelijke richting krijgen.",
+    focus: ["Doelen & doelgroep", "Website- en campagneplan"],
   },
   {
+    id: 1,
     number: "02",
     icon: PaintBrushIcon,
-    title: "Ontwerp, bouw & uitvoering",
-    desc: "We gaan aan de slag: van website-design tot campagne-opzet. Je ziet live mee en geeft feedback tot het klopt.",
+    tab: "Ontwerp & bouw",
+    title: "Ontwerp, bouw & campagne-opzet",
+    desc: "We ontwerpen en bouwen je website én zetten campagnes technisch en strategisch klaar, met vaste feedbackmomenten.",
+    focus: ["Website design & ontwikkeling", "Campagnes opzetten"],
   },
   {
+    id: 2,
     number: "03",
     icon: RocketIcon,
-    title: "Lancering & groei",
-    desc: "Alles gaat live en we monitoren de resultaten. We optimaliseren continu zodat jouw bedrijf blijft groeien.",
+    tab: "Lanceren",
+    title: "Lanceren, managen & optimaliseren",
+    desc: "Website en campagnes gaan live, daarna sturen we actief bij op data om structurele groei te realiseren.",
+    focus: ["Livegang website + ads", "Continu beheer & optimalisatie"],
   },
 ];
 
