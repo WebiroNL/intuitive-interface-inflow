@@ -316,29 +316,34 @@ const Home = () => {
       {/* ══════ HOW IT WORKS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start">
-            <div>
+          {/* Section header – full width, Stripe-style */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
+            <div className="max-w-lg">
               <h2
                 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4"
                 style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
               >
                 Hoe het werkt
               </h2>
-              <p className="text-muted-foreground text-base leading-relaxed mb-8">
+              <p className="text-muted-foreground text-base leading-relaxed">
                 Of het nu om een website of marketing gaat, ons proces is altijd helder, persoonlijk en resultaatgericht.
               </p>
-              <Link
-                to="/proces"
-                className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all mb-10"
-              >
-                Bekijk het volledige proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-              </Link>
-              <div className="hidden lg:block">
-                <ProcessVisual />
-              </div>
+            </div>
+            <Link
+              to="/proces"
+              className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
+            >
+              Bekijk het volledige proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Content: visual + steps side by side */}
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-start">
+            <div className="hidden lg:flex justify-center">
+              <ProcessVisual />
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {processSteps.map(({ number, icon, title, desc }) => (
                 <div key={number} className="flex gap-5">
                   <div className="flex flex-col items-center">
@@ -349,9 +354,9 @@ const Home = () => {
                       <div className="w-px flex-1 bg-border mt-2" />
                     )}
                   </div>
-                  <div className="pb-6">
+                  <div className="pb-8">
                     <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {number}</p>
-                    <h3 className="text-[16px] font-semibold text-foreground mb-1.5">{title}</h3>
+                    <h3 className="text-[17px] font-semibold text-foreground mb-2">{title}</h3>
                     <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
                   </div>
                 </div>
