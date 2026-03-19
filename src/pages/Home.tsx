@@ -209,7 +209,7 @@ const Home = () => {
             <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10" style={{ background: "linear-gradient(to right, hsl(var(--background)), transparent)" }} />
             <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10" style={{ background: "linear-gradient(to left, hsl(var(--background)), transparent)" }} />
             <div
-              className="tools-strip flex w-max animate-[marquee_42s_linear_infinite] [will-change:transform]"
+              className="tools-strip flex w-max gap-x-12 md:gap-x-16 animate-[marquee_42s_linear_infinite] [will-change:transform]"
               onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
               onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
             >
