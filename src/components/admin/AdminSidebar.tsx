@@ -33,6 +33,7 @@ const navItems = [
 export function AdminSidebar() {
   const location = useLocation();
   const { signOut, user } = useAuth();
+  const isDark = document.documentElement.classList.contains('dark');
 
   const isActive = (href: string) =>
     href === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(href);
@@ -41,7 +42,7 @@ export function AdminSidebar() {
     <aside className="w-[240px] h-screen bg-card border-r border-border flex flex-col flex-shrink-0 sticky top-0">
       <div className="h-[60px] flex items-center px-5 border-b border-border">
         <Link to="/admin">
-          <img src={webiroLogo} alt="Webiro" className="h-[22px]" />
+          <img src={isDark ? webiroLogoDark : webiroLogo} alt="Webiro" className="h-[22px]" />
         </Link>
         <span className="ml-2 text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
           Admin
