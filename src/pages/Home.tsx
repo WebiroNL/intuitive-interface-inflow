@@ -178,7 +178,8 @@ const reviews = [
 ];
 
 const Home = () => {
-  const [activeProcessStep, setActiveProcessStep] = useState(0);
+  const [activeWebsiteStep, setActiveWebsiteStep] = useState(0);
+  const [activeAdsStep, setActiveAdsStep] = useState(0);
 
   useEffect(() => {
     updatePageMeta(
@@ -187,15 +188,8 @@ const Home = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveProcessStep((prev) => (prev + 1) % processSteps.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const activeProcess = processSteps[activeProcessStep];
+  const activeWebsite = websiteSteps[activeWebsiteStep];
+  const activeAds = adsSteps[activeAdsStep];
 
   return (
     <main className="bg-background">
