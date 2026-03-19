@@ -147,12 +147,24 @@ const reviews = [
 ];
 
 const Home = () => {
+  const [activeProcessStep, setActiveProcessStep] = useState(0);
+
   useEffect(() => {
     updatePageMeta(
       "Webiro – Websites, marketing & automation voor ondernemers",
       "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveProcessStep((prev) => (prev + 1) % processSteps.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeProcess = processSteps[activeProcessStep];
 
   return (
     <main className="bg-background">
