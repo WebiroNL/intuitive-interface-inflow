@@ -328,10 +328,13 @@ const Home = () => {
               </p>
               <Link
                 to="/proces"
-                className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
+                className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all mb-10"
               >
                 Bekijk het volledige proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
               </Link>
+              <div className="hidden lg:block">
+                <ProcessVisual />
+              </div>
             </div>
 
             <div className="space-y-6">
