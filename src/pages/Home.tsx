@@ -6,7 +6,7 @@ import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
 import { SilkWaves } from "@/components/SilkWaves";
-import { ParticleEngine } from "@/components/ParticleEngine";
+import { EngineHero } from "@/components/EngineHero";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -193,8 +193,8 @@ const Home = () => {
 
             {/* Right — Particle Engine Visual */}
             <div className="hidden lg:flex items-center justify-center">
-              <div className="relative w-full" style={{ aspectRatio: '1/1', maxWidth: '480px' }}>
-                <ParticleEngine />
+              <div className="relative w-full" style={{ aspectRatio: '1/1', maxWidth: '500px' }}>
+                <EngineHero />
               </div>
             </div>
           </div>
