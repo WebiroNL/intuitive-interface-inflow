@@ -8,6 +8,7 @@ import { updatePageMeta } from "@/utils/seo";
 import { SilkWaves } from "@/components/SilkWaves";
 import { AnimatedDashboard } from "@/components/AnimatedDashboard";
 import ProcessVisual from "@/components/ProcessVisual";
+import AdsProcessVisual from "@/components/AdsProcessVisual";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -76,33 +77,63 @@ const MarketingMockup = () => (
 
 
 
-const processSteps = [
+const websiteSteps = [
   {
     id: 0,
     number: "01",
     icon: MessageMultiple01Icon,
     tab: "Kennismaking",
-    title: "Kennismaking & strategie",
-    desc: "We brengen doelen, doelgroep en prioriteiten scherp in kaart, zodat website en campagnes één duidelijke richting krijgen.",
-    focus: ["Doelen & doelgroep", "Website- en campagneplan"],
+    title: "Kennismaking & structuur",
+    desc: "We vertalen je doelen naar een heldere websitestructuur, inhoud en conversieroute.",
+    focus: ["Doelen & doelgroep", "Structuur & wireframe"],
   },
   {
     id: 1,
     number: "02",
     icon: PaintBrushIcon,
     tab: "Ontwerp & bouw",
-    title: "Ontwerp, bouw & campagne-opzet",
-    desc: "We ontwerpen en bouwen je website én zetten campagnes technisch en strategisch klaar, met vaste feedbackmomenten.",
-    focus: ["Website design & ontwikkeling", "Campagnes opzetten"],
+    title: "Ontwerp & bouw",
+    desc: "We ontwerpen en bouwen je website op maat, met snelle feedbackrondes tot alles klopt.",
+    focus: ["UI design op maat", "Technische ontwikkeling"],
   },
   {
     id: 2,
     number: "03",
     icon: RocketIcon,
     tab: "Lanceren",
-    title: "Lanceren, managen & optimaliseren",
-    desc: "Website en campagnes gaan live, daarna sturen we actief bij op data om structurele groei te realiseren.",
-    focus: ["Livegang website + ads", "Continu beheer & optimalisatie"],
+    title: "Lanceren & doorontwikkelen",
+    desc: "Na livegang monitoren we gedrag en verbeteren we continu voor meer leads en betere conversie.",
+    focus: ["Livegang & QA", "Doorlopende optimalisatie"],
+  },
+];
+
+const adsSteps = [
+  {
+    id: 0,
+    number: "01",
+    icon: Search01Icon,
+    tab: "Strategie",
+    title: "Doelgroep & kanaalstrategie",
+    desc: "We bepalen waar je doelgroep zit en hoe budget slim verdeeld wordt over de juiste kanalen.",
+    focus: ["Doelgroepsegmentatie", "Kanaal- en budgetplan"],
+  },
+  {
+    id: 1,
+    number: "02",
+    icon: FlashIcon,
+    tab: "Lanceren",
+    title: "Campagnes bouwen & lanceren",
+    desc: "We zetten campagnes technisch strak op met sterke creatives, tracking en duidelijke doelstellingen.",
+    focus: ["Campagne-opzet", "Tracking & livegang"],
+  },
+  {
+    id: 2,
+    number: "03",
+    icon: ChartIncreaseIcon,
+    tab: "Managen",
+    title: "Managen & opschalen",
+    desc: "We sturen actief op data, verbeteren prestaties en schalen door wat aantoonbaar resultaat oplevert.",
+    focus: ["Wekelijkse optimalisatie", "Schaal op winstgevende data"],
   },
 ];
 
@@ -147,7 +178,8 @@ const reviews = [
 ];
 
 const Home = () => {
-  const [activeProcessStep, setActiveProcessStep] = useState(0);
+  const [activeWebsiteStep, setActiveWebsiteStep] = useState(0);
+  const [activeAdsStep, setActiveAdsStep] = useState(0);
 
   useEffect(() => {
     updatePageMeta(
@@ -156,15 +188,8 @@ const Home = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveProcessStep((prev) => (prev + 1) % processSteps.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const activeProcess = processSteps[activeProcessStep];
+  const activeWebsite = websiteSteps[activeWebsiteStep];
+  const activeAds = adsSteps[activeAdsStep];
 
   return (
     <main className="bg-background">
@@ -346,7 +371,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Eén helder traject waarin strategie, website en campagnes op elkaar aansluiten — zonder losse stappen of verwarring.
+                We splitsen het helder op in twee trajecten: websites en advertenties. Elk traject heeft zijn eigen interactieve stappen 1, 2 en 3.
               </p>
             </div>
             <Link
@@ -357,50 +382,98 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center">
-            <div className="hidden lg:block">
-              <ProcessVisual
-                activeStep={activeProcessStep}
-                onStepChange={setActiveProcessStep}
-                showTabs={false}
-              />
+          <div className="space-y-8 lg:space-y-10">
+            <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
+              <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-10 items-center">
+                <div className="mx-auto w-full max-w-[460px]">
+                  <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-3">Traject 01 · Website</p>
+                  <div className="grid grid-cols-3 gap-2 mb-6">
+                    {websiteSteps.map((step, index) => (
+                      <button
+                        key={step.id}
+                        onClick={() => setActiveWebsiteStep(index)}
+                        className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                          activeWebsiteStep === index
+                            ? "border-primary/30 bg-primary/10"
+                            : "border-border bg-background hover:bg-muted/50"
+                        }`}
+                      >
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
+                        <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4 pb-5 border-b border-border">
+                    <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <HugeiconsIcon icon={activeWebsite.icon} className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeWebsite.number}</p>
+                      <h3 className="text-[21px] leading-tight font-semibold text-foreground mb-2">{activeWebsite.title}</h3>
+                      <p className="text-[15px] text-muted-foreground leading-relaxed">{activeWebsite.desc}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-2 pt-5">
+                    {activeWebsite.focus.map((item) => (
+                      <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
-              <div className="grid grid-cols-3 gap-2 mb-6">
-                {processSteps.map((step, index) => (
-                  <button
-                    key={step.id}
-                    onClick={() => setActiveProcessStep(index)}
-                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
-                      activeProcessStep === index
-                        ? "border-primary/30 bg-primary/10"
-                        : "border-border bg-background hover:bg-muted/50"
-                    }`}
-                  >
-                    <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
-                    <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex gap-4 pb-5 border-b border-border">
-                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <HugeiconsIcon icon={activeProcess.icon} className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeProcess.number}</p>
-                  <h3 className="text-[22px] leading-tight font-semibold text-foreground mb-2">{activeProcess.title}</h3>
-                  <p className="text-[15px] text-muted-foreground leading-relaxed">{activeProcess.desc}</p>
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-2 pt-5">
-                {activeProcess.focus.map((item) => (
-                  <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
-                    {item}
+              <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-10 items-center">
+                <div className="order-2 lg:order-1">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-3">Traject 02 · Advertenties</p>
+                  <div className="grid grid-cols-3 gap-2 mb-6">
+                    {adsSteps.map((step, index) => (
+                      <button
+                        key={step.id}
+                        onClick={() => setActiveAdsStep(index)}
+                        className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                          activeAdsStep === index
+                            ? "border-primary/30 bg-primary/10"
+                            : "border-border bg-background hover:bg-muted/50"
+                        }`}
+                      >
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
+                        <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
+                      </button>
+                    ))}
                   </div>
-                ))}
+
+                  <div className="flex gap-4 pb-5 border-b border-border">
+                    <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <HugeiconsIcon icon={activeAds.icon} className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeAds.number}</p>
+                      <h3 className="text-[21px] leading-tight font-semibold text-foreground mb-2">{activeAds.title}</h3>
+                      <p className="text-[15px] text-muted-foreground leading-relaxed">{activeAds.desc}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-2 pt-5">
+                    {activeAds.focus.map((item) => (
+                      <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="order-1 lg:order-2 mx-auto w-full max-w-[460px]">
+                  <AdsProcessVisual activeStep={activeAdsStep} onStepChange={setActiveAdsStep} showTabs={false} />
+                </div>
               </div>
             </div>
           </div>
