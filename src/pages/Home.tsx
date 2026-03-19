@@ -354,7 +354,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed mb-8">
-                Of het nu om een website of marketing gaat — ons proces is altijd helder, persoonlijk en resultaatgericht.
+                Of het nu om een website of marketing gaat, ons proces is altijd helder, persoonlijk en resultaatgericht.
               </p>
               <Link
                 to="/proces"
