@@ -395,7 +395,7 @@ const Home = () => {
               Waarom kiezen voor Webiro?
             </h2>
             <p className="text-muted-foreground text-base leading-relaxed">
-              We bouwen niet alleen websites — we bouwen de digitale basis van jouw bedrijf.
+              We bouwen niet alleen websites, we bouwen de digitale basis van jouw bedrijf.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
