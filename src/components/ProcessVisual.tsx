@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { RocketIcon } from "@hugeicons/core-free-icons";
 
 const phases = [
   {
