@@ -6,6 +6,7 @@ import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
 import { SilkWaves } from "@/components/SilkWaves";
+import { ParticleEngine } from "@/components/ParticleEngine";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -190,41 +191,10 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right — Browser Mockup */}
-            <div className="hidden lg:block">
-              <div
-                className="relative w-full rounded-2xl overflow-hidden border border-border/40 bg-card"
-                style={{
-                  aspectRatio: "16/10",
-                  boxShadow: "0 25px 60px -12px hsl(var(--primary) / 0.15), 0 12px 30px -8px rgba(0,0,0,0.1)",
-                  animation: "heroFloat 6s ease-in-out infinite",
-                }}
-              >
-                {/* Browser bar */}
-                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border/30">
-                  <span className="w-3 h-3 rounded-full bg-[hsl(0,70%,60%)]" />
-                  <span className="w-3 h-3 rounded-full bg-[hsl(44,80%,55%)]" />
-                  <span className="w-3 h-3 rounded-full bg-[hsl(140,50%,50%)]" />
-                  <div className="ml-3 flex-1 h-5 rounded-md bg-muted/80 max-w-[200px]" />
-                </div>
-                {/* Gradient screen */}
-                <div className="absolute inset-0 top-[38px] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent">
-                  {/* Fake UI elements */}
-                  <div className="p-6">
-                    <div className="w-2/3 h-4 rounded bg-white/20 mb-3" />
-                    <div className="w-1/2 h-3 rounded bg-white/15 mb-6" />
-                    <div className="w-24 h-8 rounded-md bg-white/25" />
-                  </div>
-                  <div className="absolute bottom-4 left-6 right-6 grid grid-cols-3 gap-3">
-                    {[0, 1, 2].map((i) => (
-                      <div key={i} className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/10">
-                        <div className="w-8 h-8 rounded-md bg-white/20 mb-2" />
-                        <div className="w-full h-2 rounded bg-white/15 mb-1" />
-                        <div className="w-2/3 h-1.5 rounded bg-white/10" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            {/* Right — Particle Engine Visual */}
+            <div className="hidden lg:flex items-center justify-center">
+              <div className="relative w-full" style={{ aspectRatio: '1/1', maxWidth: '480px' }}>
+                <ParticleEngine />
               </div>
             </div>
           </div>
