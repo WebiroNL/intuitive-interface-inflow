@@ -144,9 +144,9 @@ function LaunchScreen() {
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
-        className="text-3xl"
+        className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"
       >
-        🚀
+        <HugeiconsIcon icon={RocketIcon} className="w-5 h-5 text-primary" />
       </motion.div>
       {/* Stats */}
       <div className="flex gap-3 w-full">
