@@ -185,7 +185,7 @@ const Home = () => {
                   to="/intake"
                   className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
                 >
-                  Gratis gesprek
+                  Plan een gesprek
                 </Link>
               </div>
             </div>
