@@ -77,33 +77,63 @@ const MarketingMockup = () => (
 
 
 
-const processSteps = [
+const websiteSteps = [
   {
     id: 0,
     number: "01",
     icon: MessageMultiple01Icon,
     tab: "Kennismaking",
-    title: "Kennismaking & strategie",
-    desc: "We brengen doelen, doelgroep en prioriteiten scherp in kaart, zodat website en campagnes één duidelijke richting krijgen.",
-    focus: ["Doelen & doelgroep", "Website- en campagneplan"],
+    title: "Kennismaking & structuur",
+    desc: "We vertalen je doelen naar een heldere websitestructuur, inhoud en conversieroute.",
+    focus: ["Doelen & doelgroep", "Structuur & wireframe"],
   },
   {
     id: 1,
     number: "02",
     icon: PaintBrushIcon,
     tab: "Ontwerp & bouw",
-    title: "Ontwerp, bouw & campagne-opzet",
-    desc: "We ontwerpen en bouwen je website én zetten campagnes technisch en strategisch klaar, met vaste feedbackmomenten.",
-    focus: ["Website design & ontwikkeling", "Campagnes opzetten"],
+    title: "Ontwerp & bouw",
+    desc: "We ontwerpen en bouwen je website op maat, met snelle feedbackrondes tot alles klopt.",
+    focus: ["UI design op maat", "Technische ontwikkeling"],
   },
   {
     id: 2,
     number: "03",
     icon: RocketIcon,
     tab: "Lanceren",
-    title: "Lanceren, managen & optimaliseren",
-    desc: "Website en campagnes gaan live, daarna sturen we actief bij op data om structurele groei te realiseren.",
-    focus: ["Livegang website + ads", "Continu beheer & optimalisatie"],
+    title: "Lanceren & doorontwikkelen",
+    desc: "Na livegang monitoren we gedrag en verbeteren we continu voor meer leads en betere conversie.",
+    focus: ["Livegang & QA", "Doorlopende optimalisatie"],
+  },
+];
+
+const adsSteps = [
+  {
+    id: 0,
+    number: "01",
+    icon: Search01Icon,
+    tab: "Strategie",
+    title: "Doelgroep & kanaalstrategie",
+    desc: "We bepalen waar je doelgroep zit en hoe budget slim verdeeld wordt over de juiste kanalen.",
+    focus: ["Doelgroepsegmentatie", "Kanaal- en budgetplan"],
+  },
+  {
+    id: 1,
+    number: "02",
+    icon: FlashIcon,
+    tab: "Lanceren",
+    title: "Campagnes bouwen & lanceren",
+    desc: "We zetten campagnes technisch strak op met sterke creatives, tracking en duidelijke doelstellingen.",
+    focus: ["Campagne-opzet", "Tracking & livegang"],
+  },
+  {
+    id: 2,
+    number: "03",
+    icon: ChartIncreaseIcon,
+    tab: "Managen",
+    title: "Managen & opschalen",
+    desc: "We sturen actief op data, verbeteren prestaties en schalen door wat aantoonbaar resultaat oplevert.",
+    focus: ["Wekelijkse optimalisatie", "Schaal op winstgevende data"],
   },
 ];
 
