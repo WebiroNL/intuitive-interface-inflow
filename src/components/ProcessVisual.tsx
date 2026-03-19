@@ -191,51 +191,78 @@ function LaunchScreen() {
 
 const screens = [MeetingScreen, DesignScreen, LaunchScreen];
 
-export default function ProcessVisual() {
-  const [active, setActive] = useState(0);
+type ProcessVisualProps = {
+  activeStep?: number;
+  onStepChange?: (step: number) => void;
+  showTabs?: boolean;
+};
+
+export default function ProcessVisual({
+  activeStep,
+  onStepChange,
+  showTabs = true,
+}: ProcessVisualProps) {
+  const isControlled = typeof activeStep === "number";
+  const [internalActive, setInternalActive] = useState(0);
+  const currentStep = isControlled ? activeStep : internalActive;
+  const ActiveScreen = screens[currentStep];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % 3);
+      const nextStep = (currentStep + 1) % 3;
+      if (!isControlled) {
+        setInternalActive(nextStep);
+      }
+      onStepChange?.(nextStep);
     }, 4000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [currentStep, isControlled, onStepChange]);
+
+  const handleStepChange = (step: number) => {
+    if (!isControlled) {
+      setInternalActive(step);
+    }
+    onStepChange?.(step);
+  };
 
   return (
     <div className="relative w-full max-w-[460px]">
       {/* Device frame */}
       <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
-          <div className="flex gap-1.5">
-            {phases.map((phase, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all duration-300 ${
-                  active === i
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-              >
-                {phase.label}
-              </button>
-            ))}
+        {showTabs && (
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
+            <div className="flex gap-1.5">
+              {phases.map((phase, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleStepChange(i)}
+                  className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all duration-300 ${
+                    currentStep === i
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {phase.label}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Screen area */}
         <div className="relative min-h-[220px] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
-              key={active}
+              key={currentStep}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3 }}
               className="relative"
             >
-              {screens[active]()}
+              <ActiveScreen />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -248,11 +275,11 @@ export default function ProcessVisual() {
                 className="h-full rounded-full bg-primary"
                 initial={{ width: "0%" }}
                 animate={{
-                  width: active === i ? "100%" : active > i ? "100%" : "0%",
+                  width: currentStep === i ? "100%" : currentStep > i ? "100%" : "0%",
                 }}
                 transition={{
-                  duration: active === i ? 4 : 0.3,
-                  ease: active === i ? "linear" : "easeOut",
+                  duration: currentStep === i ? 4 : 0.3,
+                  ease: currentStep === i ? "linear" : "easeOut",
                 }}
               />
             </div>
