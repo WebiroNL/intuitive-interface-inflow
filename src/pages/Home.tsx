@@ -220,7 +220,7 @@ const Home = () => {
                       key={`${setIdx}-${tool.name}`}
                       className="tool-item flex items-center gap-2.5 flex-shrink-0 transition-all duration-300 cursor-default"
                     >
-                      <img src={tool.src} alt={tool.name} className="h-5 w-auto object-contain" loading="lazy" />
+                      <img src={tool.src} alt={tool.name} className="h-5 w-5 object-contain" loading="lazy" />
                       <span className="text-[13px] font-semibold text-foreground/70 tracking-tight whitespace-nowrap">
                         {tool.name}
                       </span>
