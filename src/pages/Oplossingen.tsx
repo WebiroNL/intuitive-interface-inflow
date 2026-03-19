@@ -87,7 +87,7 @@ const solutions = [
 const process = [
   { step: "01", title: "Analyse", desc: "We analyseren je markt, concurrenten en doelgroep om de beste strategie te bepalen." },
   { step: "02", title: "Strategie", desc: "Een concreet plan met doelen, KPI's en een tijdlijn voor maximaal resultaat." },
-  { step: "03", title: "Uitvoering", desc: "We bouwen, lanceren en optimaliseren — jij focust op je bedrijf." },
+  { step: "03", title: "Uitvoering", desc: "We bouwen, lanceren en optimaliseren zodat jij je kunt focussen op je bedrijf." },
   { step: "04", title: "Groei", desc: "Doorlopende optimalisatie en rapportage zorgen voor structurele groei." },
 ];
 
