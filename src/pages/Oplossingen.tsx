@@ -125,7 +125,7 @@ const Oplossingen = () => {
               <span className="text-primary/70">volledige digitale groei.</span>
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed max-w-xl mb-8">
-              Van een professionele website tot advertenties, automatisering en AI — wij helpen ondernemers en MKB-bedrijven om structureel meer klanten te genereren.
+              Van een professionele website tot advertenties, automatisering en AI. Wij helpen ondernemers en MKB-bedrijven om structureel meer klanten te genereren.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
