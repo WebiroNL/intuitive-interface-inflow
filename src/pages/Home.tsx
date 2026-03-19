@@ -193,8 +193,8 @@ const Home = () => {
 
             {/* Right — Particle Engine Visual */}
             <div className="hidden lg:flex items-center justify-center">
-              <div className="relative w-full" style={{ aspectRatio: '1/1', maxWidth: '500px' }}>
-                <EngineHero />
+              <div className="w-full max-w-[520px]" style={{ animation: 'heroFloat 6s ease-in-out infinite' }}>
+                <AnimatedDashboard />
               </div>
             </div>
           </div>
