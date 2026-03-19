@@ -338,7 +338,7 @@ const Home = () => {
           </div>
 
           {/* Content: visual + steps side by side */}
-          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-start">
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
             <div className="hidden lg:flex justify-center">
               <ProcessVisual />
             </div>
