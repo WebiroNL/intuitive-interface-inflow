@@ -354,7 +354,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed mb-8">
-                Van eerste gesprek tot live website in drie stappen. Duidelijk, snel en zonder verrassingen.
+                Of het nu om een website of marketing gaat — ons proces is altijd helder, persoonlijk en resultaatgericht.
               </p>
               <Link
                 to="/proces"
