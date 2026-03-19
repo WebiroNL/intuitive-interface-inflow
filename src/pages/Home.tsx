@@ -337,9 +337,8 @@ const Home = () => {
       {/* ══════ HOW IT WORKS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          {/* Section header – full width, Stripe-style */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
-            <div className="max-w-lg">
+          <div className="grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-end mb-12 lg:mb-14">
+            <div className="max-w-2xl">
               <h2
                 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4"
                 style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
@@ -347,7 +346,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Of het nu om een website of marketing gaat, ons proces is altijd helder, persoonlijk en resultaatgericht.
+                Eén helder traject waarin strategie, website en campagnes op elkaar aansluiten — zonder losse stappen of verwarring.
               </p>
             </div>
             <Link
@@ -358,30 +357,51 @@ const Home = () => {
             </Link>
           </div>
 
-          {/* Content: visual + steps side by side */}
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center">
             <div className="hidden lg:block">
-              <ProcessVisual />
+              <ProcessVisual
+                activeStep={activeProcessStep}
+                onStepChange={setActiveProcessStep}
+                showTabs={false}
+              />
             </div>
 
-            <div className="space-y-8">
-              {processSteps.map(({ number, icon, title, desc }) => (
-                <div key={number} className="flex gap-5">
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
-                    </div>
-                    {number !== "03" && (
-                      <div className="w-px flex-1 bg-border mt-2" />
-                    )}
-                  </div>
-                  <div className="pb-8">
-                    <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {number}</p>
-                    <h3 className="text-[17px] font-semibold text-foreground mb-2">{title}</h3>
-                    <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
-                  </div>
+            <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
+              <div className="grid grid-cols-3 gap-2 mb-6">
+                {processSteps.map((step, index) => (
+                  <button
+                    key={step.id}
+                    onClick={() => setActiveProcessStep(index)}
+                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                      activeProcessStep === index
+                        ? "border-primary/30 bg-primary/10"
+                        : "border-border bg-background hover:bg-muted/50"
+                    }`}
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
+                    <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-4 pb-5 border-b border-border">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <HugeiconsIcon icon={activeProcess.icon} className="w-5 h-5 text-primary" />
                 </div>
-              ))}
+                <div>
+                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeProcess.number}</p>
+                  <h3 className="text-[22px] leading-tight font-semibold text-foreground mb-2">{activeProcess.title}</h3>
+                  <p className="text-[15px] text-muted-foreground leading-relaxed">{activeProcess.desc}</p>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-2 pt-5">
+                {activeProcess.focus.map((item) => (
+                  <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
