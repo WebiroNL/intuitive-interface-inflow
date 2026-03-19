@@ -24,7 +24,7 @@ const Blog = () => {
   useEffect(() => {
     updatePageMeta(
       "Blog – Tips, trends en updates | Webiro",
-      "Ontdek handige webdesign tips, de laatste trends en nieuws over Webiro. Van SEO tot design — wij delen onze kennis."
+      "Ontdek handige webdesign tips, de laatste trends en nieuws over Webiro. Van SEO tot design, wij delen onze kennis."
     );
   }, []);
 

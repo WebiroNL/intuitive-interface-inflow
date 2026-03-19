@@ -87,7 +87,7 @@ const solutions = [
 const process = [
   { step: "01", title: "Analyse", desc: "We analyseren je markt, concurrenten en doelgroep om de beste strategie te bepalen." },
   { step: "02", title: "Strategie", desc: "Een concreet plan met doelen, KPI's en een tijdlijn voor maximaal resultaat." },
-  { step: "03", title: "Uitvoering", desc: "We bouwen, lanceren en optimaliseren — jij focust op je bedrijf." },
+  { step: "03", title: "Uitvoering", desc: "We bouwen, lanceren en optimaliseren zodat jij je kunt focussen op je bedrijf." },
   { step: "04", title: "Groei", desc: "Doorlopende optimalisatie en rapportage zorgen voor structurele groei." },
 ];
 
@@ -125,7 +125,7 @@ const Oplossingen = () => {
               <span className="text-primary/70">volledige digitale groei.</span>
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed max-w-xl mb-8">
-              Van een professionele website tot advertenties, automatisering en AI — wij helpen ondernemers en MKB-bedrijven om structureel meer klanten te genereren.
+              Van een professionele website tot advertenties, automatisering en AI. Wij helpen ondernemers en MKB-bedrijven om structureel meer klanten te genereren.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -270,7 +270,7 @@ const Oplossingen = () => {
               { icon: UserGroup02Icon, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
               { icon: ChartLineData01Icon, title: "Data-gedreven", desc: "Beslissingen op basis van data, niet onderbuikgevoel. Transparante rapportages." },
               { icon: BarChartIcon, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
-              { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation — je hoeft niet te shoppen bij 5 bureaus." },
+              { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation. Je hoeft niet te shoppen bij 5 bureaus." },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="group">
                 <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">

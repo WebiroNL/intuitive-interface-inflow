@@ -152,7 +152,7 @@ const Proces = () => {
               <span className="text-muted-foreground font-bold">In 4 heldere stappen.</span>
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed max-w-xl mb-8">
-              Of je nu een website nodig hebt of meer klanten wilt genereren — ons proces is
+              Of je nu een website nodig hebt of meer klanten wilt genereren, ons proces is
               transparant, efficiënt en gericht op resultaat.
             </p>
             <div className="flex flex-wrap gap-3">
