@@ -85,7 +85,7 @@ function DesignScreen() {
           <div className="flex gap-1">
             <div className="w-2 h-2 rounded-full bg-destructive/40" />
             <div className="w-2 h-2 rounded-full bg-webiro-yellow/40" />
-            <div className="w-2 h-2 rounded-full bg-green-400/40" />
+            <div className="w-2 h-2 rounded-full bg-accent/35" />
           </div>
           <div className="flex-1 mx-2 h-4 rounded bg-background/80 flex items-center px-2">
             <span className="text-[8px] text-muted-foreground">jouwbedrijf.nl</span>
