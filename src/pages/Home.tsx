@@ -78,20 +78,20 @@ const processSteps = [
   {
     number: "01",
     icon: MessageMultiple01Icon,
-    title: "Gratis kennismaking",
-    desc: "We bespreken je doelen, doelgroep en wensen in een kort gesprek. Je ontvangt direct een helder voorstel.",
+    title: "Kennismaking & strategie",
+    desc: "We bespreken je doelen, doelgroep en wensen. Op basis daarvan stellen we een plan op dat past bij jouw situatie.",
   },
   {
     number: "02",
     icon: PaintBrushIcon,
-    title: "Design & development",
-    desc: "We ontwerpen en bouwen jouw website op maat. Je ziet live mee en geeft feedback tot het perfect is.",
+    title: "Ontwerp, bouw & uitvoering",
+    desc: "We gaan aan de slag: van website-design tot campagne-opzet. Je ziet live mee en geeft feedback tot het klopt.",
   },
   {
     number: "03",
     icon: RocketIcon,
-    title: "Live binnen 7 dagen",
-    desc: "Na goedkeuring gaat je website live. Inclusief hosting, domein-configuratie en SEO-optimalisatie.",
+    title: "Lancering & groei",
+    desc: "Alles gaat live en we monitoren de resultaten. We optimaliseren continu zodat jouw bedrijf blijft groeien.",
   },
 ];
 
@@ -185,7 +185,7 @@ const Home = () => {
                   to="/intake"
                   className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
                 >
-                  Gratis gesprek
+                  Plan een gesprek
                 </Link>
               </div>
             </div>
@@ -354,7 +354,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed mb-8">
-                Van eerste gesprek tot live website in drie stappen. Duidelijk, snel en zonder verrassingen.
+                Of het nu om een website of marketing gaat — ons proces is altijd helder, persoonlijk en resultaatgericht.
               </p>
               <Link
                 to="/proces"
