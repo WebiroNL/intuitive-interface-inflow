@@ -6,6 +6,7 @@ import { CTASection } from "@/components/CTASection";
 import { StructuredData } from "@/components/StructuredData";
 import { updatePageMeta } from "@/utils/seo";
 import { SilkWaves } from "@/components/SilkWaves";
+import { ParticleEngine } from "@/components/ParticleEngine";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
