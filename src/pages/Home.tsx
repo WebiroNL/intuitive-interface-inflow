@@ -8,6 +8,7 @@ import { updatePageMeta } from "@/utils/seo";
 import { SilkWaves } from "@/components/SilkWaves";
 import { AnimatedDashboard } from "@/components/AnimatedDashboard";
 import ProcessVisual from "@/components/ProcessVisual";
+import AdsProcessVisual from "@/components/AdsProcessVisual";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
