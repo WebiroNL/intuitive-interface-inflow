@@ -494,7 +494,7 @@ const Home = () => {
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
               </svg>
               {[...Array(5)].map((_, i) => <HugeiconsIcon key={i} icon={StarIcon} className="w-4 h-4 fill-webiro-yellow text-webiro-yellow" />)}
-              <span className="text-[13px] font-semibold text-muted-foreground ml-1">5.0 — gebaseerd op 18 klantreviews</span>
+              <span className="text-[13px] font-semibold text-muted-foreground ml-1">5.0 · gebaseerd op 18 klantreviews</span>
             </div>
             <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
               Wat klanten zeggen

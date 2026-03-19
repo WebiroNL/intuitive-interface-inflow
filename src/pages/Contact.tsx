@@ -102,7 +102,7 @@ const Contact = () => {
             </h1>
             <p className="text-[16px] text-muted-foreground leading-relaxed max-w-xl">
               Vul het formulier in, bel ons of stuur een e-mail. Geen
-              verplichtingen — we denken graag met je mee.
+              verplichtingen, we denken graag met je mee.
             </p>
           </div>
         </div>

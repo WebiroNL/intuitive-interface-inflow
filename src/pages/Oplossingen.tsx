@@ -270,7 +270,7 @@ const Oplossingen = () => {
               { icon: UserGroup02Icon, title: "Persoonlijk contact", desc: "Je werkt direct met de maker. Geen tussenlagen, geen verrassingen." },
               { icon: ChartLineData01Icon, title: "Data-gedreven", desc: "Beslissingen op basis van data, niet onderbuikgevoel. Transparante rapportages." },
               { icon: BarChartIcon, title: "Schaalbaar", desc: "Van je eerste website tot een volledige marketing-machine. Groei in je eigen tempo." },
-              { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation — je hoeft niet te shoppen bij 5 bureaus." },
+              { icon: CheckmarkCircle02Icon, title: "Alles onder één dak", desc: "Website, marketing, branding en automation. Je hoeft niet te shoppen bij 5 bureaus." },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="group">
                 <div className="w-10 h-10 rounded-lg bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">

@@ -40,7 +40,7 @@ const services = [
 
 export function CTASection({
   title = "Laten we samen groeien",
-  description = "Of je nu een website, marketingstrategie of slimme automations nodig hebt — wij helpen je verder.",
+  description = "Of je nu een website, marketingstrategie of slimme automations nodig hebt, wij helpen je verder.",
 }: CTASectionProps) {
 
   return (
