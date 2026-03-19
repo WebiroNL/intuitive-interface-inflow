@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
+import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -46,7 +47,7 @@ export function Header() {
 
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <img src={webiroLogo} alt="Webiro" className="h-[26px]" />
+            <img src={theme === 'dark' ? webiroLogoDark : webiroLogo} alt="Webiro" className="h-[26px]" />
           </Link>
 
           {/* Nav links — desktop */}
