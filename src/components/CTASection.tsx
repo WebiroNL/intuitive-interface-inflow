@@ -20,7 +20,7 @@ interface CTASectionProps {
 const services = [
   {
     label: 'Websites & Apps',
-    description: 'Custom webdesign, development en hosting — live binnen 7 dagen.',
+    description: 'Custom webdesign, development en hosting. Live binnen 7 dagen.',
     link: '/pakketten',
     linkLabel: 'Meer info',
   },
