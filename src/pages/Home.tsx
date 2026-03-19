@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon, CheckmarkCircle02Icon, StarIcon, FlashIcon, PaintBrushIcon, HeadsetIcon, ChartIncreaseIcon, Clock01Icon, ShieldKeyIcon, RocketIcon, MessageMultiple01Icon, Search01Icon } from '@hugeicons/core-free-icons';
@@ -78,22 +78,31 @@ const MarketingMockup = () => (
 
 const processSteps = [
   {
+    id: 0,
     number: "01",
     icon: MessageMultiple01Icon,
+    tab: "Kennismaking",
     title: "Kennismaking & strategie",
-    desc: "We bespreken je doelen, doelgroep en wensen. Op basis daarvan stellen we een plan op dat past bij jouw situatie.",
+    desc: "We brengen doelen, doelgroep en prioriteiten scherp in kaart, zodat website en campagnes één duidelijke richting krijgen.",
+    focus: ["Doelen & doelgroep", "Website- en campagneplan"],
   },
   {
+    id: 1,
     number: "02",
     icon: PaintBrushIcon,
-    title: "Ontwerp, bouw & uitvoering",
-    desc: "We gaan aan de slag: van website-design tot campagne-opzet. Je ziet live mee en geeft feedback tot het klopt.",
+    tab: "Ontwerp & bouw",
+    title: "Ontwerp, bouw & campagne-opzet",
+    desc: "We ontwerpen en bouwen je website én zetten campagnes technisch en strategisch klaar, met vaste feedbackmomenten.",
+    focus: ["Website design & ontwikkeling", "Campagnes opzetten"],
   },
   {
+    id: 2,
     number: "03",
     icon: RocketIcon,
-    title: "Lancering & groei",
-    desc: "Alles gaat live en we monitoren de resultaten. We optimaliseren continu zodat jouw bedrijf blijft groeien.",
+    tab: "Lanceren",
+    title: "Lanceren, managen & optimaliseren",
+    desc: "Website en campagnes gaan live, daarna sturen we actief bij op data om structurele groei te realiseren.",
+    focus: ["Livegang website + ads", "Continu beheer & optimalisatie"],
   },
 ];
 
@@ -138,12 +147,24 @@ const reviews = [
 ];
 
 const Home = () => {
+  const [activeProcessStep, setActiveProcessStep] = useState(0);
+
   useEffect(() => {
     updatePageMeta(
       "Webiro – Websites, marketing & automation voor ondernemers",
       "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveProcessStep((prev) => (prev + 1) % processSteps.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeProcess = processSteps[activeProcessStep];
 
   return (
     <main className="bg-background">
@@ -316,9 +337,8 @@ const Home = () => {
       {/* ══════ HOW IT WORKS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          {/* Section header – full width, Stripe-style */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
-            <div className="max-w-lg">
+          <div className="grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-end mb-12 lg:mb-14">
+            <div className="max-w-2xl">
               <h2
                 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4"
                 style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
@@ -326,7 +346,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Of het nu om een website of marketing gaat, ons proces is altijd helder, persoonlijk en resultaatgericht.
+                Eén helder traject waarin strategie, website en campagnes op elkaar aansluiten — zonder losse stappen of verwarring.
               </p>
             </div>
             <Link
@@ -337,30 +357,51 @@ const Home = () => {
             </Link>
           </div>
 
-          {/* Content: visual + steps side by side */}
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center">
             <div className="hidden lg:block">
-              <ProcessVisual />
+              <ProcessVisual
+                activeStep={activeProcessStep}
+                onStepChange={setActiveProcessStep}
+                showTabs={false}
+              />
             </div>
 
-            <div className="space-y-8">
-              {processSteps.map(({ number, icon, title, desc }) => (
-                <div key={number} className="flex gap-5">
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
-                    </div>
-                    {number !== "03" && (
-                      <div className="w-px flex-1 bg-border mt-2" />
-                    )}
-                  </div>
-                  <div className="pb-8">
-                    <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {number}</p>
-                    <h3 className="text-[17px] font-semibold text-foreground mb-2">{title}</h3>
-                    <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
-                  </div>
+            <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
+              <div className="grid grid-cols-3 gap-2 mb-6">
+                {processSteps.map((step, index) => (
+                  <button
+                    key={step.id}
+                    onClick={() => setActiveProcessStep(index)}
+                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                      activeProcessStep === index
+                        ? "border-primary/30 bg-primary/10"
+                        : "border-border bg-background hover:bg-muted/50"
+                    }`}
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
+                    <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-4 pb-5 border-b border-border">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <HugeiconsIcon icon={activeProcess.icon} className="w-5 h-5 text-primary" />
                 </div>
-              ))}
+                <div>
+                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeProcess.number}</p>
+                  <h3 className="text-[22px] leading-tight font-semibold text-foreground mb-2">{activeProcess.title}</h3>
+                  <p className="text-[15px] text-muted-foreground leading-relaxed">{activeProcess.desc}</p>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-2 pt-5">
+                {activeProcess.focus.map((item) => (
+                  <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
