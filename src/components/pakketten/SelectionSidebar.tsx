@@ -2,6 +2,7 @@ import { ArrowRight, Check, Info } from "lucide-react";
 import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "./data";
 import { ContractDuration } from "./types";
 import { FlowType } from "./StepChoice";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 interface SelectionSidebarProps {
   step: number;
