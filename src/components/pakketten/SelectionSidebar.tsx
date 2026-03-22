@@ -2,6 +2,7 @@ import { ArrowRight, Check, Info } from "lucide-react";
 import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "./data";
 import { ContractDuration } from "./types";
 import { FlowType } from "./StepChoice";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 interface SelectionSidebarProps {
   step: number;
@@ -163,14 +164,15 @@ export function SelectionSidebar({
 
         {/* Actions */}
         <div className="p-5 pt-0 space-y-2">
-          <button
+          <LiquidButton
             onClick={onNext}
             disabled={!canNext}
-            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground text-[14px] font-semibold rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            size="lg"
+            className="w-full text-[14px] font-semibold justify-center"
           >
             {nextLabel}
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </LiquidButton>
           {step > 1 && (
             <button
               onClick={onPrev}

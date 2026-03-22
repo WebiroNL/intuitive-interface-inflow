@@ -9,6 +9,7 @@ import { SilkWaves } from "@/components/SilkWaves";
 import { AnimatedDashboard } from "@/components/AnimatedDashboard";
 import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -223,17 +224,15 @@ const Home = () => {
                 Wij bouwen jouw website, runnen je advertenties en automatiseren je marketing zodat jij je kunt focussen op ondernemen.
               </p>
               <div className="flex flex-wrap items-center gap-3">
-                <Link
-                  to="/pakketten"
-                  className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
-                >
-                  Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                <Link to="/pakketten">
+                  <LiquidButton size="lg" className="text-[14px] font-semibold">
+                    Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                  </LiquidButton>
                 </Link>
-                <Link
-                  to="/intake"
-                  className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
-                >
-                  Plan een gesprek
+                <Link to="/intake">
+                  <LiquidButton variant="outline" size="lg" className="text-[14px] font-medium">
+                    Plan een gesprek
+                  </LiquidButton>
                 </Link>
               </div>
             </div>
