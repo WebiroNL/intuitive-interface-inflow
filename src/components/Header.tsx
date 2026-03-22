@@ -6,7 +6,6 @@ import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
-import { LiquidButton } from '@/components/ui/liquid-glass-button';
 
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
@@ -100,10 +99,11 @@ export function Header() {
             )}
 
             {/* Filled CTA — "Contact sales" */}
-            <Link to="/intake">
-              <LiquidButton size="sm" className="text-[14px] font-semibold">
-                Gratis gesprek <span className="text-[15px]" aria-hidden>›</span>
-              </LiquidButton>
+            <Link
+              to="/intake"
+              className="inline-flex items-center gap-[5px] px-[14px] py-[7px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors leading-none"
+            >
+              Gratis gesprek <span className="text-[15px]" aria-hidden>›</span>
             </Link>
           </div>
 
@@ -161,10 +161,11 @@ export function Header() {
                   Inloggen
                 </Link>
               )}
-              <Link to="/intake">
-                <LiquidButton size="default" className="w-full text-[14px] font-semibold justify-center">
-                  Gratis gesprek ›
-                </LiquidButton>
+              <Link
+                to="/intake"
+                className="py-2.5 px-3 bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] text-center hover:bg-primary/90 transition-colors"
+              >
+                Gratis gesprek ›
               </Link>
             </div>
           </div>
