@@ -161,11 +161,10 @@ export function Header() {
                   Inloggen
                 </Link>
               )}
-              <Link
-                to="/intake"
-                className="py-2.5 px-3 bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] text-center hover:bg-primary/90 transition-colors"
-              >
-                Gratis gesprek ›
+              <Link to="/intake">
+                <LiquidButton size="default" className="w-full text-[14px] font-semibold justify-center">
+                  Gratis gesprek ›
+                </LiquidButton>
               </Link>
             </div>
           </div>

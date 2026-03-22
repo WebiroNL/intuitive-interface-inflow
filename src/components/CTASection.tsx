@@ -80,18 +80,16 @@ export function CTASection({
 
         {/* Simple CTA */}
         <div className="flex flex-wrap items-center gap-4">
-          <Link
-            to="/intake"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-all text-sm"
-          >
-            Plan een gratis intake
-            <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+          <Link to="/intake">
+            <LiquidButton size="lg" className="text-sm font-semibold">
+              Plan een gratis intake
+              <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+            </LiquidButton>
           </Link>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-all text-sm"
-          >
-            Contact opnemen
+          <Link to="/contact">
+            <LiquidButton variant="outline" size="lg" className="text-sm font-semibold">
+              Contact opnemen
+            </LiquidButton>
           </Link>
         </div>
       </div>
