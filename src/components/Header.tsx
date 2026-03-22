@@ -100,11 +100,10 @@ export function Header() {
             )}
 
             {/* Filled CTA — "Contact sales" */}
-            <Link
-              to="/intake"
-              className="inline-flex items-center gap-[5px] px-[14px] py-[7px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors leading-none"
-            >
-              Gratis gesprek <span className="text-[15px]" aria-hidden>›</span>
+            <Link to="/intake">
+              <LiquidButton size="sm" className="text-[14px] font-semibold">
+                Gratis gesprek <span className="text-[15px]" aria-hidden>›</span>
+              </LiquidButton>
             </Link>
           </div>
 
