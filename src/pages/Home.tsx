@@ -9,6 +9,7 @@ import { SilkWaves } from "@/components/SilkWaves";
 import { AnimatedDashboard } from "@/components/AnimatedDashboard";
 import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
