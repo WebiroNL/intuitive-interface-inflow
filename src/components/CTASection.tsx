@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import { SunburstBackground } from '@/components/SunburstBackground';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 
 interface CTASectionProps {
   title?: string;
