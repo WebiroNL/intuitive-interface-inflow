@@ -71,21 +71,37 @@ export function SunburstBackground() {
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
       ctx.fillRect(0, 0, w, h);
 
-      // Compact Stripe-style radial gradient — tight purple/pink glow from bottom center
-      const rg = ctx.createRadialGradient(w / 2, h, 0, w / 2, h * 0.7, Math.min(w, h) * 0.55);
+      // Sunrise-style radial gradient — warm glow rising from bottom center
+      const rg = ctx.createRadialGradient(w / 2, h * 1.05, 0, w / 2, h * 0.6, Math.min(w, h) * 0.7);
       if (isDark) {
-        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.5)');
-        rg.addColorStop(0.30, 'rgba(100, 60, 200, 0.3)');
-        rg.addColorStop(0.60, 'rgba(58, 77, 234, 0.12)');
+        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.6)');
+        rg.addColorStop(0.15, 'rgba(120, 60, 220, 0.4)');
+        rg.addColorStop(0.35, 'rgba(80, 50, 200, 0.2)');
+        rg.addColorStop(0.55, 'rgba(58, 77, 234, 0.08)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg.addColorStop(0.00, 'rgba(220, 140, 200, 0.55)');
-        rg.addColorStop(0.25, 'rgba(180, 120, 220, 0.4)');
-        rg.addColorStop(0.50, 'rgba(140, 100, 230, 0.2)');
-        rg.addColorStop(0.75, 'rgba(200, 190, 240, 0.08)');
+        rg.addColorStop(0.00, 'rgba(180, 130, 240, 0.55)');
+        rg.addColorStop(0.12, 'rgba(160, 110, 230, 0.4)');
+        rg.addColorStop(0.30, 'rgba(140, 90, 220, 0.25)');
+        rg.addColorStop(0.50, 'rgba(120, 80, 210, 0.12)');
+        rg.addColorStop(0.70, 'rgba(200, 190, 240, 0.05)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Secondary warm highlight — subtle golden kiss at the horizon
+      const rg2 = ctx.createRadialGradient(w / 2, h * 1.02, 0, w / 2, h * 0.85, Math.min(w, h) * 0.35);
+      if (isDark) {
+        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.12)');
+        rg2.addColorStop(0.40, 'rgba(255, 180, 100, 0.05)');
+        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      } else {
+        rg2.addColorStop(0.00, 'rgba(255, 220, 140, 0.2)');
+        rg2.addColorStop(0.35, 'rgba(255, 200, 120, 0.08)');
+        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      }
+      ctx.fillStyle = rg2;
       ctx.fillRect(0, 0, w, h);
 
       const originX = w / 2;
