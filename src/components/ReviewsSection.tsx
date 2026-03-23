@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { StarIcon, ArrowRight01Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import gregPhoto from "@/assets/reviews/greg-vermeer.png";
 import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 import hofstedePhoto from "@/assets/reviews/hofstede-automotive.png";
 import prokickPhoto from "@/assets/reviews/prokick-academie.png";
