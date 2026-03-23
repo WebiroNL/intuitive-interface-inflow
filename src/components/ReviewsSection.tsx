@@ -7,6 +7,7 @@ import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 import hofstedePhoto from "@/assets/reviews/hofstede-automotive.png";
 import prokickPhoto from "@/assets/reviews/prokick-academie.png";
 import royalBluePhoto from "@/assets/reviews/royal-blue-spa.png";
+import cknPhoto from "@/assets/reviews/ckn-legal.png";
 
 const reviews = [
   { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600", photo: gregPhoto },
