@@ -478,12 +478,12 @@ const Home = () => {
       {/* ══════ WHY US ══════ */}
       <section className="border-t border-border bg-muted/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="mb-16">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary mb-3">Waarom Webiro</p>
             <h2 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
               Jouw digitale groeipartner
             </h2>
-            <p className="text-muted-foreground text-base leading-relaxed">
+            <p className="text-muted-foreground text-base leading-relaxed max-w-xl">
               Wij combineren design, techniek en marketing tot één krachtig geheel.
             </p>
           </div>
