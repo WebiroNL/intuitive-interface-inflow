@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { StarIcon, ArrowRight01Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import gregPhoto from "@/assets/reviews/greg-vermeer.png";
 import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 import hofstedePhoto from "@/assets/reviews/hofstede-automotive.png";
 import prokickPhoto from "@/assets/reviews/prokick-academie.png";
 import royalBluePhoto from "@/assets/reviews/royal-blue-spa.png";
 
 const reviews = [
-  { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600" },
+  { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600", photo: gregPhoto },
   { name: "Hofstede Automotive B.V.", role: "Automotive", text: "Sinds onze samenwerking merken wij een duidelijke toename in het aantal telefoontjes voor onze diensten in de werkplaats. Daarnaast zien we dat het aantal bezoekers op onze website aanzienlijk is gestegen. Opvallend is dat ook klanten die niet specifiek naar onze naam zoeken, toch bij ons terechtkomen.", initials: "HA", color: "from-blue-500 to-indigo-600", photo: hofstedePhoto },
   { name: "Veranda XL", role: "Bouw & Verbouw", text: "Dankzij dit bedrijf hebben we heel het backend proces en de website geautomatiseerd! Hierdoor heeft het team een enorme boost en veel meer ruimte op groei gekregen! Onze dank is groot!", initials: "VX", color: "from-orange-500 to-red-500", photo: verandaXlPhoto },
   { name: "Royal Blue Spa", role: "Wellness", text: "Webiro voert nu bijna 2 maanden onze Google Advertenties uit. Sinds de samenwerking hebben wij een stijging van bijna 60% in omzet! Communicatie verloopt soepel en reactietijd is snel. Overzichtelijke rapportages van de prestaties en altijd bezig met verbeteringen van de campagnes.", initials: "RB", color: "from-purple-500 to-violet-600", photo: royalBluePhoto },
