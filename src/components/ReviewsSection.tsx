@@ -4,6 +4,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { StarIcon, ArrowRight01Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 import hofstedePhoto from "@/assets/reviews/hofstede-automotive.png";
+import prokickPhoto from "@/assets/reviews/prokick-academie.png";
 
 const reviews = [
   { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600" },
@@ -11,7 +12,7 @@ const reviews = [
   { name: "Veranda XL", role: "Bouw & Verbouw", text: "Dankzij dit bedrijf hebben we heel het backend proces en de website geautomatiseerd! Hierdoor heeft het team een enorme boost en veel meer ruimte op groei gekregen! Onze dank is groot!", initials: "VX", color: "from-orange-500 to-red-500", photo: verandaXlPhoto },
   { name: "Royal Blue Spa", role: "Wellness", text: "Webiro voert nu bijna 2 maanden onze Google Advertenties uit. Sinds de samenwerking hebben wij een stijging van bijna 60% in omzet! Communicatie verloopt soepel en reactietijd is snel. Overzichtelijke rapportages van de prestaties en altijd bezig met verbeteringen van de campagnes.", initials: "RB", color: "from-purple-500 to-violet-600" },
   { name: "Christina N.", role: "CKN Legal", text: "Professionele website die perfect aansluit bij mijn juridische diensten. De samenwerking verliep uitstekend.", initials: "CN", color: "from-pink-500 to-rose-600" },
-  { name: "Nawid Z.", role: "Prokick Academie", text: "Onze voetbalschool heeft nu een website waar we echt trots op zijn! Professioneel en modern.", initials: "NZ", color: "from-cyan-500 to-blue-500" },
+  { name: "Nawid Z.", role: "Prokick Academie", text: "Onze voetbalschool heeft nu een website waar we echt trots op zijn! Professioneel en modern.", initials: "NZ", color: "from-cyan-500 to-blue-500", photo: prokickPhoto },
 ];
 
 const GoogleLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
