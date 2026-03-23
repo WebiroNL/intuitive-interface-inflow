@@ -478,25 +478,33 @@ const Home = () => {
       </section>
 
       {/* ══════ WHY US ══════ */}
-      <section className="border-t border-border bg-background">
+      <section className="border-t border-border bg-muted/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="max-w-2xl mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary mb-3">Waarom Webiro</p>
             <h2 className="font-bold tracking-[-0.025em] leading-[1.08] mb-4" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
-              Waarom kiezen voor Webiro?
+              Jouw digitale groeipartner
             </h2>
             <p className="text-muted-foreground text-base leading-relaxed">
-              We bouwen niet alleen websites, we bouwen de digitale basis van jouw bedrijf.
+              Van strategie tot uitvoering — wij combineren design, techniek en marketing tot één krachtig geheel.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {whyItems.map(({ icon, title, desc }) => (
-              <div key={title} className="group">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyItems.map(({ icon, title, desc }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className="group relative rounded-2xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:scale-110 transition-all duration-300">
                   <HugeiconsIcon icon={icon} className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
