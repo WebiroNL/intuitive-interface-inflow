@@ -362,121 +362,118 @@ const Home = () => {
       {/* ══════ HOW IT WORKS ══════ */}
       <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-end mb-12 lg:mb-14">
-            <div className="max-w-2xl">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
+            <div className="max-w-xl">
               <h2
-                className="font-bold tracking-[-0.025em] leading-[1.08] mb-4"
+                className="font-bold tracking-[-0.025em] leading-[1.08] mb-3"
                 style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}
               >
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                We splitsen het helder op in twee trajecten: websites en advertenties. Elk traject heeft zijn eigen interactieve stappen 1, 2 en 3.
+                Van eerste gesprek tot meetbaar resultaat — helder opgesplitst in twee trajecten.
               </p>
             </div>
             <Link
               to="/proces"
-              className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
+              className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all flex-shrink-0"
             >
-              Bekijk het volledige proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+              Volledig proces <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="space-y-8 lg:space-y-10">
-            <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
-              <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-10 items-center">
-                <div className="mx-auto w-full max-w-[460px]">
-                  <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
+          {/* Trajectory toggle */}
+          {(() => {
+            const [activeTraject, setActiveTraject] = useState<"website" | "ads">("website");
+            const isWebsite = activeTraject === "website";
+            const steps = isWebsite ? websiteSteps : adsSteps;
+            const activeIdx = isWebsite ? activeWebsiteStep : activeAdsStep;
+            const setActiveIdx = isWebsite ? setActiveWebsiteStep : setActiveAdsStep;
+
+            return (
+              <>
+                <div className="flex gap-2 mb-8">
+                  <button
+                    onClick={() => setActiveTraject("website")}
+                    className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
+                      isWebsite ? "bg-primary text-primary-foreground shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Website traject
+                  </button>
+                  <button
+                    onClick={() => setActiveTraject("ads")}
+                    className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
+                      !isWebsite ? "bg-accent text-accent-foreground shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Advertentie traject
+                  </button>
                 </div>
 
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-3">Traject 01 · Website</p>
-                  <div className="grid grid-cols-3 gap-2 mb-6">
-                    {websiteSteps.map((step, index) => (
-                      <button
-                        key={step.id}
-                        onClick={() => setActiveWebsiteStep(index)}
-                        className={`rounded-lg border px-3 py-2 text-left transition-colors ${
-                          activeWebsiteStep === index
-                            ? "border-primary/30 bg-primary/10"
-                            : "border-border bg-background hover:bg-muted/50"
-                        }`}
-                      >
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
-                        <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
-                      </button>
-                    ))}
+                <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-center">
+                  <div className="flex justify-center">
+                    {isWebsite ? (
+                      <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
+                    ) : (
+                      <AdsProcessVisual activeStep={activeAdsStep} onStepChange={setActiveAdsStep} showTabs={false} />
+                    )}
                   </div>
 
-                  <div className="flex gap-4 pb-5 border-b border-border">
-                    <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <HugeiconsIcon icon={activeWebsite.icon} className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeWebsite.number}</p>
-                      <h3 className="text-[21px] leading-tight font-semibold text-foreground mb-2">{activeWebsite.title}</h3>
-                      <p className="text-[15px] text-muted-foreground leading-relaxed">{activeWebsite.desc}</p>
-                    </div>
-                  </div>
+                  <div className="space-y-3">
+                    {steps.map((step, index) => {
+                      const isActive = activeIdx === index;
+                      const colorClasses = isWebsite
+                        ? { border: "border-primary/25", bg: "bg-primary/5", iconBg: "bg-primary/15", iconText: "text-primary", chipBg: "bg-primary/10", chipText: "text-primary" }
+                        : { border: "border-accent/25", bg: "bg-accent/5", iconBg: "bg-accent/15", iconText: "text-accent", chipBg: "bg-accent/10", chipText: "text-accent" };
 
-                  <div className="grid sm:grid-cols-2 gap-2 pt-5">
-                    {activeWebsite.focus.map((item) => (
-                      <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-7">
-              <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-10 items-center">
-                <div className="order-2 lg:order-1">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-3">Traject 02 · Advertenties</p>
-                  <div className="grid grid-cols-3 gap-2 mb-6">
-                    {adsSteps.map((step, index) => (
-                      <button
-                        key={step.id}
-                        onClick={() => setActiveAdsStep(index)}
-                        className={`rounded-lg border px-3 py-2 text-left transition-colors ${
-                          activeAdsStep === index
-                            ? "border-primary/30 bg-primary/10"
-                            : "border-border bg-background hover:bg-muted/50"
-                        }`}
-                      >
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Stap {step.number}</p>
-                        <p className="text-[12px] font-semibold text-foreground mt-0.5">{step.tab}</p>
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-4 pb-5 border-b border-border">
-                    <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <HugeiconsIcon icon={activeAds.icon} className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Stap {activeAds.number}</p>
-                      <h3 className="text-[21px] leading-tight font-semibold text-foreground mb-2">{activeAds.title}</h3>
-                      <p className="text-[15px] text-muted-foreground leading-relaxed">{activeAds.desc}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-2 pt-5">
-                    {activeAds.focus.map((item) => (
-                      <div key={item} className="rounded-lg bg-muted/60 px-3 py-2 text-[12px] font-medium text-foreground">
-                        {item}
-                      </div>
-                    ))}
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => setActiveIdx(index)}
+                          className={`w-full text-left rounded-xl border p-4 transition-all duration-300 ${
+                            isActive ? `${colorClasses.border} ${colorClasses.bg} shadow-sm` : "border-border bg-card hover:bg-muted/40"
+                          }`}
+                        >
+                          <div className="flex items-start gap-3.5">
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isActive ? colorClasses.iconBg : "bg-muted"
+                            }`}>
+                              <HugeiconsIcon
+                                icon={step.icon}
+                                className={`w-[18px] h-[18px] transition-colors ${isActive ? colorClasses.iconText : "text-muted-foreground"}`}
+                              />
+                            </div>
+                            <div className="min-w-0">
+                              <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                                Stap {step.number}
+                              </span>
+                              <p className={`text-[15px] font-semibold mt-0.5 transition-colors ${isActive ? "text-foreground" : "text-foreground/80"}`}>
+                                {step.title}
+                              </p>
+                              {isActive && (
+                                <>
+                                  <p className="text-[13px] text-muted-foreground leading-relaxed mt-1.5">{step.desc}</p>
+                                  <div className="flex flex-wrap gap-1.5 mt-3">
+                                    {step.focus.map((item) => (
+                                      <span key={item} className={`rounded-md ${colorClasses.chipBg} px-2.5 py-1 text-[11px] font-medium ${colorClasses.chipText}`}>
+                                        {item}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
-
-                <div className="order-1 lg:order-2 mx-auto w-full max-w-[460px]">
-                  <AdsProcessVisual activeStep={activeAdsStep} onStepChange={setActiveAdsStep} showTabs={false} />
-                </div>
-              </div>
-            </div>
-          </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 
