@@ -126,10 +126,10 @@ export function SunburstBackground() {
         ctx.lineWidth = lw;
         ctx.stroke();
 
-        // Dots: yellow (#FFD75C) tint at tips
-        const dotR = Math.round(58 + frac * 197);
-        const dotG = Math.round(77 + frac * 138);
-        const dotB = Math.round(234 - frac * 142);
+        // Dots: Webiro blue (#3A4DEA) at tips
+        const dotR = 58;
+        const dotG = 77;
+        const dotB = 234;
         ctx.beginPath();
         ctx.arc(ex, ey, s.dotR, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${Math.min(dotR, 255)},${Math.min(dotG, 255)},${Math.max(dotB, 0)},${(s.opacity * 0.8).toFixed(2)})`;
