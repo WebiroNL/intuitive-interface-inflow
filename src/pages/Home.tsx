@@ -173,9 +173,12 @@ const showcase = [
 ];
 
 const reviews = [
+  { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV" },
+  { name: "Hofstede Automotive B.V.", role: "Automotive", text: "Sinds onze samenwerking merken wij een duidelijke toename in het aantal telefoontjes voor onze diensten in de werkplaats. Daarnaast zien we dat het aantal bezoekers op onze website aanzienlijk is gestegen. Opvallend is dat ook klanten die niet specifiek naar onze naam zoeken, toch bij ons terechtkomen.", initials: "HA" },
+  { name: "Veranda XL", role: "Bouw & Verbouw", text: "Dankzij dit bedrijf hebben we heel het backend proces en de website geautomatiseerd! Hierdoor heeft het team een enorme boost en veel meer ruimte op groei gekregen! Onze dank is groot!", initials: "VX" },
+  { name: "Royal Blue Spa", role: "Wellness", text: "Webiro voert nu bijna 2 maanden onze Google Advertenties uit. Sinds de samenwerking hebben wij een stijging van bijna 60% in omzet! Communicatie verloopt soepel en reactietijd is snel. Overzichtelijke rapportages van de prestaties en altijd bezig met verbeteringen van de campagnes.", initials: "RB" },
   { name: "Christina N.", role: "CKN Legal", text: "Professionele website die perfect aansluit bij mijn juridische diensten. De samenwerking verliep uitstekend.", initials: "CN" },
   { name: "Nawid Z.", role: "Prokick Academie", text: "Onze voetbalschool heeft nu een website waar we echt trots op zijn! Professioneel en modern.", initials: "NZ" },
-  { name: "Rian M.", role: "Elektroza", text: "Helder en overzichtelijk, precies wat ik nodig had voor mijn elektriciensbedrijf.", initials: "RM" },
 ];
 
 const Home = () => {
