@@ -109,7 +109,7 @@ export function ReviewsSection() {
                 </p>
                 <div className="mt-auto flex items-center gap-3">
                   {review.photo ? (
-                    <img src={review.photo} alt={review.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                    <img src={review.photo} alt={review.name} className="w-10 h-10 rounded-full object-cover object-top flex-shrink-0" />
                   ) : (
                     <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
                       {review.initials}
