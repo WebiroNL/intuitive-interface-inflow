@@ -88,7 +88,7 @@ export function CTASection({
           </Link>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-all text-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-muted text-foreground rounded-md font-semibold hover:bg-muted/70 transition-all text-sm"
           >
             Contact opnemen
           </Link>
