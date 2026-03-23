@@ -139,7 +139,7 @@ const adsSteps = [
 ];
 
 const whyItems = [
-  { icon: FlashIcon, title: "Alles onder één dak", desc: "Website, advertenties, SEO en automatisering , één team dat alles voor je regelt." },
+  { icon: FlashIcon, title: "Alles onder één dak", desc: "Website, advertenties, SEO en automatisering. Één team dat alles voor je regelt." },
   { icon: ChartIncreaseIcon, title: "Resultaatgericht", desc: "Elke euro die je investeert moet renderen. Wij sturen op conversies, leads en groei." },
   { icon: PaintBrushIcon, title: "Volledig op maat", desc: "Geen templates. Jouw website en campagnes worden specifiek voor jouw merk gebouwd." },
   { icon: HeadsetIcon, title: "Persoonlijk contact", desc: "Één vast aanspreekpunt. Snelle antwoorden, geen tussenlagen of account managers." },
