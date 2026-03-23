@@ -71,39 +71,34 @@ export function SunburstBackground() {
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
       ctx.fillRect(0, 0, w, h);
 
-      // Sunrise-style radial gradient — intense warm glow rising from bottom center
-      const sunRadius = Math.max(w, h) * 0.9;
-      const rg = ctx.createRadialGradient(w / 2, h * 1.1, 0, w / 2, h * 0.5, sunRadius);
+      // Compact sunrise glow — tight radial from bottom center
+      const sunRadius = Math.min(w, h) * 0.4;
+      const rg = ctx.createRadialGradient(w / 2, h + 10, 0, w / 2, h * 0.9, sunRadius);
       if (isDark) {
-        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.85)');
-        rg.addColorStop(0.08, 'rgba(160, 80, 240, 0.7)');
-        rg.addColorStop(0.18, 'rgba(120, 60, 220, 0.5)');
-        rg.addColorStop(0.35, 'rgba(80, 50, 200, 0.25)');
-        rg.addColorStop(0.55, 'rgba(58, 77, 234, 0.10)');
+        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.9)');
+        rg.addColorStop(0.25, 'rgba(120, 60, 220, 0.5)');
+        rg.addColorStop(0.50, 'rgba(80, 50, 200, 0.2)');
+        rg.addColorStop(0.75, 'rgba(58, 77, 234, 0.06)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg.addColorStop(0.00, 'rgba(160, 100, 240, 0.75)');
-        rg.addColorStop(0.06, 'rgba(170, 110, 245, 0.6)');
-        rg.addColorStop(0.15, 'rgba(150, 90, 230, 0.45)');
-        rg.addColorStop(0.30, 'rgba(130, 80, 220, 0.28)');
-        rg.addColorStop(0.50, 'rgba(110, 70, 210, 0.12)');
-        rg.addColorStop(0.75, 'rgba(200, 190, 240, 0.04)');
+        rg.addColorStop(0.00, 'rgba(160, 100, 240, 0.8)');
+        rg.addColorStop(0.20, 'rgba(150, 90, 230, 0.45)');
+        rg.addColorStop(0.45, 'rgba(130, 80, 220, 0.18)');
+        rg.addColorStop(0.70, 'rgba(110, 70, 210, 0.05)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg;
       ctx.fillRect(0, 0, w, h);
 
-      // Secondary warm golden core — sun hotspot at the horizon
-      const rg2 = ctx.createRadialGradient(w / 2, h * 1.05, 0, w / 2, h * 0.8, Math.min(w, h) * 0.45);
+      // Small golden sun core
+      const rg2 = ctx.createRadialGradient(w / 2, h + 5, 0, w / 2, h * 0.95, Math.min(w, h) * 0.2);
       if (isDark) {
-        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.25)');
-        rg2.addColorStop(0.20, 'rgba(255, 190, 100, 0.12)');
-        rg2.addColorStop(0.50, 'rgba(255, 160, 80, 0.04)');
+        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.3)');
+        rg2.addColorStop(0.35, 'rgba(255, 190, 100, 0.1)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg2.addColorStop(0.00, 'rgba(255, 210, 120, 0.4)');
-        rg2.addColorStop(0.15, 'rgba(255, 195, 110, 0.25)');
-        rg2.addColorStop(0.40, 'rgba(255, 180, 100, 0.10)');
+        rg2.addColorStop(0.00, 'rgba(255, 210, 120, 0.45)');
+        rg2.addColorStop(0.30, 'rgba(255, 195, 110, 0.15)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg2;
