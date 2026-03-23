@@ -64,12 +64,12 @@ export function CTASection({
         {/* Service cards — liquid glass */}
         <div className="grid sm:grid-cols-3 gap-4 mb-10">
           {services.map((s) => (
-            <div key={s.label} className="liquid-glass rounded-xl p-7 flex flex-col gap-3">
-              <p className="text-foreground font-semibold text-sm relative z-10">{s.label}</p>
-              <p className="text-muted-foreground text-sm leading-relaxed flex-1 relative z-10">{s.description}</p>
+            <div key={s.label} className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-7 flex flex-col gap-3 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 transition-all duration-200">
+              <p className="text-foreground font-semibold text-sm">{s.label}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed flex-1">{s.description}</p>
               <Link
                 to={s.link}
-                className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline mt-auto relative z-10"
+                className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline mt-auto"
               >
                 {s.linkLabel} <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
               </Link>
