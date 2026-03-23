@@ -135,9 +135,13 @@ export function ReviewsSection() {
                     : "hover:bg-card/60 border border-transparent"
                 }`}
               >
-                <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0`}>
-                  {r.initials}
-                </div>
+                {r.photo ? (
+                  <img src={r.photo} alt={r.name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
+                ) : (
+                  <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0`}>
+                    {r.initials}
+                  </div>
+                )}
                 <div className="min-w-0">
                   <p className={`text-[13px] font-semibold truncate ${i === active ? "text-foreground" : "text-muted-foreground"}`}>
                     {r.name}
