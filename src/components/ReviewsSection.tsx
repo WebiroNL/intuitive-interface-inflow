@@ -107,9 +107,13 @@ export function ReviewsSection() {
                   "{review.text}"
                 </p>
                 <div className="mt-auto flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                    {review.initials}
-                  </div>
+                  {review.photo ? (
+                    <img src={review.photo} alt={review.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
+                      {review.initials}
+                    </div>
+                  )}
                   <div>
                     <p className="text-[14px] font-semibold text-foreground">{review.name}</p>
                     <p className="text-[12px] text-muted-foreground">{review.role}</p>
