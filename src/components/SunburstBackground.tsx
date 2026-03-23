@@ -116,33 +116,40 @@ export function SunburstBackground() {
       });
 
       // Radial glow ON TOP of spokes — creates soft sunrise haze like Stripe
-      const sunRadius = Math.min(w, h) * 0.45;
-      const rg = ctx.createRadialGradient(w / 2, h + 10, 0, w / 2, h * 0.85, sunRadius);
+      const sunRadius = Math.min(w, h) * 0.5;
+      const rg = ctx.createRadialGradient(w / 2, h + 10, 0, w / 2, h * 0.8, sunRadius);
       if (isDark) {
-        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.75)');
-        rg.addColorStop(0.20, 'rgba(120, 60, 220, 0.45)');
-        rg.addColorStop(0.45, 'rgba(80, 50, 200, 0.2)');
-        rg.addColorStop(0.70, 'rgba(58, 77, 234, 0.06)');
+        // Core: bright Webiro yellow → purple → blue fade
+        rg.addColorStop(0.00, 'rgba(255, 215, 92, 0.95)');
+        rg.addColorStop(0.08, 'rgba(255, 190, 100, 0.7)');
+        rg.addColorStop(0.18, 'rgba(200, 120, 200, 0.5)');
+        rg.addColorStop(0.30, 'rgba(138, 79, 232, 0.45)');
+        rg.addColorStop(0.50, 'rgba(80, 50, 200, 0.2)');
+        rg.addColorStop(0.75, 'rgba(58, 77, 234, 0.06)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg.addColorStop(0.00, 'rgba(160, 100, 240, 0.7)');
-        rg.addColorStop(0.18, 'rgba(150, 90, 230, 0.4)');
-        rg.addColorStop(0.40, 'rgba(130, 80, 220, 0.15)');
-        rg.addColorStop(0.65, 'rgba(110, 70, 210, 0.04)');
+        rg.addColorStop(0.00, 'rgba(255, 215, 92, 0.9)');
+        rg.addColorStop(0.08, 'rgba(255, 195, 110, 0.65)');
+        rg.addColorStop(0.18, 'rgba(200, 130, 220, 0.45)');
+        rg.addColorStop(0.30, 'rgba(160, 100, 240, 0.35)');
+        rg.addColorStop(0.50, 'rgba(130, 80, 220, 0.15)');
+        rg.addColorStop(0.70, 'rgba(110, 70, 210, 0.04)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg;
       ctx.fillRect(0, 0, w, h);
 
-      // Small golden sun core on top
-      const rg2 = ctx.createRadialGradient(w / 2, h + 5, 0, w / 2, h * 0.95, Math.min(w, h) * 0.18);
+      // Hot white-yellow sun core
+      const rg2 = ctx.createRadialGradient(w / 2, h + 5, 0, w / 2, h * 0.95, Math.min(w, h) * 0.12);
       if (isDark) {
-        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.25)');
-        rg2.addColorStop(0.40, 'rgba(255, 190, 100, 0.08)');
+        rg2.addColorStop(0.00, 'rgba(255, 235, 160, 0.9)');
+        rg2.addColorStop(0.30, 'rgba(255, 215, 92, 0.5)');
+        rg2.addColorStop(0.60, 'rgba(255, 190, 100, 0.15)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg2.addColorStop(0.00, 'rgba(255, 210, 120, 0.35)');
-        rg2.addColorStop(0.35, 'rgba(255, 195, 110, 0.1)');
+        rg2.addColorStop(0.00, 'rgba(255, 240, 180, 0.95)');
+        rg2.addColorStop(0.25, 'rgba(255, 215, 92, 0.55)');
+        rg2.addColorStop(0.55, 'rgba(255, 195, 110, 0.15)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg2;
