@@ -373,7 +373,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Van eerste gesprek tot meetbaar resultaat , helder opgesplitst in twee trajecten.
+                Van eerste gesprek tot meetbaar resultaat, helder opgesplitst in twee trajecten.
               </p>
             </div>
             <Link
