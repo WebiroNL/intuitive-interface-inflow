@@ -239,7 +239,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right , Particle Engine Visual */}
+            {/* Right - Particle Engine Visual */}
             <div className="hidden lg:flex items-center justify-center">
               <div className="w-full max-w-[520px]" style={{ animation: 'heroFloat 6s ease-in-out infinite' }}>
                 <AnimatedDashboard />
