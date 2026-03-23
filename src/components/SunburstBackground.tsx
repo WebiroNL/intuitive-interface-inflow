@@ -115,38 +115,38 @@ export function SunburstBackground() {
         ctx.fill();
       });
 
-      // Broad atmospheric purple haze over spokes (Stripe-style)
-      const sunRadius = Math.max(w, h) * 0.75;
-      const rg = ctx.createRadialGradient(w / 2, h * 1.15, 0, w / 2, h * 0.4, sunRadius);
+      // Stripe-like large atmospheric haze
+      const sunRadius = Math.max(w, h) * 0.98;
+      const rg = ctx.createRadialGradient(w / 2, h * 1.14, 0, w / 2, h * 0.44, sunRadius);
       if (isDark) {
-        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.55)');
-        rg.addColorStop(0.15, 'rgba(150, 90, 235, 0.4)');
-        rg.addColorStop(0.30, 'rgba(120, 70, 220, 0.28)');
-        rg.addColorStop(0.50, 'rgba(80, 60, 210, 0.14)');
-        rg.addColorStop(0.70, 'rgba(58, 77, 234, 0.05)');
+        rg.addColorStop(0.00, 'rgba(92, 102, 238, 0.28)');
+        rg.addColorStop(0.16, 'rgba(126, 98, 238, 0.26)');
+        rg.addColorStop(0.34, 'rgba(146, 96, 236, 0.22)');
+        rg.addColorStop(0.58, 'rgba(174, 138, 244, 0.14)');
+        rg.addColorStop(0.80, 'rgba(196, 170, 248, 0.08)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg.addColorStop(0.00, 'rgba(180, 140, 245, 0.6)');
-        rg.addColorStop(0.12, 'rgba(170, 120, 240, 0.45)');
-        rg.addColorStop(0.28, 'rgba(155, 100, 235, 0.3)');
-        rg.addColorStop(0.45, 'rgba(140, 90, 225, 0.16)');
-        rg.addColorStop(0.65, 'rgba(120, 80, 215, 0.06)');
+        rg.addColorStop(0.00, 'rgba(86, 100, 238, 0.26)');
+        rg.addColorStop(0.15, 'rgba(128, 104, 240, 0.24)');
+        rg.addColorStop(0.33, 'rgba(150, 104, 238, 0.21)');
+        rg.addColorStop(0.56, 'rgba(179, 146, 245, 0.14)');
+        rg.addColorStop(0.79, 'rgba(204, 180, 249, 0.08)');
         rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg;
       ctx.fillRect(0, 0, w, h);
 
-      // Subtle warm tint at the very center/bottom
-      const rg2 = ctx.createRadialGradient(w / 2, h * 1.1, 0, w / 2, h * 0.7, Math.min(w, h) * 0.35);
+      // Blue source bloom near bottom center
+      const rg2 = ctx.createRadialGradient(w / 2, h + 8, 0, w / 2, h * 0.9, Math.min(w, h) * 0.44);
       if (isDark) {
-        rg2.addColorStop(0.00, 'rgba(160, 100, 240, 0.3)');
-        rg2.addColorStop(0.30, 'rgba(138, 79, 232, 0.15)');
-        rg2.addColorStop(0.60, 'rgba(100, 70, 220, 0.05)');
+        rg2.addColorStop(0.00, 'rgba(58, 77, 234, 0.34)');
+        rg2.addColorStop(0.28, 'rgba(84, 96, 238, 0.20)');
+        rg2.addColorStop(0.58, 'rgba(126, 112, 242, 0.09)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       } else {
-        rg2.addColorStop(0.00, 'rgba(190, 150, 250, 0.35)');
-        rg2.addColorStop(0.25, 'rgba(170, 120, 240, 0.2)');
-        rg2.addColorStop(0.55, 'rgba(150, 100, 230, 0.06)');
+        rg2.addColorStop(0.00, 'rgba(58, 77, 234, 0.30)');
+        rg2.addColorStop(0.26, 'rgba(86, 100, 240, 0.18)');
+        rg2.addColorStop(0.56, 'rgba(132, 120, 244, 0.09)');
         rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
       }
       ctx.fillStyle = rg2;
