@@ -75,7 +75,77 @@ export function SunburstBackground() {
       const originY = h + 10;
       const t = tRef.current;
 
-      // Draw spokes FIRST (behind the glow)
+      const drawEllipseGradient = (
+        cx: number,
+        cy: number,
+        rx: number,
+        ry: number,
+        stops: Array<[number, string]>
+      ) => {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.scale(rx, ry);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+        stops.forEach(([offset, color]) => g.addColorStop(offset, color));
+        ctx.fillStyle = g;
+        ctx.fillRect(-1.35, -1.35, 2.7, 2.7);
+        ctx.restore();
+      };
+
+      // Reference radial blur (from provided HTML) — behind spokes
+      ctx.save();
+      ctx.filter = isDark ? 'blur(18px)' : 'blur(22px)';
+
+      if (isDark) {
+        drawEllipseGradient(w * 0.5, h * 1.05, w * 0.3, h * 0.4, [
+          [0, 'rgba(59, 72, 212, 0.85)'],
+          [1, 'rgba(59, 72, 212, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.5, h, w * 0.8, h * 0.75, [
+          [0, 'rgba(124, 58, 237, 0.7)'],
+          [0.6, 'rgba(124, 58, 237, 0)'],
+          [1, 'rgba(124, 58, 237, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.15, h, w * 0.6, h * 0.55, [
+          [0, 'rgba(192, 38, 211, 0.65)'],
+          [0.65, 'rgba(192, 38, 211, 0)'],
+          [1, 'rgba(192, 38, 211, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.85, h, w * 0.6, h * 0.55, [
+          [0, 'rgba(192, 38, 211, 0.65)'],
+          [0.65, 'rgba(192, 38, 211, 0)'],
+          [1, 'rgba(192, 38, 211, 0)'],
+        ]);
+      } else {
+        drawEllipseGradient(w * 0.5, h * 1.05, w * 0.3, h * 0.4, [
+          [0, 'rgba(59, 72, 212, 1)'],
+          [1, 'rgba(59, 72, 212, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.5, h, w * 0.8, h * 0.75, [
+          [0, 'rgba(124, 58, 237, 1)'],
+          [0.6, 'rgba(124, 58, 237, 0)'],
+          [1, 'rgba(124, 58, 237, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.15, h, w * 0.6, h * 0.55, [
+          [0, 'rgba(192, 38, 211, 0.8)'],
+          [0.65, 'rgba(192, 38, 211, 0)'],
+          [1, 'rgba(192, 38, 211, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.85, h, w * 0.6, h * 0.55, [
+          [0, 'rgba(192, 38, 211, 0.8)'],
+          [0.65, 'rgba(192, 38, 211, 0)'],
+          [1, 'rgba(192, 38, 211, 0)'],
+        ]);
+        drawEllipseGradient(w * 0.5, h, w * 1.4, h, [
+          [0, 'rgba(221, 214, 254, 0.75)'],
+          [0.55, 'rgba(245, 243, 255, 0.35)'],
+          [1, 'rgba(250, 249, 255, 0)'],
+        ]);
+      }
+
+      ctx.restore();
+
+      // Spokes on top of radial haze
       spokesRef.current.forEach(s => {
         const breath = Math.sin(t * s.breathSpeed + s.breathPhase);
         const breathLen = s.len * (1 + breath * s.breathAmp);
@@ -104,53 +174,16 @@ export function SunburstBackground() {
         ctx.beginPath();
         ctx.moveTo(originX, originY);
         ctx.lineTo(ex, ey);
-        ctx.strokeStyle = `rgba(${r},${g},${b},${(s.opacity * 0.35).toFixed(2)})`;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${(s.opacity * 0.34).toFixed(2)})`;
         ctx.lineWidth = lw;
         ctx.stroke();
 
         // Dots
         ctx.beginPath();
         ctx.arc(ex, ey, s.dotR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(58,77,234,${(s.opacity * 0.8).toFixed(2)})`;
+        ctx.fillStyle = `rgba(58,77,234,${(s.opacity * 0.82).toFixed(2)})`;
         ctx.fill();
       });
-
-      // Stripe-like large atmospheric haze
-      const sunRadius = Math.max(w, h) * 0.98;
-      const rg = ctx.createRadialGradient(w / 2, h * 1.14, 0, w / 2, h * 0.44, sunRadius);
-      if (isDark) {
-        rg.addColorStop(0.00, 'rgba(92, 102, 238, 0.28)');
-        rg.addColorStop(0.16, 'rgba(126, 98, 238, 0.26)');
-        rg.addColorStop(0.34, 'rgba(146, 96, 236, 0.22)');
-        rg.addColorStop(0.58, 'rgba(174, 138, 244, 0.14)');
-        rg.addColorStop(0.80, 'rgba(196, 170, 248, 0.08)');
-        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      } else {
-        rg.addColorStop(0.00, 'rgba(86, 100, 238, 0.26)');
-        rg.addColorStop(0.15, 'rgba(128, 104, 240, 0.24)');
-        rg.addColorStop(0.33, 'rgba(150, 104, 238, 0.21)');
-        rg.addColorStop(0.56, 'rgba(179, 146, 245, 0.14)');
-        rg.addColorStop(0.79, 'rgba(204, 180, 249, 0.08)');
-        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      }
-      ctx.fillStyle = rg;
-      ctx.fillRect(0, 0, w, h);
-
-      // Blue source bloom near bottom center
-      const rg2 = ctx.createRadialGradient(w / 2, h + 8, 0, w / 2, h * 0.9, Math.min(w, h) * 0.44);
-      if (isDark) {
-        rg2.addColorStop(0.00, 'rgba(58, 77, 234, 0.34)');
-        rg2.addColorStop(0.28, 'rgba(84, 96, 238, 0.20)');
-        rg2.addColorStop(0.58, 'rgba(126, 112, 242, 0.09)');
-        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      } else {
-        rg2.addColorStop(0.00, 'rgba(58, 77, 234, 0.30)');
-        rg2.addColorStop(0.26, 'rgba(86, 100, 240, 0.18)');
-        rg2.addColorStop(0.56, 'rgba(132, 120, 244, 0.09)');
-        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      }
-      ctx.fillStyle = rg2;
-      ctx.fillRect(0, 0, w, h);
 
       tRef.current++;
       animRef.current = requestAnimationFrame(draw);
