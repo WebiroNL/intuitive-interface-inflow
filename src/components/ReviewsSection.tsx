@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { StarIcon, ArrowRight01Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 
 const reviews = [
   { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600" },
