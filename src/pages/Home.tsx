@@ -390,19 +390,14 @@ const Home = () => {
             const steps = isWebsite ? websiteSteps : adsSteps;
             const activeIdx = isWebsite ? activeWebsiteStep : activeAdsStep;
             const setActiveIdx = isWebsite ? setActiveWebsiteStep : setActiveAdsStep;
-            const active = steps[activeIdx];
-            const accentColor = isWebsite ? "primary" : "accent";
 
             return (
               <>
-                {/* Traject tabs */}
                 <div className="flex gap-2 mb-8">
                   <button
                     onClick={() => setActiveTraject("website")}
                     className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
-                      isWebsite
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-muted text-muted-foreground hover:text-foreground"
+                      isWebsite ? "bg-primary text-primary-foreground shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     Website traject
@@ -410,18 +405,14 @@ const Home = () => {
                   <button
                     onClick={() => setActiveTraject("ads")}
                     className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
-                      !isWebsite
-                        ? "bg-accent text-accent-foreground shadow-sm"
-                        : "bg-muted text-muted-foreground hover:text-foreground"
+                      !isWebsite ? "bg-accent text-accent-foreground shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     Advertentie traject
                   </button>
                 </div>
 
-                {/* Content */}
                 <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-center">
-                  {/* Visual */}
                   <div className="flex justify-center">
                     {isWebsite ? (
                       <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
@@ -430,62 +421,54 @@ const Home = () => {
                     )}
                   </div>
 
-                  {/* Steps */}
-                  <div>
-                    <div className="space-y-3">
-                      {steps.map((step, index) => {
-                        const isActive = activeIdx === index;
-                        return (
-                          <button
-                            key={step.id}
-                            onClick={() => setActiveIdx(index)}
-                            className={`w-full text-left rounded-xl border p-4 transition-all duration-300 ${
-                              isActive
-                                ? `border-${accentColor}/25 bg-${accentColor}/5 shadow-sm`
-                                : "border-border bg-card hover:bg-muted/40"
-                            }`}
-                          >
-                            <div className="flex items-start gap-3.5">
-                              <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
-                                isActive ? `bg-${accentColor}/15` : "bg-muted"
-                              }`}>
-                                <HugeiconsIcon
-                                  icon={step.icon}
-                                  className={`w-4.5 h-4.5 transition-colors ${isActive ? `text-${accentColor}` : "text-muted-foreground"}`}
-                                />
-                              </div>
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
-                                    Stap {step.number}
-                                  </span>
-                                </div>
-                                <p className={`text-[15px] font-semibold mb-1 transition-colors ${isActive ? "text-foreground" : "text-foreground/80"}`}>
-                                  {step.title}
-                                </p>
-                                {isActive && (
-                                  <p className="text-[13px] text-muted-foreground leading-relaxed mt-1.5">
-                                    {step.desc}
-                                  </p>
-                                )}
-                                {isActive && (
+                  <div className="space-y-3">
+                    {steps.map((step, index) => {
+                      const isActive = activeIdx === index;
+                      const colorClasses = isWebsite
+                        ? { border: "border-primary/25", bg: "bg-primary/5", iconBg: "bg-primary/15", iconText: "text-primary", chipBg: "bg-primary/10", chipText: "text-primary" }
+                        : { border: "border-accent/25", bg: "bg-accent/5", iconBg: "bg-accent/15", iconText: "text-accent", chipBg: "bg-accent/10", chipText: "text-accent" };
+
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => setActiveIdx(index)}
+                          className={`w-full text-left rounded-xl border p-4 transition-all duration-300 ${
+                            isActive ? `${colorClasses.border} ${colorClasses.bg} shadow-sm` : "border-border bg-card hover:bg-muted/40"
+                          }`}
+                        >
+                          <div className="flex items-start gap-3.5">
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isActive ? colorClasses.iconBg : "bg-muted"
+                            }`}>
+                              <HugeiconsIcon
+                                icon={step.icon}
+                                className={`w-[18px] h-[18px] transition-colors ${isActive ? colorClasses.iconText : "text-muted-foreground"}`}
+                              />
+                            </div>
+                            <div className="min-w-0">
+                              <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                                Stap {step.number}
+                              </span>
+                              <p className={`text-[15px] font-semibold mt-0.5 transition-colors ${isActive ? "text-foreground" : "text-foreground/80"}`}>
+                                {step.title}
+                              </p>
+                              {isActive && (
+                                <>
+                                  <p className="text-[13px] text-muted-foreground leading-relaxed mt-1.5">{step.desc}</p>
                                   <div className="flex flex-wrap gap-1.5 mt-3">
                                     {step.focus.map((item) => (
-                                      <span
-                                        key={item}
-                                        className={`rounded-md bg-${accentColor}/10 px-2.5 py-1 text-[11px] font-medium text-${accentColor}`}
-                                      >
+                                      <span key={item} className={`rounded-md ${colorClasses.chipBg} px-2.5 py-1 text-[11px] font-medium ${colorClasses.chipText}`}>
                                         {item}
                                       </span>
                                     ))}
                                   </div>
-                                )}
-                              </div>
+                                </>
+                              )}
                             </div>
-                          </button>
-                        );
-                      })}
-                    </div>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </>
