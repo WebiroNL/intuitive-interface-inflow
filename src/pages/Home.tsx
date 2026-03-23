@@ -487,7 +487,7 @@ const Home = () => {
               Jouw digitale groeipartner
             </h2>
             <p className="text-muted-foreground text-base leading-relaxed">
-              Van strategie tot uitvoering , wij combineren design, techniek en marketing tot één krachtig geheel.
+              Wij combineren design, techniek en marketing tot één krachtig geheel.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
