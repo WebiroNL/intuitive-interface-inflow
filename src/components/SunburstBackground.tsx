@@ -71,43 +71,11 @@ export function SunburstBackground() {
       ctx.fillStyle = isDark ? 'hsl(270, 6%, 7%)' : 'hsl(0, 0%, 97%)';
       ctx.fillRect(0, 0, w, h);
 
-      // Compact sunrise glow — tight radial from bottom center
-      const sunRadius = Math.min(w, h) * 0.4;
-      const rg = ctx.createRadialGradient(w / 2, h + 10, 0, w / 2, h * 0.9, sunRadius);
-      if (isDark) {
-        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.9)');
-        rg.addColorStop(0.25, 'rgba(120, 60, 220, 0.5)');
-        rg.addColorStop(0.50, 'rgba(80, 50, 200, 0.2)');
-        rg.addColorStop(0.75, 'rgba(58, 77, 234, 0.06)');
-        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      } else {
-        rg.addColorStop(0.00, 'rgba(160, 100, 240, 0.8)');
-        rg.addColorStop(0.20, 'rgba(150, 90, 230, 0.45)');
-        rg.addColorStop(0.45, 'rgba(130, 80, 220, 0.18)');
-        rg.addColorStop(0.70, 'rgba(110, 70, 210, 0.05)');
-        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      }
-      ctx.fillStyle = rg;
-      ctx.fillRect(0, 0, w, h);
-
-      // Small golden sun core
-      const rg2 = ctx.createRadialGradient(w / 2, h + 5, 0, w / 2, h * 0.95, Math.min(w, h) * 0.2);
-      if (isDark) {
-        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.3)');
-        rg2.addColorStop(0.35, 'rgba(255, 190, 100, 0.1)');
-        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      } else {
-        rg2.addColorStop(0.00, 'rgba(255, 210, 120, 0.45)');
-        rg2.addColorStop(0.30, 'rgba(255, 195, 110, 0.15)');
-        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
-      }
-      ctx.fillStyle = rg2;
-      ctx.fillRect(0, 0, w, h);
-
       const originX = w / 2;
       const originY = h + 10;
       const t = tRef.current;
 
+      // Draw spokes FIRST (behind the glow)
       spokesRef.current.forEach(s => {
         const breath = Math.sin(t * s.breathSpeed + s.breathPhase);
         const breathLen = s.len * (1 + breath * s.breathAmp);
@@ -126,9 +94,7 @@ export function SunburstBackground() {
           ey += Math.sin(ang) * force;
         }
 
-        // Aurora/hero colors: blue → purple gradient (same as hero banner)
         const frac = Math.min(s.len / (Math.min(w, h) * 0.85), 1);
-        // #3A4DEA (58,77,234) → #8A4FE8 (138,79,232) → #FFD75C (255,215,92)
         const r = Math.round(58 + frac * 80);
         const g = Math.round(77 + frac * 2);
         const b = Math.round(234 - frac * 2);
@@ -142,15 +108,45 @@ export function SunburstBackground() {
         ctx.lineWidth = lw;
         ctx.stroke();
 
-        // Dots: Webiro blue (#3A4DEA) at tips
-        const dotR = 58;
-        const dotG = 77;
-        const dotB = 234;
+        // Dots
         ctx.beginPath();
         ctx.arc(ex, ey, s.dotR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${Math.min(dotR, 255)},${Math.min(dotG, 255)},${Math.max(dotB, 0)},${(s.opacity * 0.8).toFixed(2)})`;
+        ctx.fillStyle = `rgba(58,77,234,${(s.opacity * 0.8).toFixed(2)})`;
         ctx.fill();
       });
+
+      // Radial glow ON TOP of spokes — creates soft sunrise haze like Stripe
+      const sunRadius = Math.min(w, h) * 0.45;
+      const rg = ctx.createRadialGradient(w / 2, h + 10, 0, w / 2, h * 0.85, sunRadius);
+      if (isDark) {
+        rg.addColorStop(0.00, 'rgba(138, 79, 232, 0.75)');
+        rg.addColorStop(0.20, 'rgba(120, 60, 220, 0.45)');
+        rg.addColorStop(0.45, 'rgba(80, 50, 200, 0.2)');
+        rg.addColorStop(0.70, 'rgba(58, 77, 234, 0.06)');
+        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      } else {
+        rg.addColorStop(0.00, 'rgba(160, 100, 240, 0.7)');
+        rg.addColorStop(0.18, 'rgba(150, 90, 230, 0.4)');
+        rg.addColorStop(0.40, 'rgba(130, 80, 220, 0.15)');
+        rg.addColorStop(0.65, 'rgba(110, 70, 210, 0.04)');
+        rg.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      }
+      ctx.fillStyle = rg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Small golden sun core on top
+      const rg2 = ctx.createRadialGradient(w / 2, h + 5, 0, w / 2, h * 0.95, Math.min(w, h) * 0.18);
+      if (isDark) {
+        rg2.addColorStop(0.00, 'rgba(255, 215, 92, 0.25)');
+        rg2.addColorStop(0.40, 'rgba(255, 190, 100, 0.08)');
+        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      } else {
+        rg2.addColorStop(0.00, 'rgba(255, 210, 120, 0.35)');
+        rg2.addColorStop(0.35, 'rgba(255, 195, 110, 0.1)');
+        rg2.addColorStop(1.00, 'rgba(0, 0, 0, 0)');
+      }
+      ctx.fillStyle = rg2;
+      ctx.fillRect(0, 0, w, h);
 
       tRef.current++;
       animRef.current = requestAnimationFrame(draw);
