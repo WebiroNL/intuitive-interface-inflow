@@ -139,7 +139,7 @@ const adsSteps = [
 ];
 
 const whyItems = [
-  { icon: FlashIcon, title: "Alles onder één dak", desc: "Website, advertenties, SEO en automatisering — één team dat alles voor je regelt." },
+  { icon: FlashIcon, title: "Alles onder één dak", desc: "Website, advertenties, SEO en automatisering. Één team dat alles voor je regelt." },
   { icon: ChartIncreaseIcon, title: "Resultaatgericht", desc: "Elke euro die je investeert moet renderen. Wij sturen op conversies, leads en groei." },
   { icon: PaintBrushIcon, title: "Volledig op maat", desc: "Geen templates. Jouw website en campagnes worden specifiek voor jouw merk gebouwd." },
   { icon: HeadsetIcon, title: "Persoonlijk contact", desc: "Één vast aanspreekpunt. Snelle antwoorden, geen tussenlagen of account managers." },
@@ -207,7 +207,7 @@ const Home = () => {
         />
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
           <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
-            {/* Left — Text */}
+            {/* Left - Text */}
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
                 Websites · Marketing · Automation
@@ -239,7 +239,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right — Particle Engine Visual */}
+            {/* Right - Particle Engine Visual */}
             <div className="hidden lg:flex items-center justify-center">
               <div className="w-full max-w-[520px]" style={{ animation: 'heroFloat 6s ease-in-out infinite' }}>
                 <AnimatedDashboard />
@@ -373,7 +373,7 @@ const Home = () => {
                 Hoe het werkt
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Van eerste gesprek tot meetbaar resultaat — helder opgesplitst in twee trajecten.
+                Van eerste gesprek tot meetbaar resultaat, helder opgesplitst in twee trajecten.
               </p>
             </div>
             <Link
@@ -487,7 +487,7 @@ const Home = () => {
               Jouw digitale groeipartner
             </h2>
             <p className="text-muted-foreground text-base leading-relaxed">
-              Van strategie tot uitvoering — wij combineren design, techniek en marketing tot één krachtig geheel.
+              Wij combineren design, techniek en marketing tot één krachtig geheel.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
