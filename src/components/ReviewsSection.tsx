@@ -4,6 +4,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { StarIcon, ArrowRight01Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import verandaXlPhoto from "@/assets/reviews/veranda-xl.jpg";
 import hofstedePhoto from "@/assets/reviews/hofstede-automotive.png";
+import prokickPhoto from "@/assets/reviews/prokick-academie.png";
 
 const reviews = [
   { name: "Greg Vermeer", role: "Local Guide", text: "Perfecte website gemaakt, ik kan niet geloven dat ze gewoon een heel bestel systeem gemaakt hebben volledig custom. Ze hebben werkelijk voldaan aan al onze wensen!", initials: "GV", color: "from-emerald-500 to-teal-600" },
