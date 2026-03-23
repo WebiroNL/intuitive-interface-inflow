@@ -207,7 +207,7 @@ const Home = () => {
         />
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-40" style={{ zIndex: 2 }}>
           <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
-            {/* Left , Text */}
+            {/* Left - Text */}
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
                 Websites · Marketing · Automation
