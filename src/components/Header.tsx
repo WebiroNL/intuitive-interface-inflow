@@ -16,6 +16,70 @@ const navLinks = [
   { label: "Shop",        href: "/shop",         dropdown: false },
 ];
 
+function DienstenDropdown({ isActive }: { isActive: boolean }) {
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setOpen(true);
+  };
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => setOpen(false), 150);
+  };
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <Link
+        to="/pakketten"
+        className={`inline-flex items-center gap-[3px] px-[13px] py-2 text-[14px] font-medium rounded-[5px] transition-colors whitespace-nowrap ${
+          isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+        }`}
+      >
+        Diensten
+        <HugeiconsIcon icon={ArrowDown01Icon} size={13} className={`mt-[1px] opacity-55 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </Link>
+
+      {open && (
+        <div className="absolute top-full left-0 pt-2 z-50">
+          <div className="w-[320px] bg-popover border border-border rounded-lg shadow-lg p-2">
+            <Link
+              to="/pakketten"
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
+            >
+              <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary">
+                <HugeiconsIcon icon={Globe02Icon} size={18} />
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold text-foreground">Websites & Apps</p>
+                <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
+                  Custom design, ontwikkeling & CMS op maat
+                </p>
+              </div>
+            </Link>
+            <Link
+              to="/pakketten"
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
+            >
+              <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary">
+                <HugeiconsIcon icon={MegaphoneIcon} size={18} />
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold text-foreground">Marketing & Ads</p>
+                <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
+                  Google Ads, Meta Ads & advertentiebeheer
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Header() {
   const [isOpen, setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
