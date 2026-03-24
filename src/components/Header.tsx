@@ -52,22 +52,29 @@ export function Header() {
 
           {/* Nav links — desktop */}
           <nav className="hidden lg:flex items-center flex-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label + link.href}
-                to={link.href}
-                className={`inline-flex items-center gap-[3px] px-[13px] py-2 text-[14px] font-medium rounded-[5px] transition-colors whitespace-nowrap ${
-                  isActive(link.href)
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {link.label}
-                {link.dropdown && (
-                  <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="mt-[1px] opacity-55" />
-                )}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (link.label === 'Diensten') {
+                return (
+                  <DienstenDropdown key={link.label} isActive={isActive(link.href)} />
+                );
+              }
+              return (
+                <Link
+                  key={link.label + link.href}
+                  to={link.href}
+                  className={`inline-flex items-center gap-[3px] px-[13px] py-2 text-[14px] font-medium rounded-[5px] transition-colors whitespace-nowrap ${
+                    isActive(link.href)
+                      ? 'text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {link.label}
+                  {link.dropdown && (
+                    <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="mt-[1px] opacity-55" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right actions — desktop */}
