@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon } from '@hugeicons/core-free-icons';
+import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon, Globe02Icon, MegaphoneIcon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
