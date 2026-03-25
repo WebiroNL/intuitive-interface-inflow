@@ -44,7 +44,7 @@ function DienstenDropdown({ isActive }: { isActive: boolean }) {
         <div className="absolute top-full left-0 pt-2 z-50">
           <div className="w-[320px] bg-popover border border-border rounded-lg shadow-lg p-2">
             <Link
-              to="/pakketten"
+              to="/pakketten?flow=website"
               onClick={() => setOpen(false)}
               className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
             >
@@ -59,7 +59,7 @@ function DienstenDropdown({ isActive }: { isActive: boolean }) {
               </div>
             </Link>
             <Link
-              to="/pakketten"
+              to="/pakketten?flow=marketing"
               onClick={() => setOpen(false)}
               className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
             >

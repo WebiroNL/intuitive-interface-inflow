@@ -59,6 +59,16 @@ const Pakketten = () => {
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
+  // Auto-select flow from query param (e.g. ?flow=website or ?flow=marketing)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const flow = params.get('flow') as FlowType | null;
+    if (flow === 'website' || flow === 'marketing') {
+      setFlowType(flow);
+      setStep(1);
+    }
+  }, []);
+
   useEffect(() => {
     updatePageMeta(
       "Pakketten - Website & Marketing vanaf €449",
