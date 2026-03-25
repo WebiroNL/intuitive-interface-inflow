@@ -122,6 +122,21 @@ export function Header() {
                   <DienstenDropdown key={link.label} isActive={isActive(link.href)} />
                 );
               }
+              if (link.highlight) {
+                return (
+                  <Link
+                    key={link.label + link.href}
+                    to={link.href}
+                    className="inline-flex items-center gap-[5px] px-[13px] py-[6px] text-[13px] font-semibold rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15 transition-colors whitespace-nowrap"
+                  >
+                    <span className="relative flex h-[6px] w-[6px]">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+                      <span className="relative inline-flex rounded-full h-[6px] w-[6px] bg-primary"></span>
+                    </span>
+                    {link.label}
+                  </Link>
+                );
+              }
               return (
                 <Link
                   key={link.label + link.href}
