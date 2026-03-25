@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
   { label: "Diensten",    href: "/pakketten",    dropdown: true },
   { label: "Proces",      href: "/proces",       dropdown: false },
-  { label: "Moodboard",   href: "/moodboard",    dropdown: false },
+  { label: "Webiro AI",   href: "/moodboard",    dropdown: false, highlight: true },
   { label: "Blog",        href: "/blog",         dropdown: false },
   { label: "Shop",        href: "/shop",         dropdown: false },
 ];
