@@ -327,6 +327,13 @@ export function Header() {
           </div>
         </div>
       )}
+      <style>{`
+        @keyframes webiroWDraw {
+          0% { stroke-dashoffset: 1800; opacity: 0.4; }
+          50% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: -1800; opacity: 0.4; }
+        }
+      `}</style>
     </header>
   );
 }
