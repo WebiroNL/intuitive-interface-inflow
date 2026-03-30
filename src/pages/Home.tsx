@@ -228,10 +228,10 @@ const Home = () => {
                   Bekijk pakketten <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
                 </Link>
                 <Link
-                  to="/intake"
+                  to="/oplossingen"
                   className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
                 >
-                  Plan een gesprek
+                  Oplossingen
                 </Link>
               </div>
             </div>
