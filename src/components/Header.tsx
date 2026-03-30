@@ -316,10 +316,12 @@ export function Header() {
         </div>
       )}
       <style>{`
-        @keyframes webiroWDraw {
-          0% { stroke-dashoffset: 1800; opacity: 0.4; }
-          50% { stroke-dashoffset: 0; opacity: 1; }
-          100% { stroke-dashoffset: -1800; opacity: 0.4; }
+        .webiro-w-pulse {
+          animation: webiroWPulse 2s ease-in-out infinite;
+        }
+        @keyframes webiroWPulse {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.12); }
         }
       `}</style>
     </header>
