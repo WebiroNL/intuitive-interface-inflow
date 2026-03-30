@@ -11,10 +11,80 @@ const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
   { label: "Diensten",    href: "/pakketten",    dropdown: true },
   { label: "Proces",      href: "/proces",       dropdown: false },
-  { label: "Webiro AI",   href: "/moodboard",    dropdown: false, highlight: true },
   { label: "Blog",        href: "/blog",         dropdown: false },
   { label: "Shop",        href: "/shop",         dropdown: false },
 ];
+
+function OplossingenDropdown({ isActive }: { isActive: boolean }) {
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setOpen(true);
+  };
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => setOpen(false), 150);
+  };
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <Link
+        to="/oplossingen"
+        className={`inline-flex items-center gap-[3px] px-[13px] py-2 text-[14px] font-medium rounded-[5px] transition-colors whitespace-nowrap ${
+          isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+        }`}
+      >
+        Oplossingen
+        <HugeiconsIcon icon={ArrowDown01Icon} size={13} className={`mt-[1px] opacity-55 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </Link>
+
+      {open && (
+        <div className="absolute top-full left-0 pt-2 z-50">
+          <div className="w-[300px] bg-popover border border-border rounded-lg shadow-lg p-2">
+            <Link
+              to="/moodboard"
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
+            >
+              <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary relative">
+                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.24 4.77A4 4 0 0 1 15.76 4.77"/><path d="M18 9a3 3 0 0 1 0 6"/><path d="M6 9a3 3 0 0 0 0 6"/><path d="M12 18a4 4 0 0 0 4-4"/><path d="M12 18a4 4 0 0 1-4-4"/><path d="M12 18v4"/></svg>
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold text-foreground flex items-center gap-1.5">
+                  Webiro AI
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-1.5 py-0.5 rounded-full leading-none">Nieuw</span>
+                </p>
+                <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
+                  Genereer je moodboard & stijlgids met AI
+                </p>
+              </div>
+            </Link>
+            <Link
+              to="/oplossingen"
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
+            >
+              <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary">
+                <HugeiconsIcon icon={Globe02Icon} size={18} />
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold text-foreground">Alle oplossingen</p>
+                <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
+                  Bekijk ons volledige aanbod
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function DienstenDropdown({ isActive }: { isActive: boolean }) {
   const [open, setOpen] = useState(false);
@@ -117,24 +187,14 @@ export function Header() {
           {/* Nav links — desktop */}
           <nav className="hidden lg:flex items-center flex-1">
             {navLinks.map((link) => {
+              if (link.label === 'Oplossingen') {
+                return (
+                  <OplossingenDropdown key={link.label} isActive={isActive(link.href)} />
+                );
+              }
               if (link.label === 'Diensten') {
                 return (
                   <DienstenDropdown key={link.label} isActive={isActive(link.href)} />
-                );
-              }
-              if (link.highlight) {
-                return (
-                  <Link
-                    key={link.label + link.href}
-                    to={link.href}
-                    className="inline-flex items-center gap-[5px] px-[13px] py-[6px] text-[13px] font-semibold rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15 transition-colors whitespace-nowrap"
-                  >
-                    <span className="relative flex h-[6px] w-[6px]">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
-                      <span className="relative inline-flex rounded-full h-[6px] w-[6px] bg-primary"></span>
-                    </span>
-                    {link.label}
-                  </Link>
                 );
               }
               return (
