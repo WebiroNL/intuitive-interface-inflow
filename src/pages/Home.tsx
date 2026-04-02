@@ -549,9 +549,9 @@ const Home = () => {
               </a>
             ))}
           </div>
-          {/* Row 2: 2 cards */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {showcase.slice(3, 5).map(({ title, cat, url, services, desc }) => (
+          {/* Row 2: 3 cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {showcase.slice(3, 6).map(({ title, cat, url, services, desc }) => (
               <a
                 key={title}
                 href={url}
