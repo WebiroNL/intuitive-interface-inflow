@@ -475,3 +475,12 @@
   filter: grayscale(0%);
   opacity: 1;
 }
+
+@keyframes showcaseScroll {
+  0% {
+    transform: scale(var(--iframe-scale)) translateY(0);
+  }
+  100% {
+    transform: scale(var(--iframe-scale)) translateY(-2600px);
+  }
+}
