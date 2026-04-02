@@ -11,6 +11,7 @@ import { AnimatedDashboard } from "@/components/AnimatedDashboard";
 import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { LazyIframe } from "@/components/LazyIframe";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
