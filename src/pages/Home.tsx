@@ -540,9 +540,18 @@ const Home = () => {
                       allroundtrainingcenter.nl
                     </div>
                   </div>
-                  {/* Iframe scaled to desktop width */}
+                  {/* Iframe scaled to desktop width, auto-scrolling */}
                   <div className="w-full overflow-hidden" style={{ height: 'calc(100% - 36px)' }}>
-                    <div style={{ width: '1440px', height: '900px', transform: 'scale(var(--iframe-scale))', transformOrigin: 'top left', '--iframe-scale': '0.45' } as React.CSSProperties} className="[--iframe-scale:0.45] lg:[--iframe-scale:0.5]">
+                    <div
+                      className="[--iframe-scale:0.45] lg:[--iframe-scale:0.5] animate-[showcaseScroll_20s_ease-in-out_infinite_alternate]"
+                      style={{
+                        width: '1440px',
+                        height: '4000px',
+                        transform: 'scale(var(--iframe-scale))',
+                        transformOrigin: 'top left',
+                        '--iframe-scale': '0.45',
+                      } as React.CSSProperties}
+                    >
                       <LazyIframe
                         src="https://www.allroundtrainingcenter.nl/"
                         title="Allround Training Center"
