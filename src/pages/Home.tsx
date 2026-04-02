@@ -540,13 +540,15 @@ const Home = () => {
                       allroundtrainingcenter.nl
                     </div>
                   </div>
-                  {/* Iframe */}
-                  <div className="w-full" style={{ height: 'calc(100% - 36px)' }}>
-                    <LazyIframe
-                      src="https://www.allroundtrainingcenter.nl/"
-                      title="Allround Training Center"
-                      className="w-full h-full"
-                    />
+                  {/* Iframe scaled to desktop width */}
+                  <div className="w-full overflow-hidden" style={{ height: 'calc(100% - 36px)' }}>
+                    <div style={{ width: '1440px', height: '900px', transform: 'scale(var(--iframe-scale))', transformOrigin: 'top left', '--iframe-scale': '0.45' } as React.CSSProperties} className="[--iframe-scale:0.45] lg:[--iframe-scale:0.5]">
+                      <LazyIframe
+                        src="https://www.allroundtrainingcenter.nl/"
+                        title="Allround Training Center"
+                        className="w-full h-full"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
