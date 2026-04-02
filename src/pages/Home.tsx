@@ -166,6 +166,7 @@ const tools = [
 ];
 
 const showcase = [
+  { title: "Allround Training Center", cat: "Sport & Fitness", url: "https://www.allroundtrainingcenter.nl", services: ["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"], desc: "Geheel custom gebouwde website met eigen backend, op maat gemaakt design, AI livechat-integratie en full SEO-pakket. Daarnaast verzorgen we de volledige Google Ads strategie." },
   { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren." },
   { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor." },
   { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio." },
