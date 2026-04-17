@@ -214,7 +214,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       )}
 
       {/* 02 — KPI grid */}
-      <section className="mb-20">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
         <SectionHeader
           eyebrow="Kerncijfers"
           title="Alle KPI's in één oogopslag"
