@@ -144,6 +144,59 @@ export type Database = {
           },
         ]
       }
+      client_services: {
+        Row: {
+          category: string | null
+          client_id: string
+          created_at: string
+          id: string
+          monthly_price: number | null
+          note: string | null
+          one_time_price: number | null
+          quantity: number | null
+          service_id: string | null
+          service_name: string
+          service_type: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          client_id: string
+          created_at?: string
+          id?: string
+          monthly_price?: number | null
+          note?: string | null
+          one_time_price?: number | null
+          quantity?: number | null
+          service_id?: string | null
+          service_name: string
+          service_type: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          client_id?: string
+          created_at?: string
+          id?: string
+          monthly_price?: number | null
+          note?: string | null
+          one_time_price?: number | null
+          quantity?: number | null
+          service_id?: string | null
+          service_name?: string
+          service_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_services_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           active: boolean
@@ -152,6 +205,7 @@ export type Database = {
           contact_person: string | null
           contract_duration: string | null
           created_at: string
+          deposit_percentage: number | null
           discount_months: number | null
           discount_percentage: number | null
           email: string
@@ -171,6 +225,7 @@ export type Database = {
           contact_person?: string | null
           contract_duration?: string | null
           created_at?: string
+          deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
           email: string
@@ -190,6 +245,7 @@ export type Database = {
           contact_person?: string | null
           contract_duration?: string | null
           created_at?: string
+          deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
           email?: string
