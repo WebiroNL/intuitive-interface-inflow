@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          id: string
+          occurred_at: string
+          title: string
+          type: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          occurred_at?: string
+          title: string
+          type?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          occurred_at?: string
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author: string
@@ -65,6 +103,180 @@ export type Database = {
         }
         Relationships: []
       }
+      client_files: {
+        Row: {
+          category: string
+          client_id: string
+          created_at: string
+          file_size: number | null
+          file_url: string
+          id: string
+          mime_type: string | null
+          name: string
+        }
+        Insert: {
+          category?: string
+          client_id: string
+          created_at?: string
+          file_size?: number | null
+          file_url: string
+          id?: string
+          mime_type?: string | null
+          name: string
+        }
+        Update: {
+          category?: string
+          client_id?: string
+          created_at?: string
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          mime_type?: string | null
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_files_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          active: boolean
+          company_name: string
+          contact_person: string | null
+          contract_duration: string | null
+          created_at: string
+          email: string
+          id: string
+          logo_url: string | null
+          monthly_fee: number | null
+          phone: string | null
+          slug: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          company_name: string
+          contact_person?: string | null
+          contract_duration?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          logo_url?: string | null
+          monthly_fee?: number | null
+          phone?: string | null
+          slug: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          company_name?: string
+          contact_person?: string | null
+          contract_duration?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          logo_url?: string | null
+          monthly_fee?: number | null
+          phone?: string | null
+          slug?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      contracts: {
+        Row: {
+          client_id: string
+          created_at: string
+          end_date: string | null
+          file_url: string | null
+          id: string
+          start_date: string | null
+          title: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          end_date?: string | null
+          file_url?: string | null
+          id?: string
+          start_date?: string | null
+          title: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          end_date?: string | null
+          file_url?: string | null
+          id?: string
+          start_date?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount: number
+          client_id: string
+          created_at: string
+          description: string | null
+          due_date: string | null
+          file_url: string | null
+          id: string
+          invoice_date: string
+          invoice_number: string
+          status: string
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          file_url?: string | null
+          id?: string
+          invoice_date?: string
+          invoice_number: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          file_url?: string | null
+          id?: string
+          invoice_date?: string
+          invoice_number?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           bedrijfsnaam: string | null
@@ -109,6 +321,101 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      monthly_data: {
+        Row: {
+          client_id: string
+          cpa: number | null
+          created_at: string
+          google_clicks: number | null
+          google_conversions: number | null
+          google_cpc: number | null
+          google_ctr: number | null
+          google_spend: number | null
+          id: string
+          insights: string | null
+          meta_clicks: number | null
+          meta_conversions: number | null
+          meta_cpc: number | null
+          meta_ctr: number | null
+          meta_spend: number | null
+          month: number
+          roas: number | null
+          tiktok_clicks: number | null
+          tiktok_conversions: number | null
+          tiktok_cpc: number | null
+          tiktok_ctr: number | null
+          tiktok_spend: number | null
+          total_leads: number | null
+          updated_at: string
+          webiro_fee: number | null
+          year: number
+        }
+        Insert: {
+          client_id: string
+          cpa?: number | null
+          created_at?: string
+          google_clicks?: number | null
+          google_conversions?: number | null
+          google_cpc?: number | null
+          google_ctr?: number | null
+          google_spend?: number | null
+          id?: string
+          insights?: string | null
+          meta_clicks?: number | null
+          meta_conversions?: number | null
+          meta_cpc?: number | null
+          meta_ctr?: number | null
+          meta_spend?: number | null
+          month: number
+          roas?: number | null
+          tiktok_clicks?: number | null
+          tiktok_conversions?: number | null
+          tiktok_cpc?: number | null
+          tiktok_ctr?: number | null
+          tiktok_spend?: number | null
+          total_leads?: number | null
+          updated_at?: string
+          webiro_fee?: number | null
+          year: number
+        }
+        Update: {
+          client_id?: string
+          cpa?: number | null
+          created_at?: string
+          google_clicks?: number | null
+          google_conversions?: number | null
+          google_cpc?: number | null
+          google_ctr?: number | null
+          google_spend?: number | null
+          id?: string
+          insights?: string | null
+          meta_clicks?: number | null
+          meta_conversions?: number | null
+          meta_cpc?: number | null
+          meta_ctr?: number | null
+          meta_spend?: number | null
+          month?: number
+          roas?: number | null
+          tiktok_clicks?: number | null
+          tiktok_conversions?: number | null
+          tiktok_cpc?: number | null
+          tiktok_ctr?: number | null
+          tiktok_spend?: number | null
+          total_leads?: number | null
+          updated_at?: string
+          webiro_fee?: number | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "monthly_data_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       moodboard_results: {
         Row: {
@@ -278,6 +585,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_my_client_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
