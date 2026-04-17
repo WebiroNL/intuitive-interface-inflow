@@ -204,85 +204,115 @@ export function ContractView({ client, editable }: Props) {
           {editable ? "Klik op 'Diensten toevoegen' om uit het Webiro pakkettenoverzicht te kiezen." : "Nog geen diensten gekoppeld aan dit account."}
         </div>
       ) : (
-        <div className="space-y-5">
-          {Object.entries(grouped).map(([cat, items]) => (
-            <div key={cat} className="border border-border rounded-2xl bg-card overflow-hidden">
-              <div className="px-5 py-3 border-b border-border bg-muted/30">
-                <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">{cat}</p>
+        <div className="space-y-6">
+          {Object.entries(grouped).map(([cat, items]) => {
+            const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
+            const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
+            return (
+              <div key={cat} className="border border-border rounded-2xl bg-card overflow-hidden">
+                <div className="px-6 py-4 border-b border-border flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Categorie</p>
+                    <h3 className="text-base font-semibold text-foreground">{cat}</h3>
+                  </div>
+                  <div className="text-right">
+                    {catOneTime > 0 && (
+                      <p className="text-[12px] text-muted-foreground tabular-nums">
+                        Eenmalig <span className="font-semibold text-foreground ml-1">{fmtEUR(catOneTime, 2)}</span>
+                      </p>
+                    )}
+                    {catMonthly > 0 && (
+                      <p className="text-[12px] text-muted-foreground tabular-nums">
+                        Per maand <span className="font-semibold text-foreground ml-1">{fmtEUR(catMonthly, 2)}</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {editable ? (
+                  <table className="w-full text-sm">
+                    <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-muted/20">
+                      <tr>
+                        <th className="text-left px-6 py-2 font-medium">Dienst</th>
+                        <th className="text-right px-3 py-2 font-medium w-[120px]">Eenmalig</th>
+                        <th className="text-right px-3 py-2 font-medium w-[120px]">Per maand</th>
+                        <th className="text-center px-3 py-2 font-medium w-[80px]">Aantal</th>
+                        <th className="w-[44px]"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {items.map((l) => (
+                        <tr key={l.id}>
+                          <td className="px-6 py-2.5">
+                            {l.service_type === "custom" ? (
+                              <Input value={l.service_name} onChange={(e) => updateLine(l.id, { service_name: e.target.value })} className="h-8" />
+                            ) : (
+                              <span className="text-foreground">{l.service_name}</span>
+                            )}
+                          </td>
+                          <td className="px-3 py-2.5 text-right">
+                            <Input type="number" step="0.01" value={l.one_time_price}
+                              onChange={(e) => updateLine(l.id, { one_time_price: Number(e.target.value) })}
+                              className="h-8 text-right tabular-nums" />
+                          </td>
+                          <td className="px-3 py-2.5 text-right">
+                            <Input type="number" step="0.01" value={l.monthly_price}
+                              onChange={(e) => updateLine(l.id, { monthly_price: Number(e.target.value) })}
+                              className="h-8 text-right tabular-nums" />
+                          </td>
+                          <td className="px-3 py-2.5 text-center">
+                            <Input type="number" value={l.quantity}
+                              onChange={(e) => updateLine(l.id, { quantity: Number(e.target.value) })}
+                              className="h-8 text-center w-[60px] mx-auto" />
+                          </td>
+                          <td className="px-2 text-right">
+                            <Button variant="ghost" size="sm" onClick={() => deleteLine(l.id)}>
+                              <HugeiconsIcon icon={Delete02Icon} size={14} />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <ul className="divide-y divide-border">
+                    {items.map((l) => {
+                      const oneTime = Number(l.one_time_price) * Number(l.quantity);
+                      const monthly = Number(l.monthly_price) * Number(l.quantity);
+                      const qty = Number(l.quantity);
+                      return (
+                        <li key={l.id} className="px-6 py-4 flex items-center justify-between gap-6">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[14px] font-medium text-foreground">{l.service_name}</p>
+                            {qty > 1 && (
+                              <p className="text-[12px] text-muted-foreground mt-0.5">{qty}× besteld</p>
+                            )}
+                          </div>
+                          <div className="text-right shrink-0 space-y-0.5">
+                            {oneTime > 0 && (
+                              <p className="text-[14px] tabular-nums text-foreground font-medium">
+                                {fmtEUR(oneTime, 2)}
+                                <span className="text-[11px] text-muted-foreground ml-1.5 font-normal">eenmalig</span>
+                              </p>
+                            )}
+                            {monthly > 0 && (
+                              <p className="text-[14px] tabular-nums text-foreground font-medium">
+                                {fmtEUR(monthly, 2)}
+                                <span className="text-[11px] text-muted-foreground ml-1.5 font-normal">per maand</span>
+                              </p>
+                            )}
+                            {oneTime === 0 && monthly === 0 && (
+                              <p className="text-[12px] text-muted-foreground italic">Inbegrepen</p>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
               </div>
-              <table className="w-full text-sm">
-                <thead className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-5 py-2 font-medium">Dienst</th>
-                    <th className="text-right px-3 py-2 font-medium w-[110px]">Eenmalig</th>
-                    <th className="text-right px-3 py-2 font-medium w-[110px]">Per maand</th>
-                    <th className="text-center px-3 py-2 font-medium w-[70px]">Aantal</th>
-                    {editable && <th className="w-[40px]"></th>}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {items.map((l) => (
-                    <tr key={l.id}>
-                      <td className="px-5 py-2.5">
-                        {editable && l.service_type === "custom" ? (
-                          <Input
-                            value={l.service_name}
-                            onChange={(e) => updateLine(l.id, { service_name: e.target.value })}
-                            className="h-8"
-                          />
-                        ) : (
-                          <span className="text-foreground">{l.service_name}</span>
-                        )}
-                      </td>
-                      <td className="px-3 py-2.5 text-right">
-                        {editable ? (
-                          <Input
-                            type="number" step="0.01"
-                            value={l.one_time_price}
-                            onChange={(e) => updateLine(l.id, { one_time_price: Number(e.target.value) })}
-                            className="h-8 text-right tabular-nums"
-                          />
-                        ) : (
-                          <span className="tabular-nums text-foreground">{l.one_time_price > 0 ? fmtEUR(Number(l.one_time_price), 2) : "—"}</span>
-                        )}
-                      </td>
-                      <td className="px-3 py-2.5 text-right">
-                        {editable ? (
-                          <Input
-                            type="number" step="0.01"
-                            value={l.monthly_price}
-                            onChange={(e) => updateLine(l.id, { monthly_price: Number(e.target.value) })}
-                            className="h-8 text-right tabular-nums"
-                          />
-                        ) : (
-                          <span className="tabular-nums text-foreground">{l.monthly_price > 0 ? fmtEUR(Number(l.monthly_price), 2) : "—"}</span>
-                        )}
-                      </td>
-                      <td className="px-3 py-2.5 text-center">
-                        {editable ? (
-                          <Input
-                            type="number"
-                            value={l.quantity}
-                            onChange={(e) => updateLine(l.id, { quantity: Number(e.target.value) })}
-                            className="h-8 text-center w-[60px] mx-auto"
-                          />
-                        ) : (
-                          <span className="tabular-nums text-foreground">{l.quantity}</span>
-                        )}
-                      </td>
-                      {editable && (
-                        <td className="px-2 text-right">
-                          <Button variant="ghost" size="sm" onClick={() => deleteLine(l.id)}>
-                            <HugeiconsIcon icon={Delete02Icon} size={14} />
-                          </Button>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
