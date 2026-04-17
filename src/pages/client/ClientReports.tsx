@@ -284,7 +284,45 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
         </section>
       )}
 
-      {/* 04 — Kostenoverzicht */}
+      {/* 04a — Bereik & impressies (AI uitleg) */}
+      {(reach > 0 || impressions > 0) && current.ai_reach_text && (
+        <section className="mb-20">
+          <SectionHeader eyebrow="04 — Bereik" title="Bereik & impressies" />
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart
+                  data={[
+                    { name: "Impressies", value: impressions },
+                    { name: "Bereik", value: reach },
+                  ]}
+                  margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
+                >
+                  <defs>
+                    <linearGradient id="barReach" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={CHART.primary} />
+                      <stop offset="100%" stopColor={CHART.accent} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} vertical={false} />
+                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={12} />
+                  <YAxis stroke={CHART.muted} fontSize={12} />
+                  <Tooltip
+                    contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
+                    formatter={(v: number) => v.toLocaleString("nl-NL")}
+                    cursor={{ fill: "hsl(240, 5%, 96%)" }}
+                  />
+                  <Bar dataKey="value" fill="url(#barReach)" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
+              <h3 className="text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{current.ai_reach_text}</p>
+            </div>
+          </div>
+        </section>
+      )}
       <section className="mb-20">
         <SectionHeader eyebrow="04 — Efficiency" title="Kostenoverzicht" />
         <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -356,17 +394,52 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
               <h3 className="text-2xl font-semibold mb-3 text-foreground">
                 {lpvSavingsPct > 0 ? "Bovengemiddeld efficiënt" : "Markt vergelijking"}
               </h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Vergelijkbare adverteerders betalen gemiddeld <span className="text-foreground font-semibold">{fmtEUR(benchLpv, 2)}</span> per landing page view.
-                Jouw campagne realiseerde <span className="text-foreground font-semibold">{fmtEUR(costPerLpv, 2)}</span>
-                {lpvSavingsPct > 0 ? `, een besparing van ${lpvSavingsPct.toFixed(0)}%.` : "."}
-              </p>
-              {benchCtr > 0 && (
-                <p className="text-sm leading-relaxed text-muted-foreground mt-3">
-                  Klikratio: <span className="text-foreground font-semibold">{ctr.toFixed(2)}%</span> (markt gemiddelde {benchCtr.toFixed(2)}%).
-                </p>
+              {current.ai_benchmark_text ? (
+                <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{current.ai_benchmark_text}</p>
+              ) : (
+                <>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Vergelijkbare adverteerders betalen gemiddeld <span className="text-foreground font-semibold">{fmtEUR(benchLpv, 2)}</span> per landing page view.
+                    Jouw campagne realiseerde <span className="text-foreground font-semibold">{fmtEUR(costPerLpv, 2)}</span>
+                    {lpvSavingsPct > 0 ? `, een besparing van ${lpvSavingsPct.toFixed(0)}%.` : "."}
+                  </p>
+                  {benchCtr > 0 && (
+                    <p className="text-sm leading-relaxed text-muted-foreground mt-3">
+                      Klikratio: <span className="text-foreground font-semibold">{ctr.toFixed(2)}%</span> (markt gemiddelde {benchCtr.toFixed(2)}%).
+                    </p>
+                  )}
+                </>
               )}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* 07 — In gewone taal */}
+      {current.ai_plain_language && current.ai_plain_language.length > 0 && (
+        <section className="mb-20">
+          <SectionHeader eyebrow="07 — Wat betekent dit?" title="In gewone taal" />
+          <div className="grid md:grid-cols-3 gap-4">
+            {current.ai_plain_language.map((item, i) => {
+              const icons = [ViewIcon, CursorPointer02Icon, RocketIcon];
+              const Icon = icons[i % icons.length];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
+                >
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+                    <HugeiconsIcon icon={Icon} size={20} className="text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
       )}

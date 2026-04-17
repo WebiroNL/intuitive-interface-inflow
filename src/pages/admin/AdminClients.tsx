@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon } from "@hugeicons/core-free-icons";
+import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 
@@ -402,21 +402,54 @@ function MonthsTab({ client }: { client: Client }) {
 
       {editing && (
         <Dialog open onOpenChange={(o)=>!o && setEditing(null)}>
-          <MonthEditDialog row={editing} onSaved={() => { setEditing(null); load(); }} />
+          <MonthEditDialog row={editing} client={client} onSaved={() => { setEditing(null); load(); }} />
         </Dialog>
       )}
     </div>
   );
 }
 
-function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
+function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; onSaved: () => void }) {
   const [form, setForm] = useState({
     ...row,
     summary_bullets: Array.isArray(row.summary_bullets) ? row.summary_bullets : [],
     recommendation_bullets: Array.isArray(row.recommendation_bullets) ? row.recommendation_bullets : [],
+    ai_plain_language: Array.isArray(row.ai_plain_language) ? row.ai_plain_language : [],
+    ai_reach_text: row.ai_reach_text ?? "",
+    ai_benchmark_text: row.ai_benchmark_text ?? "",
   });
   const [saving, setSaving] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const f = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.type === "number" ? Number(e.target.value) : e.target.value });
+
+  const generateAI = async () => {
+    setAiLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("report-ai", {
+        body: {
+          metrics: form,
+          company_name: client.company_name,
+          period: `${MONTH_NAMES[(form.month ?? 1) - 1]} ${form.year}`,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      const r = data.result;
+      setForm({
+        ...form,
+        summary_bullets: r.summary_bullets ?? [],
+        recommendation_bullets: r.recommendation_bullets ?? [],
+        ai_reach_text: r.reach_text ?? "",
+        ai_benchmark_text: r.benchmark_text ?? "",
+        ai_plain_language: r.plain_language ?? [],
+      });
+      toast.success("AI teksten gegenereerd");
+    } catch (e: any) {
+      toast.error(e.message ?? "AI fout");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
@@ -425,7 +458,10 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
       ...form,
       summary_bullets: (form.summary_bullets ?? []).filter((b: string) => b?.trim()),
       recommendation_bullets: (form.recommendation_bullets ?? []).filter((b: string) => b?.trim()),
+      ai_plain_language: (form.ai_plain_language ?? []).filter((p: any) => p?.title?.trim() || p?.text?.trim()),
     };
+    // Remove non-column fields that may have leaked from row
+    delete (payload as any).company_name;
     const q = row.id
       ? supabase.from("monthly_data").update(payload).eq("id", row.id)
       : supabase.from("monthly_data").insert(payload);
@@ -475,7 +511,21 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
 
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader><DialogTitle>Maanddata</DialogTitle></DialogHeader>
+      <DialogHeader>
+        <DialogTitle className="flex items-center justify-between gap-3 pr-6">
+          <span>Maanddata</span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={generateAI}
+            disabled={aiLoading}
+          >
+            <HugeiconsIcon icon={MagicWand01Icon} size={14} />
+            {aiLoading ? "AI bezig..." : "Genereer teksten met AI"}
+          </Button>
+        </DialogTitle>
+      </DialogHeader>
       <form onSubmit={save} className="space-y-5">
         <div className="grid grid-cols-3 gap-3">
           <div><Label className="text-[11px]">Jaar</Label><Input type="number" value={form.year} onChange={f("year")} className="h-8" /></div>
@@ -529,11 +579,62 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
           </div>
         </div>
 
-        <BulletList field="summary_bullets" label="Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
-        <BulletList field="recommendation_bullets" label="Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
+        <BulletList field="summary_bullets" label="01 — Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
 
         <div>
-          <Label className="text-[11px]">Inzichten / vrije notitie</Label>
+          <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+          <Textarea value={form.ai_reach_text ?? ""} onChange={f("ai_reach_text")} rows={4} placeholder="Wat betekent dit? Twee korte alinea's." />
+        </div>
+
+        <div>
+          <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+          <Textarea value={form.ai_benchmark_text ?? ""} onChange={f("ai_benchmark_text")} rows={4} placeholder="Vergelijking met de markt." />
+        </div>
+
+        <div>
+          <Label className="text-[11px] mb-1.5 block">07 — In gewone taal (3 blokken)</Label>
+          <div className="space-y-2">
+            {(form.ai_plain_language ?? []).map((item: any, i: number) => (
+              <div key={i} className="grid grid-cols-[1fr_2fr_auto] gap-2">
+                <Input
+                  value={item?.title ?? ""}
+                  placeholder="Titel"
+                  className="h-8"
+                  onChange={(e) => {
+                    const next = [...(form.ai_plain_language ?? [])];
+                    next[i] = { ...next[i], title: e.target.value };
+                    setForm({ ...form, ai_plain_language: next });
+                  }}
+                />
+                <Textarea
+                  value={item?.text ?? ""}
+                  placeholder="Korte uitleg in gewone taal"
+                  rows={2}
+                  className="text-sm"
+                  onChange={(e) => {
+                    const next = [...(form.ai_plain_language ?? [])];
+                    next[i] = { ...next[i], text: e.target.value };
+                    setForm({ ...form, ai_plain_language: next });
+                  }}
+                />
+                <Button type="button" variant="ghost" size="sm" onClick={() => {
+                  const next = (form.ai_plain_language ?? []).filter((_: any, idx: number) => idx !== i);
+                  setForm({ ...form, ai_plain_language: next });
+                }}>
+                  <HugeiconsIcon icon={Delete02Icon} size={14} />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" size="sm" onClick={() => setForm({ ...form, ai_plain_language: [...(form.ai_plain_language ?? []), { title: "", text: "" }] })}>
+              <HugeiconsIcon icon={Add01Icon} size={14} /> Blok toevoegen
+            </Button>
+          </div>
+        </div>
+
+        <BulletList field="recommendation_bullets" label="08 — Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
+
+        <div>
+          <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
           <Textarea value={form.insights ?? ""} onChange={f("insights")} rows={3} />
         </div>
 

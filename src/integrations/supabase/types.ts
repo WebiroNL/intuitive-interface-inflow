@@ -336,6 +336,9 @@ export type Database = {
       }
       monthly_data: {
         Row: {
+          ai_benchmark_text: string | null
+          ai_plain_language: Json | null
+          ai_reach_text: string | null
           benchmark_ctr: number | null
           benchmark_lpv_cost: number | null
           client_id: string
@@ -388,6 +391,9 @@ export type Database = {
           year: number
         }
         Insert: {
+          ai_benchmark_text?: string | null
+          ai_plain_language?: Json | null
+          ai_reach_text?: string | null
           benchmark_ctr?: number | null
           benchmark_lpv_cost?: number | null
           client_id: string
@@ -440,6 +446,9 @@ export type Database = {
           year: number
         }
         Update: {
+          ai_benchmark_text?: string | null
+          ai_plain_language?: Json | null
+          ai_reach_text?: string | null
           benchmark_ctr?: number | null
           benchmark_lpv_cost?: number | null
           client_id?: string
