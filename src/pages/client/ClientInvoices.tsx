@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { supabase } from "@/integrations/supabase/client";
 import { fmtEUR } from "@/hooks/useMonthlyData";
-import { Badge } from "@/components/ui/badge";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { File02Icon, Download01Icon } from "@hugeicons/core-free-icons";
+import { ContractView } from "@/components/contract/ContractView";
 
 interface Props { client: Client }
 
