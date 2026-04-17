@@ -29,8 +29,7 @@ export function ClientSidebar({ client }: Props) {
 
   const allItems = [
     { label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, show: true },
-    { label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, show: sections.hasMonthlyData },
-    { label: "Financieel", href: `${base}/finance`, icon: Money02Icon, show: sections.hasMonthlyData },
+    { label: "Campagnes & kosten", href: `${base}/campaigns`, icon: ChartBarLineIcon, show: sections.hasMonthlyData },
     { label: "Rapporten", href: `${base}/reports`, icon: File02Icon, show: sections.hasMonthlyData },
     { label: "Contract", href: `${base}/contract`, icon: File02Icon, show: sections.hasContracts || sections.hasServices },
     { label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, show: sections.hasInvoices },

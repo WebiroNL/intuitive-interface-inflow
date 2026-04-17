@@ -7,7 +7,7 @@ import { ClientTopBar } from "@/components/client/ClientTopBar";
 
 const ClientDashboard = lazy(() => import("./client/ClientDashboard"));
 const ClientCampaigns = lazy(() => import("./client/ClientCampaigns"));
-const ClientFinance = lazy(() => import("./client/ClientFinance"));
+
 const ClientReports = lazy(() => import("./client/ClientReports"));
 const ClientInvoices = lazy(() => import("./client/ClientInvoices"));
 const ClientContract = lazy(() => import("./client/ClientContract"));
@@ -59,7 +59,7 @@ export default function ClientPortal() {
             <Routes>
               <Route index element={<ClientDashboard client={client} />} />
               <Route path="campaigns" element={<ClientCampaigns client={client} />} />
-              <Route path="finance" element={<ClientFinance client={client} />} />
+              <Route path="finance" element={<Navigate to="/dashboard/campaigns" replace />} />
               <Route path="reports" element={<ClientReports client={client} />} />
               <Route path="contract" element={<ClientContract client={client} />} />
               <Route path="invoices" element={<ClientInvoices client={client} />} />
