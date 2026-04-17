@@ -63,24 +63,25 @@ function KpiCard({ kpi, index }: { kpi: Kpi; index: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: index * 0.04 }}
-      className={`group relative p-5 rounded-2xl border bg-card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ${
+      className={`group relative p-4 sm:p-5 rounded-2xl border bg-card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ${
         kpi.highlight ? "ring-1 ring-primary/20" : ""
       }`}
     >
       {kpi.highlight && (
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
       )}
-      <div className="relative flex items-center justify-between mb-4">
-        <div className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-accent transition-all duration-300">
-          <HugeiconsIcon icon={kpi.icon} size={18} className="text-primary group-hover:text-white transition-colors" />
+      <div className="relative flex items-center justify-between mb-3 sm:mb-4">
+        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-accent transition-all duration-300">
+          <HugeiconsIcon icon={kpi.icon} size={16} className="text-primary group-hover:text-white transition-colors sm:hidden" />
+          <HugeiconsIcon icon={kpi.icon} size={18} className="text-primary group-hover:text-white transition-colors hidden sm:block" />
         </div>
         <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
       </div>
-      <div className="relative text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-1 tabular-nums">
+      <div className="relative text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-1 tabular-nums break-words">
         {kpi.prefix}{display}{kpi.suffix}
       </div>
       <div className="relative text-xs font-medium text-foreground/80">{kpi.label}</div>
-      <div className="relative text-xs mt-1 text-muted-foreground">{kpi.sub}</div>
+      <div className="relative text-[11px] sm:text-xs mt-1 text-muted-foreground">{kpi.sub}</div>
     </motion.div>
   );
 }
