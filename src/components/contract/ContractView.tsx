@@ -81,18 +81,21 @@ interface Props {
 export function ContractView({ client, editable }: Props) {
   const [lines, setLines] = useState<ServiceLine[]>([]);
   const [invoices, setInvoices] = useState<{ amount: number; status: string }[]>([]);
+  const [contractStart, setContractStart] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [pickerOpen, setPickerOpen] = useState(false);
   const catalog = useMemo(() => buildCatalog(), []);
 
   const load = async () => {
     setLoading(true);
-    const [{ data: ls }, { data: invs }] = await Promise.all([
+    const [{ data: ls }, { data: invs }, { data: ctrs }] = await Promise.all([
       supabase.from("client_services").select("*").eq("client_id", client.id).order("service_type").order("service_name"),
       supabase.from("invoices").select("amount,status").eq("client_id", client.id),
+      supabase.from("contracts").select("start_date").eq("client_id", client.id).order("start_date", { ascending: true }).limit(1),
     ]);
     setLines((ls ?? []) as any);
     setInvoices((invs ?? []) as any);
+    setContractStart((ctrs?.[0]?.start_date as string | undefined) ?? null);
     setLoading(false);
   };
 
