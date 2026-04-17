@@ -17,6 +17,8 @@ interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
   email: string; phone: string | null; contact_person: string | null;
   contract_duration: string | null; monthly_fee: number; active: boolean;
+  kvk_number: string | null; btw_number: string | null;
+  discount_months: number | null; discount_percentage: number | null;
 }
 
 const slugify = (s: string) =>
