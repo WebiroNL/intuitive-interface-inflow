@@ -53,10 +53,19 @@ export function ClientTopBar({ client, onMenuClick }: Props) {
   };
 
   return (
-    <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center justify-between px-6">
-      <div>
-        <p className="text-[11px] uppercase tracking-wider text-muted-foreground leading-none">Klantportaal</p>
-        <h1 className="text-[15px] font-semibold text-foreground leading-tight">{title}</h1>
+    <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center justify-between px-4 sm:px-6 gap-3">
+      <div className="flex items-center gap-2 min-w-0">
+        <button
+          onClick={onMenuClick}
+          aria-label="Open menu"
+          className="lg:hidden w-9 h-9 -ml-1 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors flex-shrink-0"
+        >
+          <HugeiconsIcon icon={Menu01Icon} size={18} />
+        </button>
+        <div className="min-w-0">
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground leading-none">Klantportaal</p>
+          <h1 className="text-[15px] font-semibold text-foreground leading-tight truncate">{title}</h1>
+        </div>
       </div>
 
       <DropdownMenu>
