@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyClient } from "@/hooks/useClient";
 import { ClientSidebar } from "@/components/client/ClientSidebar";
+import { ClientTopBar } from "@/components/client/ClientTopBar";
 
 const ClientDashboard = lazy(() => import("./client/ClientDashboard"));
 const ClientCampaigns = lazy(() => import("./client/ClientCampaigns"));
@@ -51,20 +52,23 @@ export default function ClientPortal() {
   return (
     <div className="flex min-h-screen bg-background">
       <ClientSidebar client={client} />
-      <main className="flex-1 overflow-auto">
-        <Suspense fallback={<Fallback />}>
-          <Routes>
-            <Route index element={<ClientDashboard client={client} />} />
-            <Route path="campaigns" element={<ClientCampaigns client={client} />} />
-            <Route path="finance" element={<ClientFinance client={client} />} />
-            <Route path="reports" element={<ClientReports client={client} />} />
-            <Route path="contract" element={<ClientContract client={client} />} />
-            <Route path="invoices" element={<ClientInvoices client={client} />} />
-            <Route path="files" element={<ClientFiles client={client} />} />
-            <Route path="updates" element={<ClientUpdates client={client} />} />
-            <Route path="account" element={<ClientAccount client={client} />} />
-          </Routes>
-        </Suspense>
+      <main className="flex-1 overflow-auto flex flex-col">
+        <ClientTopBar client={client} />
+        <div className="flex-1">
+          <Suspense fallback={<Fallback />}>
+            <Routes>
+              <Route index element={<ClientDashboard client={client} />} />
+              <Route path="campaigns" element={<ClientCampaigns client={client} />} />
+              <Route path="finance" element={<ClientFinance client={client} />} />
+              <Route path="reports" element={<ClientReports client={client} />} />
+              <Route path="contract" element={<ClientContract client={client} />} />
+              <Route path="invoices" element={<ClientInvoices client={client} />} />
+              <Route path="files" element={<ClientFiles client={client} />} />
+              <Route path="updates" element={<ClientUpdates client={client} />} />
+              <Route path="account" element={<ClientAccount client={client} />} />
+            </Routes>
+          </Suspense>
+        </div>
       </main>
     </div>
   );
