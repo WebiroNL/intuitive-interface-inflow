@@ -13,22 +13,23 @@ import {
   Area,
   AreaChart,
 } from "recharts";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ChartLineData01Icon,
   Target02Icon,
-  UserGroupIcon,
-  EyeIcon,
+  UserGroup02Icon,
+  ViewIcon,
   CursorPointer02Icon,
   RocketIcon,
   CheckmarkCircle02Icon,
   ArrowRight02Icon,
-  Lock02Icon,
+  LockIcon,
   InstagramIcon,
   Coins01Icon,
   ChartBarLineIcon,
   Megaphone02Icon,
-  LightBulbIcon,
-} from "@hugeicons/react";
+  IdeaIcon,
+} from "@hugeicons/core-free-icons";
 
 const PASSWORD = "novelle2026!";
 const STORAGE_KEY = "novelle_rapport_auth";
