@@ -30,7 +30,7 @@ const TITLES: Record<string, string> = {
   account: "Account",
 };
 
-export function ClientTopBar({ client }: Props) {
+export function ClientTopBar({ client, onMenuClick }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
