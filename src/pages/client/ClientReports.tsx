@@ -284,7 +284,45 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
         </section>
       )}
 
-      {/* 04 — Kostenoverzicht */}
+      {/* 04a — Bereik & impressies (AI uitleg) */}
+      {(reach > 0 || impressions > 0) && current.ai_reach_text && (
+        <section className="mb-20">
+          <SectionHeader eyebrow="04 — Bereik" title="Bereik & impressies" />
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart
+                  data={[
+                    { name: "Impressies", value: impressions },
+                    { name: "Bereik", value: reach },
+                  ]}
+                  margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
+                >
+                  <defs>
+                    <linearGradient id="barReach" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={CHART.primary} />
+                      <stop offset="100%" stopColor={CHART.accent} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} vertical={false} />
+                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={12} />
+                  <YAxis stroke={CHART.muted} fontSize={12} />
+                  <Tooltip
+                    contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
+                    formatter={(v: number) => v.toLocaleString("nl-NL")}
+                    cursor={{ fill: "hsl(240, 5%, 96%)" }}
+                  />
+                  <Bar dataKey="value" fill="url(#barReach)" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
+              <h3 className="text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{current.ai_reach_text}</p>
+            </div>
+          </div>
+        </section>
+      )}
       <section className="mb-20">
         <SectionHeader eyebrow="04 — Efficiency" title="Kostenoverzicht" />
         <div className="grid md:grid-cols-3 gap-4 mb-6">
