@@ -48,8 +48,8 @@ const BRAND = {
 
 const KPIS = [
   { label: "Uitgegeven", value: "€154,31", sub: "Totaal mediabudget", icon: Coins01Icon },
-  { label: "Impressies", value: "34.411", sub: "Totale weergaven", icon: EyeIcon },
-  { label: "Bereik", value: "16.730", sub: "Unieke personen", icon: UserGroupIcon },
+  { label: "Impressies", value: "34.411", sub: "Totale weergaven", icon: ViewIcon },
+  { label: "Bereik", value: "16.730", sub: "Unieke personen", icon: UserGroup02Icon },
   { label: "Frequentie", value: "2,06", sub: "Vertoningen per persoon", icon: Target02Icon },
   { label: "Link clicks", value: "1.989", sub: "Klikken naar website", icon: CursorPointer02Icon },
   { label: "CTR (all)", value: "10,22%", sub: "Klikratio", icon: ChartLineData01Icon },
@@ -113,7 +113,7 @@ export default function NovelleRapport() {
         <form onSubmit={handleSubmit} className="relative w-full max-w-md p-8 rounded-2xl border" style={{ background: BRAND.card, borderColor: BRAND.border }}>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.purple})` }}>
-              <Lock02Icon size={20} color="white" />
+              <HugeiconsIcon icon={LockIcon} size={20} color="white" />
             </div>
             <div>
               <div className="text-xs uppercase tracking-wider" style={{ color: BRAND.muted }}>Beveiligd rapport</div>
@@ -136,7 +136,7 @@ export default function NovelleRapport() {
             className="mt-5 w-full py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
             style={{ background: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.purple})` }}
           >
-            Toegang krijgen <ArrowRight02Icon size={16} color="white" />
+            Toegang krijgen <HugeiconsIcon icon={ArrowRight02Icon} size={16} color="white" />
           </button>
           <p className="mt-6 text-xs text-center" style={{ color: BRAND.muted }}>
             Rapport opgesteld door <span className="text-white">Webiro</span>
@@ -202,7 +202,7 @@ export default function NovelleRapport() {
             ].map((bullet, i) => (
               <div key={i} className="flex gap-3 p-5 rounded-xl border" style={{ background: BRAND.card, borderColor: BRAND.border }}>
                 <div className="flex-shrink-0 mt-0.5">
-                  <CheckmarkCircle02Icon size={20} color={BRAND.blue} />
+                  <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} color={BRAND.blue} />
                 </div>
                 <p className="text-sm leading-relaxed text-white/85">{bullet}</p>
               </div>
@@ -217,7 +217,7 @@ export default function NovelleRapport() {
             {KPIS.map((kpi) => (
               <div key={kpi.label} className="p-5 rounded-xl border hover:border-white/20 transition-colors" style={{ background: BRAND.card, borderColor: BRAND.border }}>
                 <div className="flex items-center justify-between mb-4">
-                  <kpi.icon size={18} color={BRAND.muted} />
+                  <HugeiconsIcon icon={kpi.icon} size={18} color={BRAND.muted} />
                   <span className="w-1.5 h-1.5 rounded-full" style={{ background: BRAND.blue }} />
                 </div>
                 <div className="text-2xl md:text-3xl font-bold mb-1" style={{ color: BRAND.text }}>{kpi.value}</div>
@@ -352,7 +352,7 @@ export default function NovelleRapport() {
             </div>
             <div className="p-6 md:p-8 rounded-2xl border flex flex-col justify-center" style={{ background: `linear-gradient(135deg, ${BRAND.blue}15, ${BRAND.purple}15)`, borderColor: BRAND.blue + "40" }}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4 w-fit" style={{ background: BRAND.blue + "20", color: BRAND.blue }}>
-                <CheckmarkCircle02Icon size={14} color={BRAND.blue} /> 36% onder benchmark
+                <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} color={BRAND.blue} /> 36% onder benchmark
               </div>
               <h3 className="text-2xl font-semibold mb-3 text-white">Bovengemiddeld efficiënt</h3>
               <p className="text-sm leading-relaxed text-white/75">
@@ -368,7 +368,7 @@ export default function NovelleRapport() {
           <div className="grid md:grid-cols-3 gap-4">
             {[
               {
-                icon: EyeIcon,
+                icon: ViewIcon,
                 title: "Zichtbaarheid",
                 text: "Bijna 17.000 mensen in en rond Sneek hebben Novelle Events voorbij zien komen. Dat is fundament voor naamsbekendheid in de regio.",
               },
@@ -385,7 +385,7 @@ export default function NovelleRapport() {
             ].map((item) => (
               <div key={item.title} className="p-6 rounded-xl border" style={{ background: BRAND.card, borderColor: BRAND.border }}>
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.purple})` }}>
-                  <item.icon size={20} color="white" />
+                  <HugeiconsIcon icon={item.icon} size={20} color="white" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-white">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-white/70">{item.text}</p>
@@ -415,7 +415,7 @@ export default function NovelleRapport() {
                 text: "Test 3–5 nieuwe video-creatives (15s reels) met sfeerbeelden van de locatie. Video heeft op Meta gemiddeld 30% lagere CPC dan statische beelden.",
               },
               {
-                icon: LightBulbIcon,
+                icon: IdeaIcon,
                 title: "Lead-conversie verbeteren",
                 text: "Vervang het generieke contactformulier door een korte 'check beschikbaarheid'-flow met datumkiezer. Verwacht effect: kosten per lead van €51 → €15–25.",
               },
@@ -423,7 +423,7 @@ export default function NovelleRapport() {
               <div key={rec.title} className="p-6 rounded-xl border hover:border-white/20 transition-colors" style={{ background: BRAND.card, borderColor: BRAND.border }}>
                 <div className="flex gap-4">
                   <div className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.purple})` }}>
-                    <rec.icon size={20} color="white" />
+                    <HugeiconsIcon icon={rec.icon} size={20} color="white" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-1.5 text-white">{rec.title}</h3>
