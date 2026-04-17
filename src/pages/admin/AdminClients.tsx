@@ -19,6 +19,9 @@ interface Client {
   contract_duration: string | null; monthly_fee: number; active: boolean;
   kvk_number: string | null; btw_number: string | null;
   discount_months: number | null; discount_percentage: number | null;
+  deposit_percentage: number | null;
+  logo_url: string | null;
+  created_at: string; updated_at: string;
 }
 
 const slugify = (s: string) =>
