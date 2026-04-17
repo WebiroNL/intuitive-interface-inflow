@@ -57,14 +57,7 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     }
   }, [mobileOpen]);
 
-  // Lock body scroll when mobile drawer open
-  useEffect(() => {
-    if (mobileOpen) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = prev; };
-    }
-  }, [mobileOpen]);
+
 
   const sidebarInner = (
     <>
