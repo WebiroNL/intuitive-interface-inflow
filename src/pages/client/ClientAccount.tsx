@@ -61,72 +61,77 @@ export default function ClientAccount({ client }: Props) {
     Number(client.discount_percentage) > 0;
 
   return (
-    <div className="p-6 lg:p-8 max-w-[800px]">
+    <div className="p-6 lg:p-8 max-w-[1400px]">
       <div className="mb-8">
         <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Account</p>
-        <h1 className="text-2xl font-semibold text-foreground">Bedrijfsgegevens</h1>
-        <p className="text-sm text-muted-foreground mt-1">Werk je bedrijfsgegevens hier zelf bij.</p>
+        <h1 className="text-2xl font-semibold text-foreground">Account</h1>
+        <p className="text-sm text-muted-foreground mt-1">Beheer je bedrijfsgegevens en bekijk je contractgegevens.</p>
       </div>
 
-      <form onSubmit={handleSave} className="bg-card border border-border rounded-lg p-6 space-y-5">
-        <Field
-          label="Bedrijfsnaam"
-          value={form.company_name}
-          onChange={(v) => setForm({ ...form, company_name: v })}
-          required
-        />
-        <Field
-          label="Contactpersoon"
-          value={form.contact_person}
-          onChange={(v) => setForm({ ...form, contact_person: v })}
-        />
-        <Field
-          label="Telefoon"
-          value={form.phone}
-          onChange={(v) => setForm({ ...form, phone: v })}
-          type="tel"
-        />
-        <Field
-          label="KVK nummer"
-          value={form.kvk_number}
-          onChange={(v) => setForm({ ...form, kvk_number: v })}
-          placeholder="12345678"
-        />
-        <Field
-          label="BTW nummer"
-          value={form.btw_number}
-          onChange={(v) => setForm({ ...form, btw_number: v })}
-          placeholder="NL000000000B00"
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-sm font-semibold text-foreground mb-3">Bedrijfsgegevens</h2>
+          <form onSubmit={handleSave} className="bg-card border border-border rounded-lg p-6 space-y-5">
+            <Field
+              label="Bedrijfsnaam"
+              value={form.company_name}
+              onChange={(v) => setForm({ ...form, company_name: v })}
+              required
+            />
+            <Field
+              label="Contactpersoon"
+              value={form.contact_person}
+              onChange={(v) => setForm({ ...form, contact_person: v })}
+            />
+            <Field
+              label="Telefoon"
+              value={form.phone}
+              onChange={(v) => setForm({ ...form, phone: v })}
+              type="tel"
+            />
+            <Field
+              label="KVK nummer"
+              value={form.kvk_number}
+              onChange={(v) => setForm({ ...form, kvk_number: v })}
+              placeholder="12345678"
+            />
+            <Field
+              label="BTW nummer"
+              value={form.btw_number}
+              onChange={(v) => setForm({ ...form, btw_number: v })}
+              placeholder="NL000000000B00"
+            />
 
-        <div className="flex justify-end pt-2">
-          <Button type="submit" disabled={saving}>
-            {saving ? "Opslaan..." : "Opslaan"}
-          </Button>
+            <div className="flex justify-end pt-2">
+              <Button type="submit" disabled={saving}>
+                {saving ? "Opslaan..." : "Opslaan"}
+              </Button>
+            </div>
+          </form>
         </div>
-      </form>
 
-      <div className="mt-8">
-        <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
-        <div className="bg-card border border-border rounded-lg overflow-hidden">
-          <div className="divide-y divide-border">
-            <Row label="E-mail (login)" value={client.email} />
-            <Row label="Contractduur" value={client.contract_duration ?? "—"} />
-            <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
-            <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
-            {hasDiscount && (
-              <Row
-                label="Kortingsperiode"
-                value={`${client.discount_percentage}% korting voor ${client.discount_months} ${
-                  Number(client.discount_months) === 1 ? "maand" : "maanden"
-                }`}
-              />
-            )}
+        <div>
+          <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
+          <div className="bg-card border border-border rounded-lg overflow-hidden">
+            <div className="divide-y divide-border">
+              <Row label="E-mail (login)" value={client.email} />
+              <Row label="Contractduur" value={client.contract_duration ?? "—"} />
+              <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
+              <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
+              {hasDiscount && (
+                <Row
+                  label="Kortingsperiode"
+                  value={`${client.discount_percentage}% korting voor ${client.discount_months} ${
+                    Number(client.discount_months) === 1 ? "maand" : "maanden"
+                  }`}
+                />
+              )}
+            </div>
           </div>
+          <p className="text-[12px] text-muted-foreground mt-3">
+            Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
+          </p>
         </div>
-        <p className="text-[12px] text-muted-foreground mt-3">
-          Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
-        </p>
       </div>
     </div>
   );
