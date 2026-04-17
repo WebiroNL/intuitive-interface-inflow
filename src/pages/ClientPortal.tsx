@@ -1,5 +1,5 @@
-import { Suspense, lazy, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyClient } from "@/hooks/useClient";
 import { ClientSidebar } from "@/components/client/ClientSidebar";
@@ -26,7 +26,28 @@ function Fallback() {
 export default function ClientPortal() {
   const { user, isLoading: authLoading } = useAuth();
   const { client, loading } = useMyClient();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  // Open op desktop (>=1024px), dicht op tablet/mobiel
+  const [sidebarOpen, setSidebarOpen] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : true
+  );
+
+  // Sluit automatisch bij route-wijziging op tablet/mobiel
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
+  }, [location.pathname]);
+
+  // Reset bij resize tussen mobiel en desktop
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarOpen(window.innerWidth >= 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (authLoading || loading) {
     return (
@@ -52,9 +73,13 @@ export default function ClientPortal() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <ClientSidebar client={client} mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <ClientSidebar client={client} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="flex-1 min-w-0 overflow-auto flex flex-col">
-        <ClientTopBar client={client} onMenuClick={() => setMobileOpen(true)} />
+        <ClientTopBar
+          client={client}
+          isSidebarOpen={sidebarOpen}
+          onMenuClick={() => setSidebarOpen((v) => !v)}
+        />
         <div className="flex-1">
           <Suspense fallback={<Fallback />}>
             <Routes>
