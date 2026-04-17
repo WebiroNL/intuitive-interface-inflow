@@ -511,7 +511,21 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
 
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader><DialogTitle>Maanddata</DialogTitle></DialogHeader>
+      <DialogHeader>
+        <DialogTitle className="flex items-center justify-between gap-3 pr-6">
+          <span>Maanddata</span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={generateAI}
+            disabled={aiLoading}
+          >
+            <HugeiconsIcon icon={MagicWand01Icon} size={14} />
+            {aiLoading ? "AI bezig..." : "Genereer teksten met AI"}
+          </Button>
+        </DialogTitle>
+      </DialogHeader>
       <form onSubmit={save} className="space-y-5">
         <div className="grid grid-cols-3 gap-3">
           <div><Label className="text-[11px]">Jaar</Label><Input type="number" value={form.year} onChange={f("year")} className="h-8" /></div>
