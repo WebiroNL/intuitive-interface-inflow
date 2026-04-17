@@ -409,7 +409,7 @@ function MonthsTab({ client }: { client: Client }) {
   );
 }
 
-function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
+function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; onSaved: () => void }) {
   const [form, setForm] = useState({
     ...row,
     summary_bullets: Array.isArray(row.summary_bullets) ? row.summary_bullets : [],
