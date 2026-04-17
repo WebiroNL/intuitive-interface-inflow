@@ -191,7 +191,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
     <>
       {/* 01 — Samenvatting */}
       {summaryBullets.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Samenvatting" title="Management samenvatting" />
           <div className="grid md:grid-cols-2 gap-3">
             {summaryBullets.map((bullet, i) => (
@@ -201,7 +201,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.05 }}
-                className="flex gap-3 p-5 rounded-xl border border-border bg-card hover:shadow-md transition-shadow"
+                className="flex gap-3 p-4 sm:p-5 rounded-xl border border-border bg-card hover:shadow-md transition-shadow"
               >
                 <div className="flex-shrink-0 mt-0.5">
                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} className="text-primary" />
