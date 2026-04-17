@@ -13,6 +13,7 @@ const AdminIntegrations = lazy(() => import('./admin/AdminIntegrations'));
 const AdminSettings = lazy(() => import('./admin/AdminSettings'));
 const AdminMoodboards = lazy(() => import('./admin/AdminMoodboards'));
 const AdminBlog = lazy(() => import('./admin/AdminBlog'));
+const AdminClients = lazy(() => import('./admin/AdminClients'));
 
 function AdminFallback() {
   return (
@@ -44,6 +45,7 @@ const AdminDashboard = () => {
         <Suspense fallback={<AdminFallback />}>
           <Routes>
             <Route index element={<AdminOverview />} />
+            <Route path="clients" element={<AdminClients />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="leads" element={<AdminLeads />} />
             <Route path="stats" element={<AdminStats />} />
