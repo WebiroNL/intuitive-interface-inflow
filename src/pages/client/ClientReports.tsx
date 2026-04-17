@@ -361,18 +361,18 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 05 — Benchmark */}
       {benchmarkData.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader
             eyebrow="Benchmark"
             title={lpvSavingsPct > 0 ? `${lpvSavingsPct.toFixed(0)}% goedkoper dan de markt` : "Vergelijking met markt"}
           />
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={benchmarkData} layout="vertical" margin={{ top: 10, right: 40, left: 60, bottom: 10 }}>
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={240} minHeight={220}>
+                <BarChart data={benchmarkData} layout="vertical" margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} horizontal={false} />
-                  <XAxis type="number" stroke={CHART.muted} fontSize={12} tickFormatter={(v) => `€${v.toFixed(2)}`} />
-                  <YAxis dataKey="name" type="category" stroke={CHART.muted} fontSize={12} width={120} />
+                  <XAxis type="number" stroke={CHART.muted} fontSize={11} tickFormatter={(v) => `€${v.toFixed(2)}`} />
+                  <YAxis dataKey="name" type="category" stroke={CHART.muted} fontSize={11} width={100} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => `€${v.toFixed(2)}`}
@@ -386,13 +386,13 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 flex flex-col justify-center">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 flex flex-col justify-center">
               {lpvSavingsPct > 0 && (
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4 w-fit bg-primary/10 text-primary">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 w-fit bg-primary/10 text-primary">
                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-primary" /> {lpvSavingsPct.toFixed(0)}% onder benchmark
                 </div>
               )}
-              <h3 className="text-2xl font-semibold mb-3 text-foreground">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-3 text-foreground">
                 {lpvSavingsPct > 0 ? "Bovengemiddeld efficiënt" : "Markt vergelijking"}
               </h3>
               {current.ai_benchmark_text ? (
