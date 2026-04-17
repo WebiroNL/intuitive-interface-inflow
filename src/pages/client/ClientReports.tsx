@@ -418,9 +418,9 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 07 — In gewone taal */}
       {current.ai_plain_language && current.ai_plain_language.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Wat betekent dit?" title="In gewone taal" />
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {current.ai_plain_language.map((item, i) => {
               const icons = [ViewIcon, CursorPointer02Icon, RocketIcon];
               const Icon = icons[i % icons.length];
@@ -431,12 +431,12 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
+                  className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
                 >
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                     <HugeiconsIcon icon={Icon} size={20} className="text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{item.title}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                 </motion.div>
               );
@@ -447,26 +447,26 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 06 — Social groei */}
       {(igGrowth > 0 || fbGrowth > 0) && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Social" title="Organische groei" />
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
             {igGrowth > 0 && (
-              <div className="p-6 rounded-2xl border border-border bg-card">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+              <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                   <HugeiconsIcon icon={InstagramIcon} size={20} className="text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Instagram</h3>
-                <p className="text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(igGrowth)}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">Instagram</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(igGrowth)}</p>
                 <p className="text-sm text-muted-foreground">Nieuwe volgers</p>
               </div>
             )}
             {fbGrowth > 0 && (
-              <div className="p-6 rounded-2xl border border-border bg-card">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+              <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                   <HugeiconsIcon icon={UserGroup02Icon} size={20} className="text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Facebook</h3>
-                <p className="text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(fbGrowth)}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">Facebook</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(fbGrowth)}</p>
                 <p className="text-sm text-muted-foreground">Nieuwe volgers</p>
               </div>
             )}
@@ -476,9 +476,9 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 07 — Aanbevelingen */}
       {recommendationBullets.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Volgende stap" title="Aanbevelingen voor de volgende maand" />
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
             {recommendationBullets.map((rec, i) => {
               const icons = [Coins01Icon, Target02Icon, Megaphone02Icon, IdeaIcon];
               const Icon = icons[i % icons.length];
@@ -489,10 +489,10 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className="p-6 rounded-2xl border border-border bg-card hover:shadow-md hover:-translate-y-0.5 transition-all"
+                  className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md hover:-translate-y-0.5 transition-all"
                 >
-                  <div className="flex gap-4">
-                    <div className="w-11 h-11 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+                  <div className="flex gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                       <HugeiconsIcon icon={Icon} size={20} className="text-white" />
                     </div>
                     <p className="text-sm leading-relaxed text-foreground/85 pt-1.5">{rec}</p>
@@ -506,17 +506,17 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 08 — Inzichten (vrije tekst) */}
       {current.insights && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Notities" title="Toelichting van Webiro" />
-          <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
+          <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
             <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">{current.insights}</p>
           </div>
         </section>
       )}
 
       {/* Footer */}
-      <footer className="mt-16 pt-8 border-t border-border">
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 text-sm text-muted-foreground">
+      <footer className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-border">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 text-sm text-muted-foreground">
           <div>
             <span className="text-foreground font-semibold">Webiro</span> · Performance marketing
           </div>
