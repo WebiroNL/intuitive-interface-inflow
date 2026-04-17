@@ -87,13 +87,13 @@ function KpiCard({ kpi, index }: { kpi: Kpi; index: number }) {
 
 function SectionHeader({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) {
   return (
-    <div className="mb-8 md:mb-10 max-w-3xl">
-      <div className="flex items-center gap-2 mb-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+    <div className="mb-6 sm:mb-8 md:mb-10 max-w-3xl">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
         <span className="w-6 h-px bg-primary" />
         {eyebrow}
       </div>
-      <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground leading-[1.1]">{title}</h2>
-      {description && <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">{description}</p>}
+      <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-foreground leading-[1.15]">{title}</h2>
+      {description && <p className="mt-2 sm:mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">{description}</p>}
     </div>
   );
 }
@@ -104,11 +104,11 @@ export default function ClientReports({ client }: Props) {
   const { current, loading } = useMonthlyData(client, year, month);
 
   return (
-    <div className="p-6 lg:p-10 max-w-[1400px]">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+    <div className="p-4 sm:p-6 lg:p-10 max-w-[1400px]">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-10">
         <div>
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Maandrapport</p>
-          <h1 className="text-3xl font-semibold text-foreground">{client.company_name}</h1>
+          <p className="text-[11px] sm:text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Maandrapport</p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground break-words">{client.company_name}</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Periode: {MONTH_NAMES[month - 1]} {year}
           </p>
@@ -117,11 +117,11 @@ export default function ClientReports({ client }: Props) {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-[140px] bg-muted/40 rounded-2xl animate-pulse" />)}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-[120px] sm:h-[140px] bg-muted/40 rounded-2xl animate-pulse" />)}
         </div>
       ) : !current ? (
-        <div className="bg-card border border-border rounded-2xl p-16 text-center">
+        <div className="bg-card border border-border rounded-2xl p-8 sm:p-16 text-center">
           <p className="text-muted-foreground">Nog geen rapport beschikbaar voor deze maand.</p>
         </div>
       ) : (
