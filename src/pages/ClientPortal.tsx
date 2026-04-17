@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyClient } from "@/hooks/useClient";
@@ -26,6 +26,7 @@ function Fallback() {
 export default function ClientPortal() {
   const { user, isLoading: authLoading } = useAuth();
   const { client, loading } = useMyClient();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   if (authLoading || loading) {
     return (
@@ -51,9 +52,9 @@ export default function ClientPortal() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <ClientSidebar client={client} />
-      <main className="flex-1 overflow-auto flex flex-col">
-        <ClientTopBar client={client} />
+      <ClientSidebar client={client} mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <main className="flex-1 min-w-0 overflow-auto flex flex-col">
+        <ClientTopBar client={client} onMenuClick={() => setMobileOpen(true)} />
         <div className="flex-1">
           <Suspense fallback={<Fallback />}>
             <Routes>
