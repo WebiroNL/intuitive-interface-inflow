@@ -260,7 +260,14 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Telefoon</Label><Input value={form.phone ?? ""} onChange={(e)=>setForm({...form, phone:e.target.value})} /></div>
         <div><Label>Contactpersoon</Label><Input value={form.contact_person ?? ""} onChange={(e)=>setForm({...form, contact_person:e.target.value})} /></div>
         <div><Label>Contractduur</Label><Input value={form.contract_duration ?? ""} onChange={(e)=>setForm({...form, contract_duration:e.target.value})} /></div>
+        <div><Label>KVK nummer</Label><Input value={form.kvk_number ?? ""} onChange={(e)=>setForm({...form, kvk_number:e.target.value})} placeholder="12345678" /></div>
+        <div><Label>BTW nummer</Label><Input value={form.btw_number ?? ""} onChange={(e)=>setForm({...form, btw_number:e.target.value})} placeholder="NL000000000B00" /></div>
         <div><Label>Fee (€)</Label><Input type="number" step="0.01" value={form.monthly_fee} onChange={(e)=>setForm({...form, monthly_fee:Number(e.target.value)})} /></div>
+        <div className="col-span-2 pt-2 border-t border-border">
+          <p className="text-[12px] uppercase tracking-wider text-muted-foreground">Korting (optioneel)</p>
+        </div>
+        <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
+        <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
