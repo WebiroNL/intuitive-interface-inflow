@@ -402,7 +402,7 @@ function MonthsTab({ client }: { client: Client }) {
 
       {editing && (
         <Dialog open onOpenChange={(o)=>!o && setEditing(null)}>
-          <MonthEditDialog row={editing} onSaved={() => { setEditing(null); load(); }} />
+          <MonthEditDialog row={editing} client={client} onSaved={() => { setEditing(null); load(); }} />
         </Dialog>
       )}
     </div>
