@@ -81,18 +81,21 @@ interface Props {
 export function ContractView({ client, editable }: Props) {
   const [lines, setLines] = useState<ServiceLine[]>([]);
   const [invoices, setInvoices] = useState<{ amount: number; status: string }[]>([]);
+  const [contractStart, setContractStart] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [pickerOpen, setPickerOpen] = useState(false);
   const catalog = useMemo(() => buildCatalog(), []);
 
   const load = async () => {
     setLoading(true);
-    const [{ data: ls }, { data: invs }] = await Promise.all([
+    const [{ data: ls }, { data: invs }, { data: ctrs }] = await Promise.all([
       supabase.from("client_services").select("*").eq("client_id", client.id).order("service_type").order("service_name"),
       supabase.from("invoices").select("amount,status").eq("client_id", client.id),
+      supabase.from("contracts").select("start_date").eq("client_id", client.id).order("start_date", { ascending: true }).limit(1),
     ]);
     setLines((ls ?? []) as any);
     setInvoices((invs ?? []) as any);
+    setContractStart((ctrs?.[0]?.start_date as string | undefined) ?? null);
     setLoading(false);
   };
 
@@ -192,6 +195,17 @@ export function ContractView({ client, editable }: Props) {
     return <div className="p-8 text-sm text-muted-foreground">Laden...</div>;
   }
 
+  // Format helpers
+  const fmtDate = (d: string | null) =>
+    d ? new Date(d).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" }) : null;
+  const discountEndDate = (() => {
+    if (!contractStart || !discountMonths) return null;
+    const d = new Date(contractStart);
+    d.setMonth(d.getMonth() + discountMonths);
+    return fmtDate(d.toISOString().slice(0, 10));
+  })();
+  const startFormatted = fmtDate(contractStart);
+
   // Read-only (client) view: cleaner, more scannable layout
   if (!editable) {
     return (
@@ -207,7 +221,11 @@ export function ContractView({ client, editable }: Props) {
             <Stat
               label="Per maand"
               value={fmtEUR(discountPct > 0 ? monthlyAfterDiscount : monthlyTotal, 2)}
-              hint={discountPct > 0 && discountMonths > 0 ? `${discountPct}% korting voor ${discountMonths} mnd` : undefined}
+              hint={
+                discountPct > 0 && discountMonths > 0
+                  ? `${discountPct}% korting voor ${discountMonths} mnd${discountEndDate ? ` · t/m ${discountEndDate}` : ""}`
+                  : undefined
+              }
             />
             <Stat
               label="Diensten"
@@ -215,7 +233,24 @@ export function ContractView({ client, editable }: Props) {
               hint={`Verdeeld over ${orderedCats.length} categorie${orderedCats.length === 1 ? "" : "ën"}`}
             />
           </div>
+          {(startFormatted || discountEndDate) && (
+            <div className="mt-6 pt-5 border-t border-border flex flex-wrap gap-x-8 gap-y-2 text-[12px]">
+              {startFormatted && (
+                <div>
+                  <span className="text-muted-foreground">Contract gestart op </span>
+                  <span className="text-foreground font-medium">{startFormatted}</span>
+                </div>
+              )}
+              {discountEndDate && (
+                <div>
+                  <span className="text-muted-foreground">Korting loopt t/m </span>
+                  <span className="text-foreground font-medium">{discountEndDate}</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
+
 
         {lines.length === 0 ? (
           <div className="p-12 text-center text-sm text-muted-foreground border border-border rounded-2xl bg-card">
