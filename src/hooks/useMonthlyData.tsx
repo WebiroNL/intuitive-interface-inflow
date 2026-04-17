@@ -30,6 +30,10 @@ export interface MonthlyData {
   // Bullet content (jsonb arrays of strings)
   summary_bullets: string[];
   recommendation_bullets: string[];
+  // AI-generated narrative copy
+  ai_reach_text: string | null;
+  ai_benchmark_text: string | null;
+  ai_plain_language: { title: string; text: string }[];
 }
 
 const normalize = (raw: any): MonthlyData | null => {
@@ -38,6 +42,9 @@ const normalize = (raw: any): MonthlyData | null => {
     ...raw,
     summary_bullets: Array.isArray(raw.summary_bullets) ? raw.summary_bullets : [],
     recommendation_bullets: Array.isArray(raw.recommendation_bullets) ? raw.recommendation_bullets : [],
+    ai_plain_language: Array.isArray(raw.ai_plain_language) ? raw.ai_plain_language : [],
+    ai_reach_text: raw.ai_reach_text ?? null,
+    ai_benchmark_text: raw.ai_benchmark_text ?? null,
   } as MonthlyData;
 };
 
