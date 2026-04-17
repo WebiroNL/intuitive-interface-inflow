@@ -7,19 +7,43 @@ interface Props { client: Client }
 const now = new Date();
 
 const PLATFORMS = [
-  { key: "google", label: "Google Ads", color: "#4285F4", icon: "/images/tools/googleads.svg" },
-  { key: "meta", label: "Meta Ads", color: "#0866FF", icon: "/images/tools/meta.svg" },
-  { key: "tiktok", label: "TikTok Ads", color: "#FE2C55", icon: "/images/tools/tiktok.svg" },
-  { key: "linkedin", label: "LinkedIn Ads", color: "#0A66C2", icon: "/images/tools/linkedin.svg" },
-  { key: "pinterest", label: "Pinterest Ads", color: "#E60023", icon: "/images/tools/pinterest.svg" },
-  { key: "youtube", label: "YouTube Ads", color: "#FF0000", icon: "/images/tools/youtube.svg" },
-  { key: "snapchat", label: "Snapchat Ads", color: "#FFFC00", icon: "/images/tools/snapchat.svg" },
+  { key: "google", label: "Google Ads", icon: "/images/tools/googleads.svg" },
+  { key: "meta", label: "Meta Ads", icon: "/images/tools/meta.svg" },
+  { key: "tiktok", label: "TikTok Ads", icon: "/images/tools/tiktok.svg" },
+  { key: "linkedin", label: "LinkedIn Ads", icon: "/images/tools/linkedin.svg" },
+  { key: "pinterest", label: "Pinterest Ads", icon: "/images/tools/pinterest.svg" },
+  { key: "youtube", label: "YouTube Ads", icon: "/images/tools/youtube.svg" },
+  { key: "snapchat", label: "Snapchat Ads", icon: "/images/tools/snapchat.svg" },
 ] as const;
 
 export default function ClientCampaigns({ client }: Props) {
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth() + 1);
   const { current, loading } = useMonthlyData(client, year, month);
+
+  const rows = (current ? PLATFORMS : []).map((p) => {
+    const spend = Number((current as any)[`${p.key}_spend`] ?? 0);
+    const clicks = Number((current as any)[`${p.key}_clicks`] ?? 0);
+    const conv = Number((current as any)[`${p.key}_conversions`] ?? 0);
+    const ctr = Number((current as any)[`${p.key}_ctr`] ?? 0);
+    const cpc = Number((current as any)[`${p.key}_cpc`] ?? 0);
+    const cpa = conv > 0 ? spend / conv : 0;
+    return { ...p, spend, clicks, conv, ctr, cpc, cpa, active: spend > 0 || clicks > 0 };
+  }).filter((r) => r.active);
+
+  const totals = rows.reduce(
+    (acc, r) => ({
+      spend: acc.spend + r.spend,
+      clicks: acc.clicks + r.clicks,
+      conv: acc.conv + r.conv,
+    }),
+    { spend: 0, clicks: 0, conv: 0 }
+  );
+  const totalCtr = totals.clicks > 0 && rows.length > 0
+    ? rows.reduce((a, r) => a + r.ctr * r.clicks, 0) / totals.clicks
+    : 0;
+  const totalCpc = totals.clicks > 0 ? totals.spend / totals.clicks : 0;
+  const totalCpa = totals.conv > 0 ? totals.spend / totals.conv : 0;
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px]">
@@ -33,54 +57,84 @@ export default function ClientCampaigns({ client }: Props) {
       </div>
 
       {loading ? (
-        <div className="space-y-4">{Array.from({length:3}).map((_,i) => <div key={i} className="h-[200px] bg-muted/40 rounded-lg animate-pulse" />)}</div>
-      ) : !current ? (
-        <div className="bg-card border border-border rounded-lg p-12 text-center text-muted-foreground">Geen data beschikbaar.</div>
-      ) : (
-        <div className="space-y-4">
-          {PLATFORMS.map((p) => {
-            const spend = Number((current as any)[`${p.key}_spend`] ?? 0);
-            const clicks = Number((current as any)[`${p.key}_clicks`] ?? 0);
-            const conv = Number((current as any)[`${p.key}_conversions`] ?? 0);
-            const ctr = Number((current as any)[`${p.key}_ctr`] ?? 0);
-            const cpc = Number((current as any)[`${p.key}_cpc`] ?? 0);
-            const cpa = conv > 0 ? spend / conv : 0;
-            if (spend === 0 && clicks === 0) return null;
-            return (
-              <div key={p.key} className="bg-card border border-border rounded-lg p-6">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-8 h-8 rounded-md bg-muted/50 border border-border flex items-center justify-center overflow-hidden">
-                    <img src={p.icon} alt={p.label} className="w-5 h-5 object-contain" />
-                  </div>
-                  <h2 className="text-base font-semibold text-foreground">{p.label}</h2>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  <Metric label="Spend" value={fmtEUR(spend)} />
-                  <Metric label="Klikken" value={fmtNum(clicks)} />
-                  <Metric label="Conversies" value={fmtNum(conv)} />
-                  <Metric label="CTR" value={`${fmtNum(ctr, 2)}%`} />
-                  <Metric label="CPC" value={fmtEUR(cpc)} />
-                  <Metric label="CPA" value={fmtEUR(cpa)} />
-                </div>
-              </div>
-            );
-          })}
-          {PLATFORMS.every((p) => Number((current as any)[`${p.key}_spend`] ?? 0) === 0 && Number((current as any)[`${p.key}_clicks`] ?? 0) === 0) && (
-            <div className="bg-card border border-border rounded-lg p-12 text-center text-muted-foreground">
-              Geen platformcijfers ingevuld voor deze maand.
-            </div>
-          )}
+        <div className="h-[300px] bg-muted/40 rounded-lg animate-pulse" />
+      ) : !current || rows.length === 0 ? (
+        <div className="bg-card border border-border rounded-lg p-12 text-center text-muted-foreground">
+          Geen platformcijfers ingevuld voor deze maand.
         </div>
+      ) : (
+        <>
+          {/* Totaaloverzicht */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <SummaryCard label="Totaal spend" value={fmtEUR(totals.spend)} />
+            <SummaryCard label="Totaal klikken" value={fmtNum(totals.clicks)} />
+            <SummaryCard label="Totaal conversies" value={fmtNum(totals.conv)} />
+            <SummaryCard label="Gem. CPA" value={fmtEUR(totalCpa)} />
+          </div>
+
+          {/* Tabel per platform */}
+          <div className="bg-card border border-border rounded-lg overflow-hidden">
+            <div className="px-6 py-4 border-b border-border">
+              <h2 className="text-sm font-semibold text-foreground">Per platform</h2>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground border-b border-border">
+                    <th className="px-6 py-3 font-medium">Platform</th>
+                    <th className="px-4 py-3 font-medium text-right">Spend</th>
+                    <th className="px-4 py-3 font-medium text-right">Klikken</th>
+                    <th className="px-4 py-3 font-medium text-right">Conversies</th>
+                    <th className="px-4 py-3 font-medium text-right">CTR</th>
+                    <th className="px-4 py-3 font-medium text-right">CPC</th>
+                    <th className="px-6 py-3 font-medium text-right">CPA</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {rows.map((r) => (
+                    <tr key={r.key} className="hover:bg-muted/30 transition-colors">
+                      <td className="px-6 py-3.5">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-md bg-muted/50 border border-border flex items-center justify-center overflow-hidden">
+                            <img src={r.icon} alt={r.label} className="w-4 h-4 object-contain" />
+                          </div>
+                          <span className="font-medium text-foreground">{r.label}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtEUR(r.spend)}</td>
+                      <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtNum(r.clicks)}</td>
+                      <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtNum(r.conv)}</td>
+                      <td className="px-4 py-3.5 text-right tabular-nums text-muted-foreground">{fmtNum(r.ctr, 2)}%</td>
+                      <td className="px-4 py-3.5 text-right tabular-nums text-muted-foreground">{fmtEUR(r.cpc)}</td>
+                      <td className="px-6 py-3.5 text-right tabular-nums text-muted-foreground">{r.cpa > 0 ? fmtEUR(r.cpa) : "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="bg-muted/30 border-t border-border font-semibold">
+                    <td className="px-6 py-3.5 text-foreground">Totaal</td>
+                    <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtEUR(totals.spend)}</td>
+                    <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtNum(totals.clicks)}</td>
+                    <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtNum(totals.conv)}</td>
+                    <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtNum(totalCtr, 2)}%</td>
+                    <td className="px-4 py-3.5 text-right tabular-nums text-foreground">{fmtEUR(totalCpc)}</td>
+                    <td className="px-6 py-3.5 text-right tabular-nums text-foreground">{totalCpa > 0 ? fmtEUR(totalCpa) : "—"}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
-      <p className="text-lg font-semibold text-foreground tabular-nums mt-0.5">{value}</p>
+    <div className="bg-card border border-border rounded-lg p-5">
+      <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
+      <p className="text-2xl font-semibold text-foreground tabular-nums">{value}</p>
     </div>
   );
 }
