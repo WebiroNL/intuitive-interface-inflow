@@ -183,7 +183,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
   const benchmarkData = benchLpv > 0 ? [
     { name: "Markt gemiddelde", value: benchLpv },
-    { name: client.companyShort ?? "Jouw campagne", value: costPerLpv },
+    { name: "Jouw campagne", value: costPerLpv },
   ] : [];
 
   return (
