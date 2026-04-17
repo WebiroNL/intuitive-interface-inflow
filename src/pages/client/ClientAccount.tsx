@@ -86,20 +86,18 @@ export default function ClientAccount({ client }: Props) {
           onChange={(v) => setForm({ ...form, phone: v })}
           type="tel"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Field
-            label="KVK nummer"
-            value={form.kvk_number}
-            onChange={(v) => setForm({ ...form, kvk_number: v })}
-            placeholder="12345678"
-          />
-          <Field
-            label="BTW nummer"
-            value={form.btw_number}
-            onChange={(v) => setForm({ ...form, btw_number: v })}
-            placeholder="NL000000000B00"
-          />
-        </div>
+        <Field
+          label="KVK nummer"
+          value={form.kvk_number}
+          onChange={(v) => setForm({ ...form, kvk_number: v })}
+          placeholder="12345678"
+        />
+        <Field
+          label="BTW nummer"
+          value={form.btw_number}
+          onChange={(v) => setForm({ ...form, btw_number: v })}
+          placeholder="NL000000000B00"
+        />
 
         <div className="flex justify-end pt-2">
           <Button type="submit" disabled={saving}>
