@@ -414,9 +414,42 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
     ...row,
     summary_bullets: Array.isArray(row.summary_bullets) ? row.summary_bullets : [],
     recommendation_bullets: Array.isArray(row.recommendation_bullets) ? row.recommendation_bullets : [],
+    ai_plain_language: Array.isArray(row.ai_plain_language) ? row.ai_plain_language : [],
+    ai_reach_text: row.ai_reach_text ?? "",
+    ai_benchmark_text: row.ai_benchmark_text ?? "",
   });
   const [saving, setSaving] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const f = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.type === "number" ? Number(e.target.value) : e.target.value });
+
+  const generateAI = async () => {
+    setAiLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("report-ai", {
+        body: {
+          metrics: form,
+          company_name: row.company_name ?? "Klant",
+          period: `${MONTH_NAMES[(form.month ?? 1) - 1]} ${form.year}`,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      const r = data.result;
+      setForm({
+        ...form,
+        summary_bullets: r.summary_bullets ?? [],
+        recommendation_bullets: r.recommendation_bullets ?? [],
+        ai_reach_text: r.reach_text ?? "",
+        ai_benchmark_text: r.benchmark_text ?? "",
+        ai_plain_language: r.plain_language ?? [],
+      });
+      toast.success("AI teksten gegenereerd");
+    } catch (e: any) {
+      toast.error(e.message ?? "AI fout");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
@@ -425,7 +458,10 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
       ...form,
       summary_bullets: (form.summary_bullets ?? []).filter((b: string) => b?.trim()),
       recommendation_bullets: (form.recommendation_bullets ?? []).filter((b: string) => b?.trim()),
+      ai_plain_language: (form.ai_plain_language ?? []).filter((p: any) => p?.title?.trim() || p?.text?.trim()),
     };
+    // Remove non-column fields that may have leaked from row
+    delete (payload as any).company_name;
     const q = row.id
       ? supabase.from("monthly_data").update(payload).eq("id", row.id)
       : supabase.from("monthly_data").insert(payload);
