@@ -79,7 +79,7 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <ColumnGuides />
+      {!hideChrome && <ColumnGuides />}
       <div className="min-h-screen bg-background transition-colors duration-300">
         {!hideChrome && <Header />}
         <Suspense fallback={<LoadingFallback />}>
