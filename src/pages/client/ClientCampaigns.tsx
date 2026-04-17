@@ -7,9 +7,13 @@ interface Props { client: Client }
 const now = new Date();
 
 const PLATFORMS = [
-  { key: "google", label: "Google Ads", color: "#4285F4" },
-  { key: "meta", label: "Meta Ads", color: "#0866FF" },
-  { key: "tiktok", label: "TikTok Ads", color: "#FE2C55" },
+  { key: "google", label: "Google Ads", color: "#4285F4", icon: "/images/tools/googleads.svg" },
+  { key: "meta", label: "Meta Ads", color: "#0866FF", icon: "/images/tools/meta.svg" },
+  { key: "tiktok", label: "TikTok Ads", color: "#FE2C55", icon: "/images/tools/tiktok.svg" },
+  { key: "linkedin", label: "LinkedIn Ads", color: "#0A66C2", icon: "/images/tools/linkedin.svg" },
+  { key: "pinterest", label: "Pinterest Ads", color: "#E60023", icon: "/images/tools/pinterest.svg" },
+  { key: "youtube", label: "YouTube Ads", color: "#FF0000", icon: "/images/tools/youtube.svg" },
+  { key: "snapchat", label: "Snapchat Ads", color: "#FFFC00", icon: "/images/tools/snapchat.svg" },
 ] as const;
 
 export default function ClientCampaigns({ client }: Props) {
@@ -41,10 +45,13 @@ export default function ClientCampaigns({ client }: Props) {
             const ctr = Number((current as any)[`${p.key}_ctr`] ?? 0);
             const cpc = Number((current as any)[`${p.key}_cpc`] ?? 0);
             const cpa = conv > 0 ? spend / conv : 0;
+            if (spend === 0 && clicks === 0) return null;
             return (
               <div key={p.key} className="bg-card border border-border rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
+                  <div className="w-8 h-8 rounded-md bg-muted/50 border border-border flex items-center justify-center overflow-hidden">
+                    <img src={p.icon} alt={p.label} className="w-5 h-5 object-contain" />
+                  </div>
                   <h2 className="text-base font-semibold text-foreground">{p.label}</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -58,6 +65,11 @@ export default function ClientCampaigns({ client }: Props) {
               </div>
             );
           })}
+          {PLATFORMS.every((p) => Number((current as any)[`${p.key}_spend`] ?? 0) === 0 && Number((current as any)[`${p.key}_clicks`] ?? 0) === 0) && (
+            <div className="bg-card border border-border rounded-lg p-12 text-center text-muted-foreground">
+              Geen platformcijfers ingevuld voor deze maand.
+            </div>
+          )}
         </div>
       )}
     </div>
