@@ -26,7 +26,7 @@ function Fallback() {
 export default function ClientPortal() {
   const { user, isLoading: authLoading } = useAuth();
   const { client, loading } = useMyClient();
-  const [mobileOpen, setMobileOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   if (authLoading || loading) {
     return (
