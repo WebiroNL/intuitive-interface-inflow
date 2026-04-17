@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import {
   BarChart,
   Bar,
@@ -201,25 +200,35 @@ export default function NovelleRapport() {
     if (sessionStorage.getItem(STORAGE_KEY) === "1") setAuthed(true);
   }, []);
 
+  useEffect(() => {
+    if (!authed) return;
+    document.title = "Campagnerapport — Novelle Events | Webiro";
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex,nofollow";
+    document.head.appendChild(meta);
+    const fontLink = document.createElement("link");
+    fontLink.rel = "stylesheet";
+    fontLink.href =
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap";
+    document.head.appendChild(fontLink);
+    const style = document.createElement("style");
+    style.innerHTML = `
+      .novelle-report { font-family: 'Inter', sans-serif; }
+      .novelle-report .font-serif { font-family: 'Cormorant Garamond', serif; font-weight: 500; letter-spacing: -0.01em; }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(meta);
+      document.head.removeChild(fontLink);
+      document.head.removeChild(style);
+    };
+  }, [authed]);
+
   if (!authed) return <PasswordGate onSuccess={() => setAuthed(true)} />;
 
   return (
     <>
-      <Helmet>
-        <title>Campagnerapport — Novelle Events | Webiro</title>
-        <meta name="robots" content="noindex,nofollow" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-        <style>{`
-          .novelle-report { font-family: 'Inter', sans-serif; }
-          .novelle-report .font-serif { font-family: 'Cormorant Garamond', serif; font-weight: 500; letter-spacing: -0.01em; }
-        `}</style>
-      </Helmet>
-
       <div className="novelle-report" style={{ background: COLORS.champagneLight, color: COLORS.ink }}>
         {/* HERO */}
         <header
