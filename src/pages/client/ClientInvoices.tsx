@@ -84,9 +84,21 @@ export default function ClientInvoices({ client }: Props) {
                     <td className="px-6 py-3 text-right tabular-nums text-foreground">{fmtEUR(Number(i.amount))}</td>
                     <td className="px-6 py-3">{statusBadge(i.status)}</td>
                     <td className="px-6 py-3 text-right">
-                      {i.file_url && (
-                        <a href={i.file_url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-medium text-primary hover:underline">Bekijk</a>
-                      )}
+                      <div className="flex items-center justify-end gap-3">
+                        {i.payment_url && i.status !== "paid" && (
+                          <a
+                            href={i.payment_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-[12px] font-semibold px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                          >
+                            Betalen
+                          </a>
+                        )}
+                        {i.file_url && (
+                          <a href={i.file_url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-medium text-primary hover:underline">Bekijk</a>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
