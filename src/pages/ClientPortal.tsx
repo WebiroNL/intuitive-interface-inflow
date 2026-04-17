@@ -28,22 +28,22 @@ export default function ClientPortal() {
   const { client, loading } = useMyClient();
   const location = useLocation();
 
-  // Open op desktop (>=1024px), dicht op tablet/mobiel
+  // Open op desktop + tablet landscape (>=900px), dicht daaronder
   const [sidebarOpen, setSidebarOpen] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth >= 1024 : true
+    typeof window !== "undefined" ? window.innerWidth >= 900 : true
   );
 
-  // Sluit automatisch bij route-wijziging op tablet/mobiel
+  // Sluit automatisch bij route-wijziging op kleine schermen
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+    if (typeof window !== "undefined" && window.innerWidth < 900) {
       setSidebarOpen(false);
     }
   }, [location.pathname]);
 
-  // Reset bij resize tussen mobiel en desktop
+  // Reset bij resize
   useEffect(() => {
     const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 1024);
+      setSidebarOpen(window.innerWidth >= 900);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
