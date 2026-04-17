@@ -34,6 +34,7 @@ const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
 const AccountLogin = lazy(() => import("./pages/AccountLogin"));
 const AccountDashboard = lazy(() => import("./pages/AccountDashboard"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
+const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -72,13 +73,15 @@ function ColumnGuides() {
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isReportRoute = location.pathname.startsWith('/novellerapport');
+  const hideChrome = isAdminRoute || isReportRoute;
 
   return (
     <>
       <ScrollToTop />
       <ColumnGuides />
       <div className="min-h-screen bg-background transition-colors duration-300">
-        {!isAdminRoute && <Header />}
+        {!hideChrome && <Header />}
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -104,11 +107,12 @@ function AppContent() {
             <Route path="/account/reset-password" element={<AccountResetPassword />} />
             <Route path="/account" element={<AccountDashboard />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
+            <Route path="/novellerapport" element={<NovelleRapport />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        {!isAdminRoute && <Footer />}
+        {!hideChrome && <Footer />}
       </div>
     </>
   );
