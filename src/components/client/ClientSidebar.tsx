@@ -32,7 +32,7 @@ export function ClientSidebar({ client }: Props) {
     { label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, show: sections.hasMonthlyData },
     { label: "Financieel", href: `${base}/finance`, icon: Money02Icon, show: sections.hasMonthlyData },
     { label: "Rapporten", href: `${base}/reports`, icon: File02Icon, show: sections.hasMonthlyData },
-    { label: "Contract", href: `${base}/contract`, icon: File02Icon, show: sections.hasContracts },
+    { label: "Contract", href: `${base}/contract`, icon: File02Icon, show: sections.hasContracts || sections.hasServices },
     { label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, show: sections.hasInvoices },
     { label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, show: sections.hasFiles },
     { label: "Updates", href: `${base}/updates`, icon: Notification02Icon, show: sections.hasActivity },
