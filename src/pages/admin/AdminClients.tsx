@@ -17,6 +17,8 @@ interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
   email: string; phone: string | null; contact_person: string | null;
   contract_duration: string | null; monthly_fee: number; active: boolean;
+  kvk_number: string | null; btw_number: string | null;
+  discount_months: number | null; discount_percentage: number | null;
 }
 
 const slugify = (s: string) =>
@@ -114,13 +116,24 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     contract_duration: client?.contract_duration ?? "",
     monthly_fee: client?.monthly_fee ?? 0,
     active: client?.active ?? true,
+    kvk_number: client?.kvk_number ?? "",
+    btw_number: client?.btw_number ?? "",
+    discount_months: client?.discount_months ?? 0,
+    discount_percentage: client?.discount_percentage ?? 0,
   });
   const [saving, setSaving] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const payload = { ...form, slug: form.slug || slugify(form.company_name) };
+    const payload = {
+      ...form,
+      slug: form.slug || slugify(form.company_name),
+      kvk_number: form.kvk_number || null,
+      btw_number: form.btw_number || null,
+      discount_months: form.discount_months ? Number(form.discount_months) : null,
+      discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
+    };
     const q = client
       ? supabase.from("clients").update(payload).eq("id", client.id)
       : supabase.from("clients").insert(payload);
@@ -132,7 +145,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
   };
 
   return (
-    <DialogContent className="max-w-xl">
+    <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
       <DialogHeader><DialogTitle>{client ? "Klant bewerken" : "Nieuwe klant"}</DialogTitle></DialogHeader>
       <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
@@ -161,8 +174,27 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Input value={form.contract_duration} onChange={(e) => setForm({ ...form, contract_duration: e.target.value })} placeholder="bv. 12 maanden" />
           </div>
           <div>
+            <Label>KVK nummer</Label>
+            <Input value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} placeholder="12345678" />
+          </div>
+          <div>
+            <Label>BTW nummer</Label>
+            <Input value={form.btw_number} onChange={(e) => setForm({ ...form, btw_number: e.target.value })} placeholder="NL000000000B00" />
+          </div>
+          <div>
             <Label>Maandelijkse fee (€)</Label>
             <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
+          </div>
+          <div className="col-span-2 pt-2 border-t border-border">
+            <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Korting (optioneel)</p>
+          </div>
+          <div>
+            <Label>Aantal maanden korting</Label>
+            <Input type="number" min="0" value={form.discount_months} onChange={(e) => setForm({ ...form, discount_months: Number(e.target.value) })} placeholder="bv. 3" />
+          </div>
+          <div>
+            <Label>Kortingspercentage (%)</Label>
+            <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: Number(e.target.value) })} placeholder="bv. 20" />
           </div>
         </div>
         <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : "Opslaan"}</Button>
@@ -228,7 +260,14 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Telefoon</Label><Input value={form.phone ?? ""} onChange={(e)=>setForm({...form, phone:e.target.value})} /></div>
         <div><Label>Contactpersoon</Label><Input value={form.contact_person ?? ""} onChange={(e)=>setForm({...form, contact_person:e.target.value})} /></div>
         <div><Label>Contractduur</Label><Input value={form.contract_duration ?? ""} onChange={(e)=>setForm({...form, contract_duration:e.target.value})} /></div>
+        <div><Label>KVK nummer</Label><Input value={form.kvk_number ?? ""} onChange={(e)=>setForm({...form, kvk_number:e.target.value})} placeholder="12345678" /></div>
+        <div><Label>BTW nummer</Label><Input value={form.btw_number ?? ""} onChange={(e)=>setForm({...form, btw_number:e.target.value})} placeholder="NL000000000B00" /></div>
         <div><Label>Fee (€)</Label><Input type="number" step="0.01" value={form.monthly_fee} onChange={(e)=>setForm({...form, monthly_fee:Number(e.target.value)})} /></div>
+        <div className="col-span-2 pt-2 border-t border-border">
+          <p className="text-[12px] uppercase tracking-wider text-muted-foreground">Korting (optioneel)</p>
+        </div>
+        <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
+        <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>

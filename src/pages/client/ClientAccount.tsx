@@ -14,7 +14,8 @@ const schema = z.object({
   company_name: z.string().trim().min(1, "Verplicht").max(120),
   contact_person: z.string().trim().max(120).optional().or(z.literal("")),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
-  logo_url: z.string().trim().url("Ongeldige URL").max(500).optional().or(z.literal("")),
+  kvk_number: z.string().trim().max(40).optional().or(z.literal("")),
+  btw_number: z.string().trim().max(40).optional().or(z.literal("")),
 });
 
 export default function ClientAccount({ client }: Props) {
@@ -22,7 +23,8 @@ export default function ClientAccount({ client }: Props) {
     company_name: client.company_name ?? "",
     contact_person: client.contact_person ?? "",
     phone: client.phone ?? "",
-    logo_url: client.logo_url ?? "",
+    kvk_number: client.kvk_number ?? "",
+    btw_number: client.btw_number ?? "",
   });
   const [saving, setSaving] = useState(false);
 
@@ -40,7 +42,8 @@ export default function ClientAccount({ client }: Props) {
         company_name: parsed.data.company_name,
         contact_person: parsed.data.contact_person || null,
         phone: parsed.data.phone || null,
-        logo_url: parsed.data.logo_url || null,
+        kvk_number: parsed.data.kvk_number || null,
+        btw_number: parsed.data.btw_number || null,
       })
       .eq("id", client.id);
     setSaving(false);
@@ -50,6 +53,12 @@ export default function ClientAccount({ client }: Props) {
     }
     toast.success("Bedrijfsgegevens opgeslagen");
   };
+
+  const hasDiscount =
+    client.discount_months != null &&
+    client.discount_percentage != null &&
+    Number(client.discount_months) > 0 &&
+    Number(client.discount_percentage) > 0;
 
   return (
     <div className="p-6 lg:p-8 max-w-[800px]">
@@ -77,12 +86,20 @@ export default function ClientAccount({ client }: Props) {
           onChange={(v) => setForm({ ...form, phone: v })}
           type="tel"
         />
-        <Field
-          label="Logo URL"
-          value={form.logo_url}
-          onChange={(v) => setForm({ ...form, logo_url: v })}
-          placeholder="https://..."
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field
+            label="KVK nummer"
+            value={form.kvk_number}
+            onChange={(v) => setForm({ ...form, kvk_number: v })}
+            placeholder="12345678"
+          />
+          <Field
+            label="BTW nummer"
+            value={form.btw_number}
+            onChange={(v) => setForm({ ...form, btw_number: v })}
+            placeholder="NL000000000B00"
+          />
+        </div>
 
         <div className="flex justify-end pt-2">
           <Button type="submit" disabled={saving}>
@@ -99,6 +116,14 @@ export default function ClientAccount({ client }: Props) {
             <Row label="Contractduur" value={client.contract_duration ?? "—"} />
             <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
             <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
+            {hasDiscount && (
+              <Row
+                label="Kortingsperiode"
+                value={`${client.discount_percentage}% korting voor ${client.discount_months} ${
+                  Number(client.discount_months) === 1 ? "maand" : "maanden"
+                }`}
+              />
+            )}
           </div>
         </div>
         <p className="text-[12px] text-muted-foreground mt-3">

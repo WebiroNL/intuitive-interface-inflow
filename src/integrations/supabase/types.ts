@@ -147,12 +147,16 @@ export type Database = {
       clients: {
         Row: {
           active: boolean
+          btw_number: string | null
           company_name: string
           contact_person: string | null
           contract_duration: string | null
           created_at: string
+          discount_months: number | null
+          discount_percentage: number | null
           email: string
           id: string
+          kvk_number: string | null
           logo_url: string | null
           monthly_fee: number | null
           phone: string | null
@@ -162,12 +166,16 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          btw_number?: string | null
           company_name: string
           contact_person?: string | null
           contract_duration?: string | null
           created_at?: string
+          discount_months?: number | null
+          discount_percentage?: number | null
           email: string
           id?: string
+          kvk_number?: string | null
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null
@@ -177,12 +185,16 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          btw_number?: string | null
           company_name?: string
           contact_person?: string | null
           contract_duration?: string | null
           created_at?: string
+          discount_months?: number | null
+          discount_percentage?: number | null
           email?: string
           id?: string
+          kvk_number?: string | null
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null
