@@ -138,6 +138,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       btw_number: form.btw_number || null,
       discount_months: form.discount_months ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
+      deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
     };
     const q = client
       ? supabase.from("clients").update(payload).eq("id", client.id)
