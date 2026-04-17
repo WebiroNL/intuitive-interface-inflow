@@ -14,6 +14,10 @@ export interface Client {
   contract_duration: string | null;
   monthly_fee: number;
   active: boolean;
+  kvk_number: string | null;
+  btw_number: string | null;
+  discount_months: number | null;
+  discount_percentage: number | null;
   created_at: string;
   updated_at: string;
 }
