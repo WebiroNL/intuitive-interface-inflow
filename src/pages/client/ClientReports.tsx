@@ -191,7 +191,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 01 — Samenvatting */}
       {summaryBullets.length > 0 && (
         <section className="mb-20">
-          <SectionHeader eyebrow="01 — Samenvatting" title="Management samenvatting" />
+          <SectionHeader eyebrow="Samenvatting" title="Management samenvatting" />
           <div className="grid md:grid-cols-2 gap-3">
             {summaryBullets.map((bullet, i) => (
               <motion.div
@@ -215,7 +215,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 02 — KPI grid */}
       <section className="mb-20">
         <SectionHeader
-          eyebrow="02 — Kerncijfers"
+          eyebrow="Kerncijfers"
           title="Alle KPI's in één oogopslag"
           description="Twaalf metrics die samen het verhaal van deze maand vertellen."
         />
@@ -227,7 +227,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 03 — Funnel */}
       {funnelData.length >= 2 && (
         <section className="mb-20">
-          <SectionHeader eyebrow="03 — Funnel" title="Van impressie naar lead" />
+          <SectionHeader eyebrow="Funnel" title="Van impressie naar lead" />
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
               <ResponsiveContainer width="100%" height={340}>
@@ -287,7 +287,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 04a — Bereik & impressies (AI uitleg) */}
       {(reach > 0 || impressions > 0) && current.ai_reach_text && (
         <section className="mb-20">
-          <SectionHeader eyebrow="04 — Bereik" title="Bereik & impressies" />
+          <SectionHeader eyebrow="Bereik" title="Bereik & impressies" />
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
               <ResponsiveContainer width="100%" height={260}>
@@ -324,7 +324,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
         </section>
       )}
       <section className="mb-20">
-        <SectionHeader eyebrow="04 — Efficiency" title="Kostenoverzicht" />
+        <SectionHeader eyebrow="Efficiency" title="Kostenoverzicht" />
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           {[
             { name: "CPM", label: fmtEUR(cpm, 2), sub: "Per 1.000 impressies" },
@@ -362,7 +362,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {benchmarkData.length > 0 && (
         <section className="mb-20">
           <SectionHeader
-            eyebrow="05 — Benchmark"
+            eyebrow="Benchmark"
             title={lpvSavingsPct > 0 ? `${lpvSavingsPct.toFixed(0)}% goedkoper dan de markt` : "Vergelijking met markt"}
           />
           <div className="grid md:grid-cols-2 gap-6">
@@ -418,7 +418,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 07 — In gewone taal */}
       {current.ai_plain_language && current.ai_plain_language.length > 0 && (
         <section className="mb-20">
-          <SectionHeader eyebrow="07 — Wat betekent dit?" title="In gewone taal" />
+          <SectionHeader eyebrow="Wat betekent dit?" title="In gewone taal" />
           <div className="grid md:grid-cols-3 gap-4">
             {current.ai_plain_language.map((item, i) => {
               const icons = [ViewIcon, CursorPointer02Icon, RocketIcon];
@@ -447,7 +447,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 06 — Social groei */}
       {(igGrowth > 0 || fbGrowth > 0) && (
         <section className="mb-20">
-          <SectionHeader eyebrow="06 — Social" title="Organische groei" />
+          <SectionHeader eyebrow="Social" title="Organische groei" />
           <div className="grid md:grid-cols-2 gap-4">
             {igGrowth > 0 && (
               <div className="p-6 rounded-2xl border border-border bg-card">
@@ -476,7 +476,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 07 — Aanbevelingen */}
       {recommendationBullets.length > 0 && (
         <section className="mb-20">
-          <SectionHeader eyebrow="07 — Volgende stap" title="Aanbevelingen voor de volgende maand" />
+          <SectionHeader eyebrow="Volgende stap" title="Aanbevelingen voor de volgende maand" />
           <div className="grid md:grid-cols-2 gap-4">
             {recommendationBullets.map((rec, i) => {
               const icons = [Coins01Icon, Target02Icon, Megaphone02Icon, IdeaIcon];
@@ -506,7 +506,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       {/* 08 — Inzichten (vrije tekst) */}
       {current.insights && (
         <section className="mb-20">
-          <SectionHeader eyebrow="08 — Notities" title="Toelichting van Webiro" />
+          <SectionHeader eyebrow="Notities" title="Toelichting van Webiro" />
           <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
             <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">{current.insights}</p>
           </div>
