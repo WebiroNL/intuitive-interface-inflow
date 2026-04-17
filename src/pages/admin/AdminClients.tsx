@@ -674,7 +674,7 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
 
 function InvoicesTab({ client }: { client: Client }) {
   const [items, setItems] = useState<any[]>([]);
-  const [form, setForm] = useState({ invoice_number: "", amount: 0, status: "open", invoice_date: new Date().toISOString().slice(0,10), file_url: "", description: "" });
+  const [form, setForm] = useState({ invoice_number: "", amount: 0, status: "open", invoice_date: new Date().toISOString().slice(0,10), file_url: "", payment_url: "", description: "" });
   const load = async () => {
     const { data } = await supabase.from("invoices").select("*").eq("client_id", client.id).order("invoice_date",{ascending:false});
     setItems(data ?? []);
@@ -685,7 +685,7 @@ function InvoicesTab({ client }: { client: Client }) {
     const { error } = await supabase.from("invoices").insert({ ...form, client_id: client.id });
     if (error) { toast.error(error.message); return; }
     toast.success("Toegevoegd");
-    setForm({ invoice_number:"", amount:0, status:"open", invoice_date:new Date().toISOString().slice(0,10), file_url:"", description:"" });
+    setForm({ invoice_number:"", amount:0, status:"open", invoice_date:new Date().toISOString().slice(0,10), file_url:"", payment_url:"", description:"" });
     load();
   };
   return (
@@ -701,6 +701,7 @@ function InvoicesTab({ client }: { client: Client }) {
           </SelectContent>
         </Select>
         <Input placeholder="PDF URL (optioneel)" value={form.file_url} onChange={(e)=>setForm({...form, file_url:e.target.value})} className="h-8 col-span-2" />
+        <Input placeholder="Betaallink (optioneel) — toont 'Betalen' knop bij klant" value={form.payment_url} onChange={(e)=>setForm({...form, payment_url:e.target.value})} className="h-8 col-span-3" />
         <Button type="submit" size="sm" className="col-span-3"><HugeiconsIcon icon={Add01Icon} size={14}/> Factuur toevoegen</Button>
       </form>
       <div className="border border-border rounded overflow-hidden">
