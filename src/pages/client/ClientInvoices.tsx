@@ -7,7 +7,8 @@ interface Props { client: Client }
 
 interface Invoice {
   id: string; invoice_number: string; amount: number; status: string;
-  invoice_date: string; due_date: string | null; file_url: string | null; description: string | null;
+  invoice_date: string; due_date: string | null; file_url: string | null;
+  payment_url: string | null; description: string | null;
 }
 
 export default function ClientInvoices({ client }: Props) {
