@@ -428,7 +428,7 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
       const { data, error } = await supabase.functions.invoke("report-ai", {
         body: {
           metrics: form,
-          company_name: row.company_name ?? "Klant",
+          company_name: client.company_name,
           period: `${MONTH_NAMES[(form.month ?? 1) - 1]} ${form.year}`,
         },
       });
