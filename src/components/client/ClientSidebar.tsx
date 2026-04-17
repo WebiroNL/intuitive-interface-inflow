@@ -114,21 +114,21 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-[240px] h-screen bg-card border-r border-border flex-col flex-shrink-0 sticky top-0">
+      {/* Desktop + tablet landscape sidebar (>=900px) */}
+      <aside className="hidden min-[900px]:flex w-[240px] h-screen bg-card border-r border-border flex-col flex-shrink-0 sticky top-0">
         {sidebarInner}
       </aside>
 
-      {/* Mobile drawer + overlay */}
+      {/* Drawer + overlay (<900px) */}
       <div
         onClick={onClose}
-        className={`lg:hidden fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity ${
+        className={`min-[900px]:hidden fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity ${
           mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden={!mobileOpen}
       />
       <aside
-        className={`lg:hidden fixed top-0 left-0 z-50 w-[280px] max-w-[85vw] h-screen bg-card border-r border-border flex flex-col transition-transform duration-300 ease-out ${
+        className={`min-[900px]:hidden fixed top-0 left-0 z-50 w-[280px] max-w-[85vw] h-screen bg-card border-r border-border flex flex-col transition-transform duration-300 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         role="dialog"
