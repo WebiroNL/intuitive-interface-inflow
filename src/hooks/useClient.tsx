@@ -18,6 +18,7 @@ export interface Client {
   btw_number: string | null;
   discount_months: number | null;
   discount_percentage: number | null;
+  deposit_percentage: number | null;
   created_at: string;
   updated_at: string;
 }
