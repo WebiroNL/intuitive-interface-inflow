@@ -48,11 +48,14 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     navigate("/login");
   };
 
-  // Auto-close on route change (mobile)
+  // Lock body scroll when mobile drawer open (only on small screens)
   useEffect(() => {
-    if (mobileOpen) onClose?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+    if (mobileOpen && window.matchMedia("(max-width: 1023px)").matches) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [mobileOpen]);
 
   // Lock body scroll when mobile drawer open
   useEffect(() => {
