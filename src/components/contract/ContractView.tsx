@@ -171,9 +171,128 @@ export function ContractView({ client, editable }: Props) {
     return <div className="p-8 text-sm text-muted-foreground">Laden...</div>;
   }
 
+  // Read-only (client) view: cleaner, more scannable layout
+  if (!editable) {
+    const orderedCats = Object.keys(grouped);
+    return (
+      <div className="space-y-8">
+        {/* Hero summary */}
+        <div className="rounded-2xl border border-border bg-card p-6 lg:p-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <Stat
+              label="Eenmalig"
+              value={fmtEUR(oneTimeTotal, 2)}
+              hint={depositPct > 0 && oneTimeTotal > 0 ? `${depositPct}% aanbetaling: ${fmtEUR(depositAmount, 2)}` : undefined}
+            />
+            <Stat
+              label="Per maand"
+              value={fmtEUR(discountPct > 0 ? monthlyAfterDiscount : monthlyTotal, 2)}
+              hint={discountPct > 0 && discountMonths > 0 ? `${discountPct}% korting voor ${discountMonths} mnd` : undefined}
+            />
+            <Stat
+              label="Diensten"
+              value={`${lines.length}`}
+              hint={`Verdeeld over ${orderedCats.length} categorie${orderedCats.length === 1 ? "" : "ën"}`}
+            />
+          </div>
+        </div>
+
+        {lines.length === 0 ? (
+          <div className="p-12 text-center text-sm text-muted-foreground border border-border rounded-2xl bg-card">
+            Nog geen diensten gekoppeld aan dit account.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {orderedCats.map((cat) => {
+              const items = grouped[cat];
+              const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
+              const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
+              return (
+                <div key={cat} className="rounded-2xl border border-border bg-card overflow-hidden">
+                  <div className="px-6 py-3 bg-muted/30 border-b border-border flex items-center justify-between">
+                    <h3 className="text-[13px] font-semibold text-foreground">{cat}</h3>
+                    <div className="flex items-center gap-4 text-[12px] text-muted-foreground tabular-nums">
+                      {catOneTime > 0 && <span>Eenmalig <span className="text-foreground font-medium ml-1">{fmtEUR(catOneTime, 2)}</span></span>}
+                      {catMonthly > 0 && <span>Per maand <span className="text-foreground font-medium ml-1">{fmtEUR(catMonthly, 2)}</span></span>}
+                    </div>
+                  </div>
+                  <ul className="divide-y divide-border">
+                    {items.map((l) => {
+                      const oneTime = Number(l.one_time_price) * Number(l.quantity);
+                      const monthly = Number(l.monthly_price) * Number(l.quantity);
+                      const qty = Number(l.quantity);
+                      return (
+                        <li key={l.id} className="px-6 py-3.5 flex items-center justify-between gap-6">
+                          <div className="min-w-0 flex-1 flex items-center gap-3">
+                            <span className="text-[14px] text-foreground truncate">{l.service_name}</span>
+                            {qty > 1 && (
+                              <span className="text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                {qty}×
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-right shrink-0 tabular-nums">
+                            {oneTime > 0 && (
+                              <span className="text-[13px] text-foreground font-medium">
+                                {fmtEUR(oneTime, 2)}
+                                <span className="text-[11px] text-muted-foreground ml-1 font-normal">eenmalig</span>
+                              </span>
+                            )}
+                            {oneTime > 0 && monthly > 0 && <span className="text-muted-foreground mx-2">·</span>}
+                            {monthly > 0 && (
+                              <span className="text-[13px] text-foreground font-medium">
+                                {fmtEUR(monthly, 2)}
+                                <span className="text-[11px] text-muted-foreground ml-1 font-normal">/mnd</span>
+                              </span>
+                            )}
+                            {oneTime === 0 && monthly === 0 && (
+                              <span className="text-[12px] text-muted-foreground italic">Inbegrepen</span>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+            <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
+            <Row label="Eenmalig totaal" value={fmtEUR(oneTimeTotal, 2)} />
+            <Row label="Maandelijks totaal" value={fmtEUR(monthlyTotal, 2)} />
+            {depositPct > 0 && oneTimeTotal > 0 && (
+              <Row label={`Aanbetaling (${depositPct}%)`} value={fmtEUR(depositAmount, 2)} highlight />
+            )}
+            {discountPct > 0 && discountMonths > 0 && (
+              <>
+                <div className="h-px bg-border" />
+                <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
+                <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
+                <Row label="Maandelijks na korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+              </>
+            )}
+          </div>
+
+          <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+            <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
+            <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
+            <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
+            <div className="h-px bg-border" />
+            <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
+            <p className="text-[11px] text-muted-foreground pt-2">Bedragen op basis van facturen op deze klant.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Editable (admin) view
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold text-foreground">Contract & diensten</h2>
@@ -181,27 +300,24 @@ export function ContractView({ client, editable }: Props) {
             {lines.length === 0 ? "Nog geen diensten gekoppeld" : `${lines.length} dienst(en)`}
           </p>
         </div>
-        {editable && (
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={addCustom}>
-              <HugeiconsIcon icon={Add01Icon} size={14} /> Maatwerk regel
-            </Button>
-            <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm">
-                  <HugeiconsIcon icon={Add01Icon} size={14} /> Diensten toevoegen
-                </Button>
-              </DialogTrigger>
-              <ServicePicker catalog={catalog} existing={lines} onPick={addLines} />
-            </Dialog>
-          </div>
-        )}
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={addCustom}>
+            <HugeiconsIcon icon={Add01Icon} size={14} /> Maatwerk regel
+          </Button>
+          <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm">
+                <HugeiconsIcon icon={Add01Icon} size={14} /> Diensten toevoegen
+              </Button>
+            </DialogTrigger>
+            <ServicePicker catalog={catalog} existing={lines} onPick={addLines} />
+          </Dialog>
+        </div>
       </div>
 
-      {/* Lines */}
       {lines.length === 0 ? (
         <div className="p-12 text-center text-sm text-muted-foreground border border-border rounded-2xl bg-card">
-          {editable ? "Klik op 'Diensten toevoegen' om uit het Webiro pakkettenoverzicht te kiezen." : "Nog geen diensten gekoppeld aan dit account."}
+          Klik op 'Diensten toevoegen' om uit het Webiro pakkettenoverzicht te kiezen.
         </div>
       ) : (
         <div className="space-y-6">
@@ -229,94 +345,56 @@ export function ContractView({ client, editable }: Props) {
                   </div>
                 </div>
 
-                {editable ? (
-                  <table className="w-full text-sm">
-                    <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-muted/20">
-                      <tr>
-                        <th className="text-left px-6 py-2 font-medium">Dienst</th>
-                        <th className="text-right px-3 py-2 font-medium w-[120px]">Eenmalig</th>
-                        <th className="text-right px-3 py-2 font-medium w-[120px]">Per maand</th>
-                        <th className="text-center px-3 py-2 font-medium w-[80px]">Aantal</th>
-                        <th className="w-[44px]"></th>
+                <table className="w-full text-sm">
+                  <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-muted/20">
+                    <tr>
+                      <th className="text-left px-6 py-2 font-medium">Dienst</th>
+                      <th className="text-right px-3 py-2 font-medium w-[120px]">Eenmalig</th>
+                      <th className="text-right px-3 py-2 font-medium w-[120px]">Per maand</th>
+                      <th className="text-center px-3 py-2 font-medium w-[80px]">Aantal</th>
+                      <th className="w-[44px]"></th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {items.map((l) => (
+                      <tr key={l.id}>
+                        <td className="px-6 py-2.5">
+                          {l.service_type === "custom" ? (
+                            <Input value={l.service_name} onChange={(e) => updateLine(l.id, { service_name: e.target.value })} className="h-8" />
+                          ) : (
+                            <span className="text-foreground">{l.service_name}</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2.5 text-right">
+                          <Input type="number" step="0.01" value={l.one_time_price}
+                            onChange={(e) => updateLine(l.id, { one_time_price: Number(e.target.value) })}
+                            className="h-8 text-right tabular-nums" />
+                        </td>
+                        <td className="px-3 py-2.5 text-right">
+                          <Input type="number" step="0.01" value={l.monthly_price}
+                            onChange={(e) => updateLine(l.id, { monthly_price: Number(e.target.value) })}
+                            className="h-8 text-right tabular-nums" />
+                        </td>
+                        <td className="px-3 py-2.5 text-center">
+                          <Input type="number" value={l.quantity}
+                            onChange={(e) => updateLine(l.id, { quantity: Number(e.target.value) })}
+                            className="h-8 text-center w-[60px] mx-auto" />
+                        </td>
+                        <td className="px-2 text-right">
+                          <Button variant="ghost" size="sm" onClick={() => deleteLine(l.id)}>
+                            <HugeiconsIcon icon={Delete02Icon} size={14} />
+                          </Button>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
-                      {items.map((l) => (
-                        <tr key={l.id}>
-                          <td className="px-6 py-2.5">
-                            {l.service_type === "custom" ? (
-                              <Input value={l.service_name} onChange={(e) => updateLine(l.id, { service_name: e.target.value })} className="h-8" />
-                            ) : (
-                              <span className="text-foreground">{l.service_name}</span>
-                            )}
-                          </td>
-                          <td className="px-3 py-2.5 text-right">
-                            <Input type="number" step="0.01" value={l.one_time_price}
-                              onChange={(e) => updateLine(l.id, { one_time_price: Number(e.target.value) })}
-                              className="h-8 text-right tabular-nums" />
-                          </td>
-                          <td className="px-3 py-2.5 text-right">
-                            <Input type="number" step="0.01" value={l.monthly_price}
-                              onChange={(e) => updateLine(l.id, { monthly_price: Number(e.target.value) })}
-                              className="h-8 text-right tabular-nums" />
-                          </td>
-                          <td className="px-3 py-2.5 text-center">
-                            <Input type="number" value={l.quantity}
-                              onChange={(e) => updateLine(l.id, { quantity: Number(e.target.value) })}
-                              className="h-8 text-center w-[60px] mx-auto" />
-                          </td>
-                          <td className="px-2 text-right">
-                            <Button variant="ghost" size="sm" onClick={() => deleteLine(l.id)}>
-                              <HugeiconsIcon icon={Delete02Icon} size={14} />
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <ul className="divide-y divide-border">
-                    {items.map((l) => {
-                      const oneTime = Number(l.one_time_price) * Number(l.quantity);
-                      const monthly = Number(l.monthly_price) * Number(l.quantity);
-                      const qty = Number(l.quantity);
-                      return (
-                        <li key={l.id} className="px-6 py-4 flex items-center justify-between gap-6">
-                          <div className="min-w-0 flex-1">
-                            <p className="text-[14px] font-medium text-foreground">{l.service_name}</p>
-                            {qty > 1 && (
-                              <p className="text-[12px] text-muted-foreground mt-0.5">{qty}× besteld</p>
-                            )}
-                          </div>
-                          <div className="text-right shrink-0 space-y-0.5">
-                            {oneTime > 0 && (
-                              <p className="text-[14px] tabular-nums text-foreground font-medium">
-                                {fmtEUR(oneTime, 2)}
-                                <span className="text-[11px] text-muted-foreground ml-1.5 font-normal">eenmalig</span>
-                              </p>
-                            )}
-                            {monthly > 0 && (
-                              <p className="text-[14px] tabular-nums text-foreground font-medium">
-                                {fmtEUR(monthly, 2)}
-                                <span className="text-[11px] text-muted-foreground ml-1.5 font-normal">per maand</span>
-                              </p>
-                            )}
-                            {oneTime === 0 && monthly === 0 && (
-                              <p className="text-[12px] text-muted-foreground italic">Inbegrepen</p>
-                            )}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
+                    ))}
+                  </tbody>
+                </table>
               </div>
             );
           })}
         </div>
       )}
 
-      {/* Financial summary */}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
           <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Totalen</p>
@@ -341,11 +419,19 @@ export function ContractView({ client, editable }: Props) {
           <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
           <div className="h-px bg-border" />
           <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-          <p className="text-[11px] text-muted-foreground pt-2">
-            Bedragen op basis van facturen op deze klant.
-          </p>
+          <p className="text-[11px] text-muted-foreground pt-2">Bedragen op basis van facturen op deze klant.</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
+  return (
+    <div>
+      <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">{label}</p>
+      <p className="text-2xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
+      {hint && <p className="text-[12px] text-muted-foreground mt-1">{hint}</p>}
     </div>
   );
 }
