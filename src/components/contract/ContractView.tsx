@@ -327,7 +327,8 @@ export function ContractView({ client, editable }: Props) {
                 <div className="h-px bg-border" />
                 <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
                 <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
-                <Row label="Maandelijks na korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+                <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+                <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
               </>
             )}
           </div>
@@ -464,7 +465,8 @@ export function ContractView({ client, editable }: Props) {
               <div className="h-px bg-border" />
               <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
               <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
-              <Row label="Maandelijks na korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+              <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+              <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
             </>
           )}
         </div>
