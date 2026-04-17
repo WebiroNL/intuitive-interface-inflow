@@ -319,9 +319,15 @@ function MonthsTab({ client }: { client: Client }) {
   const blank = () => ({
     client_id: client.id, year: new Date().getFullYear(), month: new Date().getMonth() + 1,
     google_spend:0, google_clicks:0, google_conversions:0, google_ctr:0, google_cpc:0,
+    google_impressions:0, google_reach:0, google_frequency:0, google_link_clicks:0, google_lpv:0, google_cpm:0,
     meta_spend:0, meta_clicks:0, meta_conversions:0, meta_ctr:0, meta_cpc:0,
+    meta_impressions:0, meta_reach:0, meta_frequency:0, meta_link_clicks:0, meta_lpv:0, meta_cpm:0,
     tiktok_spend:0, tiktok_clicks:0, tiktok_conversions:0, tiktok_ctr:0, tiktok_cpc:0,
+    tiktok_impressions:0, tiktok_reach:0, tiktok_frequency:0, tiktok_link_clicks:0, tiktok_lpv:0, tiktok_cpm:0,
     total_leads:0, cpa:0, roas:0, webiro_fee: client.monthly_fee, insights: "",
+    instagram_growth:0, facebook_growth:0,
+    benchmark_lpv_cost:0, benchmark_ctr:0,
+    summary_bullets: [], recommendation_bullets: [],
   });
 
   return (
@@ -365,26 +371,73 @@ function MonthsTab({ client }: { client: Client }) {
 }
 
 function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
-  const [form, setForm] = useState(row);
+  const [form, setForm] = useState({
+    ...row,
+    summary_bullets: Array.isArray(row.summary_bullets) ? row.summary_bullets : [],
+    recommendation_bullets: Array.isArray(row.recommendation_bullets) ? row.recommendation_bullets : [],
+  });
   const [saving, setSaving] = useState(false);
   const f = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.type === "number" ? Number(e.target.value) : e.target.value });
+
   const save = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
+    // Strip empty bullets
+    const payload = {
+      ...form,
+      summary_bullets: (form.summary_bullets ?? []).filter((b: string) => b?.trim()),
+      recommendation_bullets: (form.recommendation_bullets ?? []).filter((b: string) => b?.trim()),
+    };
     const q = row.id
-      ? supabase.from("monthly_data").update(form).eq("id", row.id)
-      : supabase.from("monthly_data").insert(form);
+      ? supabase.from("monthly_data").update(payload).eq("id", row.id)
+      : supabase.from("monthly_data").insert(payload);
     const { error } = await q;
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     toast.success("Opgeslagen"); onSaved();
   };
+
   const Field = ({ k, label, step }: { k: string; label: string; step?: string }) => (
-    <div><Label className="text-[11px]">{label}</Label><Input type="number" step={step ?? "1"} value={form[k]} onChange={f(k)} className="h-8" /></div>
+    <div><Label className="text-[11px]">{label}</Label><Input type="number" step={step ?? "1"} value={form[k] ?? 0} onChange={f(k)} className="h-8" /></div>
   );
+
+  const BulletList = ({ field, label, placeholder }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string }) => {
+    const list: string[] = form[field] ?? [];
+    return (
+      <div>
+        <Label className="text-[11px] mb-1.5 block">{label}</Label>
+        <div className="space-y-2">
+          {list.map((val, i) => (
+            <div key={i} className="flex gap-2">
+              <Textarea
+                value={val}
+                onChange={(e) => {
+                  const next = [...list]; next[i] = e.target.value;
+                  setForm({ ...form, [field]: next });
+                }}
+                rows={2}
+                placeholder={placeholder}
+                className="text-sm"
+              />
+              <Button type="button" variant="ghost" size="sm" onClick={() => {
+                const next = list.filter((_, idx) => idx !== i);
+                setForm({ ...form, [field]: next });
+              }}>
+                <HugeiconsIcon icon={Delete02Icon} size={14} />
+              </Button>
+            </div>
+          ))}
+          <Button type="button" variant="outline" size="sm" onClick={() => setForm({ ...form, [field]: [...list, ""] })}>
+            <HugeiconsIcon icon={Add01Icon} size={14} /> Bullet toevoegen
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader><DialogTitle>Maanddata</DialogTitle></DialogHeader>
-      <form onSubmit={save} className="space-y-4">
+      <form onSubmit={save} className="space-y-5">
         <div className="grid grid-cols-3 gap-3">
           <div><Label className="text-[11px]">Jaar</Label><Input type="number" value={form.year} onChange={f("year")} className="h-8" /></div>
           <div>
@@ -398,14 +451,22 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
         </div>
 
         {(["google","meta","tiktok"] as const).map((p) => (
-          <div key={p} className="border border-border rounded p-3">
-            <p className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">{p} ads</p>
+          <div key={p} className="border border-border rounded p-3 space-y-3">
+            <p className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground">{p} ads</p>
             <div className="grid grid-cols-5 gap-2">
               <Field k={`${p}_spend`} label="Spend (€)" step="0.01" />
               <Field k={`${p}_clicks`} label="Klikken" />
+              <Field k={`${p}_link_clicks`} label="Link clicks" />
               <Field k={`${p}_conversions`} label="Conversies" />
+              <Field k={`${p}_lpv`} label="Landing page views" />
+            </div>
+            <div className="grid grid-cols-6 gap-2">
+              <Field k={`${p}_impressions`} label="Impressies" />
+              <Field k={`${p}_reach`} label="Bereik" />
+              <Field k={`${p}_frequency`} label="Frequentie" step="0.01" />
               <Field k={`${p}_ctr`} label="CTR (%)" step="0.01" />
               <Field k={`${p}_cpc`} label="CPC (€)" step="0.01" />
+              <Field k={`${p}_cpm`} label="CPM (€)" step="0.01" />
             </div>
           </div>
         ))}
@@ -416,8 +477,24 @@ function MonthEditDialog({ row, onSaved }: { row: any; onSaved: () => void }) {
           <Field k="roas" label="ROAS" step="0.01" />
         </div>
 
+        <div className="grid grid-cols-2 gap-3">
+          <Field k="instagram_growth" label="Instagram nieuwe volgers" />
+          <Field k="facebook_growth" label="Facebook nieuwe volgers" />
+        </div>
+
+        <div className="border border-border rounded p-3 space-y-3">
+          <p className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground">Benchmarks</p>
+          <div className="grid grid-cols-2 gap-3">
+            <Field k="benchmark_lpv_cost" label="Markt kosten per LPV (€)" step="0.01" />
+            <Field k="benchmark_ctr" label="Markt CTR (%)" step="0.01" />
+          </div>
+        </div>
+
+        <BulletList field="summary_bullets" label="Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
+        <BulletList field="recommendation_bullets" label="Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
+
         <div>
-          <Label className="text-[11px]">Inzichten / notities voor klant</Label>
+          <Label className="text-[11px]">Inzichten / vrije notitie</Label>
           <Textarea value={form.insights ?? ""} onChange={f("insights")} rows={3} />
         </div>
 
