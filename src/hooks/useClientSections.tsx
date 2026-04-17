@@ -10,6 +10,7 @@ export interface ClientSections {
   hasMonthlyData: boolean;
   hasInvoices: boolean;
   hasContracts: boolean;
+  hasServices: boolean;
   hasFiles: boolean;
   hasActivity: boolean;
   loading: boolean;
@@ -20,6 +21,7 @@ export function useClientSections(client: Client): ClientSections {
     hasMonthlyData: false,
     hasInvoices: false,
     hasContracts: false,
+    hasServices: false,
     hasFiles: false,
     hasActivity: false,
     loading: true,
@@ -29,10 +31,11 @@ export function useClientSections(client: Client): ClientSections {
     let cancelled = false;
     (async () => {
       const head = { count: "exact" as const, head: true };
-      const [m, i, c, f, a] = await Promise.all([
+      const [m, i, c, s, f, a] = await Promise.all([
         supabase.from("monthly_data").select("id", head).eq("client_id", client.id),
         supabase.from("invoices").select("id", head).eq("client_id", client.id),
         supabase.from("contracts").select("id", head).eq("client_id", client.id),
+        supabase.from("client_services").select("id", head).eq("client_id", client.id),
         supabase.from("client_files").select("id", head).eq("client_id", client.id),
         supabase.from("activity_log").select("id", head).eq("client_id", client.id),
       ]);
@@ -41,6 +44,7 @@ export function useClientSections(client: Client): ClientSections {
         hasMonthlyData: (m.count ?? 0) > 0,
         hasInvoices: (i.count ?? 0) > 0,
         hasContracts: (c.count ?? 0) > 0,
+        hasServices: (s.count ?? 0) > 0,
         hasFiles: (f.count ?? 0) > 0,
         hasActivity: (a.count ?? 0) > 0,
         loading: false,
