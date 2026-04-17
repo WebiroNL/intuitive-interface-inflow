@@ -20,10 +20,10 @@ export default function ClientLogin() {
     (async () => {
       const { data } = await supabase
         .from("clients")
-        .select("slug")
+        .select("id")
         .eq("user_id", user.id)
         .maybeSingle();
-      if (data?.slug) navigate(`/client/${data.slug}`, { replace: true });
+      if (data?.id) navigate("/dashboard", { replace: true });
       else toast.error("Geen klantaccount gekoppeld aan dit e-mailadres.");
     })();
   }, [user, isLoading, navigate]);

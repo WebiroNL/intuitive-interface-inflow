@@ -25,7 +25,7 @@ export function ClientSidebar({ client }: Props) {
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const sections = useClientSections(client);
-  const base = `/client/${client.slug}`;
+  const base = `/dashboard`;
 
   const allItems = [
     { label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, show: true },
@@ -44,7 +44,7 @@ export function ClientSidebar({ client }: Props) {
 
   const handleLogout = async () => {
     await signOut();
-    navigate("/client/login");
+    navigate("/login");
   };
 
   return (

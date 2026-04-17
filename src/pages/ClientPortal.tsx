@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyClient } from "@/hooks/useClient";
 import { ClientSidebar } from "@/components/client/ClientSidebar";
@@ -24,7 +24,6 @@ function Fallback() {
 export default function ClientPortal() {
   const { user, isLoading: authLoading } = useAuth();
   const { client, loading } = useMyClient();
-  const { slug } = useParams<{ slug: string }>();
 
   if (authLoading || loading) {
     return (
@@ -34,7 +33,7 @@ export default function ClientPortal() {
     );
   }
 
-  if (!user) return <Navigate to="/client/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
   if (!client) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-6">
@@ -46,11 +45,6 @@ export default function ClientPortal() {
         </div>
       </div>
     );
-  }
-
-  // Redirect when slug doesn't match this user's client
-  if (slug && slug !== client.slug) {
-    return <Navigate to={`/client/${client.slug}`} replace />;
   }
 
   return (
