@@ -7,7 +7,7 @@ import { ClientTopBar } from "@/components/client/ClientTopBar";
 
 const ClientDashboard = lazy(() => import("./client/ClientDashboard"));
 const ClientCampaigns = lazy(() => import("./client/ClientCampaigns"));
-const ClientFinance = lazy(() => import("./client/ClientFinance"));
+
 const ClientReports = lazy(() => import("./client/ClientReports"));
 const ClientInvoices = lazy(() => import("./client/ClientInvoices"));
 const ClientContract = lazy(() => import("./client/ClientContract"));
