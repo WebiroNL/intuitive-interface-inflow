@@ -324,27 +324,51 @@ export type Database = {
       }
       monthly_data: {
         Row: {
+          benchmark_ctr: number | null
+          benchmark_lpv_cost: number | null
           client_id: string
           cpa: number | null
           created_at: string
+          facebook_growth: number | null
           google_clicks: number | null
           google_conversions: number | null
           google_cpc: number | null
+          google_cpm: number | null
           google_ctr: number | null
+          google_frequency: number | null
+          google_impressions: number | null
+          google_link_clicks: number | null
+          google_lpv: number | null
+          google_reach: number | null
           google_spend: number | null
           id: string
           insights: string | null
+          instagram_growth: number | null
           meta_clicks: number | null
           meta_conversions: number | null
           meta_cpc: number | null
+          meta_cpm: number | null
           meta_ctr: number | null
+          meta_frequency: number | null
+          meta_impressions: number | null
+          meta_link_clicks: number | null
+          meta_lpv: number | null
+          meta_reach: number | null
           meta_spend: number | null
           month: number
+          recommendation_bullets: Json | null
           roas: number | null
+          summary_bullets: Json | null
           tiktok_clicks: number | null
           tiktok_conversions: number | null
           tiktok_cpc: number | null
+          tiktok_cpm: number | null
           tiktok_ctr: number | null
+          tiktok_frequency: number | null
+          tiktok_impressions: number | null
+          tiktok_link_clicks: number | null
+          tiktok_lpv: number | null
+          tiktok_reach: number | null
           tiktok_spend: number | null
           total_leads: number | null
           updated_at: string
@@ -352,27 +376,51 @@ export type Database = {
           year: number
         }
         Insert: {
+          benchmark_ctr?: number | null
+          benchmark_lpv_cost?: number | null
           client_id: string
           cpa?: number | null
           created_at?: string
+          facebook_growth?: number | null
           google_clicks?: number | null
           google_conversions?: number | null
           google_cpc?: number | null
+          google_cpm?: number | null
           google_ctr?: number | null
+          google_frequency?: number | null
+          google_impressions?: number | null
+          google_link_clicks?: number | null
+          google_lpv?: number | null
+          google_reach?: number | null
           google_spend?: number | null
           id?: string
           insights?: string | null
+          instagram_growth?: number | null
           meta_clicks?: number | null
           meta_conversions?: number | null
           meta_cpc?: number | null
+          meta_cpm?: number | null
           meta_ctr?: number | null
+          meta_frequency?: number | null
+          meta_impressions?: number | null
+          meta_link_clicks?: number | null
+          meta_lpv?: number | null
+          meta_reach?: number | null
           meta_spend?: number | null
           month: number
+          recommendation_bullets?: Json | null
           roas?: number | null
+          summary_bullets?: Json | null
           tiktok_clicks?: number | null
           tiktok_conversions?: number | null
           tiktok_cpc?: number | null
+          tiktok_cpm?: number | null
           tiktok_ctr?: number | null
+          tiktok_frequency?: number | null
+          tiktok_impressions?: number | null
+          tiktok_link_clicks?: number | null
+          tiktok_lpv?: number | null
+          tiktok_reach?: number | null
           tiktok_spend?: number | null
           total_leads?: number | null
           updated_at?: string
@@ -380,27 +428,51 @@ export type Database = {
           year: number
         }
         Update: {
+          benchmark_ctr?: number | null
+          benchmark_lpv_cost?: number | null
           client_id?: string
           cpa?: number | null
           created_at?: string
+          facebook_growth?: number | null
           google_clicks?: number | null
           google_conversions?: number | null
           google_cpc?: number | null
+          google_cpm?: number | null
           google_ctr?: number | null
+          google_frequency?: number | null
+          google_impressions?: number | null
+          google_link_clicks?: number | null
+          google_lpv?: number | null
+          google_reach?: number | null
           google_spend?: number | null
           id?: string
           insights?: string | null
+          instagram_growth?: number | null
           meta_clicks?: number | null
           meta_conversions?: number | null
           meta_cpc?: number | null
+          meta_cpm?: number | null
           meta_ctr?: number | null
+          meta_frequency?: number | null
+          meta_impressions?: number | null
+          meta_link_clicks?: number | null
+          meta_lpv?: number | null
+          meta_reach?: number | null
           meta_spend?: number | null
           month?: number
+          recommendation_bullets?: Json | null
           roas?: number | null
+          summary_bullets?: Json | null
           tiktok_clicks?: number | null
           tiktok_conversions?: number | null
           tiktok_cpc?: number | null
+          tiktok_cpm?: number | null
           tiktok_ctr?: number | null
+          tiktok_frequency?: number | null
+          tiktok_impressions?: number | null
+          tiktok_link_clicks?: number | null
+          tiktok_lpv?: number | null
+          tiktok_reach?: number | null
           tiktok_spend?: number | null
           total_leads?: number | null
           updated_at?: string
