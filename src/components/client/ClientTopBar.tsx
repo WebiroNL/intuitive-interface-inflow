@@ -59,17 +59,26 @@ export function ClientTopBar({ client }: Props) {
       </div>
 
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-muted/60 transition-colors outline-none">
-          <div className="text-right hidden sm:block">
-            <p className="text-[13px] font-semibold text-foreground leading-tight">
-              {client.contact_person ?? client.company_name}
-            </p>
-            <p className="text-[11px] text-muted-foreground leading-tight">{client.email}</p>
-          </div>
-          <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[13px] font-semibold">
-            {initials || <HugeiconsIcon icon={UserCircleIcon} size={18} />}
-          </div>
-        </DropdownMenuTrigger>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Schakel naar lichte modus" : "Schakel naar donkere modus"}
+            className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          >
+            <HugeiconsIcon icon={theme === "dark" ? Sun03Icon : Moon02Icon} size={16} />
+          </button>
+          <DropdownMenuTrigger className="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-muted/60 transition-colors outline-none">
+            <div className="text-right hidden sm:block">
+              <p className="text-[13px] font-semibold text-foreground leading-tight">
+                {client.contact_person ?? client.company_name}
+              </p>
+              <p className="text-[11px] text-muted-foreground leading-tight">{client.email}</p>
+            </div>
+            <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[13px] font-semibold">
+              {initials || <HugeiconsIcon icon={UserCircleIcon} size={18} />}
+            </div>
+          </DropdownMenuTrigger>
+        </div>
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>
             <p className="text-[13px] font-semibold text-foreground truncate">{client.company_name}</p>
