@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
 import type { Client } from "@/hooks/useClient";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { UserCircleIcon, Logout01Icon, Settings02Icon, Sun03Icon, Moon02Icon } from "@hugeicons/core-free-icons";
+import { UserCircleIcon, Logout01Icon, Settings02Icon, Sun03Icon, Moon02Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import {
 
 interface Props {
   client: Client;
+  onMenuClick?: () => void;
 }
 
 const TITLES: Record<string, string> = {
