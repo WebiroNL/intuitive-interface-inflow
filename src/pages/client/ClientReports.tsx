@@ -287,17 +287,17 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 04a — Bereik & impressies (AI uitleg) */}
       {(reach > 0 || impressions > 0) && current.ai_reach_text && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Bereik" title="Bereik & impressies" />
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={260}>
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={240} minHeight={220}>
                 <BarChart
                   data={[
                     { name: "Impressies", value: impressions },
                     { name: "Bereik", value: reach },
                   ]}
-                  margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
                 >
                   <defs>
                     <linearGradient id="barReach" x1="0" y1="0" x2="0" y2="1">
@@ -306,8 +306,8 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} vertical={false} />
-                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={12} />
-                  <YAxis stroke={CHART.muted} fontSize={12} />
+                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={11} />
+                  <YAxis stroke={CHART.muted} fontSize={11} width={50} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => v.toLocaleString("nl-NL")}
@@ -317,16 +317,16 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
-              <h3 className="text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
+              <h3 className="text-base sm:text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
               <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{current.ai_reach_text}</p>
             </div>
           </div>
         </section>
       )}
-      <section className="mb-20">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
         <SectionHeader eyebrow="Efficiency" title="Kostenoverzicht" />
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {[
             { name: "CPM", label: fmtEUR(cpm, 2), sub: "Per 1.000 impressies" },
             { name: "CPC", label: fmtEUR(cpc, 2), sub: "Per linkklik" },
@@ -338,21 +338,21 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: i * 0.07 }}
-              className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
+              className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
             >
-              <div className="text-xs uppercase tracking-wider mb-3 text-muted-foreground font-medium">{c.name}</div>
-              <div className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums">
+              <div className="text-[11px] sm:text-xs uppercase tracking-wider mb-2 sm:mb-3 text-muted-foreground font-medium">{c.name}</div>
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums break-words">
                 {c.label}
               </div>
-              <div className="text-xs mt-2 text-muted-foreground">{c.sub}</div>
+              <div className="text-[11px] sm:text-xs mt-2 text-muted-foreground">{c.sub}</div>
             </motion.div>
           ))}
         </div>
         {leads > 0 && (
-          <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
-            <h3 className="text-lg font-semibold mb-1 text-foreground">Kosten per lead</h3>
-            <p className="text-sm mb-4 text-muted-foreground">Met {leads} {leads === 1 ? "lead" : "leads"} à {fmtEUR(cpa, 2)} per stuk.</p>
-            <div className="text-5xl font-bold text-foreground tabular-nums">
+          <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
+            <h3 className="text-base sm:text-lg font-semibold mb-1 text-foreground">Kosten per lead</h3>
+            <p className="text-sm mb-3 sm:mb-4 text-muted-foreground">Met {leads} {leads === 1 ? "lead" : "leads"} à {fmtEUR(cpa, 2)} per stuk.</p>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tabular-nums break-words">
               {fmtEUR(cpa, 2)} <span className="text-sm font-normal text-muted-foreground">/ lead</span>
             </div>
           </div>
