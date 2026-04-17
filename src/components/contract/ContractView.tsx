@@ -341,7 +341,8 @@ export function ContractView({ client, editable }: Props) {
         </div>
       ) : (
         <div className="space-y-6">
-          {Object.entries(grouped).map(([cat, items]) => {
+          {orderedCats.map((cat) => {
+            const items = grouped[cat];
             const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
             const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
             return (
