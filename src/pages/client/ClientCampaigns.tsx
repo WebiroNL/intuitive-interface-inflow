@@ -50,11 +50,11 @@ export default function ClientCampaigns({ client }: Props) {
   const paid = totalPaid(current);
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px]">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-[1400px]">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Campagnes</p>
-          <h1 className="text-2xl font-semibold text-foreground">Performance & kosten</h1>
+          <p className="text-[11px] sm:text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Campagnes</p>
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Performance & kosten</h1>
           <p className="text-sm text-muted-foreground mt-1">{MONTH_NAMES[month - 1]} {year}</p>
         </div>
         <MonthSelector month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
