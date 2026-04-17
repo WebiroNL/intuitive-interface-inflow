@@ -62,9 +62,9 @@ export default function ClientUpdates({ client }: Props) {
         <div className="bg-card border border-border rounded-lg p-12 text-center text-muted-foreground">Nog geen updates.</div>
       ) : (
         <div className="relative">
-          {/* Centered vertical line — desktop only, stops at last icon */}
-          <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-5 w-px bg-border"
-               style={{ height: `calc(100% - ${items.length > 0 ? '5rem' : '0px'})` }} />
+          {/* Centered vertical line — starts at first icon center, ends at last icon center */}
+          <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-px bg-border"
+               style={{ top: "1.25rem", bottom: "1.25rem" }} />
 
           <div className="space-y-8 lg:space-y-12">
             {items.map((a, idx) => {
