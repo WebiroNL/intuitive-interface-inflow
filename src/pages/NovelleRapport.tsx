@@ -32,7 +32,7 @@ import {
 } from "@hugeicons/core-free-icons";
 
 const PASSWORD = "novelle2026!";
-const STORAGE_KEY = "novelle_rapport_auth";
+const STORAGE_KEY = "novelle_rapport_auth_v2";
 
 // Webiro brand palette (HSL → hex equivalents for chart libs)
 const BRAND = {
