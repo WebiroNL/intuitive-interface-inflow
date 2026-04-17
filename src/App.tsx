@@ -35,6 +35,8 @@ const AccountLogin = lazy(() => import("./pages/AccountLogin"));
 const AccountDashboard = lazy(() => import("./pages/AccountDashboard"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
+const ClientLogin = lazy(() => import("./pages/ClientLogin"));
+const ClientPortal = lazy(() => import("./pages/ClientPortal"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -74,7 +76,8 @@ function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isReportRoute = location.pathname.startsWith('/novellerapport');
-  const hideChrome = isAdminRoute || isReportRoute;
+  const isClientRoute = location.pathname.startsWith('/client');
+  const hideChrome = isAdminRoute || isReportRoute || isClientRoute;
 
   return (
     <>
@@ -108,6 +111,9 @@ function AppContent() {
             <Route path="/account" element={<AccountDashboard />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
+            <Route path="/client/login" element={<ClientLogin />} />
+            <Route path="/client/:slug/*" element={<ClientPortal />} />
+            <Route path="/client" element={<ClientLogin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -15,10 +15,12 @@ import {
   PlugSocketIcon,
   PaintBrushIcon,
   TextIcon,
+  UserMultiple02Icon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
+  { label: 'Klanten', href: '/admin/clients', icon: UserMultiple02Icon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
   { label: 'Leads', href: '/admin/leads', icon: UserGroup02Icon },
   { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
