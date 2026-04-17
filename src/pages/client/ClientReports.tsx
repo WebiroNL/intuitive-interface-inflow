@@ -227,12 +227,12 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 03 — Funnel */}
       {funnelData.length >= 2 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Funnel" title="Van impressie naar lead" />
-          <div className="grid lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={340}>
-                <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 60, left: 20, bottom: 10 }}>
+          <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="lg:col-span-2 p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={280} minHeight={240}>
+                <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                   <defs>
                     <linearGradient id="barFunnel" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor={CHART.primary} />
@@ -240,8 +240,8 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} horizontal={false} />
-                  <XAxis type="number" stroke={CHART.muted} fontSize={12} />
-                  <YAxis dataKey="stage" type="category" stroke={CHART.muted} fontSize={12} width={140} />
+                  <XAxis type="number" stroke={CHART.muted} fontSize={11} />
+                  <YAxis dataKey="stage" type="category" stroke={CHART.muted} fontSize={11} width={100} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => v.toLocaleString("nl-NL")}
@@ -261,13 +261,13 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.35, delay: i * 0.07 }}
-                    className="p-5 rounded-xl border border-border bg-card"
+                    className="p-4 sm:p-5 rounded-xl border border-border bg-card"
                   >
-                    <div className="flex justify-between items-baseline mb-2">
-                      <span className="text-sm font-medium text-foreground">{stage.stage}</span>
-                      <span className="text-xs text-muted-foreground">{pct.toFixed(2)}%</span>
+                    <div className="flex justify-between items-baseline mb-2 gap-2">
+                      <span className="text-sm font-medium text-foreground truncate">{stage.stage}</span>
+                      <span className="text-xs text-muted-foreground flex-shrink-0">{pct.toFixed(2)}%</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground tabular-nums">{stage.value.toLocaleString("nl-NL")}</div>
+                    <div className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">{stage.value.toLocaleString("nl-NL")}</div>
                     <div className="mt-3 h-1.5 rounded-full overflow-hidden bg-secondary">
                       <motion.div
                         initial={{ width: 0 }}
