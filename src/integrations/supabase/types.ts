@@ -415,6 +415,17 @@ export type Database = {
           id: string
           insights: string | null
           instagram_growth: number | null
+          linkedin_clicks: number | null
+          linkedin_conversions: number | null
+          linkedin_cpc: number | null
+          linkedin_cpm: number | null
+          linkedin_ctr: number | null
+          linkedin_frequency: number | null
+          linkedin_impressions: number | null
+          linkedin_link_clicks: number | null
+          linkedin_lpv: number | null
+          linkedin_reach: number | null
+          linkedin_spend: number | null
           meta_clicks: number | null
           meta_conversions: number | null
           meta_cpc: number | null
@@ -427,8 +438,30 @@ export type Database = {
           meta_reach: number | null
           meta_spend: number | null
           month: number
+          pinterest_clicks: number | null
+          pinterest_conversions: number | null
+          pinterest_cpc: number | null
+          pinterest_cpm: number | null
+          pinterest_ctr: number | null
+          pinterest_frequency: number | null
+          pinterest_impressions: number | null
+          pinterest_link_clicks: number | null
+          pinterest_lpv: number | null
+          pinterest_reach: number | null
+          pinterest_spend: number | null
           recommendation_bullets: Json | null
           roas: number | null
+          snapchat_clicks: number | null
+          snapchat_conversions: number | null
+          snapchat_cpc: number | null
+          snapchat_cpm: number | null
+          snapchat_ctr: number | null
+          snapchat_frequency: number | null
+          snapchat_impressions: number | null
+          snapchat_link_clicks: number | null
+          snapchat_lpv: number | null
+          snapchat_reach: number | null
+          snapchat_spend: number | null
           summary_bullets: Json | null
           tiktok_clicks: number | null
           tiktok_conversions: number | null
@@ -445,6 +478,17 @@ export type Database = {
           updated_at: string
           webiro_fee: number | null
           year: number
+          youtube_clicks: number | null
+          youtube_conversions: number | null
+          youtube_cpc: number | null
+          youtube_cpm: number | null
+          youtube_ctr: number | null
+          youtube_frequency: number | null
+          youtube_impressions: number | null
+          youtube_link_clicks: number | null
+          youtube_lpv: number | null
+          youtube_reach: number | null
+          youtube_spend: number | null
         }
         Insert: {
           ai_benchmark_text?: string | null
@@ -470,6 +514,17 @@ export type Database = {
           id?: string
           insights?: string | null
           instagram_growth?: number | null
+          linkedin_clicks?: number | null
+          linkedin_conversions?: number | null
+          linkedin_cpc?: number | null
+          linkedin_cpm?: number | null
+          linkedin_ctr?: number | null
+          linkedin_frequency?: number | null
+          linkedin_impressions?: number | null
+          linkedin_link_clicks?: number | null
+          linkedin_lpv?: number | null
+          linkedin_reach?: number | null
+          linkedin_spend?: number | null
           meta_clicks?: number | null
           meta_conversions?: number | null
           meta_cpc?: number | null
@@ -482,8 +537,30 @@ export type Database = {
           meta_reach?: number | null
           meta_spend?: number | null
           month: number
+          pinterest_clicks?: number | null
+          pinterest_conversions?: number | null
+          pinterest_cpc?: number | null
+          pinterest_cpm?: number | null
+          pinterest_ctr?: number | null
+          pinterest_frequency?: number | null
+          pinterest_impressions?: number | null
+          pinterest_link_clicks?: number | null
+          pinterest_lpv?: number | null
+          pinterest_reach?: number | null
+          pinterest_spend?: number | null
           recommendation_bullets?: Json | null
           roas?: number | null
+          snapchat_clicks?: number | null
+          snapchat_conversions?: number | null
+          snapchat_cpc?: number | null
+          snapchat_cpm?: number | null
+          snapchat_ctr?: number | null
+          snapchat_frequency?: number | null
+          snapchat_impressions?: number | null
+          snapchat_link_clicks?: number | null
+          snapchat_lpv?: number | null
+          snapchat_reach?: number | null
+          snapchat_spend?: number | null
           summary_bullets?: Json | null
           tiktok_clicks?: number | null
           tiktok_conversions?: number | null
@@ -500,6 +577,17 @@ export type Database = {
           updated_at?: string
           webiro_fee?: number | null
           year: number
+          youtube_clicks?: number | null
+          youtube_conversions?: number | null
+          youtube_cpc?: number | null
+          youtube_cpm?: number | null
+          youtube_ctr?: number | null
+          youtube_frequency?: number | null
+          youtube_impressions?: number | null
+          youtube_link_clicks?: number | null
+          youtube_lpv?: number | null
+          youtube_reach?: number | null
+          youtube_spend?: number | null
         }
         Update: {
           ai_benchmark_text?: string | null
@@ -525,6 +613,17 @@ export type Database = {
           id?: string
           insights?: string | null
           instagram_growth?: number | null
+          linkedin_clicks?: number | null
+          linkedin_conversions?: number | null
+          linkedin_cpc?: number | null
+          linkedin_cpm?: number | null
+          linkedin_ctr?: number | null
+          linkedin_frequency?: number | null
+          linkedin_impressions?: number | null
+          linkedin_link_clicks?: number | null
+          linkedin_lpv?: number | null
+          linkedin_reach?: number | null
+          linkedin_spend?: number | null
           meta_clicks?: number | null
           meta_conversions?: number | null
           meta_cpc?: number | null
@@ -537,8 +636,30 @@ export type Database = {
           meta_reach?: number | null
           meta_spend?: number | null
           month?: number
+          pinterest_clicks?: number | null
+          pinterest_conversions?: number | null
+          pinterest_cpc?: number | null
+          pinterest_cpm?: number | null
+          pinterest_ctr?: number | null
+          pinterest_frequency?: number | null
+          pinterest_impressions?: number | null
+          pinterest_link_clicks?: number | null
+          pinterest_lpv?: number | null
+          pinterest_reach?: number | null
+          pinterest_spend?: number | null
           recommendation_bullets?: Json | null
           roas?: number | null
+          snapchat_clicks?: number | null
+          snapchat_conversions?: number | null
+          snapchat_cpc?: number | null
+          snapchat_cpm?: number | null
+          snapchat_ctr?: number | null
+          snapchat_frequency?: number | null
+          snapchat_impressions?: number | null
+          snapchat_link_clicks?: number | null
+          snapchat_lpv?: number | null
+          snapchat_reach?: number | null
+          snapchat_spend?: number | null
           summary_bullets?: Json | null
           tiktok_clicks?: number | null
           tiktok_conversions?: number | null
@@ -555,6 +676,17 @@ export type Database = {
           updated_at?: string
           webiro_fee?: number | null
           year?: number
+          youtube_clicks?: number | null
+          youtube_conversions?: number | null
+          youtube_cpc?: number | null
+          youtube_cpm?: number | null
+          youtube_ctr?: number | null
+          youtube_frequency?: number | null
+          youtube_impressions?: number | null
+          youtube_link_clicks?: number | null
+          youtube_lpv?: number | null
+          youtube_reach?: number | null
+          youtube_spend?: number | null
         }
         Relationships: [
           {
