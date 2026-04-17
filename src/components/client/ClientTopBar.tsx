@@ -33,6 +33,7 @@ export function ClientTopBar({ client }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const segment = location.pathname.replace(/^\/dashboard\/?/, "").split("/")[0] ?? "";
   const title = TITLES[segment] ?? "Dashboard";
