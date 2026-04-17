@@ -63,37 +63,38 @@ function KpiCard({ kpi, index }: { kpi: Kpi; index: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: index * 0.04 }}
-      className={`group relative p-5 rounded-2xl border bg-card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ${
+      className={`group relative p-4 sm:p-5 rounded-2xl border bg-card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ${
         kpi.highlight ? "ring-1 ring-primary/20" : ""
       }`}
     >
       {kpi.highlight && (
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
       )}
-      <div className="relative flex items-center justify-between mb-4">
-        <div className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-accent transition-all duration-300">
-          <HugeiconsIcon icon={kpi.icon} size={18} className="text-primary group-hover:text-white transition-colors" />
+      <div className="relative flex items-center justify-between mb-3 sm:mb-4">
+        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-accent transition-all duration-300">
+          <HugeiconsIcon icon={kpi.icon} size={16} className="text-primary group-hover:text-white transition-colors sm:hidden" />
+          <HugeiconsIcon icon={kpi.icon} size={18} className="text-primary group-hover:text-white transition-colors hidden sm:block" />
         </div>
         <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
       </div>
-      <div className="relative text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-1 tabular-nums">
+      <div className="relative text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-1 tabular-nums break-words">
         {kpi.prefix}{display}{kpi.suffix}
       </div>
       <div className="relative text-xs font-medium text-foreground/80">{kpi.label}</div>
-      <div className="relative text-xs mt-1 text-muted-foreground">{kpi.sub}</div>
+      <div className="relative text-[11px] sm:text-xs mt-1 text-muted-foreground">{kpi.sub}</div>
     </motion.div>
   );
 }
 
 function SectionHeader({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) {
   return (
-    <div className="mb-8 md:mb-10 max-w-3xl">
-      <div className="flex items-center gap-2 mb-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+    <div className="mb-6 sm:mb-8 md:mb-10 max-w-3xl">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
         <span className="w-6 h-px bg-primary" />
         {eyebrow}
       </div>
-      <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground leading-[1.1]">{title}</h2>
-      {description && <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">{description}</p>}
+      <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-foreground leading-[1.15]">{title}</h2>
+      {description && <p className="mt-2 sm:mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">{description}</p>}
     </div>
   );
 }
@@ -104,11 +105,11 @@ export default function ClientReports({ client }: Props) {
   const { current, loading } = useMonthlyData(client, year, month);
 
   return (
-    <div className="p-6 lg:p-10 max-w-[1400px]">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+    <div className="p-4 sm:p-6 lg:p-10 max-w-[1400px]">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-10">
         <div>
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Maandrapport</p>
-          <h1 className="text-3xl font-semibold text-foreground">{client.company_name}</h1>
+          <p className="text-[11px] sm:text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Maandrapport</p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground break-words">{client.company_name}</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Periode: {MONTH_NAMES[month - 1]} {year}
           </p>
@@ -117,11 +118,11 @@ export default function ClientReports({ client }: Props) {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-[140px] bg-muted/40 rounded-2xl animate-pulse" />)}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-[120px] sm:h-[140px] bg-muted/40 rounded-2xl animate-pulse" />)}
         </div>
       ) : !current ? (
-        <div className="bg-card border border-border rounded-2xl p-16 text-center">
+        <div className="bg-card border border-border rounded-2xl p-8 sm:p-16 text-center">
           <p className="text-muted-foreground">Nog geen rapport beschikbaar voor deze maand.</p>
         </div>
       ) : (
@@ -190,7 +191,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
     <>
       {/* 01 — Samenvatting */}
       {summaryBullets.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Samenvatting" title="Management samenvatting" />
           <div className="grid md:grid-cols-2 gap-3">
             {summaryBullets.map((bullet, i) => (
@@ -200,7 +201,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.05 }}
-                className="flex gap-3 p-5 rounded-xl border border-border bg-card hover:shadow-md transition-shadow"
+                className="flex gap-3 p-4 sm:p-5 rounded-xl border border-border bg-card hover:shadow-md transition-shadow"
               >
                 <div className="flex-shrink-0 mt-0.5">
                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} className="text-primary" />
@@ -213,7 +214,7 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
       )}
 
       {/* 02 — KPI grid */}
-      <section className="mb-20">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
         <SectionHeader
           eyebrow="Kerncijfers"
           title="Alle KPI's in één oogopslag"
@@ -226,12 +227,12 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 03 — Funnel */}
       {funnelData.length >= 2 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Funnel" title="Van impressie naar lead" />
-          <div className="grid lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={340}>
-                <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 60, left: 20, bottom: 10 }}>
+          <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="lg:col-span-2 p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={280} minHeight={240}>
+                <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                   <defs>
                     <linearGradient id="barFunnel" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor={CHART.primary} />
@@ -239,8 +240,8 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} horizontal={false} />
-                  <XAxis type="number" stroke={CHART.muted} fontSize={12} />
-                  <YAxis dataKey="stage" type="category" stroke={CHART.muted} fontSize={12} width={140} />
+                  <XAxis type="number" stroke={CHART.muted} fontSize={11} />
+                  <YAxis dataKey="stage" type="category" stroke={CHART.muted} fontSize={11} width={100} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => v.toLocaleString("nl-NL")}
@@ -260,13 +261,13 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.35, delay: i * 0.07 }}
-                    className="p-5 rounded-xl border border-border bg-card"
+                    className="p-4 sm:p-5 rounded-xl border border-border bg-card"
                   >
-                    <div className="flex justify-between items-baseline mb-2">
-                      <span className="text-sm font-medium text-foreground">{stage.stage}</span>
-                      <span className="text-xs text-muted-foreground">{pct.toFixed(2)}%</span>
+                    <div className="flex justify-between items-baseline mb-2 gap-2">
+                      <span className="text-sm font-medium text-foreground truncate">{stage.stage}</span>
+                      <span className="text-xs text-muted-foreground flex-shrink-0">{pct.toFixed(2)}%</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground tabular-nums">{stage.value.toLocaleString("nl-NL")}</div>
+                    <div className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">{stage.value.toLocaleString("nl-NL")}</div>
                     <div className="mt-3 h-1.5 rounded-full overflow-hidden bg-secondary">
                       <motion.div
                         initial={{ width: 0 }}
@@ -286,17 +287,17 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 04a — Bereik & impressies (AI uitleg) */}
       {(reach > 0 || impressions > 0) && current.ai_reach_text && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Bereik" title="Bereik & impressies" />
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={260}>
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={240} minHeight={220}>
                 <BarChart
                   data={[
                     { name: "Impressies", value: impressions },
                     { name: "Bereik", value: reach },
                   ]}
-                  margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
                 >
                   <defs>
                     <linearGradient id="barReach" x1="0" y1="0" x2="0" y2="1">
@@ -305,8 +306,8 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} vertical={false} />
-                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={12} />
-                  <YAxis stroke={CHART.muted} fontSize={12} />
+                  <XAxis dataKey="name" stroke={CHART.muted} fontSize={11} />
+                  <YAxis stroke={CHART.muted} fontSize={11} width={50} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => v.toLocaleString("nl-NL")}
@@ -316,16 +317,16 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
-              <h3 className="text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
+              <h3 className="text-base sm:text-lg font-semibold mb-3 text-foreground">Wat betekent dit?</h3>
               <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{current.ai_reach_text}</p>
             </div>
           </div>
         </section>
       )}
-      <section className="mb-20">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
         <SectionHeader eyebrow="Efficiency" title="Kostenoverzicht" />
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {[
             { name: "CPM", label: fmtEUR(cpm, 2), sub: "Per 1.000 impressies" },
             { name: "CPC", label: fmtEUR(cpc, 2), sub: "Per linkklik" },
@@ -337,21 +338,21 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: i * 0.07 }}
-              className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
+              className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
             >
-              <div className="text-xs uppercase tracking-wider mb-3 text-muted-foreground font-medium">{c.name}</div>
-              <div className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums">
+              <div className="text-[11px] sm:text-xs uppercase tracking-wider mb-2 sm:mb-3 text-muted-foreground font-medium">{c.name}</div>
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums break-words">
                 {c.label}
               </div>
-              <div className="text-xs mt-2 text-muted-foreground">{c.sub}</div>
+              <div className="text-[11px] sm:text-xs mt-2 text-muted-foreground">{c.sub}</div>
             </motion.div>
           ))}
         </div>
         {leads > 0 && (
-          <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
-            <h3 className="text-lg font-semibold mb-1 text-foreground">Kosten per lead</h3>
-            <p className="text-sm mb-4 text-muted-foreground">Met {leads} {leads === 1 ? "lead" : "leads"} à {fmtEUR(cpa, 2)} per stuk.</p>
-            <div className="text-5xl font-bold text-foreground tabular-nums">
+          <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
+            <h3 className="text-base sm:text-lg font-semibold mb-1 text-foreground">Kosten per lead</h3>
+            <p className="text-sm mb-3 sm:mb-4 text-muted-foreground">Met {leads} {leads === 1 ? "lead" : "leads"} à {fmtEUR(cpa, 2)} per stuk.</p>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tabular-nums break-words">
               {fmtEUR(cpa, 2)} <span className="text-sm font-normal text-muted-foreground">/ lead</span>
             </div>
           </div>
@@ -360,18 +361,18 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 05 — Benchmark */}
       {benchmarkData.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader
             eyebrow="Benchmark"
             title={lpvSavingsPct > 0 ? `${lpvSavingsPct.toFixed(0)}% goedkoper dan de markt` : "Vergelijking met markt"}
           />
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
-              <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={benchmarkData} layout="vertical" margin={{ top: 10, right: 40, left: 60, bottom: 10 }}>
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card shadow-sm">
+              <ResponsiveContainer width="100%" height={240} minHeight={220}>
+                <BarChart data={benchmarkData} layout="vertical" margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.border} horizontal={false} />
-                  <XAxis type="number" stroke={CHART.muted} fontSize={12} tickFormatter={(v) => `€${v.toFixed(2)}`} />
-                  <YAxis dataKey="name" type="category" stroke={CHART.muted} fontSize={12} width={120} />
+                  <XAxis type="number" stroke={CHART.muted} fontSize={11} tickFormatter={(v) => `€${v.toFixed(2)}`} />
+                  <YAxis dataKey="name" type="category" stroke={CHART.muted} fontSize={11} width={100} />
                   <Tooltip
                     contentStyle={{ background: CHART.card, border: `1px solid ${CHART.border}`, borderRadius: 8, color: CHART.text, fontSize: 12 }}
                     formatter={(v: number) => `€${v.toFixed(2)}`}
@@ -385,13 +386,13 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 flex flex-col justify-center">
+            <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 flex flex-col justify-center">
               {lpvSavingsPct > 0 && (
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4 w-fit bg-primary/10 text-primary">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 w-fit bg-primary/10 text-primary">
                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-primary" /> {lpvSavingsPct.toFixed(0)}% onder benchmark
                 </div>
               )}
-              <h3 className="text-2xl font-semibold mb-3 text-foreground">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-3 text-foreground">
                 {lpvSavingsPct > 0 ? "Bovengemiddeld efficiënt" : "Markt vergelijking"}
               </h3>
               {current.ai_benchmark_text ? (
@@ -417,9 +418,9 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 07 — In gewone taal */}
       {current.ai_plain_language && current.ai_plain_language.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Wat betekent dit?" title="In gewone taal" />
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {current.ai_plain_language.map((item, i) => {
               const icons = [ViewIcon, CursorPointer02Icon, RocketIcon];
               const Icon = icons[i % icons.length];
@@ -430,12 +431,12 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
+                  className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-shadow"
                 >
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                     <HugeiconsIcon icon={Icon} size={20} className="text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{item.title}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                 </motion.div>
               );
@@ -446,26 +447,26 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 06 — Social groei */}
       {(igGrowth > 0 || fbGrowth > 0) && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Social" title="Organische groei" />
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
             {igGrowth > 0 && (
-              <div className="p-6 rounded-2xl border border-border bg-card">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+              <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                   <HugeiconsIcon icon={InstagramIcon} size={20} className="text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Instagram</h3>
-                <p className="text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(igGrowth)}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">Instagram</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(igGrowth)}</p>
                 <p className="text-sm text-muted-foreground">Nieuwe volgers</p>
               </div>
             )}
             {fbGrowth > 0 && (
-              <div className="p-6 rounded-2xl border border-border bg-card">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br from-primary to-accent">
+              <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br from-primary to-accent">
                   <HugeiconsIcon icon={UserGroup02Icon} size={20} className="text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Facebook</h3>
-                <p className="text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(fbGrowth)}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">Facebook</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground mt-1 tabular-nums">+{fmtNum(fbGrowth)}</p>
                 <p className="text-sm text-muted-foreground">Nieuwe volgers</p>
               </div>
             )}
@@ -475,9 +476,9 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 07 — Aanbevelingen */}
       {recommendationBullets.length > 0 && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Volgende stap" title="Aanbevelingen voor de volgende maand" />
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
             {recommendationBullets.map((rec, i) => {
               const icons = [Coins01Icon, Target02Icon, Megaphone02Icon, IdeaIcon];
               const Icon = icons[i % icons.length];
@@ -488,10 +489,10 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className="p-6 rounded-2xl border border-border bg-card hover:shadow-md hover:-translate-y-0.5 transition-all"
+                  className="p-4 sm:p-6 rounded-2xl border border-border bg-card hover:shadow-md hover:-translate-y-0.5 transition-all"
                 >
-                  <div className="flex gap-4">
-                    <div className="w-11 h-11 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+                  <div className="flex gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                       <HugeiconsIcon icon={Icon} size={20} className="text-white" />
                     </div>
                     <p className="text-sm leading-relaxed text-foreground/85 pt-1.5">{rec}</p>
@@ -505,17 +506,17 @@ function ReportContent({ current }: { current: NonNullable<ReturnType<typeof use
 
       {/* 08 — Inzichten (vrije tekst) */}
       {current.insights && (
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <SectionHeader eyebrow="Notities" title="Toelichting van Webiro" />
-          <div className="p-6 md:p-8 rounded-2xl border border-border bg-card">
+          <div className="p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card">
             <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">{current.insights}</p>
           </div>
         </section>
       )}
 
       {/* Footer */}
-      <footer className="mt-16 pt-8 border-t border-border">
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 text-sm text-muted-foreground">
+      <footer className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-border">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 text-sm text-muted-foreground">
           <div>
             <span className="text-foreground font-semibold">Webiro</span> · Performance marketing
           </div>
