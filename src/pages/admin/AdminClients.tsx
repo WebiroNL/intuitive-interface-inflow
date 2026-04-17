@@ -123,6 +123,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     btw_number: client?.btw_number ?? "",
     discount_months: client?.discount_months ?? 0,
     discount_percentage: client?.discount_percentage ?? 0,
+    deposit_percentage: client?.deposit_percentage ?? 50,
   });
   const [saving, setSaving] = useState(false);
 
