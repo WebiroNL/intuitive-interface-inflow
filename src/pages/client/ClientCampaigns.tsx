@@ -193,19 +193,28 @@ export default function ClientCampaigns({ client }: Props) {
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-card border border-border rounded-lg p-5">
-      <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
-      <p className="text-2xl font-semibold text-foreground tabular-nums">{value}</p>
+    <div className="bg-card border border-border rounded-lg p-4 sm:p-5">
+      <p className="text-[11px] sm:text-[12px] uppercase tracking-wider text-muted-foreground mb-1.5 sm:mb-2">{label}</p>
+      <p className="text-lg sm:text-2xl font-semibold text-foreground tabular-nums">{value}</p>
     </div>
   );
 }
 
 function CostCell({ label, value, hint, bold }: { label: string; value: string; hint?: string; bold?: boolean }) {
   return (
-    <div className="px-6 py-5">
+    <div className="px-4 sm:px-6 py-4 sm:py-5">
       <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">{label}</p>
-      <p className={`tabular-nums ${bold ? "text-2xl font-semibold text-foreground" : "text-xl font-semibold text-foreground"}`}>{value}</p>
+      <p className={`tabular-nums ${bold ? "text-xl sm:text-2xl font-semibold text-foreground" : "text-lg sm:text-xl font-semibold text-foreground"}`}>{value}</p>
       {hint && <p className="text-[12px] text-muted-foreground mt-1">{hint}</p>}
+    </div>
+  );
+}
+
+function MobileStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">{label}</p>
+      <p className="text-foreground font-medium tabular-nums">{value}</p>
     </div>
   );
 }
