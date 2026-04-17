@@ -369,19 +369,23 @@ function MonthsTab({ client }: { client: Client }) {
   };
   useEffect(() => { load(); }, []);
 
-  const blank = () => ({
-    client_id: client.id, year: new Date().getFullYear(), month: new Date().getMonth() + 1,
-    google_spend:0, google_clicks:0, google_conversions:0, google_ctr:0, google_cpc:0,
-    google_impressions:0, google_reach:0, google_frequency:0, google_link_clicks:0, google_lpv:0, google_cpm:0,
-    meta_spend:0, meta_clicks:0, meta_conversions:0, meta_ctr:0, meta_cpc:0,
-    meta_impressions:0, meta_reach:0, meta_frequency:0, meta_link_clicks:0, meta_lpv:0, meta_cpm:0,
-    tiktok_spend:0, tiktok_clicks:0, tiktok_conversions:0, tiktok_ctr:0, tiktok_cpc:0,
-    tiktok_impressions:0, tiktok_reach:0, tiktok_frequency:0, tiktok_link_clicks:0, tiktok_lpv:0, tiktok_cpm:0,
-    total_leads:0, cpa:0, roas:0, webiro_fee: client.monthly_fee, insights: "",
-    instagram_growth:0, facebook_growth:0,
-    benchmark_lpv_cost:0, benchmark_ctr:0,
-    summary_bullets: [], recommendation_bullets: [],
-  });
+  const blank = () => {
+    const platforms = ["google","meta","tiktok","linkedin","pinterest","youtube","snapchat"];
+    const platformDefaults: Record<string, number> = {};
+    platforms.forEach((p) => {
+      ["spend","clicks","conversions","ctr","cpc","impressions","reach","frequency","link_clicks","lpv","cpm"].forEach((k) => {
+        platformDefaults[`${p}_${k}`] = 0;
+      });
+    });
+    return {
+      client_id: client.id, year: new Date().getFullYear(), month: new Date().getMonth() + 1,
+      ...platformDefaults,
+      total_leads:0, cpa:0, roas:0, webiro_fee: client.monthly_fee, insights: "",
+      instagram_growth:0, facebook_growth:0,
+      benchmark_lpv_cost:0, benchmark_ctr:0,
+      summary_bullets: [], recommendation_bullets: [],
+    };
+  };
 
   return (
     <div className="pt-4">
@@ -398,7 +402,7 @@ function MonthsTab({ client }: { client: Client }) {
             {data.map((d:any) => (
               <tr key={d.id}>
                 <td className="px-3 py-2">{MONTH_NAMES[d.month-1]} {d.year}</td>
-                <td className="px-3 py-2 text-right tabular-nums">{fmtEUR(Number(d.google_spend)+Number(d.meta_spend)+Number(d.tiktok_spend))}</td>
+                <td className="px-3 py-2 text-right tabular-nums">{fmtEUR(["google","meta","tiktok","linkedin","pinterest","youtube","snapchat"].reduce((s,p)=>s+Number(d[`${p}_spend`] ?? 0),0))}</td>
                 <td className="px-3 py-2 text-right">{d.total_leads}</td>
                 <td className="px-3 py-2 text-right tabular-nums">{fmtEUR(Number(d.webiro_fee))}</td>
                 <td className="px-3 py-2 text-right">
@@ -553,26 +557,36 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
           <Field k="webiro_fee" label="Webiro fee (€)" step="0.01" />
         </div>
 
-        {(["google","meta","tiktok"] as const).map((p) => (
-          <div key={p} className="border border-border rounded p-3 space-y-3">
-            <p className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground">{p} ads</p>
-            <div className="grid grid-cols-5 gap-2">
-              <Field k={`${p}_spend`} label="Spend (€)" step="0.01" />
-              <Field k={`${p}_clicks`} label="Klikken" />
-              <Field k={`${p}_link_clicks`} label="Link clicks" />
-              <Field k={`${p}_conversions`} label="Conversies" />
-              <Field k={`${p}_lpv`} label="Landing page views" />
+        {(["google","meta","tiktok","linkedin","pinterest","youtube","snapchat"] as const).map((p) => {
+          const labels: Record<string, string> = {
+            google: "Google Ads", meta: "Meta Ads", tiktok: "TikTok Ads",
+            linkedin: "LinkedIn Ads", pinterest: "Pinterest Ads", youtube: "YouTube Ads", snapchat: "Snapchat Ads",
+          };
+          return (
+            <div key={p} className="border border-border rounded p-3 space-y-3">
+              <div className="flex items-center gap-2">
+                <img src={`/images/tools/${p === "google" ? "googleads" : p}.svg`} alt={labels[p]} className="w-4 h-4 object-contain" />
+                <p className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground">{labels[p]}</p>
+                <span className="text-[10px] text-muted-foreground ml-auto">Leeg laten = niet zichtbaar voor klant</span>
+              </div>
+              <div className="grid grid-cols-5 gap-2">
+                <Field k={`${p}_spend`} label="Spend (€)" step="0.01" />
+                <Field k={`${p}_clicks`} label="Klikken" />
+                <Field k={`${p}_link_clicks`} label="Link clicks" />
+                <Field k={`${p}_conversions`} label="Conversies" />
+                <Field k={`${p}_lpv`} label="Landing page views" />
+              </div>
+              <div className="grid grid-cols-6 gap-2">
+                <Field k={`${p}_impressions`} label="Impressies" />
+                <Field k={`${p}_reach`} label="Bereik" />
+                <Field k={`${p}_frequency`} label="Frequentie" step="0.01" />
+                <Field k={`${p}_ctr`} label="CTR (%)" step="0.01" />
+                <Field k={`${p}_cpc`} label="CPC (€)" step="0.01" />
+                <Field k={`${p}_cpm`} label="CPM (€)" step="0.01" />
+              </div>
             </div>
-            <div className="grid grid-cols-6 gap-2">
-              <Field k={`${p}_impressions`} label="Impressies" />
-              <Field k={`${p}_reach`} label="Bereik" />
-              <Field k={`${p}_frequency`} label="Frequentie" step="0.01" />
-              <Field k={`${p}_ctr`} label="CTR (%)" step="0.01" />
-              <Field k={`${p}_cpc`} label="CPC (€)" step="0.01" />
-              <Field k={`${p}_cpm`} label="CPM (€)" step="0.01" />
-            </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="grid grid-cols-3 gap-3">
           <Field k="total_leads" label="Totaal leads" />
