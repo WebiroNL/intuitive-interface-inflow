@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Suspense, lazy } from "react";
@@ -76,7 +76,7 @@ function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isReportRoute = location.pathname.startsWith('/novellerapport');
-  const isClientRoute = location.pathname.startsWith('/client');
+  const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute;
 
   return (
@@ -111,9 +111,11 @@ function AppContent() {
             <Route path="/account" element={<AccountDashboard />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
-            <Route path="/client/login" element={<ClientLogin />} />
-            <Route path="/client/:slug/*" element={<ClientPortal />} />
-            <Route path="/client" element={<ClientLogin />} />
+            <Route path="/login" element={<ClientLogin />} />
+            <Route path="/dashboard/*" element={<ClientPortal />} />
+            <Route path="/client/login" element={<Navigate to="/login" replace />} />
+            <Route path="/client" element={<Navigate to="/login" replace />} />
+            <Route path="/client/:slug/*" element={<Navigate to="/dashboard" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
