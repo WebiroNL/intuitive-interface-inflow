@@ -309,6 +309,7 @@ export type Database = {
           id: string
           invoice_date: string
           invoice_number: string
+          payment_url: string | null
           status: string
         }
         Insert: {
@@ -321,6 +322,7 @@ export type Database = {
           id?: string
           invoice_date?: string
           invoice_number: string
+          payment_url?: string | null
           status?: string
         }
         Update: {
@@ -333,6 +335,7 @@ export type Database = {
           id?: string
           invoice_date?: string
           invoice_number?: string
+          payment_url?: string | null
           status?: string
         }
         Relationships: [
