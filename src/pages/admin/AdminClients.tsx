@@ -216,6 +216,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsList className="w-full justify-start">
           <TabsTrigger value="info">Info</TabsTrigger>
           <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="services">Diensten</TabsTrigger>
           <TabsTrigger value="months">Maanddata</TabsTrigger>
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="contracts">Contracten</TabsTrigger>
@@ -235,6 +236,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         </TabsContent>
 
         <TabsContent value="account"><AccountTab client={client} onChanged={onChanged} /></TabsContent>
+        <TabsContent value="services"><ContractView client={client as any} editable /></TabsContent>
         <TabsContent value="months"><MonthsTab client={client} /></TabsContent>
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="contracts"><ContractsTab client={client} /></TabsContent>
