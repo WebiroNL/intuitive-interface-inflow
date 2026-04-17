@@ -205,14 +205,6 @@ export default function NovelleRapport() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      {/* Vertical grid lines (Stripe-style) — overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[60] hidden lg:block">
-        <div className="max-w-7xl mx-auto h-full grid grid-cols-12">
-          {Array.from({ length: 13 }).map((_, i) => (
-            <div key={i} className="border-l border-border/60 h-full" />
-          ))}
-        </div>
-      </div>
 
       {/* Soft hero gradient */}
       <div className="absolute top-0 left-0 right-0 h-[600px] pointer-events-none overflow-hidden">
