@@ -48,9 +48,9 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     navigate("/login");
   };
 
-  // Lock body scroll when mobile drawer open (only on small screens)
+  // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
-    if (mobileOpen && window.matchMedia("(max-width: 1023px)").matches) {
+    if (mobileOpen && window.matchMedia("(max-width: 899px)").matches) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       return () => { document.body.style.overflow = prev; };
@@ -68,11 +68,11 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         <span className="ml-2 text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
           Portaal
         </span>
-        {/* Close button only on mobile drawer */}
+        {/* Close button only on tablet portrait/mobile */}
         <button
           onClick={onClose}
           aria-label="Sluit menu"
-          className="ml-auto lg:hidden w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          className="ml-auto min-[900px]:hidden w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
         >
           <HugeiconsIcon icon={Cancel01Icon} size={18} />
         </button>
