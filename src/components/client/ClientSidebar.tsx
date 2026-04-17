@@ -14,6 +14,7 @@ import {
   Logout01Icon,
 } from "@hugeicons/core-free-icons";
 import type { Client } from "@/hooks/useClient";
+import { useClientSections } from "@/hooks/useClientSections";
 
 interface Props {
   client: Client;
@@ -23,18 +24,20 @@ export function ClientSidebar({ client }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const sections = useClientSections(client);
   const base = `/client/${client.slug}`;
 
-  const items = [
-    { label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true },
-    { label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon },
-    { label: "Financieel", href: `${base}/finance`, icon: Money02Icon },
-    { label: "Rapporten", href: `${base}/reports`, icon: File02Icon },
-    { label: "Contract & Facturen", href: `${base}/invoices`, icon: Invoice01Icon },
-    { label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon },
-    { label: "Updates", href: `${base}/updates`, icon: Notification02Icon },
-    { label: "Account", href: `${base}/account`, icon: UserCircleIcon },
+  const allItems = [
+    { label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, show: true },
+    { label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, show: sections.hasMonthlyData },
+    { label: "Financieel", href: `${base}/finance`, icon: Money02Icon, show: sections.hasMonthlyData },
+    { label: "Rapporten", href: `${base}/reports`, icon: File02Icon, show: sections.hasMonthlyData },
+    { label: "Contract & Facturen", href: `${base}/invoices`, icon: Invoice01Icon, show: sections.hasInvoices || sections.hasContracts },
+    { label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, show: sections.hasFiles },
+    { label: "Updates", href: `${base}/updates`, icon: Notification02Icon, show: sections.hasActivity },
+    { label: "Account", href: `${base}/account`, icon: UserCircleIcon, show: true },
   ];
+  const items = allItems.filter((i) => i.show);
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
