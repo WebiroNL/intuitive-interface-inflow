@@ -80,11 +80,7 @@ export function ClientSidebar({ client }: Props) {
         ))}
       </nav>
 
-      <div className="border-t border-border p-3 space-y-1">
-        <div className="px-3 py-1.5">
-          <p className="text-[12px] font-medium text-foreground truncate">{client.email}</p>
-          <p className="text-[11px] text-muted-foreground">Klantaccount</p>
-        </div>
+      <div className="border-t border-border p-3">
         <button
           onClick={handleLogout}
           className="flex items-center gap-2.5 w-full px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
