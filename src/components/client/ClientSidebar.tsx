@@ -36,7 +36,6 @@ export function ClientSidebar({ client }: Props) {
     { label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, show: sections.hasInvoices },
     { label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, show: sections.hasFiles },
     { label: "Updates", href: `${base}/updates`, icon: Notification02Icon, show: sections.hasActivity },
-    { label: "Account", href: `${base}/account`, icon: UserCircleIcon, show: true },
   ];
   const items = allItems.filter((i) => i.show);
 
