@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
@@ -16,6 +17,7 @@ import {
   PaintBrushIcon,
   TextIcon,
   UserMultiple02Icon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
@@ -32,7 +34,12 @@ const navItems = [
   { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];
 
-export function AdminSidebar() {
+interface Props {
+  mobileOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const location = useLocation();
   const { signOut, user } = useAuth();
   const isDark = document.documentElement.classList.contains('dark');
@@ -40,8 +47,17 @@ export function AdminSidebar() {
   const isActive = (href: string) =>
     href === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(href);
 
-  return (
-    <aside className="w-[240px] h-screen bg-card border-r border-border flex flex-col flex-shrink-0 sticky top-0">
+  // Lock body scroll when mobile drawer open (only below 900px)
+  useEffect(() => {
+    if (mobileOpen && window.matchMedia("(max-width: 899px)").matches) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [mobileOpen]);
+
+  const sidebarInner = (
+    <>
       <div className="h-[60px] flex items-center px-5 border-b border-border">
         <Link to="/admin">
           <img src={isDark ? webiroLogoDark : webiroLogo} alt="Webiro" className="h-[22px]" />
@@ -49,6 +65,13 @@ export function AdminSidebar() {
         <span className="ml-2 text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
           Admin
         </span>
+        <button
+          onClick={onClose}
+          aria-label="Sluit menu"
+          className="ml-auto min-[900px]:hidden w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+        >
+          <HugeiconsIcon icon={Cancel01Icon} size={18} />
+        </button>
       </div>
 
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
@@ -81,6 +104,34 @@ export function AdminSidebar() {
           Uitloggen
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop + tablet landscape sidebar (>=900px) */}
+      <aside className="hidden min-[900px]:flex w-[240px] h-screen bg-card border-r border-border flex-col flex-shrink-0 sticky top-0">
+        {sidebarInner}
+      </aside>
+
+      {/* Drawer + overlay (<900px) */}
+      <div
+        onClick={onClose}
+        className={`min-[900px]:hidden fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity ${
+          mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!mobileOpen}
+      />
+      <aside
+        className={`min-[900px]:hidden fixed top-0 left-0 z-50 w-[280px] max-w-[85vw] h-screen bg-card border-r border-border flex flex-col transition-transform duration-300 ease-out ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Adminmenu"
+      >
+        {sidebarInner}
+      </aside>
+    </>
   );
 }
