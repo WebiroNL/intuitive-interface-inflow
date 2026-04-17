@@ -52,7 +52,7 @@ export function ClientTopBar({ client }: Props) {
   };
 
   return (
-    <header className="h-[60px] sticky top-0 z-30 bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6">
+    <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center justify-between px-6">
       <div>
         <p className="text-[11px] uppercase tracking-wider text-muted-foreground leading-none">Klantportaal</p>
         <h1 className="text-[15px] font-semibold text-foreground leading-tight">{title}</h1>
