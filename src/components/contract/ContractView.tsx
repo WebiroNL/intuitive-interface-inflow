@@ -167,13 +167,33 @@ export function ContractView({ client, editable }: Props) {
     return acc;
   }, {});
 
+  // Canonical order matching the pakketten overview flow
+  const CATEGORY_ORDER = [
+    "Pakket",
+    "CMS & Hosting",
+    "Setup — Technisch",
+    "Setup — Functionaliteit & Integraties",
+    "Setup — Design & Branding",
+    "Setup — Content & Compliance",
+    "Webiro Widgets (Maandelijks)",
+    "Onderhoud & Support",
+    "Webiro Marketing",
+    "Marketing",
+    "Maatwerk",
+    "Overig",
+  ];
+  const catIndex = (c: string) => {
+    const i = CATEGORY_ORDER.indexOf(c);
+    return i === -1 ? CATEGORY_ORDER.length : i;
+  };
+  const orderedCats = Object.keys(grouped).sort((a, b) => catIndex(a) - catIndex(b));
+
   if (loading) {
     return <div className="p-8 text-sm text-muted-foreground">Laden...</div>;
   }
 
   // Read-only (client) view: cleaner, more scannable layout
   if (!editable) {
-    const orderedCats = Object.keys(grouped);
     return (
       <div className="space-y-8">
         {/* Hero summary */}
@@ -321,7 +341,8 @@ export function ContractView({ client, editable }: Props) {
         </div>
       ) : (
         <div className="space-y-6">
-          {Object.entries(grouped).map(([cat, items]) => {
+          {orderedCats.map((cat) => {
+            const items = grouped[cat];
             const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
             const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
             return (
