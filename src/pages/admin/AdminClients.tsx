@@ -236,26 +236,72 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
 }
 
 function AccountTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
-  const [userId, setUserId] = useState(client.user_id ?? "");
+  const [email, setEmail] = useState(client.email);
+  const [password, setPassword] = useState("");
   const [saving, setSaving] = useState(false);
-  const link = async () => {
-    setSaving(true);
-    const { error } = await supabase.from("clients").update({ user_id: userId || null }).eq("id", client.id);
-    setSaving(false);
-    if (error) { toast.error(error.message); return; }
-    toast.success("Gekoppeld"); onChanged();
+
+  const generate = () => {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+    let p = "";
+    for (let i = 0; i < 12; i++) p += chars[Math.floor(Math.random() * chars.length)];
+    setPassword(p);
   };
+
+  const submit = async () => {
+    if (password.length < 8) { toast.error("Wachtwoord min. 8 tekens"); return; }
+    setSaving(true);
+    const { data, error } = await supabase.functions.invoke("client-account", {
+      body: { client_id: client.id, email, password },
+    });
+    setSaving(false);
+    if (error || (data as any)?.error) {
+      toast.error((data as any)?.error ?? error?.message ?? "Fout");
+      return;
+    }
+    toast.success((data as any)?.created ? "Account aangemaakt" : "Wachtwoord bijgewerkt");
+    setPassword("");
+    onChanged();
+  };
+
   return (
     <div className="pt-4 space-y-4">
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
-        <p className="font-medium text-foreground mb-1">Inlogaccount koppelen</p>
-        <p>Maak eerst een account aan via Cloud → Users (of laat de klant zich registreren), kopieer dan de User ID hieronder.</p>
+        <p className="font-medium text-foreground mb-1">Inlogaccount aanmaken of resetten</p>
+        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant. De klant logt in op <span className="font-mono text-foreground">/client/login</span>.</p>
       </div>
-      <div>
-        <Label>User ID (uuid)</Label>
-        <Input value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" />
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label>E-mail</Label>
+          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div>
+          <Label>Wachtwoord (min. 8)</Label>
+          <div className="flex gap-2">
+            <Input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+            <Button type="button" variant="outline" size="sm" onClick={generate}>Genereer</Button>
+          </div>
+        </div>
       </div>
-      <Button onClick={link} disabled={saving}>{saving ? "Bezig..." : "Koppelen"}</Button>
+
+      {password && (
+        <div className="bg-primary/5 border border-primary/20 rounded p-3 flex items-center justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Te delen met klant</p>
+            <p className="text-sm font-mono text-foreground mt-0.5">{email} / {password}</p>
+          </div>
+          <Button type="button" variant="ghost" size="sm" onClick={() => { navigator.clipboard.writeText(`${email} / ${password}`); toast.success("Gekopieerd"); }}>Kopieer</Button>
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <Button onClick={submit} disabled={saving || !password}>
+          {saving ? "Bezig..." : client.user_id ? "Wachtwoord bijwerken" : "Account aanmaken"}
+        </Button>
+        {client.user_id && (
+          <span className="text-[12px] text-emerald-600 font-medium">✓ Account gekoppeld</span>
+        )}
+      </div>
     </div>
   );
 }
