@@ -12,6 +12,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
+import { ContractView } from "@/components/contract/ContractView";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
@@ -19,6 +20,9 @@ interface Client {
   contract_duration: string | null; monthly_fee: number; active: boolean;
   kvk_number: string | null; btw_number: string | null;
   discount_months: number | null; discount_percentage: number | null;
+  deposit_percentage: number | null;
+  logo_url: string | null;
+  created_at: string; updated_at: string;
 }
 
 const slugify = (s: string) =>
@@ -120,6 +124,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     btw_number: client?.btw_number ?? "",
     discount_months: client?.discount_months ?? 0,
     discount_percentage: client?.discount_percentage ?? 0,
+    deposit_percentage: client?.deposit_percentage ?? 50,
   });
   const [saving, setSaving] = useState(false);
 
@@ -133,6 +138,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       btw_number: form.btw_number || null,
       discount_months: form.discount_months ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
+      deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
     };
     const q = client
       ? supabase.from("clients").update(payload).eq("id", client.id)
@@ -196,6 +202,11 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Label>Kortingspercentage (%)</Label>
             <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: Number(e.target.value) })} placeholder="bv. 20" />
           </div>
+          <div className="col-span-2">
+            <Label>Aanbetaling (%)</Label>
+            <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: Number(e.target.value) })} placeholder="bv. 50" />
+            <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
+          </div>
         </div>
         <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : "Opslaan"}</Button>
       </form>
@@ -213,6 +224,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsList className="w-full justify-start">
           <TabsTrigger value="info">Info</TabsTrigger>
           <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="services">Diensten</TabsTrigger>
           <TabsTrigger value="months">Maanddata</TabsTrigger>
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="contracts">Contracten</TabsTrigger>
@@ -232,6 +244,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         </TabsContent>
 
         <TabsContent value="account"><AccountTab client={client} onChanged={onChanged} /></TabsContent>
+        <TabsContent value="services"><ContractView client={client as any} editable /></TabsContent>
         <TabsContent value="months"><MonthsTab client={client} /></TabsContent>
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="contracts"><ContractsTab client={client} /></TabsContent>
@@ -268,6 +281,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         </div>
         <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
+        <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>

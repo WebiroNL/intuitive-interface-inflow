@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { supabase } from "@/integrations/supabase/client";
 import { fmtEUR } from "@/hooks/useMonthlyData";
-import { Badge } from "@/components/ui/badge";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { File02Icon, Download01Icon } from "@hugeicons/core-free-icons";
+import { ContractView } from "@/components/contract/ContractView";
 
 interface Props { client: Client }
 
@@ -44,14 +44,16 @@ export default function ClientInvoices({ client }: Props) {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px]">
-      <div className="mb-8">
+    <div className="p-6 lg:p-8 max-w-[1400px] space-y-10">
+      <div>
         <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Contract & Facturen</p>
-        <h1 className="text-2xl font-semibold text-foreground">Documenten</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Jouw contract</h1>
       </div>
 
-      <section className="mb-8">
-        <h2 className="text-sm font-semibold text-foreground mb-3">Contract</h2>
+      <ContractView client={client} editable={false} />
+
+      <section>
+        <h2 className="text-sm font-semibold text-foreground mb-3">Contract documenten</h2>
         {loading ? (
           <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
         ) : contracts.length === 0 ? (
