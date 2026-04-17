@@ -579,11 +579,62 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
           </div>
         </div>
 
-        <BulletList field="summary_bullets" label="Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
-        <BulletList field="recommendation_bullets" label="Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
+        <BulletList field="summary_bullets" label="01 — Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
 
         <div>
-          <Label className="text-[11px]">Inzichten / vrije notitie</Label>
+          <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+          <Textarea value={form.ai_reach_text ?? ""} onChange={f("ai_reach_text")} rows={4} placeholder="Wat betekent dit? Twee korte alinea's." />
+        </div>
+
+        <div>
+          <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+          <Textarea value={form.ai_benchmark_text ?? ""} onChange={f("ai_benchmark_text")} rows={4} placeholder="Vergelijking met de markt." />
+        </div>
+
+        <div>
+          <Label className="text-[11px] mb-1.5 block">07 — In gewone taal (3 blokken)</Label>
+          <div className="space-y-2">
+            {(form.ai_plain_language ?? []).map((item: any, i: number) => (
+              <div key={i} className="grid grid-cols-[1fr_2fr_auto] gap-2">
+                <Input
+                  value={item?.title ?? ""}
+                  placeholder="Titel"
+                  className="h-8"
+                  onChange={(e) => {
+                    const next = [...(form.ai_plain_language ?? [])];
+                    next[i] = { ...next[i], title: e.target.value };
+                    setForm({ ...form, ai_plain_language: next });
+                  }}
+                />
+                <Textarea
+                  value={item?.text ?? ""}
+                  placeholder="Korte uitleg in gewone taal"
+                  rows={2}
+                  className="text-sm"
+                  onChange={(e) => {
+                    const next = [...(form.ai_plain_language ?? [])];
+                    next[i] = { ...next[i], text: e.target.value };
+                    setForm({ ...form, ai_plain_language: next });
+                  }}
+                />
+                <Button type="button" variant="ghost" size="sm" onClick={() => {
+                  const next = (form.ai_plain_language ?? []).filter((_: any, idx: number) => idx !== i);
+                  setForm({ ...form, ai_plain_language: next });
+                }}>
+                  <HugeiconsIcon icon={Delete02Icon} size={14} />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" size="sm" onClick={() => setForm({ ...form, ai_plain_language: [...(form.ai_plain_language ?? []), { title: "", text: "" }] })}>
+              <HugeiconsIcon icon={Add01Icon} size={14} /> Blok toevoegen
+            </Button>
+          </div>
+        </div>
+
+        <BulletList field="recommendation_bullets" label="08 — Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
+
+        <div>
+          <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
           <Textarea value={form.insights ?? ""} onChange={f("insights")} rows={3} />
         </div>
 
