@@ -21,8 +21,14 @@ interface LegalPage {
   content: string;
   published: boolean;
   sort_order: number;
+  category: string;
   updated_at: string;
 }
+
+const CATEGORIES = [
+  { value: 'legal', label: 'Juridisch' },
+  { value: 'bedrijf', label: 'Bedrijf' },
+];
 
 const slugify = (s: string) =>
   s
