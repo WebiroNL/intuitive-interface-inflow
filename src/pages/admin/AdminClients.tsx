@@ -260,17 +260,33 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
   const [form, setForm] = useState<any>({ ...client });
   const [saving, setSaving] = useState(false);
 
-  // Intake-secties: lege array in DB = alles aan. We tonen UI altijd met expliciete IDs.
-  const enabledSections: string[] =
-    Array.isArray((form as any).intake_sections) && (form as any).intake_sections.length > 0
-      ? ((form as any).intake_sections as string[])
-      : ALL_SECTION_IDS;
+  // Intake-secties opslag:
+  // - ["__all__"] => alles aan (default, ook toekomstige secties)
+  // - []          => niets aan (expliciet "Alles uit")
+  // - [...ids]    => specifieke selectie
+  const rawSections = (form as any).intake_sections;
+  const isAllSentinel =
+    Array.isArray(rawSections) && rawSections.length === 1 && rawSections[0] === "__all__";
+  const isExplicitNone = Array.isArray(rawSections) && rawSections.length === 0;
+
+  const enabledSections: string[] = isAllSentinel
+    ? ALL_SECTION_IDS
+    : isExplicitNone
+      ? []
+      : Array.isArray(rawSections)
+        ? (rawSections as string[])
+        : ALL_SECTION_IDS;
+
   const allOn = enabledSections.length === ALL_SECTION_IDS.length;
   const noneOn = enabledSections.length === 0;
 
   const setEnabledSections = (next: string[]) => {
-    // Als alles aan staat, sla [] op (= alle automatisch aan, ook nieuwe toekomstige secties)
-    const valueToStore = next.length === ALL_SECTION_IDS.length ? [] : next;
+    let valueToStore: string[];
+    if (next.length === ALL_SECTION_IDS.length) {
+      valueToStore = ["__all__"]; // sentinel
+    } else {
+      valueToStore = next; // kan [] zijn = expliciet alles uit
+    }
     setForm({ ...form, intake_sections: valueToStore });
   };
 
