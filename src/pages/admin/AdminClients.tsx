@@ -892,17 +892,26 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
         <BulletList field="summary_bullets" label="01 — Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
 
         <div>
-          <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+            <AiBtn field="reach_text" />
+          </div>
           <Textarea value={form.ai_reach_text ?? ""} onChange={f("ai_reach_text")} rows={4} placeholder="Wat betekent dit? Twee korte alinea's." />
         </div>
 
         <div>
-          <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+            <AiBtn field="benchmark_text" />
+          </div>
           <Textarea value={form.ai_benchmark_text ?? ""} onChange={f("ai_benchmark_text")} rows={4} placeholder="Vergelijking met de markt." />
         </div>
 
         <div>
-          <Label className="text-[11px] mb-1.5 block">07 — In gewone taal (3 blokken)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">07 — In gewone taal (3 blokken)</Label>
+            <AiBtn field="plain_language" />
+          </div>
           <div className="space-y-2">
             {(form.ai_plain_language ?? []).map((item: any, i: number) => (
               <div key={i} className="grid grid-cols-[1fr_2fr_auto] gap-2">
@@ -944,7 +953,10 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
         <BulletList field="recommendation_bullets" label="08 — Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
 
         <div>
-          <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
+            <AiBtn field="insights" />
+          </div>
           <Textarea value={form.insights ?? ""} onChange={f("insights")} rows={3} />
         </div>
 
