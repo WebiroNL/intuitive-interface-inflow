@@ -441,9 +441,11 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 15. Kanalen & Budget */}
           <Sec id="kanalen" title="15. Advertentiekanalen, Budget & Geschiedenis" icon={Megaphone01Icon}>
             <Field labelId="f.kanalen" label="Kanalen">
-              {["Google Ads", "Facebook / Instagram", "TikTok"].map((o) => (
-                <Check key={o} label={o} checked={has("kanalen", o)} onChange={() => toggle("kanalen", o)} />
-              ))}
+              <CheckRow>
+                {["Google Ads", "Facebook / Instagram", "TikTok"].map((o) => (
+                  <Check key={o} label={o} checked={has("kanalen", o)} onChange={() => toggle("kanalen", o)} />
+                ))}
+              </CheckRow>
               <div className="mt-3">
                 <Label className="text-[13px]">Andere kanalen</Label>
                 {((data.andere_kanalen as string[]) ?? [""]).map((val, i, arr) => (
