@@ -266,6 +266,15 @@ export default function LegalPageView() {
                     <a
                       key={item.id}
                       href={`#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(item.id);
+                        if (!el) return;
+                        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+                        window.scrollTo({ top, behavior: "smooth" });
+                        history.replaceState(null, "", `#${item.id}`);
+                        setActiveId(item.id);
+                      }}
                       className={`block text-[13px] leading-snug transition-colors ${
                         active
                           ? "text-primary font-medium"
