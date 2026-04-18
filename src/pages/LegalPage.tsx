@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, useLocation, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { TypewriterText } from "@/components/TypewriterText";
 import { updatePageMeta } from "@/utils/seo";
@@ -13,8 +13,9 @@ interface LegalPage {
 }
 
 export default function LegalPageView() {
-  const { slug } = useParams<{ slug: string }>();
-  const [page, setPage] = useState<LegalPage | null>(null);
+  const params = useParams<{ slug?: string }>();
+  const location = useLocation();
+  const slug = params.slug ?? location.pathname.replace(/^\//, "").split("/").pop() ?? "";
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
