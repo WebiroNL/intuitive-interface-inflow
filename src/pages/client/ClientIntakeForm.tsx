@@ -173,10 +173,10 @@ export default function ClientIntakeForm({ client }: Props) {
                     setActive(s.id);
                     document.getElementById(`sec-${s.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-[13px] font-medium transition-colors w-full text-left ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-[13px] font-medium transition-colors w-full text-left border border-border ${
                     active === s.id
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "bg-primary/10 text-primary border-primary/30"
+                      : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   <HugeiconsIcon icon={s.icon} size={14} />
