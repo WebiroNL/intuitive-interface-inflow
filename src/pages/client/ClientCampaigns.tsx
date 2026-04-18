@@ -29,7 +29,7 @@ export default function ClientCampaigns({ client }: Props) {
     const ctr = Number((current as any)[`${p.key}_ctr`] ?? 0);
     const cpc = Number((current as any)[`${p.key}_cpc`] ?? 0);
     const cpa = conv > 0 ? spend / conv : 0;
-    const hasAnyValue = PLATFORM_FIELDS.some((f) => Number((current as any)[`${p.key}_${f}`] ?? 0) >= 1);
+    const hasAnyValue = PLATFORM_FIELDS.some((f) => Number((current as any)[`${p.key}_${f}`] ?? 0) > 0);
     return { ...p, spend, clicks, conv, ctr, cpc, cpa, active: hasAnyValue };
   }).filter((r) => r.active);
 
