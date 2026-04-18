@@ -105,22 +105,38 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
           ))}
         </div>
 
-        {client.show_intake_form && isMenuVisible(vm, "intake") && (
+        {((client.show_intake_form && isMenuVisible(vm, "intake")) ||
+          ((client as any).show_website_intake_form && isMenuVisible(vm, "website_intake"))) && (
           <div className="mt-auto pt-3 border-t border-border space-y-0.5">
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
               Formulieren
             </p>
-            <Link
-              to={`${base}/intake`}
-              className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
-                isActive(`${base}/intake`)
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              <HugeiconsIcon icon={TaskDaily01Icon} size={16} />
-              Intake Formulier
-            </Link>
+            {client.show_intake_form && isMenuVisible(vm, "intake") && (
+              <Link
+                to={`${base}/intake`}
+                className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                  isActive(`${base}/intake`)
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <HugeiconsIcon icon={TaskDaily01Icon} size={16} />
+                Ads Intakeformulier
+              </Link>
+            )}
+            {(client as any).show_website_intake_form && isMenuVisible(vm, "website_intake") && (
+              <Link
+                to={`${base}/website-intake`}
+                className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                  isActive(`${base}/website-intake`)
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <HugeiconsIcon icon={TaskDaily01Icon} size={16} />
+                Website Intakeformulier
+              </Link>
+            )}
           </div>
         )}
       </nav>
