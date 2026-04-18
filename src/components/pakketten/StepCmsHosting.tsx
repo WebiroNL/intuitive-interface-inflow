@@ -76,12 +76,7 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
                     : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
                 }`}
               >
-                {tier.recommended && (
-                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
-                )}
-
                 <div className="p-6">
-                  <div className="min-h-[8px] mb-2" />
 
                 <h3 className="text-[18px] font-bold text-foreground tracking-[-0.01em]">{tier.name}</h3>
                 <div className="mt-3 mb-4">
