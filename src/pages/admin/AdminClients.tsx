@@ -808,11 +808,11 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
             type="button"
             variant="outline"
             size="sm"
-            onClick={generateAI}
-            disabled={aiLoading}
+            onClick={() => generateAI("all")}
+            disabled={aiLoading !== null}
           >
             <HugeiconsIcon icon={MagicWand01Icon} size={14} />
-            {aiLoading ? "AI bezig..." : "Genereer teksten met AI"}
+            {aiLoading === "all" ? "AI bezig..." : "Genereer alle teksten met AI"}
           </Button>
         </DialogTitle>
       </DialogHeader>
