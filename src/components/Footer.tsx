@@ -5,50 +5,51 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon, Mail01Icon } from '@hugeicons/core-free-icons';
 import { supabase } from '@/integrations/supabase/client';
 
-const staticColumns = [
-  {
-    heading: 'Diensten',
-    links: [
-      { label: 'Pakketten', to: '/pakketten' },
-      { label: 'Marketing', to: '/marketing' },
-      { label: 'Shop', to: '/shop' },
-      { label: 'Documentatie', to: '/documentatie' },
-    ],
-  },
-  {
-    heading: 'Bedrijf',
-    links: [
-      { label: 'Over ons', to: '/' },
-      { label: 'Proces', to: '/proces' },
-      { label: 'Blog', to: '/blog' },
-      { label: 'Contact', to: '/contact' },
-    ],
-  },
-];
-
-interface LegalLink {
+interface NavLink {
   label: string;
   to: string;
 }
 
+const dienstenLinks: NavLink[] = [
+  { label: 'Pakketten', to: '/pakketten' },
+  { label: 'Marketing', to: '/marketing' },
+  { label: 'Shop', to: '/shop' },
+  { label: 'Documentatie', to: '/documentatie' },
+];
+
+const staticBedrijfLinks: NavLink[] = [
+  { label: 'Proces', to: '/proces' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'Contact', to: '/contact' },
+];
+
 export function Footer() {
-  const [legalLinks, setLegalLinks] = useState<LegalLink[]>([]);
+  const [legalLinks, setLegalLinks] = useState<NavLink[]>([]);
+  const [bedrijfDynamic, setBedrijfDynamic] = useState<NavLink[]>([]);
 
   useEffect(() => {
     supabase
       .from('legal_pages')
-      .select('title, slug, sort_order')
+      .select('title, slug, sort_order, category')
       .eq('published', true)
       .order('sort_order', { ascending: true })
       .then(({ data }) => {
-        if (data) {
-          setLegalLinks(data.map((p) => ({ label: p.title, to: `/${p.slug}` })));
-        }
+        if (!data) return;
+        const legal: NavLink[] = [];
+        const bedrijf: NavLink[] = [];
+        data.forEach((p) => {
+          const link = { label: p.title, to: `/${p.slug}` };
+          if ((p as { category?: string }).category === 'bedrijf') bedrijf.push(link);
+          else legal.push(link);
+        });
+        setLegalLinks(legal);
+        setBedrijfDynamic(bedrijf);
       });
   }, []);
 
   const columns = [
-    ...staticColumns,
+    { heading: 'Diensten', links: dienstenLinks },
+    { heading: 'Bedrijf', links: [...bedrijfDynamic, ...staticBedrijfLinks] },
     { heading: 'Juridisch', links: legalLinks },
   ];
 

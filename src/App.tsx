@@ -99,7 +99,9 @@ function AppContent() {
             <Route path="/privacy-policy" element={<LegalPage />} />
             <Route path="/disclaimer" element={<LegalPage />} />
             <Route path="/cookiebeleid" element={<LegalPage />} />
+            <Route path="/over-ons" element={<LegalPage />} />
             <Route path="/legal/:slug" element={<LegalPage />} />
+            <Route path="/p/:slug" element={<LegalPage />} />
             <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />

@@ -21,8 +21,14 @@ interface LegalPage {
   content: string;
   published: boolean;
   sort_order: number;
+  category: string;
   updated_at: string;
 }
+
+const CATEGORIES = [
+  { value: 'legal', label: 'Juridisch' },
+  { value: 'bedrijf', label: 'Bedrijf' },
+];
 
 const slugify = (s: string) =>
   s
@@ -63,6 +69,7 @@ export default function AdminPages() {
       content: page.content || "",
       published: page.published ?? true,
       sort_order: page.sort_order ?? 99,
+      category: page.category || "legal",
     };
 
     if (page.id) {
@@ -102,7 +109,7 @@ export default function AdminPages() {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Pagina's</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Beheer juridische pagina's. Nieuwe pagina's verschijnen automatisch onder "Juridisch" in de footer.
+            Beheer juridische en bedrijfspagina's. Pagina's verschijnen automatisch in de footer onder de gekozen categorie.
           </p>
         </div>
         <button
@@ -116,6 +123,7 @@ export default function AdminPages() {
               content: "",
               published: true,
               sort_order: pages.length + 1,
+              category: "legal",
               updated_at: "",
             });
           }}
@@ -134,6 +142,7 @@ export default function AdminPages() {
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Titel</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">URL</th>
+                <th className="text-left px-4 py-3 font-medium text-foreground">Categorie</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Volgorde</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Status</th>
                 <th className="text-right px-4 py-3 font-medium text-foreground">Acties</th>
@@ -152,6 +161,9 @@ export default function AdminPages() {
                     >
                       <HugeiconsIcon icon={Link01Icon} size={12} /> /{p.slug}
                     </a>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground capitalize">
+                    {CATEGORIES.find((c) => c.value === p.category)?.label ?? p.category}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{p.sort_order}</td>
                   <td className="px-4 py-3">
@@ -189,7 +201,7 @@ export default function AdminPages() {
               ))}
               {pages.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                  <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
                     Nog geen pagina's. Klik op "Nieuwe pagina" om te beginnen.
                   </td>
                 </tr>
@@ -279,6 +291,18 @@ function PageEditor({
               className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
               placeholder="Bijv. Versie: november 2025"
             />
+          </Field>
+
+          <Field label="Categorie" hint="Bepaalt onder welke kolom in de footer de pagina verschijnt">
+            <select
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
           </Field>
 
           <Field label="Volgorde in footer" hint="Lager nummer = hoger in lijst">
