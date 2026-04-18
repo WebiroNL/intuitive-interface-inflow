@@ -17,72 +17,156 @@ const SECTIONS: Section[] = [
     body: (
       <>
         <p>
-          Na oplevering ontvang je per e-mail een uitnodiging voor je persoonlijke dashboard. Klik op de link en kies een wachtwoord om toegang te krijgen tot al je projectinformatie.
+          Welkom bij Webiro. Na ondertekening van je offerte ontvang je per e-mail een uitnodiging om je account aan te maken op <Link to="/inloggen" className="text-primary font-medium underline-offset-4 hover:underline">webiro.nl/inloggen</Link>. Stel een wachtwoord in en je hebt direct toegang tot je persoonlijke klantportaal.
         </p>
         <p>
-          Vanuit je dashboard zie je in één oogopslag de status van je website, lopende campagnes, openstaande facturen en aangeleverde bestanden.
+          In het portaal vind je alles bij elkaar: de status van je project, lopende campagnes, rapportages, contracten, facturen, bestanden en updates van ons team.
+        </p>
+        <p>
+          <strong className="text-foreground">Tip:</strong> bewaar de inloglink in je browser-favorieten en stel desgewenst een two-factor authenticatie in via je accountinstellingen.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "account",
+    label: "02",
+    title: "Je account beheren",
+    body: (
+      <>
+        <p>
+          Onder <strong className="text-foreground">Account</strong> beheer je je persoonlijke gegevens, bedrijfsinformatie (KVK, BTW), contactpersoon en factuurgegevens. Wijzigingen worden direct verwerkt.
+        </p>
+        <p>
+          Wachtwoord vergeten? Gebruik de "Wachtwoord vergeten" link op de inlogpagina. Je ontvangt binnen enkele minuten een herstellink op je geregistreerde e-mailadres.
         </p>
       </>
     ),
   },
   {
     id: "dashboard",
-    label: "02",
+    label: "03",
     title: "Het dashboard",
     body: (
       <>
         <p>
-          Het dashboard is je centrale werkplek. Hier vind je realtime statistieken, contracten, facturen en de voortgang van je campagnes — automatisch bijgewerkt.
+          Het dashboard is je centrale werkplek. Hier zie je realtime de belangrijkste KPI's van je marketing, openstaande acties en de laatste updates van ons team.
         </p>
         <p>
-          Aan de linkerzijde navigeer je tussen de verschillende onderdelen. De maand-selector rechtsboven laat je terugkijken naar voorgaande perioden.
+          Aan de linkerzijde navigeer je tussen onderdelen: Dashboard, Campagnes, Rapportages, Contract, Financieel, Bestanden, Updates en Account. Welke menu's je ziet, hangt af van je pakket.
+        </p>
+        <p>
+          Met de <strong className="text-foreground">maand-selector</strong> rechtsboven schakel je tussen perioden. Cijfers, grafieken en rapportages passen zich automatisch aan.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "intake",
+    label: "04",
+    title: "Intake formulieren",
+    body: (
+      <>
+        <p>
+          Bij de start van een nieuw project vragen we je een intake in te vullen. Er zijn twee varianten: een <strong className="text-foreground">website intake</strong> (voor design en ontwikkeling) en een <strong className="text-foreground">marketing intake</strong> (voor campagnes en strategie).
+        </p>
+        <p>
+          De formulieren slaan automatisch je voortgang op — je kunt op elk moment stoppen en later verder gaan. Velden die we al kennen worden vooraf ingevuld. Lever waar mogelijk merkrichtlijnen, voorbeelden en toegangen aan, dan kunnen we sneller schakelen.
         </p>
       </>
     ),
   },
   {
     id: "campagnes",
-    label: "03",
+    label: "05",
     title: "Campagnes",
     body: (
       <>
         <p>
-          Onder <strong className="text-foreground">Campagnes</strong> zie je per maand de prestaties van Google Ads, Meta, LinkedIn en alle andere kanalen die we voor je beheren. Cijfers worden automatisch ingeladen vanuit de bron.
+          Onder <strong className="text-foreground">Campagnes</strong> zie je per maand de prestaties van Google Ads, Meta, LinkedIn, TikTok, Pinterest, YouTube en Snapchat — afhankelijk van welke kanalen we voor je inzetten. Cijfers worden automatisch ingeladen vanuit de bron.
         </p>
         <p>
-          Per platform zie je impressies, kliks, conversies en de kosten per resultaat — inclusief vergelijking met de vorige periode.
+          Per platform vind je impressies, bereik, kliks, CTR, CPC, conversies en CPA. Naast de absolute cijfers zie je ook benchmarks en de vergelijking met de vorige periode.
+        </p>
+        <p>
+          Onderaan elke maandweergave staat een korte AI-samenvatting in begrijpelijke taal — handig om snel inzicht te krijgen zonder zelf alle cijfers te interpreteren.
         </p>
       </>
     ),
   },
   {
-    id: "facturen",
-    label: "04",
-    title: "Facturen",
+    id: "rapportages",
+    label: "06",
+    title: "Rapportages",
+    body: (
+      <>
+        <p>
+          Onder <strong className="text-foreground">Rapportages</strong> vind je per maand een complete analyse: prestaties, inzichten, aanbevelingen van ons team en de geplande acties voor de komende periode.
+        </p>
+        <p>
+          Elke rapportage is downloadbaar als PDF. Handig om intern te delen of te bewaren in je eigen archief.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "contract",
+    label: "07",
+    title: "Contract & afspraken",
     body: (
       <p>
-        Alle facturen vind je terug onder <strong className="text-foreground">Financieel</strong>. Betaalde en openstaande facturen zijn duidelijk gemarkeerd. Je kunt elke factuur als PDF downloaden of direct online betalen.
+        Onder <strong className="text-foreground">Contract</strong> staan je actuele afspraken: contractduur, opzegtermijn, maandelijks tarief, eventuele kortingen en de scope van de samenwerking. Wijzigingen worden in overleg doorgevoerd en zijn direct zichtbaar.
       </p>
+    ),
+  },
+  {
+    id: "financieel",
+    label: "08",
+    title: "Financieel & facturen",
+    body: (
+      <>
+        <p>
+          Onder <strong className="text-foreground">Financieel</strong> vind je al je facturen. Status, vervaldatum en bedrag zijn direct zichtbaar. Openstaande facturen kun je in één klik online betalen via de meegestuurde betaallink.
+        </p>
+        <p>
+          Elke factuur is downloadbaar als PDF voor je eigen administratie of accountant.
+        </p>
+      </>
     ),
   },
   {
     id: "bestanden",
-    label: "05",
+    label: "09",
     title: "Bestanden",
     body: (
       <p>
-        Aangeleverde documenten, ontwerpen en exports staan onder <strong className="text-foreground">Bestanden</strong>. Sleep nieuwe bestanden direct in het venster om ze te uploaden — wij ontvangen automatisch een melding.
+        Onder <strong className="text-foreground">Bestanden</strong> staan documenten, ontwerpen, exports en andere assets die we delen. Je kunt ook zelf bestanden uploaden — sleep ze direct in het venster. Wij ontvangen automatisch een melding zodra er iets nieuws binnenkomt.
       </p>
     ),
   },
   {
-    id: "contact",
-    label: "06",
-    title: "Vragen?",
+    id: "updates",
+    label: "10",
+    title: "Updates van ons team",
     body: (
       <p>
-        Heb je een vraag die hier niet beantwoord wordt? Neem contact op via <Link to="/contact" className="text-primary font-medium underline-offset-4 hover:underline">/contact</Link> of stuur een bericht naar <a href="mailto:info@webiro.nl" className="text-primary font-medium underline-offset-4 hover:underline">info@webiro.nl</a>. Je krijgt binnen één werkdag antwoord.
+        Onder <strong className="text-foreground">Updates</strong> zie je een tijdlijn van alles wat er rond jouw project gebeurt: opgeleverde mijlpalen, nieuwe campagnes, A/B-tests, optimalisaties en aankondigingen. Zo blijf je altijd op de hoogte zonder lange e-mailthreads.
       </p>
+    ),
+  },
+  {
+    id: "support",
+    label: "11",
+    title: "Support & contact",
+    body: (
+      <>
+        <p>
+          Vraag of probleem? Neem contact op via <Link to="/contact" className="text-primary font-medium underline-offset-4 hover:underline">/contact</Link>, mail naar <a href="mailto:info@webiro.nl" className="text-primary font-medium underline-offset-4 hover:underline">info@webiro.nl</a> of bel <a href="tel:+31850608521" className="text-primary font-medium underline-offset-4 hover:underline">085 060 8521</a>.
+        </p>
+        <p>
+          Onze reactietijd is binnen <strong className="text-foreground">één werkdag</strong>. Voor urgente zaken (live-issues, advertentie-spend) bellen we je dezelfde dag terug.
+        </p>
+      </>
     ),
   },
 ];
