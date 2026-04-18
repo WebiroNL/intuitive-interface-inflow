@@ -28,6 +28,7 @@ import {
   CheckmarkBadge01Icon,
 } from "@hugeicons/core-free-icons";
 import { INTAKE_SECTIONS, isSectionVisible } from "@/components/intake/sections";
+import { getLabel } from "@/components/intake/labels";
 
 interface Props {
   client: Client;
