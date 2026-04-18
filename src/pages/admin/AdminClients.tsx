@@ -462,8 +462,20 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
       <div className="flex justify-end pt-2">
         <Button type="submit" disabled={saving}>
           <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
-          {saving ? "Bezig..." : "Opslaan"}
+          {saving ? "Bezig..." : "Instellingen opslaan"}
         </Button>
+      </div>
+
+      <div className="border border-border rounded-lg bg-card mt-6">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-[14px] font-semibold text-foreground">Antwoorden bewerken</h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5">
+            Bewerk hieronder de antwoorden van de klant. Alleen de hierboven ingeschakelde secties zijn zichtbaar. Wijzigingen worden via de knoppen in dit formulier opgeslagen.
+          </p>
+        </div>
+        <div className="p-2">
+          <ClientIntakeForm client={client} />
+        </div>
       </div>
     </form>
   );
