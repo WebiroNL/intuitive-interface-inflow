@@ -21,6 +21,7 @@ export default function ClientCampaigns({ client }: Props) {
   const [month, setMonth] = useState(now.getMonth() + 1);
   const { current, loading } = useMonthlyData(client, year, month);
 
+  const PLATFORM_FIELDS = ["spend", "clicks", "conversions", "ctr", "cpc", "impressions", "reach", "frequency", "link_clicks", "lpv", "cpm"] as const;
   const rows = (current ? PLATFORMS : []).map((p) => {
     const spend = Number((current as any)[`${p.key}_spend`] ?? 0);
     const clicks = Number((current as any)[`${p.key}_clicks`] ?? 0);
@@ -28,7 +29,8 @@ export default function ClientCampaigns({ client }: Props) {
     const ctr = Number((current as any)[`${p.key}_ctr`] ?? 0);
     const cpc = Number((current as any)[`${p.key}_cpc`] ?? 0);
     const cpa = conv > 0 ? spend / conv : 0;
-    return { ...p, spend, clicks, conv, ctr, cpc, cpa, active: spend > 0 || clicks > 0 };
+    const hasAnyValue = PLATFORM_FIELDS.some((f) => Number((current as any)[`${p.key}_${f}`] ?? 0) > 0);
+    return { ...p, spend, clicks, conv, ctr, cpc, cpa, active: hasAnyValue };
   }).filter((r) => r.active);
 
   const totals = rows.reduce(
