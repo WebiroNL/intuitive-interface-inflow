@@ -210,6 +210,7 @@ export type Database = {
           discount_percentage: number | null
           email: string
           id: string
+          intake_labels: Json
           intake_sections: Json
           kvk_number: string | null
           logo_url: string | null
@@ -233,6 +234,7 @@ export type Database = {
           discount_percentage?: number | null
           email: string
           id?: string
+          intake_labels?: Json
           intake_sections?: Json
           kvk_number?: string | null
           logo_url?: string | null
@@ -256,6 +258,7 @@ export type Database = {
           discount_percentage?: number | null
           email?: string
           id?: string
+          intake_labels?: Json
           intake_sections?: Json
           kvk_number?: string | null
           logo_url?: string | null

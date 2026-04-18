@@ -16,6 +16,7 @@ import { ContractView } from "@/components/contract/ContractView";
 import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
 import { CLIENT_MENUS, ALL_MENU_IDS } from "@/components/client/menus";
 import ClientIntakeForm from "@/pages/client/ClientIntakeForm";
+import { DEFAULT_INTAKE_LABELS, ALL_INTAKE_LABEL_KEYS } from "@/components/intake/labels";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
@@ -375,8 +376,10 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
   const [form, setForm] = useState<any>({
     show_intake_form: !!(client as any).show_intake_form,
     intake_sections: (client as any).intake_sections,
+    intake_labels: (client as any).intake_labels ?? {},
   });
   const [saving, setSaving] = useState(false);
+  const [labelFilter, setLabelFilter] = useState("");
 
   const rawSections = form.intake_sections;
   const isAllSentinel =
@@ -401,6 +404,25 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
     if (set.has(id)) set.delete(id); else set.add(id);
     setEnabledSections(ALL_SECTION_IDS.filter((sid) => set.has(sid)));
   };
+
+  const setLabelOverride = (key: string, value: string) => {
+    const next = { ...(form.intake_labels ?? {}) };
+    if (value.trim() === "") delete next[key];
+    else next[key] = value;
+    setForm({ ...form, intake_labels: next });
+  };
+  const resetAllLabels = () => setForm({ ...form, intake_labels: {} });
+
+  const filteredLabelKeys = ALL_INTAKE_LABEL_KEYS.filter((k) => {
+    const def = DEFAULT_INTAKE_LABELS[k] ?? "";
+    const cur = (form.intake_labels ?? {})[k] ?? "";
+    if (!labelFilter.trim()) return true;
+    const q = labelFilter.toLowerCase();
+    return k.toLowerCase().includes(q) || def.toLowerCase().includes(q) || cur.toLowerCase().includes(q);
+  });
+  const overriddenCount = Object.keys(form.intake_labels ?? {}).filter(
+    (k) => (form.intake_labels[k] ?? "").trim() !== ""
+  ).length;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
@@ -464,6 +486,69 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
           <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
           {saving ? "Bezig..." : "Instellingen opslaan"}
         </Button>
+      </div>
+
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Instellingen opslaan"}
+        </Button>
+      </div>
+
+      <div className="border border-border rounded-lg bg-card mt-6">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Vragen hernoemen</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">
+              Pas labels van vragen aan voor deze klant. Laat leeg om de standaardtekst te gebruiken.
+              {overriddenCount > 0 && (
+                <> · <span className="font-medium text-foreground">{overriddenCount}</span> aangepast</>
+              )}
+            </p>
+          </div>
+          <div className="flex gap-2 items-center">
+            <Input
+              placeholder="Zoek label..."
+              value={labelFilter}
+              onChange={(e) => setLabelFilter(e.target.value)}
+              className="h-8 w-48"
+            />
+            <Button type="button" variant="outline" size="sm" onClick={resetAllLabels} disabled={overriddenCount === 0}>
+              Alles resetten
+            </Button>
+          </div>
+        </div>
+        <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
+          {filteredLabelKeys.length === 0 && (
+            <p className="text-[12px] text-muted-foreground text-center py-4">Geen labels gevonden voor "{labelFilter}".</p>
+          )}
+          {filteredLabelKeys.map((key) => {
+            const def = DEFAULT_INTAKE_LABELS[key] ?? "";
+            const cur = (form.intake_labels ?? {})[key] ?? "";
+            const isSection = key.startsWith("sec.");
+            return (
+              <div key={key} className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center">
+                <div className="flex flex-col">
+                  <span className={`text-[12px] ${isSection ? "font-semibold text-primary" : "text-muted-foreground"}`}>
+                    {isSection ? "Sectie" : "Veld"}
+                  </span>
+                  <span className="text-[13px] text-foreground truncate" title={def}>{def}</span>
+                </div>
+                <Input
+                  placeholder={`(standaard: ${def})`}
+                  value={cur}
+                  onChange={(e) => setLabelOverride(key, e.target.value)}
+                  className="h-8"
+                />
+                {cur && (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(key, "")}>
+                    Reset
+                  </Button>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="border border-border rounded-lg bg-card mt-6">
