@@ -519,36 +519,78 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
             </Button>
           </div>
         </div>
-        <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
-          {filteredLabelKeys.length === 0 && (
-            <p className="text-[12px] text-muted-foreground text-center py-4">Geen labels gevonden voor "{labelFilter}".</p>
-          )}
-          {filteredLabelKeys.map((key) => {
-            const def = DEFAULT_INTAKE_LABELS[key] ?? "";
-            const cur = (form.intake_labels ?? {})[key] ?? "";
-            const isSection = key.startsWith("sec.");
+        <div className="p-4 space-y-6 max-h-[600px] overflow-y-auto">
+          {INTAKE_SECTIONS.map((section, idx) => {
+            const sectionKey = `sec.${section.id}`;
+            const fieldKeys = LABEL_KEYS_BY_SECTION[section.id] ?? [];
+            const allKeys = [sectionKey, ...fieldKeys];
+            const visibleKeys = allKeys.filter((k) => filteredLabelKeys.includes(k));
+            if (visibleKeys.length === 0) return null;
+
+            const sectionDef = DEFAULT_INTAKE_LABELS[sectionKey] ?? section.title;
+            const sectionCur = (form.intake_labels ?? {})[sectionKey] ?? "";
+
             return (
-              <div key={key} className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center">
-                <div className="flex flex-col">
-                  <span className={`text-[12px] ${isSection ? "font-semibold text-primary" : "text-muted-foreground"}`}>
-                    {isSection ? "Sectie" : "Veld"}
+              <div key={section.id} className="border border-border rounded-md overflow-hidden">
+                <div className="flex items-center gap-2 px-3 py-2 bg-muted/40 border-b border-border">
+                  <HugeiconsIcon icon={section.icon} size={16} className="text-primary" />
+                  <span className="text-[13px] font-semibold text-foreground">
+                    {idx + 1}. {sectionCur || sectionDef}
                   </span>
-                  <span className="text-[13px] text-foreground truncate" title={def}>{def}</span>
                 </div>
-                <Input
-                  placeholder={`(standaard: ${def})`}
-                  value={cur}
-                  onChange={(e) => setLabelOverride(key, e.target.value)}
-                  className="h-8"
-                />
-                {cur && (
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(key, "")}>
-                    Reset
-                  </Button>
-                )}
+                <div className="p-3 space-y-2">
+                  {visibleKeys.includes(sectionKey) && (
+                    <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center pb-2 border-b border-border/50">
+                      <div className="flex flex-col">
+                        <span className="text-[11px] uppercase tracking-wide text-primary font-semibold">Sectietitel</span>
+                        <span className="text-[13px] text-foreground truncate" title={sectionDef}>{sectionDef}</span>
+                      </div>
+                      <Input
+                        placeholder={`(standaard: ${sectionDef})`}
+                        value={sectionCur}
+                        onChange={(e) => setLabelOverride(sectionKey, e.target.value)}
+                        className="h-8"
+                      />
+                      {sectionCur ? (
+                        <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(sectionKey, "")}>
+                          Reset
+                        </Button>
+                      ) : <div />}
+                    </div>
+                  )}
+                  {fieldKeys.filter((k) => visibleKeys.includes(k)).map((key) => {
+                    const def = DEFAULT_INTAKE_LABELS[key] ?? "";
+                    const cur = (form.intake_labels ?? {})[key] ?? "";
+                    return (
+                      <div key={key} className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center">
+                        <div className="flex flex-col">
+                          <span className="text-[11px] uppercase tracking-wide text-muted-foreground">Veld</span>
+                          <span className="text-[13px] text-foreground truncate" title={def}>{def}</span>
+                        </div>
+                        <Input
+                          placeholder={`(standaard: ${def})`}
+                          value={cur}
+                          onChange={(e) => setLabelOverride(key, e.target.value)}
+                          className="h-8"
+                        />
+                        {cur ? (
+                          <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(key, "")}>
+                            Reset
+                          </Button>
+                        ) : <div />}
+                      </div>
+                    );
+                  })}
+                  {fieldKeys.length === 0 && !visibleKeys.includes(sectionKey) === false && (
+                    <p className="text-[11px] text-muted-foreground italic">Deze sectie heeft geen aanpasbare veldlabels.</p>
+                  )}
+                </div>
               </div>
             );
           })}
+          {filteredLabelKeys.length === 0 && (
+            <p className="text-[12px] text-muted-foreground text-center py-4">Geen labels gevonden voor "{labelFilter}".</p>
+          )}
         </div>
       </div>
 
