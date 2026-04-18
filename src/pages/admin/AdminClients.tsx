@@ -565,13 +565,6 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
     </form>
   );
 }
-        <div className="p-2">
-          <ClientIntakeForm client={client} />
-        </div>
-      </div>
-    </form>
-  );
-}
 
 function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
   const [form, setForm] = useState<any>({ visible_menus: (client as any).visible_menus });
