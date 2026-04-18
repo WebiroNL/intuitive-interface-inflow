@@ -46,7 +46,7 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
 
   const handleLogout = async () => {
     await signOut();
-    navigate("/login");
+    navigate("/client/login");
   };
 
   // Lock body scroll when mobile drawer open (only below 900px)
