@@ -38,12 +38,12 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.4 }}
-              className={`group relative rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${
+              className={`group relative rounded-2xl transition-all duration-200 cursor-pointer ${
                 isSelected
-                  ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
+                  ? "border-2 border-primary bg-primary/[0.03] shadow-lg shadow-primary/5 overflow-hidden"
                   : pkg.popular
-                  ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
-                  : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
+                  ? "bg-card shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20"
+                  : "border-2 border-border bg-card hover:border-primary/40 hover:shadow-sm overflow-hidden"
               }`}
               onClick={() => onSelect(pkg.id)}
             >
