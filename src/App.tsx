@@ -21,7 +21,8 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Intake = lazy(() => import("./pages/Intake"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
-// Documentatie wordt nu dynamisch geladen via LegalPage
+const OverOns = lazy(() => import("./pages/OverOns"));
+const Documentatie = lazy(() => import("./pages/Documentatie"));
 const OneTBL = lazy(() => import("./pages/OneTBL"));
 const ReformClub = lazy(() => import("./pages/ReformClub"));
 const SitemapRedirect = lazy(() => import("./pages/SitemapRedirect"));
@@ -99,10 +100,10 @@ function AppContent() {
             <Route path="/privacy-policy" element={<LegalPage />} />
             <Route path="/disclaimer" element={<LegalPage />} />
             <Route path="/cookiebeleid" element={<LegalPage />} />
-            <Route path="/over-ons" element={<LegalPage />} />
+            <Route path="/over-ons" element={<OverOns />} />
             <Route path="/legal/:slug" element={<LegalPage />} />
             <Route path="/p/:slug" element={<LegalPage />} />
-            <Route path="/documentatie" element={<LegalPage />} />
+            <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />
             <Route path="/sitemap.xml" element={<SitemapRedirect />} />

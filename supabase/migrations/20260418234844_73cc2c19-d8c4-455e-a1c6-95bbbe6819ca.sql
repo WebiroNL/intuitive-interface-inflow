@@ -1,0 +1,1 @@
+DELETE FROM public.legal_pages WHERE slug IN ('over-ons', 'documentatie');
