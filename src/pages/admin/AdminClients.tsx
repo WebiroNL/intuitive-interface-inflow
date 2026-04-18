@@ -928,7 +928,7 @@ function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () 
             })}
           </div>
           <p className="text-[11px] text-muted-foreground mt-3">
-            Let op: items die data vereisen (bijv. Facturen, Bestanden) verschijnen pas in het menu zodra er ook werkelijke data voor de klant beschikbaar is.
+            Standaard ("alles aan") verbergt items zonder data automatisch (bijv. Facturen pas zichtbaar zodra er een factuur is). Zodra je hierboven een eigen selectie maakt, worden precies de aangevinkte items getoond — ook als er nog geen data is.
           </p>
         </div>
       </div>
