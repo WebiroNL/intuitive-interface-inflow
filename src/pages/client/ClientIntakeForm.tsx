@@ -41,6 +41,11 @@ export default function ClientIntakeForm({ client }: Props) {
     [client.intake_sections]
   );
   const visibleSet = useMemo(() => new Set(visibleSections.map((s) => s.id)), [visibleSections]);
+  const numberMap = useMemo(() => {
+    const m = new Map<string, number>();
+    visibleSections.forEach((s, i) => m.set(s.id, i + 1));
+    return m;
+  }, [visibleSections]);
 
   const [data, setData] = useState<IntakeData>({});
   const [intakeId, setIntakeId] = useState<string | null>(null);
