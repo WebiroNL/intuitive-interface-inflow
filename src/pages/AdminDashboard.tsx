@@ -90,7 +90,8 @@ const AdminDashboard = () => {
               <Route path="leads" element={<AdminLeads />} />
               <Route path="stats" element={<AdminStats />} />
               <Route path="messages" element={<AdminMessages />} />
-              <Route path="products" element={<AdminProducts />} />
+              <Route path="shop" element={<AdminProducts />} />
+              <Route path="products" element={<Navigate to="/admin/shop" replace />} />
               <Route path="integrations" element={<AdminIntegrations />} />
               <Route path="moodboards" element={<AdminMoodboards />} />
               <Route path="blog" element={<AdminBlog />} />
