@@ -16,6 +16,7 @@ import { ContractView } from "@/components/contract/ContractView";
 import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
 import { CLIENT_MENUS, ALL_MENU_IDS } from "@/components/client/menus";
 import ClientIntakeForm from "@/pages/client/ClientIntakeForm";
+import { DEFAULT_INTAKE_LABELS, ALL_INTAKE_LABEL_KEYS } from "@/components/intake/labels";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
