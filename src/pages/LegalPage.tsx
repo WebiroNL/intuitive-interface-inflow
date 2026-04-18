@@ -185,22 +185,24 @@ export default function LegalPageView() {
 
         {/* Main */}
         <main className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary mb-5">
-            {CATEGORY_LABEL[page.category] ?? "Pagina"}
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-primary font-mono">
+              {CATEGORY_LABEL[page.category] ?? "Pagina"}
+            </span>
             {page.updated_at && (
               <>
-                <span className="mx-2 text-muted-foreground/50">·</span>
-                <span className="text-muted-foreground font-medium normal-case tracking-normal">
+                <span className="h-px w-6 bg-border" />
+                <span className="text-[11px] text-muted-foreground/70 font-mono tracking-tight">
                   Bijgewerkt {formatDate(page.updated_at)}
                 </span>
               </>
             )}
-          </p>
-          <h1 className="text-[36px] lg:text-[44px] leading-[1.1] tracking-[-0.02em] font-semibold text-foreground mb-6">
+          </div>
+          <h1 className="text-[40px] lg:text-[52px] leading-[1.05] tracking-[-0.025em] font-semibold text-foreground mb-6">
             {page.title}
           </h1>
           {page.subtitle && (
-            <p className="text-[16px] lg:text-[17px] leading-relaxed text-muted-foreground mb-14 lg:mb-16 max-w-2xl">
+            <p className="text-[17px] lg:text-[18px] leading-[1.6] text-muted-foreground/90 mb-14 lg:mb-20 max-w-2xl font-light">
               {page.subtitle}
             </p>
           )}
@@ -209,7 +211,7 @@ export default function LegalPageView() {
           <div className="lg:hidden mb-10 -mx-2">
             {orderedCats.map((cat) => (
               <div key={cat} className="mb-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70 mb-2 px-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70 mb-2 px-2 font-mono">
                   {CATEGORY_LABEL[cat] ?? cat}
                 </p>
                 <div className="flex flex-wrap gap-1.5 px-2">
@@ -236,18 +238,19 @@ export default function LegalPageView() {
 
           <article
             ref={articleRef}
-            className="max-w-2xl prose prose-neutral dark:prose-invert
-              prose-headings:font-semibold prose-headings:tracking-[-0.01em] prose-headings:text-foreground
-              prose-h2:text-[22px] prose-h2:mt-12 prose-h2:mb-3 prose-h2:scroll-mt-28
-              prose-h3:text-[17px] prose-h3:mt-8 prose-h3:mb-2
-              prose-p:text-[15.5px] prose-p:leading-[1.75] prose-p:text-muted-foreground prose-p:my-4
-              prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            className="max-w-[680px] prose prose-neutral dark:prose-invert
+              prose-headings:font-semibold prose-headings:tracking-[-0.015em] prose-headings:text-foreground
+              prose-h2:text-[24px] prose-h2:lg:text-[26px] prose-h2:mt-16 prose-h2:mb-4 prose-h2:scroll-mt-28 prose-h2:leading-[1.25]
+              prose-h2:pt-10 prose-h2:border-t prose-h2:border-border/60 first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
+              prose-h3:text-[17px] prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-foreground/90
+              prose-p:text-[15px] prose-p:leading-[1.78] prose-p:text-muted-foreground prose-p:my-5
+              prose-a:text-primary prose-a:font-medium prose-a:no-underline prose-a:underline-offset-4 hover:prose-a:underline
               prose-strong:text-foreground prose-strong:font-semibold
-              prose-ul:my-4 prose-ol:my-4
-              prose-li:text-[15.5px] prose-li:text-muted-foreground prose-li:leading-[1.75] prose-li:my-1
-              prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:not-italic prose-blockquote:text-foreground prose-blockquote:font-normal
-              prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[13px] prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
-              prose-hr:border-border prose-hr:my-12"
+              prose-ul:my-5 prose-ol:my-5 prose-ul:pl-5 prose-ol:pl-5
+              prose-li:text-[15px] prose-li:text-muted-foreground prose-li:leading-[1.78] prose-li:my-1.5 prose-li:marker:text-foreground/30
+              prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:not-italic prose-blockquote:text-foreground prose-blockquote:font-normal prose-blockquote:pl-5 prose-blockquote:my-6
+              prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[12.5px] prose-code:font-mono prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
+              prose-hr:border-border prose-hr:my-14"
             dangerouslySetInnerHTML={{ __html: page.content }}
           />
         </main>
