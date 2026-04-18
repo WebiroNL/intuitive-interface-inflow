@@ -376,8 +376,10 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
   const [form, setForm] = useState<any>({
     show_intake_form: !!(client as any).show_intake_form,
     intake_sections: (client as any).intake_sections,
+    intake_labels: (client as any).intake_labels ?? {},
   });
   const [saving, setSaving] = useState(false);
+  const [labelFilter, setLabelFilter] = useState("");
 
   const rawSections = form.intake_sections;
   const isAllSentinel =
@@ -402,6 +404,25 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
     if (set.has(id)) set.delete(id); else set.add(id);
     setEnabledSections(ALL_SECTION_IDS.filter((sid) => set.has(sid)));
   };
+
+  const setLabelOverride = (key: string, value: string) => {
+    const next = { ...(form.intake_labels ?? {}) };
+    if (value.trim() === "") delete next[key];
+    else next[key] = value;
+    setForm({ ...form, intake_labels: next });
+  };
+  const resetAllLabels = () => setForm({ ...form, intake_labels: {} });
+
+  const filteredLabelKeys = ALL_INTAKE_LABEL_KEYS.filter((k) => {
+    const def = DEFAULT_INTAKE_LABELS[k] ?? "";
+    const cur = (form.intake_labels ?? {})[k] ?? "";
+    if (!labelFilter.trim()) return true;
+    const q = labelFilter.toLowerCase();
+    return k.toLowerCase().includes(q) || def.toLowerCase().includes(q) || cur.toLowerCase().includes(q);
+  });
+  const overriddenCount = Object.keys(form.intake_labels ?? {}).filter(
+    (k) => (form.intake_labels[k] ?? "").trim() !== ""
+  ).length;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
