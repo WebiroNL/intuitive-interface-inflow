@@ -38,21 +38,28 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.4 }}
-              className={`group relative rounded-2xl transition-all duration-200 cursor-pointer ${
-                isSelected
-                  ? "border-2 border-primary bg-primary/[0.03] shadow-lg shadow-primary/5 overflow-hidden"
-                  : pkg.popular
-                  ? "bg-card shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20"
-                  : "border-2 border-border bg-card hover:border-primary/40 hover:shadow-sm overflow-hidden"
-              }`}
+              className="relative"
               onClick={() => onSelect(pkg.id)}
             >
-              {pkg.popular && (
-                <>
-                  <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary via-primary/40 to-accent opacity-80 pointer-events-none -z-10" />
-                  <div className="absolute -inset-[6px] rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 blur-xl opacity-60 pointer-events-none -z-20" />
-                </>
+              {pkg.popular && !isSelected && (
+                <div
+                  className="absolute -inset-[3px] rounded-[18px] bg-gradient-to-br from-primary via-accent to-primary opacity-90 pointer-events-none animate-pulse"
+                  style={{ animationDuration: "4s" }}
+                />
               )}
+              {pkg.popular && !isSelected && (
+                <div className="absolute -inset-2 rounded-[20px] bg-gradient-to-br from-primary/40 via-accent/30 to-primary/40 blur-2xl opacity-70 pointer-events-none" />
+              )}
+
+              <div
+                className={`group relative rounded-2xl transition-all duration-200 cursor-pointer overflow-hidden ${
+                  isSelected
+                    ? "border-2 border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
+                    : pkg.popular
+                    ? "bg-card border border-transparent"
+                    : "border-2 border-border bg-card hover:border-primary/40 hover:shadow-sm"
+                }`}
+              >
 
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3 min-h-[28px]">
@@ -143,6 +150,7 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                     "Selecteer pakket"
                   )}
                 </div>
+              </div>
               </div>
             </motion.div>
           );
