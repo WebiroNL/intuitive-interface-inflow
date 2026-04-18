@@ -377,10 +377,14 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 10. Materiaal */}
           <Sec id="materiaal" title="10. Advertentiemateriaal" icon={Image01Icon}>
-            {["Voor/na foto's", "Video's", "Certificaten", "Keurmerken", "Klantcases"].map((o) => (
-              <Check key={o} label={o} checked={has("materiaal", o)} onChange={() => toggle("materiaal", o)} />
-            ))}
-            <Field labelId="f.materiaal_links" label="Links naar materiaal" className="mt-3">
+            <Field labelId="f.materiaal" label="Beschikbaar advertentiemateriaal">
+              <CheckRow>
+                {["Voor/na foto's", "Video's", "Certificaten", "Keurmerken", "Klantcases"].map((o) => (
+                  <Check key={o} label={o} checked={has("materiaal", o)} onChange={() => toggle("materiaal", o)} />
+                ))}
+              </CheckRow>
+            </Field>
+            <Field labelId="f.materiaal_links" label="Links naar materiaal">
               <Textarea value={data.materiaal_links ?? ""} onChange={(e) => set("materiaal_links", e.target.value)} placeholder="Eén link per regel" />
             </Field>
           </Sec>
