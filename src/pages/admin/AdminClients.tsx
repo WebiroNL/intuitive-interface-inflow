@@ -22,6 +22,7 @@ interface Client {
   discount_months: number | null; discount_percentage: number | null;
   deposit_percentage: number | null;
   logo_url: string | null;
+  show_intake_form?: boolean;
   created_at: string; updated_at: string;
 }
 
@@ -282,6 +283,21 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
         <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
+        <div className="col-span-2 pt-2 border-t border-border">
+          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Portaal opties</p>
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              className="mt-0.5"
+              checked={!!form.show_intake_form}
+              onChange={(e) => setForm({ ...form, show_intake_form: e.target.checked })}
+            />
+            <span className="text-[13px]">
+              <span className="font-medium text-foreground">Intake Formulier zichtbaar in zijmenu</span>
+              <span className="block text-[12px] text-muted-foreground">Toont 'Intake Formulier' onderaan het menu in het klantportaal.</span>
+            </span>
+          </label>
+        </div>
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
