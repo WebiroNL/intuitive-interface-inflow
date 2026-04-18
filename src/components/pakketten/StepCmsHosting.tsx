@@ -59,26 +59,29 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
               onClick={() => onSelect(tier.id)}
-              className={`group relative rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${
-                isSelected
-                  ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
-                  : tier.recommended
-                  ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
-                  : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
-              }`}
+              className="relative cursor-pointer"
             >
               {tier.recommended && (
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full shadow-md shadow-primary/20 whitespace-nowrap">
+                  <Star className="w-3 h-3" /> Populair
+                </span>
               )}
 
-              <div className="p-6">
-                <div className="min-h-[28px] mb-2">
-                  {tier.recommended && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full">
-                      <Star className="w-3 h-3" /> Populair
-                    </span>
-                  )}
-                </div>
+              <div
+                className={`group relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
+                  isSelected
+                    ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
+                    : tier.recommended
+                    ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
+                    : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
+                }`}
+              >
+                {tier.recommended && (
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
+                )}
+
+                <div className="p-6">
+                  <div className="min-h-[8px] mb-2" />
 
                 <h3 className="text-[18px] font-bold text-foreground tracking-[-0.01em]">{tier.name}</h3>
                 <div className="mt-3 mb-4">
@@ -136,6 +139,7 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
                     "Selecteer"
                   )}
                 </div>
+              </div>
               </div>
             </motion.div>
           );
