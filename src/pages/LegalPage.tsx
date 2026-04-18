@@ -16,6 +16,7 @@ export default function LegalPageView() {
   const params = useParams<{ slug?: string }>();
   const location = useLocation();
   const slug = params.slug ?? location.pathname.replace(/^\//, "").split("/").pop() ?? "";
+  const [page, setPage] = useState<LegalPage | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
