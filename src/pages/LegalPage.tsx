@@ -155,23 +155,23 @@ export default function LegalPageView() {
     <div className="bg-background pt-24 lg:pt-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-[200px_1fr_200px] gap-12 lg:gap-16 pt-10 lg:pt-16 pb-24 lg:pb-32">
         {/* Left sidebar */}
-        <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start text-sm">
+        <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
           {orderedCats.map((cat, i) => (
-            <div key={cat} className={i > 0 ? "mt-10" : ""}>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70 mb-4">
+            <div key={cat} className={i > 0 ? "mt-8 pt-8 border-t border-border/60" : ""}>
+              <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-foreground/40 mb-3 font-mono">
                 {CATEGORY_LABEL[cat] ?? cat}
               </p>
-              <nav className="space-y-px">
+              <nav className="flex flex-col">
                 {grouped[cat].map((item) => {
                   const active = item.slug === page.slug;
                   return (
                     <Link
                       key={item.slug}
                       to={`/${item.slug}`}
-                      className={`block py-1.5 text-[13.5px] transition-colors ${
+                      className={`group relative -ml-px border-l py-[7px] pl-3 text-[13.5px] leading-snug transition-all ${
                         active
-                          ? "text-primary font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "border-primary text-foreground font-medium"
+                          : "border-transparent text-muted-foreground/80 hover:text-foreground hover:border-border"
                       }`}
                     >
                       {item.title}
