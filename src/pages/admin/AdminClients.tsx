@@ -219,7 +219,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
 
 function ClientManageDialog({ client, onChanged, onClose }: { client: Client; onChanged: () => void; onClose: () => void }) {
   return (
-    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+    <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>{client.company_name}</DialogTitle>
       </DialogHeader>
