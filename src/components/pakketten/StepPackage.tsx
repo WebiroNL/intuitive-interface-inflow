@@ -48,7 +48,10 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
               onClick={() => onSelect(pkg.id)}
             >
               {pkg.popular && (
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
+                <>
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+                </>
               )}
 
               <div className="p-6">
