@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import LogoWebiro from '@/imports/LogoWebiro1';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon } from '@hugeicons/core-free-icons';
 
 const columns = [
   {
