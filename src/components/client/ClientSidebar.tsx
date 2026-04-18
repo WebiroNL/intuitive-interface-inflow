@@ -105,7 +105,7 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
           ))}
         </div>
 
-        {client.show_intake_form && (
+        {client.show_intake_form && isMenuVisible(vm, "intake") && (
           <div className="mt-auto pt-3 border-t border-border space-y-0.5">
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
               Formulieren
