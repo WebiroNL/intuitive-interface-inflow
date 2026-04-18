@@ -178,7 +178,7 @@ export default function ClientIntakeForm({ client }: Props) {
                   }`}
                 >
                   <HugeiconsIcon icon={s.icon} size={14} />
-                  <span className="whitespace-nowrap">{s.label}</span>
+                  <span className="whitespace-nowrap">{(numberMap.get(s.id) ?? "")}. {s.title}</span>
                 </button>
               </li>
             ))}
