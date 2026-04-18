@@ -38,19 +38,19 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.4 }}
-              className={`group relative rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${
+              className={`group relative rounded-2xl transition-all duration-200 cursor-pointer ${
                 isSelected
-                  ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5"
+                  ? "border-2 border-primary bg-primary/[0.03] shadow-lg shadow-primary/5 overflow-hidden"
                   : pkg.popular
-                  ? "border-primary/30 bg-card hover:border-primary/60 hover:shadow-md"
-                  : "border-border bg-card hover:border-primary/40 hover:shadow-sm"
+                  ? "bg-card shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20"
+                  : "border-2 border-border bg-card hover:border-primary/40 hover:shadow-sm overflow-hidden"
               }`}
               onClick={() => onSelect(pkg.id)}
             >
               {pkg.popular && (
                 <>
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+                  <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary via-primary/40 to-accent opacity-80 pointer-events-none -z-10" />
+                  <div className="absolute -inset-[6px] rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 blur-xl opacity-60 pointer-events-none -z-20" />
                 </>
               )}
 
