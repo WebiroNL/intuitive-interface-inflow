@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon, Globe02Icon, MegaphoneIcon } from '@hugeicons/core-free-icons';
+import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon01Icon, ArrowDown01Icon, User03Icon, Globe02Icon, MegaphoneIcon, WorkflowSquare01Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -10,7 +10,6 @@ import { useAuth } from '@/hooks/useAuth';
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
   { label: "Diensten",    href: "/pakketten",    dropdown: true },
-  { label: "Proces",      href: "/proces",       dropdown: false },
   { label: "Blog",        href: "/blog",         dropdown: false },
   { label: "Shop",        href: "/shop",         dropdown: false },
 ];
@@ -138,6 +137,21 @@ function DienstenDropdown({ isActive }: { isActive: boolean }) {
                 <p className="text-[13px] font-semibold text-foreground">Marketing & Ads</p>
                 <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
                   Google Ads, Meta Ads & advertentiebeheer
+                </p>
+              </div>
+            </Link>
+            <Link
+              to="/proces"
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 p-3 rounded-md hover:bg-muted/50 transition-colors group"
+            >
+              <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary">
+                <HugeiconsIcon icon={WorkflowSquare01Icon} size={18} />
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold text-foreground">Ons proces</p>
+                <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">
+                  Hoe we samen werken van briefing tot livegang
                 </p>
               </div>
             </Link>
