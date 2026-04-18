@@ -36,12 +36,18 @@ interface Props {
 type IntakeData = Record<string, any>;
 
 export default function ClientIntakeForm({ client }: Props) {
+  const visibleSections = useMemo(
+    () => INTAKE_SECTIONS.filter((s) => isSectionVisible(client.intake_sections, s.id)),
+    [client.intake_sections]
+  );
+  const visibleSet = useMemo(() => new Set(visibleSections.map((s) => s.id)), [visibleSections]);
+
   const [data, setData] = useState<IntakeData>({});
   const [intakeId, setIntakeId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("concept");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [active, setActive] = useState<string>(SECTIONS[0].id);
+  const [active, setActive] = useState<string>(visibleSections[0]?.id ?? "bedrijf");
 
   useEffect(() => {
     (async () => {
@@ -152,7 +158,7 @@ export default function ClientIntakeForm({ client }: Props) {
         {/* Section nav */}
         <nav className="lg:sticky lg:top-4 self-start">
           <ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 pb-2 lg:pb-0">
-            {SECTIONS.map((s) => (
+            {visibleSections.map((s) => (
               <li key={s.id} className="shrink-0">
                 <button
                   onClick={() => {
