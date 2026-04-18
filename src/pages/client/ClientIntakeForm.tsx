@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Client } from "@/hooks/useClient";
 import { Button } from "@/components/ui/button";
@@ -452,7 +452,11 @@ export default function ClientIntakeForm({ client }: Props) {
 
 /* ---------- Helpers ---------- */
 
-function Section({ id, title, icon, children }: { id: string; title: string; icon: any; children: React.ReactNode }) {
+const VisibleSectionsContext = createContext<Set<string> | null>(null);
+
+function Sec({ id, title, icon, children }: { id: string; title: string; icon: any; children: React.ReactNode }) {
+  const visible = useContext(VisibleSectionsContext);
+  if (visible && !visible.has(id)) return null;
   return (
     <section id={`sec-${id}`} className="bg-card border border-border rounded-lg p-5 scroll-mt-20">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
