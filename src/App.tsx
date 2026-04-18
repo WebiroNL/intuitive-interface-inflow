@@ -111,10 +111,10 @@ function AppContent() {
             <Route path="/account" element={<AccountDashboard />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
-            <Route path="/login" element={<ClientLogin />} />
+            <Route path="/client/login" element={<ClientLogin />} />
             <Route path="/dashboard/*" element={<ClientPortal />} />
-            <Route path="/client/login" element={<Navigate to="/login" replace />} />
-            <Route path="/client" element={<Navigate to="/login" replace />} />
+            {/* Legacy aliases */}
+            <Route path="/login" element={<Navigate to="/client/login" replace />} />
             <Route path="/client/:slug/*" element={<Navigate to="/dashboard" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
