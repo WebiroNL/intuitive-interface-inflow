@@ -12,6 +12,7 @@ import {
   Notification02Icon,
   Logout01Icon,
   Cancel01Icon,
+  TaskDaily01Icon,
 } from "@hugeicons/core-free-icons";
 import type { Client } from "@/hooks/useClient";
 import { useClientSections } from "@/hooks/useClientSections";
@@ -83,21 +84,42 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         <p className="text-[13px] font-semibold text-foreground truncate">{client.company_name}</p>
       </div>
 
-      <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
-        {items.map((item) => (
-          <Link
-            key={item.href}
-            to={item.href}
-            className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
-              isActive(item.href, item.exact)
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            }`}
-          >
-            <HugeiconsIcon icon={item.icon} size={16} />
-            {item.label}
-          </Link>
-        ))}
+      <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto flex flex-col">
+        <div className="space-y-0.5">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                isActive(item.href, item.exact)
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <HugeiconsIcon icon={item.icon} size={16} />
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        {client.show_intake_form && (
+          <div className="mt-auto pt-3 border-t border-border space-y-0.5">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
+              Formulieren
+            </p>
+            <Link
+              to={`${base}/intake`}
+              className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                isActive(`${base}/intake`)
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <HugeiconsIcon icon={TaskDaily01Icon} size={16} />
+              Intake Formulier
+            </Link>
+          </div>
+        )}
       </nav>
 
       <div className="border-t border-border p-3">
