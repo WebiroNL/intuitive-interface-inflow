@@ -109,7 +109,7 @@ export default function AdminPages() {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Pagina's</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Beheer juridische pagina's. Nieuwe pagina's verschijnen automatisch onder "Juridisch" in de footer.
+            Beheer juridische en bedrijfspagina's. Pagina's verschijnen automatisch in de footer onder de gekozen categorie.
           </p>
         </div>
         <button
@@ -291,6 +291,18 @@ function PageEditor({
               className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
               placeholder="Bijv. Versie: november 2025"
             />
+          </Field>
+
+          <Field label="Categorie" hint="Bepaalt onder welke kolom in de footer de pagina verschijnt">
+            <select
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
           </Field>
 
           <Field label="Volgorde in footer" hint="Lager nummer = hoger in lijst">
