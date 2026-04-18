@@ -8,6 +8,7 @@ import {
   UserAccountIcon,
   PackageIcon,
   ActivityIcon,
+  TaskDaily01Icon,
 } from "@hugeicons/core-free-icons";
 
 export interface ClientMenuDef {
