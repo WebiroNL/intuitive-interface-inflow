@@ -140,6 +140,7 @@ export function StepCmsHosting({ selected, onSelect, contractDuration, onContrac
                   )}
                 </div>
               </div>
+              </div>
             </motion.div>
           );
         })}
