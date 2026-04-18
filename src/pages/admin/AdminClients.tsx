@@ -232,6 +232,8 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="contracts">Contracten</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
+          <TabsTrigger value="intake">Intake formulier</TabsTrigger>
+          <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
         <TabsContent value="info">
@@ -252,6 +254,8 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="contracts"><ContractsTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
+        <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
+        <TabsContent value="menus"><VisibleMenusTab client={client} onChanged={onChanged} /></TabsContent>
       </Tabs>
     </DialogContent>
   );
