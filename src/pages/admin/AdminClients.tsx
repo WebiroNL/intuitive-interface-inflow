@@ -13,6 +13,7 @@ import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
+import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
@@ -256,8 +257,29 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
 }
 
 function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: () => void }) {
-  const [form, setForm] = useState({ ...client });
+  const [form, setForm] = useState<any>({ ...client });
   const [saving, setSaving] = useState(false);
+
+  // Intake-secties: lege array in DB = alles aan. We tonen UI altijd met expliciete IDs.
+  const enabledSections: string[] =
+    Array.isArray((form as any).intake_sections) && (form as any).intake_sections.length > 0
+      ? ((form as any).intake_sections as string[])
+      : ALL_SECTION_IDS;
+  const allOn = enabledSections.length === ALL_SECTION_IDS.length;
+  const noneOn = enabledSections.length === 0;
+
+  const setEnabledSections = (next: string[]) => {
+    // Als alles aan staat, sla [] op (= alle automatisch aan, ook nieuwe toekomstige secties)
+    const valueToStore = next.length === ALL_SECTION_IDS.length ? [] : next;
+    setForm({ ...form, intake_sections: valueToStore });
+  };
+
+  const toggleSection = (id: string) => {
+    const set = new Set(enabledSections);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    setEnabledSections(ALL_SECTION_IDS.filter((sid) => set.has(sid))); // behoud volgorde
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
     const { error } = await supabase.from("clients").update(form).eq("id", client.id);
@@ -283,9 +305,10 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
         <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
+
         <div className="col-span-2 pt-2 border-t border-border">
           <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Portaal opties</p>
-          <label className="flex items-start gap-2 cursor-pointer">
+          <label className="flex items-start gap-2 cursor-pointer mb-3">
             <input
               type="checkbox"
               className="mt-0.5"
@@ -298,6 +321,53 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
             </span>
           </label>
         </div>
+
+        {form.show_intake_form && (
+          <div className="col-span-2 border border-border rounded-md p-3 bg-muted/20">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+              <div>
+                <p className="text-[13px] font-medium text-foreground">Zichtbare secties in Intake</p>
+                <p className="text-[11px] text-muted-foreground">Standaard staan alle secties aan. Vink uit wat je niet wilt tonen.</p>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEnabledSections([...ALL_SECTION_IDS])}
+                  disabled={allOn}
+                >
+                  Alles aan
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEnabledSections([])}
+                  disabled={noneOn}
+                >
+                  Alles uit
+                </Button>
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-1.5">
+              {INTAKE_SECTIONS.map((s) => {
+                const checked = enabledSections.includes(s.id);
+                return (
+                  <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleSection(s.id)}
+                    />
+                    <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
+                    <span className="text-[13px] text-foreground">{s.label}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
