@@ -16,8 +16,18 @@ import { ContractView } from "@/components/contract/ContractView";
 import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
 import { CLIENT_MENUS, ALL_MENU_IDS } from "@/components/client/menus";
 import ClientIntakeForm from "@/pages/client/ClientIntakeForm";
+import ClientWebsiteIntakeForm from "@/pages/client/ClientWebsiteIntakeForm";
 import { DEFAULT_INTAKE_LABELS, ALL_INTAKE_LABEL_KEYS } from "@/components/intake/labels";
 import { LABEL_KEYS_BY_SECTION } from "@/components/intake/labelGroups";
+import {
+  WEBSITE_INTAKE_SECTIONS,
+  ALL_WEBSITE_SECTION_IDS,
+} from "@/components/intake/websiteSections";
+import {
+  DEFAULT_WEBSITE_INTAKE_LABELS,
+  ALL_WEBSITE_INTAKE_LABEL_KEYS,
+} from "@/components/intake/websiteLabels";
+import { WEBSITE_LABEL_KEYS_BY_SECTION } from "@/components/intake/websiteLabelGroups";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
@@ -235,7 +245,8 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="contracts">Contracten</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
-          <TabsTrigger value="intake">Intake formulier</TabsTrigger>
+          <TabsTrigger value="intake">Ads Intake</TabsTrigger>
+          <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
           <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
@@ -259,6 +270,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="contracts"><ContractsTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
+        <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="menus"><VisibleMenusTab client={client} onChanged={onChanged} /></TabsContent>
       </Tabs>
     </DialogContent>
