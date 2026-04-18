@@ -140,9 +140,9 @@ export default function ClientIntakeForm({ client }: Props) {
     <div className="p-4 sm:p-6 lg:p-8 max-w-6xl">
       <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
         <div>
-          <h1 className="text-xl font-semibold text-foreground">Marketing Intakeformulier</h1>
+          <h1 className="text-xl font-semibold text-foreground">Ads Intakeformulier</h1>
           <p className="text-[13px] text-muted-foreground mt-0.5">
-            Vul dit formulier zo volledig mogelijk in. Je kunt tussentijds opslaan.
+            Vul dit formulier zo volledig mogelijk in voor je <strong>advertentiecampagnes</strong>. Je kunt tussentijds opslaan.
           </p>
         </div>
         <div className="flex items-center gap-2">
