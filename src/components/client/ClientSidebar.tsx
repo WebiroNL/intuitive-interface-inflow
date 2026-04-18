@@ -16,6 +16,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { Client } from "@/hooks/useClient";
 import { useClientSections } from "@/hooks/useClientSections";
+import { isMenuVisible } from "@/components/client/menus";
 
 interface Props {
   client: Client;
@@ -29,17 +30,19 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const { signOut } = useAuth();
   const sections = useClientSections(client);
   const base = `/dashboard`;
+  const vm = (client.visible_menus as string[] | null | undefined) ?? null;
 
   const allItems = [
-    { label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, show: true },
-    { label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, show: sections.hasMonthlyData },
-    { label: "Rapporten", href: `${base}/reports`, icon: File02Icon, show: sections.hasMonthlyData },
-    { label: "Contract", href: `${base}/contract`, icon: File02Icon, show: sections.hasContracts || sections.hasServices },
-    { label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, show: sections.hasInvoices },
-    { label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, show: sections.hasFiles },
-    { label: "Updates", href: `${base}/updates`, icon: Notification02Icon, show: sections.hasActivity },
+    { id: "dashboard", label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, hasData: true },
+    { id: "campaigns", label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, hasData: sections.hasMonthlyData },
+    { id: "reports", label: "Rapporten", href: `${base}/reports`, icon: File02Icon, hasData: sections.hasMonthlyData },
+    { id: "contract", label: "Contract", href: `${base}/contract`, icon: File02Icon, hasData: sections.hasContracts || sections.hasServices },
+    { id: "invoices", label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, hasData: sections.hasInvoices },
+    { id: "files", label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, hasData: sections.hasFiles },
+    { id: "updates", label: "Updates", href: `${base}/updates`, icon: Notification02Icon, hasData: sections.hasActivity },
   ];
-  const items = allItems.filter((i) => i.show);
+  // Verberg item als admin het uitgevinkt heeft, OF (voor data-afhankelijke items) als er nog geen data is.
+  const items = allItems.filter((i) => isMenuVisible(vm, i.id) && i.hasData);
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);

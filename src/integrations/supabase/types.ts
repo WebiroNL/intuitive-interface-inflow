@@ -219,6 +219,7 @@ export type Database = {
           slug: string
           updated_at: string
           user_id: string | null
+          visible_menus: Json
         }
         Insert: {
           active?: boolean
@@ -241,6 +242,7 @@ export type Database = {
           slug: string
           updated_at?: string
           user_id?: string | null
+          visible_menus?: Json
         }
         Update: {
           active?: boolean
@@ -263,6 +265,7 @@ export type Database = {
           slug?: string
           updated_at?: string
           user_id?: string | null
+          visible_menus?: Json
         }
         Relationships: []
       }

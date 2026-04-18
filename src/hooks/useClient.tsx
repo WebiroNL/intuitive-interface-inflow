@@ -21,6 +21,7 @@ export interface Client {
   deposit_percentage: number | null;
   show_intake_form?: boolean | null;
   intake_sections?: string[] | null;
+  visible_menus?: string[] | null;
   created_at: string;
   updated_at: string;
 }
