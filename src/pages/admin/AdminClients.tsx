@@ -624,7 +624,239 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
   );
 }
 
-function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+function WebsiteIntakeFormTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+  const [form, setForm] = useState<any>({
+    show_website_intake_form: !!(client as any).show_website_intake_form,
+    website_intake_sections: (client as any).website_intake_sections,
+    website_intake_labels: (client as any).website_intake_labels ?? {},
+  });
+  const [saving, setSaving] = useState(false);
+  const [labelFilter, setLabelFilter] = useState("");
+
+  const rawSections = form.website_intake_sections;
+  const isAllSentinel =
+    Array.isArray(rawSections) && rawSections.length === 1 && rawSections[0] === "__all__";
+  const isExplicitNone = Array.isArray(rawSections) && rawSections.length === 0;
+  const enabledSections: string[] = isAllSentinel
+    ? ALL_WEBSITE_SECTION_IDS
+    : isExplicitNone
+      ? []
+      : Array.isArray(rawSections)
+        ? (rawSections as string[])
+        : ALL_WEBSITE_SECTION_IDS;
+  const allOn = enabledSections.length === ALL_WEBSITE_SECTION_IDS.length;
+  const noneOn = enabledSections.length === 0;
+
+  const setEnabledSections = (next: string[]) => {
+    const valueToStore = next.length === ALL_WEBSITE_SECTION_IDS.length ? ["__all__"] : next;
+    setForm({ ...form, website_intake_sections: valueToStore });
+  };
+  const toggleSection = (id: string) => {
+    const set = new Set(enabledSections);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    setEnabledSections(ALL_WEBSITE_SECTION_IDS.filter((sid) => set.has(sid)));
+  };
+
+  const setLabelOverride = (key: string, value: string) => {
+    const next = { ...(form.website_intake_labels ?? {}) };
+    if (value.trim() === "") delete next[key];
+    else next[key] = value;
+    setForm({ ...form, website_intake_labels: next });
+  };
+  const resetAllLabels = () => setForm({ ...form, website_intake_labels: {} });
+
+  const filteredLabelKeys = ALL_WEBSITE_INTAKE_LABEL_KEYS.filter((k) => {
+    const def = DEFAULT_WEBSITE_INTAKE_LABELS[k] ?? "";
+    const cur = (form.website_intake_labels ?? {})[k] ?? "";
+    if (!labelFilter.trim()) return true;
+    const q = labelFilter.toLowerCase();
+    return k.toLowerCase().includes(q) || def.toLowerCase().includes(q) || cur.toLowerCase().includes(q);
+  });
+  const overriddenCount = Object.keys(form.website_intake_labels ?? {}).filter(
+    (k) => (form.website_intake_labels[k] ?? "").trim() !== ""
+  ).length;
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault(); setSaving(true);
+    const { error } = await (supabase as any).from("clients").update(form).eq("id", client.id);
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Website-intake instellingen bijgewerkt"); onChanged();
+  };
+
+  return (
+    <form onSubmit={submit} className="space-y-3 pt-4">
+      <div className="border border-border rounded-lg bg-card overflow-hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Website Intakeformulier</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">Beheer de zichtbaarheid in het zijmenu en welke secties de klant ziet voor de website-intake.</p>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={!!form.show_website_intake_form}
+              onChange={(e) => setForm({ ...form, show_website_intake_form: e.target.checked })}
+            />
+            <span className="text-[13px] font-medium text-foreground">Zichtbaar in zijmenu</span>
+          </label>
+        </div>
+
+        <div className={`p-4 ${form.show_website_intake_form ? "" : "opacity-50 pointer-events-none"}`}>
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <div>
+              <p className="text-[13px] font-medium text-foreground">Zichtbare secties</p>
+              <p className="text-[11px] text-muted-foreground">
+                {allOn
+                  ? "Alle secties zijn zichtbaar voor de klant."
+                  : noneOn
+                    ? "Geen enkele sectie is zichtbaar — de klant ziet een leeg formulier."
+                    : `${enabledSections.length} van ${ALL_WEBSITE_SECTION_IDS.length} secties zichtbaar.`}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={() => setEnabledSections([...ALL_WEBSITE_SECTION_IDS])} disabled={allOn}>Alles aan</Button>
+              <Button type="button" variant="outline" size="sm" onClick={() => setEnabledSections([])} disabled={noneOn}>Alles uit</Button>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-1.5">
+            {WEBSITE_INTAKE_SECTIONS.map((s, idx) => {
+              const checked = enabledSections.includes(s.id);
+              return (
+                <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
+                  <input type="checkbox" checked={checked} onChange={() => toggleSection(s.id)} />
+                  <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
+                  <span className="text-[13px] text-foreground">{idx + 1}. {s.title}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Instellingen opslaan"}
+        </Button>
+      </div>
+
+      <div className="mt-6 space-y-3">
+        <div className="border border-border rounded-lg bg-card">
+          <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+            <div>
+              <h3 className="text-[14px] font-semibold text-foreground">Vragen hernoemen</h3>
+              <p className="text-[12px] text-muted-foreground mt-0.5">
+                Pas labels van vragen aan voor deze klant. Laat leeg om de standaardtekst te gebruiken.
+                {overriddenCount > 0 && (
+                  <> · <span className="font-medium text-foreground">{overriddenCount}</span> aangepast</>
+                )}
+              </p>
+            </div>
+            <div className="flex gap-2 items-center">
+              <Input
+                placeholder="Zoek label..."
+                value={labelFilter}
+                onChange={(e) => setLabelFilter(e.target.value)}
+                className="h-8 w-48"
+              />
+              <Button type="button" variant="outline" size="sm" onClick={resetAllLabels} disabled={overriddenCount === 0}>
+                Alles resetten
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {WEBSITE_INTAKE_SECTIONS.map((section, idx) => {
+          const sectionKey = `wsec.${section.id}`;
+          const fieldKeys = WEBSITE_LABEL_KEYS_BY_SECTION[section.id] ?? [];
+          const allKeys = [sectionKey, ...fieldKeys];
+          const visibleKeys = allKeys.filter((k) => filteredLabelKeys.includes(k));
+          if (visibleKeys.length === 0) return null;
+
+          const sectionDef = DEFAULT_WEBSITE_INTAKE_LABELS[sectionKey] ?? section.title;
+          const sectionCur = (form.website_intake_labels ?? {})[sectionKey] ?? "";
+
+          return (
+            <div key={section.id} className="border border-border rounded-lg bg-card overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
+                <HugeiconsIcon icon={section.icon} size={16} className="text-primary" />
+                <span className="text-[14px] font-semibold text-foreground">
+                  {idx + 1}. {sectionCur || sectionDef}
+                </span>
+              </div>
+              <div className="p-4 space-y-2">
+                {visibleKeys.includes(sectionKey) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center pb-2 border-b border-border/50">
+                    <div className="flex flex-col">
+                      <span className="text-[11px] uppercase tracking-wide text-primary font-semibold">Sectietitel</span>
+                      <span className="text-[13px] text-foreground truncate" title={sectionDef}>{sectionDef}</span>
+                    </div>
+                    <Input
+                      placeholder={`(standaard: ${sectionDef})`}
+                      value={sectionCur}
+                      onChange={(e) => setLabelOverride(sectionKey, e.target.value)}
+                      className="h-8"
+                    />
+                    {sectionCur ? (
+                      <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(sectionKey, "")}>
+                        Reset
+                      </Button>
+                    ) : <div />}
+                  </div>
+                )}
+                {fieldKeys.filter((k) => visibleKeys.includes(k)).map((key) => {
+                  const def = DEFAULT_WEBSITE_INTAKE_LABELS[key] ?? "";
+                  const cur = (form.website_intake_labels ?? {})[key] ?? "";
+                  return (
+                    <div key={key} className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center">
+                      <div className="flex flex-col">
+                        <span className="text-[11px] uppercase tracking-wide text-muted-foreground">Veld</span>
+                        <span className="text-[13px] text-foreground truncate" title={def}>{def}</span>
+                      </div>
+                      <Input
+                        placeholder={`(standaard: ${def})`}
+                        value={cur}
+                        onChange={(e) => setLabelOverride(key, e.target.value)}
+                        className="h-8"
+                      />
+                      {cur ? (
+                        <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(key, "")}>
+                          Reset
+                        </Button>
+                      ) : <div />}
+                    </div>
+                  );
+                })}
+                {fieldKeys.length === 0 && (
+                  <p className="text-[11px] text-muted-foreground italic">Deze sectie heeft geen aanpasbare veldlabels.</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+        {filteredLabelKeys.length === 0 && (
+          <div className="border border-border rounded-lg bg-card p-4">
+            <p className="text-[12px] text-muted-foreground text-center">Geen labels gevonden voor "{labelFilter}".</p>
+          </div>
+        )}
+      </div>
+
+      <div className="border border-border rounded-lg bg-card mt-6">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-[14px] font-semibold text-foreground">Antwoorden bewerken</h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5">
+            Bewerk hieronder de antwoorden van de klant. Alleen de hierboven ingeschakelde secties zijn zichtbaar.
+          </p>
+        </div>
+        <div className="p-2">
+          <ClientWebsiteIntakeForm client={client} />
+        </div>
+      </div>
+    </form>
+  );
+}
+
   const [form, setForm] = useState<any>({ visible_menus: (client as any).visible_menus });
   const [saving, setSaving] = useState(false);
 
