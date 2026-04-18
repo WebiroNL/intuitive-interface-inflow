@@ -214,6 +214,7 @@ export type Database = {
           logo_url: string | null
           monthly_fee: number | null
           phone: string | null
+          show_intake_form: boolean
           slug: string
           updated_at: string
           user_id: string | null
@@ -234,6 +235,7 @@ export type Database = {
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null
+          show_intake_form?: boolean
           slug: string
           updated_at?: string
           user_id?: string | null
@@ -254,6 +256,7 @@ export type Database = {
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null
+          show_intake_form?: boolean
           slug?: string
           updated_at?: string
           user_id?: string | null
@@ -392,6 +395,44 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      marketing_intakes: {
+        Row: {
+          client_id: string
+          created_at: string
+          data: Json
+          id: string
+          status: string
+          submitted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_intakes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       monthly_data: {
         Row: {
