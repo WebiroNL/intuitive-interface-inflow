@@ -333,13 +333,19 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 8. Vertrouwen */}
           <Sec id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={Shield01Icon}>
-            {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
-              <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
-            ))}
-            <Field labelId="f.reviews_op" label="Reviews op" className="mt-3">
-              {["Google", "Facebook", "Trustpilot", "Brancheplatform"].map((o) => (
-                <Check key={o} label={o} checked={has("reviews_op", o)} onChange={() => toggle("reviews_op", o)} />
-              ))}
+            <Field labelId="f.vertrouwen" label="Vertrouwen & autoriteit punten">
+              <CheckRow>
+                {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
+                  <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
+                ))}
+              </CheckRow>
+            </Field>
+            <Field labelId="f.reviews_op" label="Reviews op">
+              <CheckRow>
+                {["Google", "Facebook", "Trustpilot", "Brancheplatform"].map((o) => (
+                  <Check key={o} label={o} checked={has("reviews_op", o)} onChange={() => toggle("reviews_op", o)} />
+                ))}
+              </CheckRow>
             </Field>
             <Field labelId="f.review_links" label="Links naar reviews">
               <Textarea value={data.review_links ?? ""} onChange={(e) => set("review_links", e.target.value)} placeholder="Eén link per regel" />
