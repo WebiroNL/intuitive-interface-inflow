@@ -702,35 +702,42 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
     ai_benchmark_text: row.ai_benchmark_text ?? "",
   });
   const [saving, setSaving] = useState(false);
-  const [aiLoading, setAiLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState<string | null>(null); // null | "all" | field key
   const f = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.type === "number" ? Number(e.target.value) : e.target.value });
 
-  const generateAI = async () => {
-    setAiLoading(true);
+  const generateAI = async (field: "all" | "summary_bullets" | "reach_text" | "benchmark_text" | "plain_language" | "recommendation_bullets" | "insights" = "all") => {
+    setAiLoading(field);
     try {
       const { data, error } = await supabase.functions.invoke("report-ai", {
         body: {
           metrics: form,
           company_name: client.company_name,
           period: `${MONTH_NAMES[(form.month ?? 1) - 1]} ${form.year}`,
+          field,
         },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      const r = data.result;
-      setForm({
-        ...form,
-        summary_bullets: r.summary_bullets ?? [],
-        recommendation_bullets: r.recommendation_bullets ?? [],
-        ai_reach_text: r.reach_text ?? "",
-        ai_benchmark_text: r.benchmark_text ?? "",
-        ai_plain_language: r.plain_language ?? [],
-      });
-      toast.success("AI teksten gegenereerd");
+      const r = data.result ?? {};
+      const next = { ...form };
+      if (field === "all") {
+        next.summary_bullets = r.summary_bullets ?? form.summary_bullets;
+        next.recommendation_bullets = r.recommendation_bullets ?? form.recommendation_bullets;
+        next.ai_reach_text = r.reach_text ?? form.ai_reach_text;
+        next.ai_benchmark_text = r.benchmark_text ?? form.ai_benchmark_text;
+        next.ai_plain_language = r.plain_language ?? form.ai_plain_language;
+      } else if (field === "summary_bullets") next.summary_bullets = r.summary_bullets ?? form.summary_bullets;
+      else if (field === "recommendation_bullets") next.recommendation_bullets = r.recommendation_bullets ?? form.recommendation_bullets;
+      else if (field === "reach_text") next.ai_reach_text = r.reach_text ?? form.ai_reach_text;
+      else if (field === "benchmark_text") next.ai_benchmark_text = r.benchmark_text ?? form.ai_benchmark_text;
+      else if (field === "plain_language") next.ai_plain_language = r.plain_language ?? form.ai_plain_language;
+      else if (field === "insights") next.insights = r.insights ?? form.insights;
+      setForm(next);
+      toast.success("AI tekst gegenereerd");
     } catch (e: any) {
       toast.error(e.message ?? "AI fout");
     } finally {
-      setAiLoading(false);
+      setAiLoading(null);
     }
   };
 
@@ -758,11 +765,21 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
     <div><Label className="text-[11px]">{label}</Label><Input type="number" step={step ?? "1"} value={form[k] ?? 0} onChange={f(k)} className="h-8" /></div>
   );
 
+  const AiBtn = ({ field, className = "" }: { field: "summary_bullets" | "reach_text" | "benchmark_text" | "plain_language" | "recommendation_bullets" | "insights"; className?: string }) => (
+    <Button type="button" variant="ghost" size="sm" className={`h-6 px-2 text-[11px] ${className}`} onClick={() => generateAI(field)} disabled={aiLoading !== null}>
+      <HugeiconsIcon icon={MagicWand01Icon} size={12} />
+      {aiLoading === field ? "Bezig..." : "AI"}
+    </Button>
+  );
+
   const BulletList = ({ field, label, placeholder }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string }) => {
     const list: string[] = form[field] ?? [];
     return (
       <div>
-        <Label className="text-[11px] mb-1.5 block">{label}</Label>
+        <div className="flex items-center justify-between mb-1.5">
+          <Label className="text-[11px]">{label}</Label>
+          <AiBtn field={field} />
+        </div>
         <div className="space-y-2">
           {list.map((val, i) => (
             <div key={i} className="flex gap-2">
@@ -801,11 +818,11 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
             type="button"
             variant="outline"
             size="sm"
-            onClick={generateAI}
-            disabled={aiLoading}
+            onClick={() => generateAI("all")}
+            disabled={aiLoading !== null}
           >
             <HugeiconsIcon icon={MagicWand01Icon} size={14} />
-            {aiLoading ? "AI bezig..." : "Genereer teksten met AI"}
+            {aiLoading === "all" ? "AI bezig..." : "Genereer alle teksten met AI"}
           </Button>
         </DialogTitle>
       </DialogHeader>
@@ -875,17 +892,26 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
         <BulletList field="summary_bullets" label="01 — Management samenvatting (bullets)" placeholder="Bijv: Sterke zichtbaarheid, 16.730 unieke personen bereikt..." />
 
         <div>
-          <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">04 — Bereik & impressies (uitleg)</Label>
+            <AiBtn field="reach_text" />
+          </div>
           <Textarea value={form.ai_reach_text ?? ""} onChange={f("ai_reach_text")} rows={4} placeholder="Wat betekent dit? Twee korte alinea's." />
         </div>
 
         <div>
-          <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">06 — Benchmark vergelijking (uitleg)</Label>
+            <AiBtn field="benchmark_text" />
+          </div>
           <Textarea value={form.ai_benchmark_text ?? ""} onChange={f("ai_benchmark_text")} rows={4} placeholder="Vergelijking met de markt." />
         </div>
 
         <div>
-          <Label className="text-[11px] mb-1.5 block">07 — In gewone taal (3 blokken)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">07 — In gewone taal (3 blokken)</Label>
+            <AiBtn field="plain_language" />
+          </div>
           <div className="space-y-2">
             {(form.ai_plain_language ?? []).map((item: any, i: number) => (
               <div key={i} className="grid grid-cols-[1fr_2fr_auto] gap-2">
@@ -927,7 +953,10 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
         <BulletList field="recommendation_bullets" label="08 — Aanbevelingen volgende maand (bullets)" placeholder="Bijv: Verhoog het maandbudget naar €400-600..." />
 
         <div>
-          <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
+          <div className="flex items-center justify-between mb-1.5">
+            <Label className="text-[11px]">Inzichten / vrije notitie (intern)</Label>
+            <AiBtn field="insights" />
+          </div>
           <Textarea value={form.insights ?? ""} onChange={f("insights")} rows={3} />
         </div>
 
