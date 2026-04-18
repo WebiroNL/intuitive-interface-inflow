@@ -429,9 +429,13 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 14. Uitstraling */}
           <Sec id="uitstraling" title="14. Gewenste uitstraling advertenties" icon={PaintBrushIcon}>
-            {["Luxe", "Zakelijk", "Vriendelijk", "Stoer", "Modern", "Budgetgericht"].map((o) => (
-              <Check key={o} label={o} checked={has("uitstraling", o)} onChange={() => toggle("uitstraling", o)} />
-            ))}
+            <Field labelId="f.uitstraling" label="Gewenste uitstraling">
+              <CheckRow>
+                {["Luxe", "Zakelijk", "Vriendelijk", "Stoer", "Modern", "Budgetgericht"].map((o) => (
+                  <Check key={o} label={o} checked={has("uitstraling", o)} onChange={() => toggle("uitstraling", o)} />
+                ))}
+              </CheckRow>
+            </Field>
           </Sec>
 
           {/* 15. Kanalen & Budget */}
