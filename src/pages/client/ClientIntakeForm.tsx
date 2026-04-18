@@ -459,16 +459,21 @@ export default function ClientIntakeForm({ client }: Props) {
 
 /* ---------- Helpers ---------- */
 
-const VisibleSectionsContext = createContext<Set<string> | null>(null);
+type SectionsCtx = { visible: Set<string>; numbers: Map<string, number> };
+const VisibleSectionsContext = createContext<SectionsCtx | null>(null);
 
 function Sec({ id, title, icon, children }: { id: string; title: string; icon: any; children: React.ReactNode }) {
-  const visible = useContext(VisibleSectionsContext);
-  if (visible && !visible.has(id)) return null;
+  const ctx = useContext(VisibleSectionsContext);
+  if (ctx && !ctx.visible.has(id)) return null;
+  // Strip eventueel hardcoded "N. " prefix uit title en vervang door dynamisch nummer.
+  const cleanTitle = title.replace(/^\s*\d+\.\s*/, "");
+  const num = ctx?.numbers.get(id);
+  const displayTitle = num ? `${num}. ${cleanTitle}` : cleanTitle;
   return (
     <section id={`sec-${id}`} className="bg-card border border-border rounded-lg p-5 scroll-mt-20">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
         <HugeiconsIcon icon={icon} size={18} className="text-primary" />
-        <h2 className="text-[15px] font-semibold text-foreground">{title}</h2>
+        <h2 className="text-[15px] font-semibold text-foreground">{displayTitle}</h2>
       </div>
       <div className="space-y-3">{children}</div>
     </section>
