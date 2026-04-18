@@ -322,68 +322,77 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
         <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
 
-        <div className="col-span-2 pt-4 mt-2 border-t border-border">
+      </div>
+
+      {/* === Aparte sectie: Intake Formulier === */}
+      <div className="mt-6 border border-border rounded-lg bg-card overflow-hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Intake Formulier</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">Beheer de zichtbaarheid in het zijmenu en welke secties de klant ziet.</p>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={!!form.show_intake_form}
+              onChange={(e) => setForm({ ...form, show_intake_form: e.target.checked })}
+            />
+            <span className="text-[13px] font-medium text-foreground">Zichtbaar in zijmenu</span>
+          </label>
+        </div>
+
+        <div className={`p-4 ${form.show_intake_form ? "" : "opacity-50 pointer-events-none"}`}>
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
             <div>
-              <p className="text-[12px] uppercase tracking-wider text-muted-foreground">Intake Formulier</p>
-              <p className="text-[12px] text-muted-foreground mt-0.5">Beheer of het formulier zichtbaar is en welke secties de klant ziet.</p>
+              <p className="text-[13px] font-medium text-foreground">Zichtbare secties</p>
+              <p className="text-[11px] text-muted-foreground">
+                {allOn
+                  ? "Alle secties zijn zichtbaar voor de klant."
+                  : noneOn
+                    ? "Geen enkele sectie is zichtbaar — de klant ziet een leeg formulier."
+                    : `${enabledSections.length} van ${ALL_SECTION_IDS.length} secties zichtbaar.`}
+              </p>
             </div>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={!!form.show_intake_form}
-                onChange={(e) => setForm({ ...form, show_intake_form: e.target.checked })}
-              />
-              <span className="text-[13px] font-medium text-foreground">Zichtbaar in zijmenu</span>
-            </label>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setEnabledSections([...ALL_SECTION_IDS])}
+                disabled={allOn}
+              >
+                Alles aan
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setEnabledSections([])}
+                disabled={noneOn}
+              >
+                Alles uit
+              </Button>
+            </div>
           </div>
-
-          <div className={`border border-border rounded-md p-3 bg-muted/20 ${form.show_intake_form ? "" : "opacity-50 pointer-events-none"}`}>
-            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
-              <div>
-                <p className="text-[13px] font-medium text-foreground">Zichtbare secties</p>
-                <p className="text-[11px] text-muted-foreground">Standaard staan alle secties aan. Vink uit wat je niet wilt tonen.</p>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setEnabledSections([...ALL_SECTION_IDS])}
-                  disabled={allOn}
-                >
-                  Alles aan
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setEnabledSections([])}
-                  disabled={noneOn}
-                >
-                  Alles uit
-                </Button>
-              </div>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-1.5">
-              {INTAKE_SECTIONS.map((s) => {
-                const checked = enabledSections.includes(s.id);
-                return (
-                  <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleSection(s.id)}
-                    />
-                    <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
-                    <span className="text-[13px] text-foreground">{s.label}</span>
-                  </label>
-                );
-              })}
-            </div>
+          <div className="grid sm:grid-cols-2 gap-1.5">
+            {INTAKE_SECTIONS.map((s) => {
+              const checked = enabledSections.includes(s.id);
+              return (
+                <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleSection(s.id)}
+                  />
+                  <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
+                  <span className="text-[13px] text-foreground">{s.label}</span>
+                </label>
+              );
+            })}
           </div>
         </div>
       </div>
+
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
   );
