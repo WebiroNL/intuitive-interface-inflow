@@ -20,6 +20,7 @@ export interface Client {
   discount_percentage: number | null;
   deposit_percentage: number | null;
   show_intake_form?: boolean | null;
+  intake_sections?: string[] | null;
   created_at: string;
   updated_at: string;
 }
