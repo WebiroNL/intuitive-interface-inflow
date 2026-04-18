@@ -60,13 +60,14 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                 }`}
               >
 
+              {pkg.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full shadow-md shadow-primary/20 whitespace-nowrap">
+                  <Star className="w-3 h-3" /> Meest gekozen
+                </span>
+              )}
+
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3 min-h-[28px]">
-                  {pkg.popular && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full">
-                      <Star className="w-3 h-3" /> Meest gekozen
-                    </span>
-                  )}
                   {pkg.savings && !pkg.popular && (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-[11px] font-medium rounded-full dark:bg-green-900/20 dark:text-green-400">
                       <Flame className="w-3 h-3" /> Bespaar €{pkg.savings}
