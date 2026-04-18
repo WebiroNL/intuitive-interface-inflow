@@ -49,8 +49,8 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
             >
               {pkg.popular && (
                 <>
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+                  <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary via-primary/40 to-accent opacity-80 pointer-events-none -z-10" />
+                  <div className="absolute -inset-[6px] rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 blur-xl opacity-60 pointer-events-none -z-20" />
                 </>
               )}
 
