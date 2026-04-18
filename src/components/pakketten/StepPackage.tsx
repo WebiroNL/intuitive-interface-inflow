@@ -151,6 +151,7 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                   )}
                 </div>
               </div>
+              </div>
             </motion.div>
           );
         })}
