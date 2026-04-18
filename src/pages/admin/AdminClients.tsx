@@ -702,35 +702,42 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
     ai_benchmark_text: row.ai_benchmark_text ?? "",
   });
   const [saving, setSaving] = useState(false);
-  const [aiLoading, setAiLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState<string | null>(null); // null | "all" | field key
   const f = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.type === "number" ? Number(e.target.value) : e.target.value });
 
-  const generateAI = async () => {
-    setAiLoading(true);
+  const generateAI = async (field: "all" | "summary_bullets" | "reach_text" | "benchmark_text" | "plain_language" | "recommendation_bullets" | "insights" = "all") => {
+    setAiLoading(field);
     try {
       const { data, error } = await supabase.functions.invoke("report-ai", {
         body: {
           metrics: form,
           company_name: client.company_name,
           period: `${MONTH_NAMES[(form.month ?? 1) - 1]} ${form.year}`,
+          field,
         },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      const r = data.result;
-      setForm({
-        ...form,
-        summary_bullets: r.summary_bullets ?? [],
-        recommendation_bullets: r.recommendation_bullets ?? [],
-        ai_reach_text: r.reach_text ?? "",
-        ai_benchmark_text: r.benchmark_text ?? "",
-        ai_plain_language: r.plain_language ?? [],
-      });
-      toast.success("AI teksten gegenereerd");
+      const r = data.result ?? {};
+      const next = { ...form };
+      if (field === "all") {
+        next.summary_bullets = r.summary_bullets ?? form.summary_bullets;
+        next.recommendation_bullets = r.recommendation_bullets ?? form.recommendation_bullets;
+        next.ai_reach_text = r.reach_text ?? form.ai_reach_text;
+        next.ai_benchmark_text = r.benchmark_text ?? form.ai_benchmark_text;
+        next.ai_plain_language = r.plain_language ?? form.ai_plain_language;
+      } else if (field === "summary_bullets") next.summary_bullets = r.summary_bullets ?? form.summary_bullets;
+      else if (field === "recommendation_bullets") next.recommendation_bullets = r.recommendation_bullets ?? form.recommendation_bullets;
+      else if (field === "reach_text") next.ai_reach_text = r.reach_text ?? form.ai_reach_text;
+      else if (field === "benchmark_text") next.ai_benchmark_text = r.benchmark_text ?? form.ai_benchmark_text;
+      else if (field === "plain_language") next.ai_plain_language = r.plain_language ?? form.ai_plain_language;
+      else if (field === "insights") next.insights = r.insights ?? form.insights;
+      setForm(next);
+      toast.success("AI tekst gegenereerd");
     } catch (e: any) {
       toast.error(e.message ?? "AI fout");
     } finally {
-      setAiLoading(false);
+      setAiLoading(null);
     }
   };
 
