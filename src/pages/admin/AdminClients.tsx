@@ -585,7 +585,7 @@ function AccountTab({ client, onChanged }: { client: Client; onChanged: () => vo
     <div className="pt-4 space-y-4">
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
         <p className="font-medium text-foreground mb-1">Inlogaccount aanmaken of resetten</p>
-        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant. De klant logt in op <span className="font-mono text-foreground">/login</span>.</p>
+        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant. De klant logt in op <span className="font-mono text-foreground">webiro.nl/login</span>.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
