@@ -240,7 +240,7 @@ export default function LegalPageView() {
             ref={articleRef}
             className="max-w-[680px] prose prose-neutral dark:prose-invert
               prose-headings:font-semibold prose-headings:tracking-[-0.015em] prose-headings:text-foreground
-              prose-h2:text-[24px] prose-h2:lg:text-[26px] prose-h2:mt-20 prose-h2:mb-5 prose-h2:scroll-mt-28 prose-h2:leading-[1.25]
+              prose-h2:text-[24px] prose-h2:lg:text-[26px] prose-h2:mt-20 prose-h2:mb-8 prose-h2:scroll-mt-28 prose-h2:leading-[1.25]
               prose-h2:pt-14 prose-h2:border-t prose-h2:border-border/60 first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
               prose-h3:text-[17px] prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-foreground/90
               prose-p:text-[15px] prose-p:leading-[1.78] prose-p:text-muted-foreground prose-p:my-5
