@@ -287,17 +287,23 @@ export default function ClientIntakeForm({ client }: Props) {
               </CheckRow>
             </Field>
             <Field labelId="f.segment" label="Specifiek segment">
-              {["Luxe klanten", "Budget klanten", "Spoedzoekers", "Lokale klanten", "Landelijk"].map((o) => (
-                <Check key={o} label={o} checked={has("segment", o)} onChange={() => toggle("segment", o)} />
-              ))}
+              <CheckRow>
+                {["Luxe klanten", "Budget klanten", "Spoedzoekers", "Lokale klanten", "Landelijk"].map((o) => (
+                  <Check key={o} label={o} checked={has("segment", o)} onChange={() => toggle("segment", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
           {/* 6. Klantproblemen */}
           <Sec id="problemen" title="6. Klantproblemen" icon={AlertCircleIcon}>
-            {["Te duur bij anderen", "Lang wachten bij concurrenten", "Slechte ervaring elders", "Spoedgeval", "Geen vertrouwen in andere aanbieders", "Onduidelijke prijzen bij anderen"].map((o) => (
-              <Check key={o} label={o} checked={has("problemen", o)} onChange={() => toggle("problemen", o)} />
-            ))}
+            <Field labelId="f.problemen" label="Veelvoorkomende klantproblemen">
+              <CheckRow>
+                {["Te duur bij anderen", "Lang wachten bij concurrenten", "Slechte ervaring elders", "Spoedgeval", "Geen vertrouwen in andere aanbieders", "Onduidelijke prijzen bij anderen"].map((o) => (
+                  <Check key={o} label={o} checked={has("problemen", o)} onChange={() => toggle("problemen", o)} />
+                ))}
+              </CheckRow>
+            </Field>
             <Field labelId="f.problemen_anders" label="Anders" className="mt-3">
               <Input value={data.problemen_anders ?? ""} onChange={(e) => set("problemen_anders", e.target.value)} />
             </Field>
@@ -306,30 +312,40 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 7. USP's */}
           <Sec id="usp" title="7. USP's & Positionering" icon={StarIcon}>
             <Field labelId="f.usp" label="Waarom moeten klanten JOU kiezen?">
-              {["Snelle service", "24/7 beschikbaar", "Goedkoop", "Premium kwaliteit", "Garantie", "Gecertificeerd", "Gratis offerte"].map((o) => (
-                <Check key={o} label={o} checked={has("usp", o)} onChange={() => toggle("usp", o)} />
-              ))}
-              <div className="flex items-center gap-2 mt-2">
+              <CheckRow>
+                {["Snelle service", "24/7 beschikbaar", "Goedkoop", "Premium kwaliteit", "Garantie", "Gecertificeerd", "Gratis offerte"].map((o) => (
+                  <Check key={o} label={o} checked={has("usp", o)} onChange={() => toggle("usp", o)} />
+                ))}
+              </CheckRow>
+              <div className="flex items-center gap-2 mt-3">
                 <Label className="text-[13px]">Ervaring (jaren)</Label>
                 <Input className="w-24" type="number" value={data.ervaring_jaren ?? ""} onChange={(e) => set("ervaring_jaren", e.target.value)} />
               </div>
             </Field>
             <Field labelId="f.ad_focus" label="Advertentie focus">
-              {["Snelheid", "Prijs", "Kwaliteit", "Ervaring", "Garantie", "Luxe uitstraling", "Groot bereik"].map((o) => (
-                <Check key={o} label={o} checked={has("ad_focus", o)} onChange={() => toggle("ad_focus", o)} />
-              ))}
+              <CheckRow>
+                {["Snelheid", "Prijs", "Kwaliteit", "Ervaring", "Garantie", "Luxe uitstraling", "Groot bereik"].map((o) => (
+                  <Check key={o} label={o} checked={has("ad_focus", o)} onChange={() => toggle("ad_focus", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
           {/* 8. Vertrouwen */}
           <Sec id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={Shield01Icon}>
-            {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
-              <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
-            ))}
-            <Field labelId="f.reviews_op" label="Reviews op" className="mt-3">
-              {["Google", "Facebook", "Trustpilot", "Brancheplatform"].map((o) => (
-                <Check key={o} label={o} checked={has("reviews_op", o)} onChange={() => toggle("reviews_op", o)} />
-              ))}
+            <Field labelId="f.vertrouwen" label="Vertrouwen & autoriteit punten">
+              <CheckRow>
+                {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
+                  <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
+                ))}
+              </CheckRow>
+            </Field>
+            <Field labelId="f.reviews_op" label="Reviews op">
+              <CheckRow>
+                {["Google", "Facebook", "Trustpilot", "Brancheplatform"].map((o) => (
+                  <Check key={o} label={o} checked={has("reviews_op", o)} onChange={() => toggle("reviews_op", o)} />
+                ))}
+              </CheckRow>
             </Field>
             <Field labelId="f.review_links" label="Links naar reviews">
               <Textarea value={data.review_links ?? ""} onChange={(e) => set("review_links", e.target.value)} placeholder="Eén link per regel" />
@@ -361,10 +377,14 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 10. Materiaal */}
           <Sec id="materiaal" title="10. Advertentiemateriaal" icon={Image01Icon}>
-            {["Voor/na foto's", "Video's", "Certificaten", "Keurmerken", "Klantcases"].map((o) => (
-              <Check key={o} label={o} checked={has("materiaal", o)} onChange={() => toggle("materiaal", o)} />
-            ))}
-            <Field labelId="f.materiaal_links" label="Links naar materiaal" className="mt-3">
+            <Field labelId="f.materiaal" label="Beschikbaar advertentiemateriaal">
+              <CheckRow>
+                {["Voor/na foto's", "Video's", "Certificaten", "Keurmerken", "Klantcases"].map((o) => (
+                  <Check key={o} label={o} checked={has("materiaal", o)} onChange={() => toggle("materiaal", o)} />
+                ))}
+              </CheckRow>
+            </Field>
+            <Field labelId="f.materiaal_links" label="Links naar materiaal">
               <Textarea value={data.materiaal_links ?? ""} onChange={(e) => set("materiaal_links", e.target.value)} placeholder="Eén link per regel" />
             </Field>
           </Sec>
@@ -389,9 +409,11 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 13. Planning */}
           <Sec id="planning" title="13. Planning & Seizoenen" icon={Calendar03Icon}>
             <Field labelId="f.drukke_periodes" label="Drukke periodes">
-              {["Heel jaar gelijk", "Zomer drukker", "Winter drukker", "Alleen bij acties"].map((o) => (
-                <Check key={o} label={o} checked={has("drukke_periodes", o)} onChange={() => toggle("drukke_periodes", o)} />
-              ))}
+              <CheckRow>
+                {["Heel jaar gelijk", "Zomer drukker", "Winter drukker", "Alleen bij acties"].map((o) => (
+                  <Check key={o} label={o} checked={has("drukke_periodes", o)} onChange={() => toggle("drukke_periodes", o)} />
+                ))}
+              </CheckRow>
             </Field>
             <Field labelId="f.drukte" label="Drukte per dag (1 = heel druk, 3 = rustig)">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -407,17 +429,23 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 14. Uitstraling */}
           <Sec id="uitstraling" title="14. Gewenste uitstraling advertenties" icon={PaintBrushIcon}>
-            {["Luxe", "Zakelijk", "Vriendelijk", "Stoer", "Modern", "Budgetgericht"].map((o) => (
-              <Check key={o} label={o} checked={has("uitstraling", o)} onChange={() => toggle("uitstraling", o)} />
-            ))}
+            <Field labelId="f.uitstraling" label="Gewenste uitstraling">
+              <CheckRow>
+                {["Luxe", "Zakelijk", "Vriendelijk", "Stoer", "Modern", "Budgetgericht"].map((o) => (
+                  <Check key={o} label={o} checked={has("uitstraling", o)} onChange={() => toggle("uitstraling", o)} />
+                ))}
+              </CheckRow>
+            </Field>
           </Sec>
 
           {/* 15. Kanalen & Budget */}
           <Sec id="kanalen" title="15. Advertentiekanalen, Budget & Geschiedenis" icon={Megaphone01Icon}>
             <Field labelId="f.kanalen" label="Kanalen">
-              {["Google Ads", "Facebook / Instagram", "TikTok"].map((o) => (
-                <Check key={o} label={o} checked={has("kanalen", o)} onChange={() => toggle("kanalen", o)} />
-              ))}
+              <CheckRow>
+                {["Google Ads", "Facebook / Instagram", "TikTok"].map((o) => (
+                  <Check key={o} label={o} checked={has("kanalen", o)} onChange={() => toggle("kanalen", o)} />
+                ))}
+              </CheckRow>
               <div className="mt-3">
                 <Label className="text-[13px]">Andere kanalen</Label>
                 {((data.andere_kanalen as string[]) ?? [""]).map((val, i, arr) => (
@@ -442,9 +470,11 @@ export default function ClientIntakeForm({ client }: Props) {
               <Input type="number" value={data.budget ?? ""} onChange={(e) => set("budget", e.target.value)} />
             </Field>
             <Field labelId="f.marketing_situatie" label="Huidige marketing situatie">
-              {["Eerder advertenties gedraaid", "Nog nooit geadverteerd", "Resultaten vielen tegen", "Wel leads, maar lage kwaliteit"].map((o) => (
-                <Check key={o} label={o} checked={has("marketing_situatie", o)} onChange={() => toggle("marketing_situatie", o)} />
-              ))}
+              <CheckRow>
+                {["Eerder advertenties gedraaid", "Nog nooit geadverteerd", "Resultaten vielen tegen", "Wel leads, maar lage kwaliteit"].map((o) => (
+                  <Check key={o} label={o} checked={has("marketing_situatie", o)} onChange={() => toggle("marketing_situatie", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
