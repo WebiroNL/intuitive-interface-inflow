@@ -506,7 +506,7 @@ function Field({ label, labelId, children, className = "" }: { label: string; la
     : label;
   return (
     <div className={className}>
-      <Label className="text-[13px] mb-1.5 block">{display}</Label>
+      <Label className="text-[13px] mb-3 block">{display}</Label>
       {children}
     </div>
   );
