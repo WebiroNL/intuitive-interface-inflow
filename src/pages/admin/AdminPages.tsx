@@ -69,6 +69,7 @@ export default function AdminPages() {
       content: page.content || "",
       published: page.published ?? true,
       sort_order: page.sort_order ?? 99,
+      category: page.category || "legal",
     };
 
     if (page.id) {
@@ -122,6 +123,7 @@ export default function AdminPages() {
               content: "",
               published: true,
               sort_order: pages.length + 1,
+              category: "legal",
               updated_at: "",
             });
           }}
@@ -140,6 +142,7 @@ export default function AdminPages() {
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Titel</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">URL</th>
+                <th className="text-left px-4 py-3 font-medium text-foreground">Categorie</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Volgorde</th>
                 <th className="text-left px-4 py-3 font-medium text-foreground">Status</th>
                 <th className="text-right px-4 py-3 font-medium text-foreground">Acties</th>
@@ -158,6 +161,9 @@ export default function AdminPages() {
                     >
                       <HugeiconsIcon icon={Link01Icon} size={12} /> /{p.slug}
                     </a>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground capitalize">
+                    {CATEGORIES.find((c) => c.value === p.category)?.label ?? p.category}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{p.sort_order}</td>
                   <td className="px-4 py-3">
