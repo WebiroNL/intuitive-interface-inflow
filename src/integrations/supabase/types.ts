@@ -217,10 +217,13 @@ export type Database = {
           monthly_fee: number | null
           phone: string | null
           show_intake_form: boolean
+          show_website_intake_form: boolean
           slug: string
           updated_at: string
           user_id: string | null
           visible_menus: Json
+          website_intake_labels: Json
+          website_intake_sections: Json
         }
         Insert: {
           active?: boolean
@@ -241,10 +244,13 @@ export type Database = {
           monthly_fee?: number | null
           phone?: string | null
           show_intake_form?: boolean
+          show_website_intake_form?: boolean
           slug: string
           updated_at?: string
           user_id?: string | null
           visible_menus?: Json
+          website_intake_labels?: Json
+          website_intake_sections?: Json
         }
         Update: {
           active?: boolean
@@ -265,10 +271,13 @@ export type Database = {
           monthly_fee?: number | null
           phone?: string | null
           show_intake_form?: boolean
+          show_website_intake_form?: boolean
           slug?: string
           updated_at?: string
           user_id?: string | null
           visible_menus?: Json
+          website_intake_labels?: Json
+          website_intake_sections?: Json
         }
         Relationships: []
       }
@@ -911,6 +920,36 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      website_intakes: {
+        Row: {
+          client_id: string
+          created_at: string
+          data: Json
+          id: string
+          status: string
+          submitted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
