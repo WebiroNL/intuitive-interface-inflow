@@ -235,9 +235,12 @@ const Oplossingen = () => {
               </Link>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-3">
               {process.map((p) => (
-                <div key={p.step} className="flex gap-5">
+                <div
+                  key={p.step}
+                  className="flex gap-5 p-5 rounded-xl border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all"
+                >
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center">
                     <span className="text-[14px] font-bold text-primary">{p.step}</span>
                   </div>
