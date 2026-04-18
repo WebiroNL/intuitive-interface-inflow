@@ -436,7 +436,7 @@ export default function ClientIntakeForm({ client }: Props) {
               <Input type="number" value={data.budget ?? ""} onChange={(e) => set("budget", e.target.value)} />
             </Field>
             <Field label="Huidige marketing situatie">
-              {["Heb al advertenties gelopen", "Nog nooit geadverteerd", "Werkte niet goed", "Wel leads maar slechte kwaliteit"].map((o) => (
+              {["Eerder advertenties gedraaid", "Nog nooit geadverteerd", "Resultaten vielen tegen", "Wel leads, maar lage kwaliteit"].map((o) => (
                 <Check key={o} label={o} checked={has("marketing_situatie", o)} onChange={() => toggle("marketing_situatie", o)} />
               ))}
             </Field>
