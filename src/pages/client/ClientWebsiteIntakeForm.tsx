@@ -34,8 +34,8 @@ function WField({
   const overrides = useContext(WLabelOverrideContext);
   const display = getWebsiteLabel(labelId, overrides) || label;
   return (
-    <div className="space-y-1.5">
-      <Label className="text-[13px] font-medium text-foreground">{display}</Label>
+    <div className="space-y-1">
+      <Label className="text-[13px] mb-3 block font-medium text-foreground">{display}</Label>
       {children}
     </div>
   );
