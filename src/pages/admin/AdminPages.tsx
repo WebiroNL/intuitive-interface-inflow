@@ -201,7 +201,7 @@ export default function AdminPages() {
               ))}
               {pages.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                  <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
                     Nog geen pagina's. Klik op "Nieuwe pagina" om te beginnen.
                   </td>
                 </tr>
