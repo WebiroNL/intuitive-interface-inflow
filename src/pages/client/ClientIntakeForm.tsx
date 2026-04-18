@@ -409,9 +409,11 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 13. Planning */}
           <Sec id="planning" title="13. Planning & Seizoenen" icon={Calendar03Icon}>
             <Field labelId="f.drukke_periodes" label="Drukke periodes">
-              {["Heel jaar gelijk", "Zomer drukker", "Winter drukker", "Alleen bij acties"].map((o) => (
-                <Check key={o} label={o} checked={has("drukke_periodes", o)} onChange={() => toggle("drukke_periodes", o)} />
-              ))}
+              <CheckRow>
+                {["Heel jaar gelijk", "Zomer drukker", "Winter drukker", "Alleen bij acties"].map((o) => (
+                  <Check key={o} label={o} checked={has("drukke_periodes", o)} onChange={() => toggle("drukke_periodes", o)} />
+                ))}
+              </CheckRow>
             </Field>
             <Field labelId="f.drukte" label="Drukte per dag (1 = heel druk, 3 = rustig)">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
