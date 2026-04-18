@@ -297,9 +297,13 @@ export default function ClientIntakeForm({ client }: Props) {
 
           {/* 6. Klantproblemen */}
           <Sec id="problemen" title="6. Klantproblemen" icon={AlertCircleIcon}>
-            {["Te duur bij anderen", "Lang wachten bij concurrenten", "Slechte ervaring elders", "Spoedgeval", "Geen vertrouwen in andere aanbieders", "Onduidelijke prijzen bij anderen"].map((o) => (
-              <Check key={o} label={o} checked={has("problemen", o)} onChange={() => toggle("problemen", o)} />
-            ))}
+            <Field labelId="f.problemen" label="Veelvoorkomende klantproblemen">
+              <CheckRow>
+                {["Te duur bij anderen", "Lang wachten bij concurrenten", "Slechte ervaring elders", "Spoedgeval", "Geen vertrouwen in andere aanbieders", "Onduidelijke prijzen bij anderen"].map((o) => (
+                  <Check key={o} label={o} checked={has("problemen", o)} onChange={() => toggle("problemen", o)} />
+                ))}
+              </CheckRow>
+            </Field>
             <Field labelId="f.problemen_anders" label="Anders" className="mt-3">
               <Input value={data.problemen_anders ?? ""} onChange={(e) => set("problemen_anders", e.target.value)} />
             </Field>
