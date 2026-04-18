@@ -50,6 +50,12 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                 <div className="absolute -inset-1 rounded-[18px] bg-primary/15 blur-xl opacity-50 pointer-events-none" />
               )}
 
+              {pkg.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full shadow-md shadow-primary/20 whitespace-nowrap">
+                  <Star className="w-3 h-3" /> Meest gekozen
+                </span>
+              )}
+
               <div
                 className={`group relative rounded-2xl transition-all duration-200 cursor-pointer overflow-hidden ${
                   isSelected
@@ -59,12 +65,6 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
                     : "border-2 border-border bg-card hover:border-primary/40 hover:shadow-sm"
                 }`}
               >
-
-              {pkg.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full shadow-md shadow-primary/20 whitespace-nowrap">
-                  <Star className="w-3 h-3" /> Meest gekozen
-                </span>
-              )}
 
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3 min-h-[28px]">
