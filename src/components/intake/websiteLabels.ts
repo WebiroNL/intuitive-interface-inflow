@@ -12,13 +12,22 @@ export const DEFAULT_WEBSITE_INTAKE_LABELS: Record<string, string> = {
   "wsec.technisch": "Technisch & Domein",
   "wsec.planning": "Planning & Budget",
 
-  // Bedrijf
+  // Bedrijf & Contact (zelfde structuur als Ads-intake)
   "wf.bedrijfsnaam": "Bedrijfsnaam",
   "wf.contactpersoon": "Contactpersoon",
-  "wf.email": "E-mailadres",
   "wf.telefoon": "Telefoonnummer",
+  "wf.email": "E-mailadres",
+  "wf.vestigingsplaats": "Vestigingsplaats",
+  "wf.whatsapp_block": "WhatsApp",
   "wf.huidige_website": "Huidige website (indien aanwezig)",
   "wf.branche": "Branche / sector",
+  "wf.factuur_naam": "Officiële bedrijfsnaam",
+  "wf.factuur_email": "Factuur e-mailadres",
+  "wf.factuur_adres": "Factuuradres",
+  "wf.factuur_postcode": "Postcode",
+  "wf.factuur_plaats": "Plaats",
+  "wf.factuur_kvk": "KvK-nummer",
+  "wf.factuur_btw": "BTW-nummer",
 
   // Doelen
   "wf.type_website": "Type website",
