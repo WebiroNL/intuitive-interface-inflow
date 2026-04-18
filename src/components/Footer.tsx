@@ -12,7 +12,7 @@ interface NavLink {
 
 const dienstenLinks: NavLink[] = [
   { label: 'Pakketten', to: '/pakketten' },
-  { label: 'Marketing', to: '/marketing' },
+  { label: 'Oplossingen', to: '/marketing' },
   { label: 'Shop', to: '/shop' },
   { label: 'Documentatie', to: '/documentatie' },
 ];
