@@ -465,11 +465,23 @@ export default function ClientIntakeForm({ client }: Props) {
 type SectionsCtx = { visible: Set<string>; numbers: Map<string, number> };
 const VisibleSectionsContext = createContext<SectionsCtx | null>(null);
 
+type LabelOverrides = Record<string, string>;
+const LabelOverrideContext = createContext<LabelOverrides>({});
+
+function useLabel(key: string, fallback: string): string {
+  const o = useContext(LabelOverrideContext);
+  if (key && o && typeof o[key] === "string" && o[key].trim() !== "") return o[key];
+  return getLabel(key, o) ?? fallback;
+}
+
 function Sec({ id, title, icon, children }: { id: string; title: string; icon: any; children: React.ReactNode }) {
   const ctx = useContext(VisibleSectionsContext);
+  const overrides = useContext(LabelOverrideContext);
   if (ctx && !ctx.visible.has(id)) return null;
   // Strip eventueel hardcoded "N. " prefix uit title en vervang door dynamisch nummer.
-  const cleanTitle = title.replace(/^\s*\d+\.\s*/, "");
+  const cleanFallback = title.replace(/^\s*\d+\.\s*/, "");
+  const customLabel = overrides[`sec.${id}`];
+  const cleanTitle = customLabel && customLabel.trim() !== "" ? customLabel : cleanFallback;
   const num = ctx?.numbers.get(id);
   const displayTitle = num ? `${num}. ${cleanTitle}` : cleanTitle;
   return (
@@ -487,10 +499,14 @@ function Grid2({ children, className = "" }: { children: React.ReactNode; classN
   return <div className={`grid sm:grid-cols-2 gap-3 ${className}`}>{children}</div>;
 }
 
-function Field({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
+function Field({ label, labelId, children, className = "" }: { label: string; labelId?: string; children: React.ReactNode; className?: string }) {
+  const overrides = useContext(LabelOverrideContext);
+  const display = labelId && overrides[labelId] && overrides[labelId].trim() !== ""
+    ? overrides[labelId]
+    : label;
   return (
     <div className={className}>
-      <Label className="text-[13px] mb-1.5 block">{label}</Label>
+      <Label className="text-[13px] mb-1.5 block">{display}</Label>
       {children}
     </div>
   );
