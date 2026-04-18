@@ -41,6 +41,11 @@ export default function ClientIntakeForm({ client }: Props) {
     [client.intake_sections]
   );
   const visibleSet = useMemo(() => new Set(visibleSections.map((s) => s.id)), [visibleSections]);
+  const numberMap = useMemo(() => {
+    const m = new Map<string, number>();
+    visibleSections.forEach((s, i) => m.set(s.id, i + 1));
+    return m;
+  }, [visibleSections]);
 
   const [data, setData] = useState<IntakeData>({});
   const [intakeId, setIntakeId] = useState<string | null>(null);
@@ -154,7 +159,7 @@ export default function ClientIntakeForm({ client }: Props) {
         </div>
       </div>
 
-      <VisibleSectionsContext.Provider value={visibleSet}>
+      <VisibleSectionsContext.Provider value={{ visible: visibleSet, numbers: numberMap }}>
       <div className="grid lg:grid-cols-[220px_1fr] gap-6">
         {/* Section nav */}
         <nav className="lg:sticky lg:top-4 self-start">
@@ -173,7 +178,7 @@ export default function ClientIntakeForm({ client }: Props) {
                   }`}
                 >
                   <HugeiconsIcon icon={s.icon} size={14} />
-                  <span className="whitespace-nowrap">{s.label}</span>
+                  <span className="whitespace-nowrap">{(numberMap.get(s.id) ?? "")}. {s.title}</span>
                 </button>
               </li>
             ))}
@@ -454,16 +459,21 @@ export default function ClientIntakeForm({ client }: Props) {
 
 /* ---------- Helpers ---------- */
 
-const VisibleSectionsContext = createContext<Set<string> | null>(null);
+type SectionsCtx = { visible: Set<string>; numbers: Map<string, number> };
+const VisibleSectionsContext = createContext<SectionsCtx | null>(null);
 
 function Sec({ id, title, icon, children }: { id: string; title: string; icon: any; children: React.ReactNode }) {
-  const visible = useContext(VisibleSectionsContext);
-  if (visible && !visible.has(id)) return null;
+  const ctx = useContext(VisibleSectionsContext);
+  if (ctx && !ctx.visible.has(id)) return null;
+  // Strip eventueel hardcoded "N. " prefix uit title en vervang door dynamisch nummer.
+  const cleanTitle = title.replace(/^\s*\d+\.\s*/, "");
+  const num = ctx?.numbers.get(id);
+  const displayTitle = num ? `${num}. ${cleanTitle}` : cleanTitle;
   return (
     <section id={`sec-${id}`} className="bg-card border border-border rounded-lg p-5 scroll-mt-20">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
         <HugeiconsIcon icon={icon} size={18} className="text-primary" />
-        <h2 className="text-[15px] font-semibold text-foreground">{title}</h2>
+        <h2 className="text-[15px] font-semibold text-foreground">{displayTitle}</h2>
       </div>
       <div className="space-y-3">{children}</div>
     </section>
