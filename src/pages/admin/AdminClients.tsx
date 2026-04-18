@@ -333,7 +333,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
   return (
     <form onSubmit={submit} className="space-y-3 pt-4">
       <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2"><Label>Bedrijfsnaam</Label><Input value={form.company_name} onChange={(e)=>setForm({...form, company_name: e.target.value, slug: slugify(e.target.value)})} /></div>
+        <div><Label>Bedrijfsnaam</Label><Input value={form.company_name} onChange={(e)=>setForm({...form, company_name: e.target.value, slug: slugify(e.target.value)})} /></div>
         <div><Label>E-mail</Label><Input value={form.email} onChange={(e)=>setForm({...form, email:e.target.value})} /></div>
         <div><Label>Telefoon</Label><Input value={form.phone ?? ""} onChange={(e)=>setForm({...form, phone:e.target.value})} /></div>
         <div><Label>Contactpersoon</Label><Input value={form.contact_person ?? ""} onChange={(e)=>setForm({...form, contact_person:e.target.value})} /></div>
@@ -346,7 +346,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         </div>
         <div><Label>Aantal maanden korting</Label><Input type="number" min="0" value={form.discount_months ?? 0} onChange={(e)=>setForm({...form, discount_months: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 3" /></div>
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
-        <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
+        <div><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
 
       </div>
 
