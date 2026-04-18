@@ -198,11 +198,11 @@ export default function LegalPageView() {
               </>
             )}
           </div>
-          <h1 className="text-[40px] lg:text-[52px] leading-[1.05] tracking-[-0.025em] font-semibold text-foreground mb-6">
+          <h1 className="text-[40px] lg:text-[52px] leading-[1.05] tracking-[-0.025em] font-semibold text-foreground mb-10 lg:mb-12">
             {page.title}
           </h1>
           {page.subtitle && (
-            <p className="text-[17px] lg:text-[18px] leading-[1.6] text-muted-foreground/90 mb-14 lg:mb-20 max-w-2xl font-light">
+            <p className="text-[17px] lg:text-[18px] leading-[1.6] text-muted-foreground/90 mb-10 lg:mb-12 max-w-2xl font-light">
               {page.subtitle}
             </p>
           )}
