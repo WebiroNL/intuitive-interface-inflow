@@ -772,13 +772,13 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
     </Button>
   );
 
-  const BulletList = ({ field, label, placeholder, aiField }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string; aiField: "summary_bullets" | "recommendation_bullets" }) => {
+  const BulletList = ({ field, label, placeholder }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string }) => {
     const list: string[] = form[field] ?? [];
     return (
       <div>
         <div className="flex items-center justify-between mb-1.5">
           <Label className="text-[11px]">{label}</Label>
-          <AiBtn field={aiField} />
+          <AiBtn field={field} />
         </div>
         <div className="space-y-2">
           {list.map((val, i) => (
