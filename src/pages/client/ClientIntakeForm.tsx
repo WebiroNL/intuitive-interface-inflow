@@ -518,8 +518,13 @@ function CheckRow({ children }: { children: React.ReactNode }) {
 
 function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
-    <label className="flex items-center gap-2 cursor-pointer text-[13px] text-foreground py-1">
-      <Checkbox checked={checked} onCheckedChange={(v) => onChange(!!v)} />
+    <label className="inline-flex items-center gap-2 text-[13px] text-foreground cursor-pointer select-none">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+      />
       <span>{label}</span>
     </label>
   );
