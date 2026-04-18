@@ -297,6 +297,32 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
     setEnabledSections(ALL_SECTION_IDS.filter((sid) => set.has(sid))); // behoud volgorde
   };
 
+  // Zichtbare menu-items in zijbalk klantportaal
+  const rawMenus = (form as any).visible_menus;
+  const isMenuAllSentinel =
+    Array.isArray(rawMenus) && rawMenus.length === 1 && rawMenus[0] === "__all__";
+  const isMenuExplicitNone = Array.isArray(rawMenus) && rawMenus.length === 0;
+  const enabledMenus: string[] = isMenuAllSentinel
+    ? ALL_MENU_IDS
+    : isMenuExplicitNone
+      ? []
+      : Array.isArray(rawMenus)
+        ? (rawMenus as string[])
+        : ALL_MENU_IDS;
+  const menusAllOn = enabledMenus.length === ALL_MENU_IDS.length;
+  const menusNoneOn = enabledMenus.length === 0;
+
+  const setEnabledMenus = (next: string[]) => {
+    const valueToStore = next.length === ALL_MENU_IDS.length ? ["__all__"] : next;
+    setForm({ ...form, visible_menus: valueToStore });
+  };
+
+  const toggleMenu = (id: string) => {
+    const set = new Set(enabledMenus);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    setEnabledMenus(ALL_MENU_IDS.filter((mid) => set.has(mid)));
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
     const { error } = await supabase.from("clients").update(form).eq("id", client.id);
