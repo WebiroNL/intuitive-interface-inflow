@@ -262,14 +262,18 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 4. Doel */}
           <Sec id="doel" title="4. Doel van de advertenties" icon={Target02Icon}>
             <Field labelId="f.doelen" label="Doelen">
-              {["Meer telefoontjes", "Meer WhatsApp berichten", "Offerte-aanvragen", "Afspraken", "Online verkopen", "Leads verzamelen"].map((o) => (
-                <Check key={o} label={o} checked={has("doelen", o)} onChange={() => toggle("doelen", o)} />
-              ))}
+              <CheckRow>
+                {["Meer telefoontjes", "Meer WhatsApp berichten", "Offerte-aanvragen", "Afspraken", "Online verkopen", "Leads verzamelen"].map((o) => (
+                  <Check key={o} label={o} checked={has("doelen", o)} onChange={() => toggle("doelen", o)} />
+                ))}
+              </CheckRow>
             </Field>
             <Field labelId="f.conversiepunt" label="Conversiepunt">
-              {["Bellen", "WhatsApp", "Leadformulier", "Afspraakplanner", "Webshop"].map((o) => (
-                <Check key={o} label={o} checked={has("conversiepunt", o)} onChange={() => toggle("conversiepunt", o)} />
-              ))}
+              <CheckRow>
+                {["Bellen", "WhatsApp", "Leadformulier", "Afspraakplanner", "Webshop"].map((o) => (
+                  <Check key={o} label={o} checked={has("conversiepunt", o)} onChange={() => toggle("conversiepunt", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
