@@ -42,8 +42,18 @@ export const INTAKE_SECTIONS: IntakeSectionDef[] = [
 
 export const ALL_SECTION_IDS = INTAKE_SECTIONS.map((s) => s.id);
 
-/** Lege array = alles zichtbaar. */
+/** Sentinel: betekent "alles aan" (ook nieuwe toekomstige secties). */
+export const ALL_SECTIONS_SENTINEL = "__all__";
+
+/**
+ * Zichtbaarheidregel:
+ * - null/undefined  -> alles zichtbaar (legacy/nieuw)
+ * - ["__all__"]     -> alles zichtbaar (sentinel, default)
+ * - []              -> niets zichtbaar (expliciet "alles uit")
+ * - ["bedrijf",...] -> alleen genoemde secties zichtbaar
+ */
 export function isSectionVisible(enabled: string[] | null | undefined, id: string): boolean {
-  if (!enabled || enabled.length === 0) return true;
+  if (enabled === null || enabled === undefined) return true;
+  if (enabled.length === 1 && enabled[0] === ALL_SECTIONS_SENTINEL) return true;
   return enabled.includes(id);
 }
