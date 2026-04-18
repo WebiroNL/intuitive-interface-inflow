@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon } from "@hugeicons/core-free-icons";
+import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon, FloppyDiskIcon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
@@ -237,15 +237,16 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         </TabsList>
 
         <TabsContent value="info">
-          <ClientFormDialogInline client={client} onSaved={onChanged} />
-          <Button variant="destructive" size="sm" className="mt-4" onClick={async () => {
-            if (!confirm("Klant verwijderen? Alle gekoppelde data wordt ook verwijderd.")) return;
-            await supabase.from("clients").delete().eq("id", client.id);
-            toast.success("Verwijderd");
-            onChanged(); onClose();
-          }}>
-            <HugeiconsIcon icon={Delete02Icon} size={14} /> Verwijderen
-          </Button>
+          <ClientFormDialogInline
+            client={client}
+            onSaved={onChanged}
+            onDelete={async () => {
+              if (!confirm("Klant verwijderen? Alle gekoppelde data wordt ook verwijderd.")) return;
+              await supabase.from("clients").delete().eq("id", client.id);
+              toast.success("Verwijderd");
+              onChanged(); onClose();
+            }}
+          />
         </TabsContent>
 
         <TabsContent value="account"><AccountTab client={client} onChanged={onChanged} /></TabsContent>
