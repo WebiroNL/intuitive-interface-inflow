@@ -354,8 +354,53 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
 
       </div>
 
-      {/* === Aparte sectie: Intake Formulier === */}
-      <div className="mt-6 border border-border rounded-lg bg-card overflow-hidden">
+      <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
+    </form>
+  );
+}
+
+function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+  const [form, setForm] = useState<any>({
+    show_intake_form: !!(client as any).show_intake_form,
+    intake_sections: (client as any).intake_sections,
+  });
+  const [saving, setSaving] = useState(false);
+
+  const rawSections = form.intake_sections;
+  const isAllSentinel =
+    Array.isArray(rawSections) && rawSections.length === 1 && rawSections[0] === "__all__";
+  const isExplicitNone = Array.isArray(rawSections) && rawSections.length === 0;
+  const enabledSections: string[] = isAllSentinel
+    ? ALL_SECTION_IDS
+    : isExplicitNone
+      ? []
+      : Array.isArray(rawSections)
+        ? (rawSections as string[])
+        : ALL_SECTION_IDS;
+  const allOn = enabledSections.length === ALL_SECTION_IDS.length;
+  const noneOn = enabledSections.length === 0;
+
+  const setEnabledSections = (next: string[]) => {
+    const valueToStore = next.length === ALL_SECTION_IDS.length ? ["__all__"] : next;
+    setForm({ ...form, intake_sections: valueToStore });
+  };
+  const toggleSection = (id: string) => {
+    const set = new Set(enabledSections);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    setEnabledSections(ALL_SECTION_IDS.filter((sid) => set.has(sid)));
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault(); setSaving(true);
+    const { error } = await supabase.from("clients").update(form).eq("id", client.id);
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Intake-instellingen bijgewerkt"); onChanged();
+  };
+
+  return (
+    <form onSubmit={submit} className="space-y-3 pt-4">
+      <div className="border border-border rounded-lg bg-card overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
           <div>
             <h3 className="text-[14px] font-semibold text-foreground">Intake Formulier</h3>
@@ -384,24 +429,8 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
               </p>
             </div>
             <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setEnabledSections([...ALL_SECTION_IDS])}
-                disabled={allOn}
-              >
-                Alles aan
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setEnabledSections([])}
-                disabled={noneOn}
-              >
-                Alles uit
-              </Button>
+              <Button type="button" variant="outline" size="sm" onClick={() => setEnabledSections([...ALL_SECTION_IDS])} disabled={allOn}>Alles aan</Button>
+              <Button type="button" variant="outline" size="sm" onClick={() => setEnabledSections([])} disabled={noneOn}>Alles uit</Button>
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-1.5">
@@ -409,11 +438,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
               const checked = enabledSections.includes(s.id);
               return (
                 <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggleSection(s.id)}
-                  />
+                  <input type="checkbox" checked={checked} onChange={() => toggleSection(s.id)} />
                   <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
                   <span className="text-[13px] text-foreground">{s.label}</span>
                 </label>
@@ -422,33 +447,58 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
           </div>
         </div>
       </div>
+      <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
+    </form>
+  );
+}
 
-      {/* === Aparte sectie: Zichtbare menu-items in zijbalk === */}
-      <div className="mt-6 border border-border rounded-lg bg-card overflow-hidden">
+function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+  const [form, setForm] = useState<any>({ visible_menus: (client as any).visible_menus });
+  const [saving, setSaving] = useState(false);
+
+  const rawMenus = form.visible_menus;
+  const isMenuAllSentinel =
+    Array.isArray(rawMenus) && rawMenus.length === 1 && rawMenus[0] === "__all__";
+  const isMenuExplicitNone = Array.isArray(rawMenus) && rawMenus.length === 0;
+  const enabledMenus: string[] = isMenuAllSentinel
+    ? ALL_MENU_IDS
+    : isMenuExplicitNone
+      ? []
+      : Array.isArray(rawMenus)
+        ? (rawMenus as string[])
+        : ALL_MENU_IDS;
+  const menusAllOn = enabledMenus.length === ALL_MENU_IDS.length;
+  const menusNoneOn = enabledMenus.length === 0;
+
+  const setEnabledMenus = (next: string[]) => {
+    const valueToStore = next.length === ALL_MENU_IDS.length ? ["__all__"] : next;
+    setForm({ ...form, visible_menus: valueToStore });
+  };
+  const toggleMenu = (id: string) => {
+    const set = new Set(enabledMenus);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    setEnabledMenus(ALL_MENU_IDS.filter((mid) => set.has(mid)));
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault(); setSaving(true);
+    const { error } = await supabase.from("clients").update(form).eq("id", client.id);
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Zijmenu bijgewerkt"); onChanged();
+  };
+
+  return (
+    <form onSubmit={submit} className="space-y-3 pt-4">
+      <div className="border border-border rounded-lg bg-card overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
           <div>
             <h3 className="text-[14px] font-semibold text-foreground">Zijmenu klantportaal</h3>
             <p className="text-[12px] text-muted-foreground mt-0.5">Bepaal welke menu-items deze klant ziet in het zijmenu. Standaard staan alle items aan.</p>
           </div>
           <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setEnabledMenus([...ALL_MENU_IDS])}
-              disabled={menusAllOn}
-            >
-              Alles aan
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setEnabledMenus([])}
-              disabled={menusNoneOn}
-            >
-              Alles uit
-            </Button>
+            <Button type="button" variant="outline" size="sm" onClick={() => setEnabledMenus([...ALL_MENU_IDS])} disabled={menusAllOn}>Alles aan</Button>
+            <Button type="button" variant="outline" size="sm" onClick={() => setEnabledMenus([])} disabled={menusNoneOn}>Alles uit</Button>
           </div>
         </div>
 
@@ -465,11 +515,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
               const checked = enabledMenus.includes(m.id);
               return (
                 <label key={m.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggleMenu(m.id)}
-                  />
+                  <input type="checkbox" checked={checked} onChange={() => toggleMenu(m.id)} />
                   <HugeiconsIcon icon={m.icon} size={14} className="text-muted-foreground" />
                   <span className="text-[13px] text-foreground">{m.label}</span>
                 </label>
@@ -481,7 +527,6 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
           </p>
         </div>
       </div>
-
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
   );
