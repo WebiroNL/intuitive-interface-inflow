@@ -78,6 +78,36 @@ function Grid2({ children }: { children: React.ReactNode }) {
   return <div className="grid sm:grid-cols-2 gap-4">{children}</div>;
 }
 
+function WCheckRow({ children }: { children: React.ReactNode }) {
+  return <div className="flex flex-wrap items-center gap-x-6 gap-y-2">{children}</div>;
+}
+
+function WCheck({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <label className="inline-flex items-center gap-2 text-[13px] text-foreground cursor-pointer select-none">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+      />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+function WDivider() {
+  return <div className="border-t border-border my-4" />;
+}
+
 export default function ClientWebsiteIntakeForm({ client }: Props) {
   const sections = useMemo(
     () =>
