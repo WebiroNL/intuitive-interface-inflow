@@ -73,7 +73,7 @@ export default function AdminClients() {
             <thead className="bg-muted/30 text-[12px] uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="text-left px-4 py-3 font-medium">Bedrijf</th>
-                <th className="text-left px-4 py-3 font-medium">Slug (URL)</th>
+                
                 <th className="text-left px-4 py-3 font-medium">E-mail</th>
                 <th className="text-right px-4 py-3 font-medium">Fee</th>
                 <th className="text-left px-4 py-3 font-medium">Login</th>
@@ -84,7 +84,7 @@ export default function AdminClients() {
               {clients.map((c) => (
                 <tr key={c.id} className="hover:bg-muted/30">
                   <td className="px-4 py-3 font-medium text-foreground">{c.company_name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">/client/{c.slug}</td>
+                  
                   <td className="px-4 py-3 text-muted-foreground">{c.email}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{fmtEUR(Number(c.monthly_fee))}</td>
                   <td className="px-4 py-3">
