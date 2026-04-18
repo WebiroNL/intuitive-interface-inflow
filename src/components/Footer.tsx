@@ -11,14 +11,13 @@ interface NavLink {
 }
 
 const dienstenLinks: NavLink[] = [
+  { label: 'Webiro AI', to: '/moodboard' },
+  { label: 'Oplossingen', to: '/oplossingen' },
   { label: 'Pakketten', to: '/pakketten' },
-  { label: 'Oplossingen', to: '/marketing' },
   { label: 'Shop', to: '/shop' },
-  { label: 'Documentatie', to: '/documentatie' },
 ];
 
 const staticBedrijfLinks: NavLink[] = [
-  { label: 'Proces', to: '/proces' },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
 ];
