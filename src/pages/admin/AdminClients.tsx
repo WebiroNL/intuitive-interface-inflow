@@ -13,6 +13,7 @@ import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
+import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
