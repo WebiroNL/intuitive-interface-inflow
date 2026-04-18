@@ -27,6 +27,7 @@ export const CLIENT_MENUS: ClientMenuDef[] = [
   { id: "invoices", label: "Facturen", icon: Invoice01Icon },
   { id: "files", label: "Bestanden", icon: FolderLibraryIcon },
   { id: "updates", label: "Activiteit / Updates", icon: Notification02Icon },
+  { id: "intake", label: "Intake formulier", icon: TaskDaily01Icon },
 ];
 
 export const ALL_MENU_IDS = CLIENT_MENUS.map((m) => m.id);
