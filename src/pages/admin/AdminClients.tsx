@@ -1080,6 +1080,8 @@ function InvoicesTab({ client }: { client: Client }) {
 function ContractsTab({ client }: { client: Client }) {
   const [items, setItems] = useState<any[]>([]);
   const [form, setForm] = useState({ title: "", file_url: "", start_date: "", end_date: "" });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<any>(null);
   const load = async () => {
     const { data } = await supabase.from("contracts").select("*").eq("client_id", client.id);
     setItems(data ?? []);
@@ -1092,6 +1094,27 @@ function ContractsTab({ client }: { client: Client }) {
     if (error) { toast.error(error.message); return; }
     toast.success("Toegevoegd"); setForm({title:"",file_url:"",start_date:"",end_date:""}); load();
   };
+  const startEdit = (c: any) => {
+    setEditingId(c.id);
+    setEditForm({
+      title: c.title ?? "",
+      file_url: c.file_url ?? "",
+      start_date: c.start_date ? String(c.start_date).slice(0,10) : "",
+      end_date: c.end_date ? String(c.end_date).slice(0,10) : "",
+    });
+  };
+  const cancelEdit = () => { setEditingId(null); setEditForm(null); };
+  const saveEdit = async () => {
+    if (!editingId || !editForm) return;
+    const { error } = await supabase.from("contracts").update({
+      title: editForm.title,
+      file_url: editForm.file_url || null,
+      start_date: editForm.start_date || null,
+      end_date: editForm.end_date || null,
+    }).eq("id", editingId);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Contract bijgewerkt"); cancelEdit(); load();
+  };
   return (
     <div className="pt-4 space-y-4">
       <form onSubmit={add} className="grid grid-cols-2 gap-2 p-3 bg-muted/30 rounded border border-border">
@@ -1102,10 +1125,26 @@ function ContractsTab({ client }: { client: Client }) {
         <Button type="submit" size="sm" className="col-span-2"><HugeiconsIcon icon={Add01Icon} size={14}/> Contract toevoegen</Button>
       </form>
       <div className="space-y-2">
-        {items.map((c:any) => (
+        {items.map((c:any) => editingId === c.id ? (
+          <div key={c.id} className="border border-border rounded p-3 bg-muted/20">
+            <div className="grid grid-cols-2 gap-2">
+              <Input placeholder="Titel" value={editForm.title} onChange={(e)=>setEditForm({...editForm, title:e.target.value})} className="h-8 col-span-2" />
+              <Input placeholder="PDF URL" value={editForm.file_url} onChange={(e)=>setEditForm({...editForm, file_url:e.target.value})} className="h-8 col-span-2" />
+              <Input type="date" value={editForm.start_date} onChange={(e)=>setEditForm({...editForm, start_date:e.target.value})} className="h-8" />
+              <Input type="date" value={editForm.end_date} onChange={(e)=>setEditForm({...editForm, end_date:e.target.value})} className="h-8" />
+              <div className="col-span-2 flex gap-2 justify-end">
+                <Button type="button" variant="outline" size="sm" onClick={cancelEdit}>Annuleren</Button>
+                <Button type="button" size="sm" onClick={saveEdit}><HugeiconsIcon icon={FloppyDiskIcon} size={14}/> Opslaan</Button>
+              </div>
+            </div>
+          </div>
+        ) : (
           <div key={c.id} className="flex items-center justify-between border border-border rounded p-3">
             <div><p className="text-sm font-medium">{c.title}</p><p className="text-[12px] text-muted-foreground">{c.start_date ?? "—"} → {c.end_date ?? "doorlopend"}</p></div>
-            <Button variant="ghost" size="sm" onClick={async()=>{ await supabase.from("contracts").delete().eq("id",c.id); load(); }}><HugeiconsIcon icon={Delete02Icon} size={14}/></Button>
+            <div className="flex gap-1">
+              <Button variant="ghost" size="sm" onClick={() => startEdit(c)}><HugeiconsIcon icon={Edit02Icon} size={14}/></Button>
+              <Button variant="ghost" size="sm" onClick={async()=>{ await supabase.from("contracts").delete().eq("id",c.id); load(); }}><HugeiconsIcon icon={Delete02Icon} size={14}/></Button>
+            </div>
           </div>
         ))}
       </div>
