@@ -18,6 +18,7 @@ import {
   TextIcon,
   UserMultiple02Icon,
   Cancel01Icon,
+  File01Icon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
@@ -31,6 +32,7 @@ const navItems = [
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Blog', href: '/admin/blog', icon: TextIcon },
+  { label: "Pagina's", href: '/admin/pages', icon: File01Icon },
   { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];
 
