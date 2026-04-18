@@ -43,12 +43,11 @@ export function StepPackage({ selected, onSelect }: StepPackageProps) {
             >
               {pkg.popular && !isSelected && (
                 <div
-                  className="absolute -inset-[3px] rounded-[18px] bg-gradient-to-br from-primary via-accent to-primary opacity-90 pointer-events-none animate-pulse"
-                  style={{ animationDuration: "4s" }}
+                  className="absolute -inset-[1.5px] rounded-[17px] bg-gradient-to-br from-primary/70 via-accent/50 to-primary/70 opacity-60 pointer-events-none"
                 />
               )}
               {pkg.popular && !isSelected && (
-                <div className="absolute -inset-2 rounded-[20px] bg-gradient-to-br from-primary/40 via-accent/30 to-primary/40 blur-2xl opacity-70 pointer-events-none" />
+                <div className="absolute -inset-1 rounded-[18px] bg-primary/15 blur-xl opacity-50 pointer-events-none" />
               )}
 
               <div
