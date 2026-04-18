@@ -182,7 +182,7 @@ export default function ClientIntakeForm({ client }: Props) {
         {/* Form */}
         <div className="space-y-6 min-w-0">
           {/* 1. Bedrijf & Factuur */}
-          <Section id="bedrijf" title="1. Bedrijfsgegevens & Factuurgegevens" icon={Building03Icon}>
+          <Sec id="bedrijf" title="1. Bedrijfsgegevens & Factuurgegevens" icon={Building03Icon}>
             <Grid2>
               <Field label="Bedrijfsnaam"><Input value={data.bedrijfsnaam ?? ""} onChange={(e) => set("bedrijfsnaam", e.target.value)} /></Field>
               <Field label="Contactpersoon"><Input value={data.contactpersoon ?? ""} onChange={(e) => set("contactpersoon", e.target.value)} /></Field>
@@ -210,10 +210,10 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Field label="BTW-nummer"><Input value={data.factuur_btw ?? ""} onChange={(e) => set("factuur_btw", e.target.value)} /></Field>
               </Grid2>
             )}
-          </Section>
+          </Sec>
 
           {/* 2. Werkgebied */}
-          <Section id="werkgebied" title="2. Werkgebied" icon={Globe02Icon}>
+          <Sec id="werkgebied" title="2. Werkgebied" icon={Globe02Icon}>
             <Field label="Steden / regio"><Input value={data.steden ?? ""} onChange={(e) => set("steden", e.target.value)} /></Field>
             <Field label="Werkgebied type">
               <CheckRow>
@@ -226,10 +226,10 @@ export default function ClientIntakeForm({ client }: Props) {
               <Field label="Max afstand naar klanten (km)"><Input type="number" value={data.max_rij_km ?? ""} onChange={(e) => set("max_rij_km", e.target.value)} /></Field>
               <Field label="Max advertentie-radius (km)"><Input type="number" value={data.max_radius_km ?? ""} onChange={(e) => set("max_radius_km", e.target.value)} /></Field>
             </Grid2>
-          </Section>
+          </Sec>
 
           {/* 3. Dienst */}
-          <Section id="dienst" title="3. Dienst / Aanbod" icon={PackageIcon}>
+          <Sec id="dienst" title="3. Dienst / Aanbod" icon={PackageIcon}>
             <Grid2>
               <Field label="Hoofddienst of product"><Input value={data.hoofddienst ?? ""} onChange={(e) => set("hoofddienst", e.target.value)} /></Field>
               <Field label="Tweede dienst (optioneel)"><Input value={data.tweede_dienst ?? ""} onChange={(e) => set("tweede_dienst", e.target.value)} /></Field>
@@ -249,10 +249,10 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Textarea className="mt-2" placeholder="Welke actie?" value={data.actie_omschrijving ?? ""} onChange={(e) => set("actie_omschrijving", e.target.value)} />
               )}
             </Field>
-          </Section>
+          </Sec>
 
           {/* 4. Doel */}
-          <Section id="doel" title="4. Doel van de advertenties" icon={Target02Icon}>
+          <Sec id="doel" title="4. Doel van de advertenties" icon={Target02Icon}>
             <Field label="Doelen">
               {["Meer telefoontjes", "Meer WhatsApp berichten", "Offerte-aanvragen", "Afspraken", "Online verkopen", "Leads verzamelen"].map((o) => (
                 <Check key={o} label={o} checked={has("doelen", o)} onChange={() => toggle("doelen", o)} />
@@ -263,10 +263,10 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Check key={o} label={o} checked={has("conversiepunt", o)} onChange={() => toggle("conversiepunt", o)} />
               ))}
             </Field>
-          </Section>
+          </Sec>
 
           {/* 5. Doelgroep */}
-          <Section id="doelgroep" title="5. Doelgroep" icon={UserGroup02Icon}>
+          <Sec id="doelgroep" title="5. Doelgroep" icon={UserGroup02Icon}>
             <Field label="Type">
               <CheckRow>
                 {["Particulieren", "Bedrijven", "Beide"].map((o) => (
@@ -279,20 +279,20 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Check key={o} label={o} checked={has("segment", o)} onChange={() => toggle("segment", o)} />
               ))}
             </Field>
-          </Section>
+          </Sec>
 
           {/* 6. Klantproblemen */}
-          <Section id="problemen" title="6. Klantproblemen" icon={AlertCircleIcon}>
+          <Sec id="problemen" title="6. Klantproblemen" icon={AlertCircleIcon}>
             {["Te duur bij anderen", "Lang wachten bij concurrenten", "Slechte ervaring elders", "Spoedgeval", "Geen vertrouwen in andere aanbieders", "Onduidelijke prijzen bij anderen"].map((o) => (
               <Check key={o} label={o} checked={has("problemen", o)} onChange={() => toggle("problemen", o)} />
             ))}
             <Field label="Anders" className="mt-3">
               <Input value={data.problemen_anders ?? ""} onChange={(e) => set("problemen_anders", e.target.value)} />
             </Field>
-          </Section>
+          </Sec>
 
           {/* 7. USP's */}
-          <Section id="usp" title="7. USP's & Positionering" icon={StarIcon}>
+          <Sec id="usp" title="7. USP's & Positionering" icon={StarIcon}>
             <Field label="Waarom moeten klanten JOU kiezen?">
               {["Snelle service", "24/7 beschikbaar", "Goedkoop", "Premium kwaliteit", "Garantie", "Gecertificeerd", "Gratis offerte"].map((o) => (
                 <Check key={o} label={o} checked={has("usp", o)} onChange={() => toggle("usp", o)} />
@@ -307,10 +307,10 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Check key={o} label={o} checked={has("ad_focus", o)} onChange={() => toggle("ad_focus", o)} />
               ))}
             </Field>
-          </Section>
+          </Sec>
 
           {/* 8. Vertrouwen */}
-          <Section id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={Shield01Icon}>
+          <Sec id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={Shield01Icon}>
             {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
               <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
             ))}
@@ -322,10 +322,10 @@ export default function ClientIntakeForm({ client }: Props) {
             <Field label="Links naar reviews">
               <Textarea value={data.review_links ?? ""} onChange={(e) => set("review_links", e.target.value)} placeholder="Eén link per regel" />
             </Field>
-          </Section>
+          </Sec>
 
           {/* 9. Concurrentie */}
-          <Section id="concurrentie" title="9. Markt, Concurrentie & Inspiratie" icon={Crown02Icon}>
+          <Sec id="concurrentie" title="9. Markt, Concurrentie & Inspiratie" icon={Crown02Icon}>
             <Field label="Concurrenten (3)">
               {[0, 1, 2].map((i) => (
                 <Input key={i} className="mb-2" value={(data.concurrenten ?? [])[i] ?? ""} onChange={(e) => {
@@ -345,26 +345,26 @@ export default function ClientIntakeForm({ client }: Props) {
                 }} placeholder={`Site ${i + 1}`} />
               ))}
             </Field>
-          </Section>
+          </Sec>
 
           {/* 10. Materiaal */}
-          <Section id="materiaal" title="10. Advertentiemateriaal" icon={Image01Icon}>
+          <Sec id="materiaal" title="10. Advertentiemateriaal" icon={Image01Icon}>
             {["Voor/na foto's", "Video's", "Certificaten", "Keurmerken", "Klantcases"].map((o) => (
               <Check key={o} label={o} checked={has("materiaal", o)} onChange={() => toggle("materiaal", o)} />
             ))}
             <Field label="Links naar materiaal" className="mt-3">
               <Textarea value={data.materiaal_links ?? ""} onChange={(e) => set("materiaal_links", e.target.value)} placeholder="Eén link per regel" />
             </Field>
-          </Section>
+          </Sec>
 
           {/* 11. Do's & Don'ts */}
-          <Section id="dosdonts" title="11. Do's & Don'ts in advertenties" icon={CheckmarkCircle02Icon}>
+          <Sec id="dosdonts" title="11. Do's & Don'ts in advertenties" icon={CheckmarkCircle02Icon}>
             <Field label="Moet in advertenties staan"><Textarea value={data.dos ?? ""} onChange={(e) => set("dos", e.target.value)} /></Field>
             <Field label="Mag NIET in advertenties staan"><Textarea value={data.donts ?? ""} onChange={(e) => set("donts", e.target.value)} /></Field>
-          </Section>
+          </Sec>
 
           {/* 12. FAQ */}
-          <Section id="faq" title="12. Veelgestelde vragen van klanten" icon={HelpCircleIcon}>
+          <Sec id="faq" title="12. Veelgestelde vragen van klanten" icon={HelpCircleIcon}>
             {[0, 1, 2].map((i) => (
               <Input key={i} className="mb-2" value={(data.faq ?? [])[i] ?? ""} onChange={(e) => {
                 const arr = [...((data.faq as string[]) ?? ["", "", ""])];
@@ -372,10 +372,10 @@ export default function ClientIntakeForm({ client }: Props) {
                 set("faq", arr);
               }} placeholder={`Vraag ${i + 1}`} />
             ))}
-          </Section>
+          </Sec>
 
           {/* 13. Planning */}
-          <Section id="planning" title="13. Planning & Seizoenen" icon={Calendar03Icon}>
+          <Sec id="planning" title="13. Planning & Seizoenen" icon={Calendar03Icon}>
             <Field label="Drukke periodes">
               {["Heel jaar gelijk", "Zomer drukker", "Winter drukker", "Alleen bij acties"].map((o) => (
                 <Check key={o} label={o} checked={has("drukke_periodes", o)} onChange={() => toggle("drukke_periodes", o)} />
@@ -391,17 +391,17 @@ export default function ClientIntakeForm({ client }: Props) {
                 ))}
               </div>
             </Field>
-          </Section>
+          </Sec>
 
           {/* 14. Uitstraling */}
-          <Section id="uitstraling" title="14. Gewenste uitstraling advertenties" icon={PaintBrushIcon}>
+          <Sec id="uitstraling" title="14. Gewenste uitstraling advertenties" icon={PaintBrushIcon}>
             {["Luxe", "Zakelijk", "Vriendelijk", "Stoer", "Modern", "Budgetgericht"].map((o) => (
               <Check key={o} label={o} checked={has("uitstraling", o)} onChange={() => toggle("uitstraling", o)} />
             ))}
-          </Section>
+          </Sec>
 
           {/* 15. Kanalen & Budget */}
-          <Section id="kanalen" title="15. Advertentiekanalen, Budget & Geschiedenis" icon={Megaphone01Icon}>
+          <Sec id="kanalen" title="15. Advertentiekanalen, Budget & Geschiedenis" icon={Megaphone01Icon}>
             <Field label="Kanalen">
               {["Google Ads", "Facebook / Instagram", "TikTok"].map((o) => (
                 <Check key={o} label={o} checked={has("kanalen", o)} onChange={() => toggle("kanalen", o)} />
@@ -434,7 +434,7 @@ export default function ClientIntakeForm({ client }: Props) {
                 <Check key={o} label={o} checked={has("marketing_situatie", o)} onChange={() => toggle("marketing_situatie", o)} />
               ))}
             </Field>
-          </Section>
+          </Sec>
 
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => save()} disabled={saving}>
