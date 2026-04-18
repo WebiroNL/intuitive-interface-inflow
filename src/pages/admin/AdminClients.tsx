@@ -14,6 +14,7 @@ import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
 import { INTAKE_SECTIONS, ALL_SECTION_IDS } from "@/components/intake/sections";
+import { CLIENT_MENUS, ALL_MENU_IDS } from "@/components/client/menus";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
