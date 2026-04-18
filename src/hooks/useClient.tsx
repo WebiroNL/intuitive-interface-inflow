@@ -19,6 +19,7 @@ export interface Client {
   discount_months: number | null;
   discount_percentage: number | null;
   deposit_percentage: number | null;
+  show_intake_form?: boolean | null;
   created_at: string;
   updated_at: string;
 }

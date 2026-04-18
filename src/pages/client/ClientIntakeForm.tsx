@@ -17,7 +17,7 @@ import {
   UserGroup02Icon,
   AlertCircleIcon,
   StarIcon,
-  ShieldCheckIcon,
+  Shield01Icon,
   Crown02Icon,
   Image01Icon,
   CheckmarkCircle02Icon,
@@ -43,7 +43,7 @@ const SECTIONS = [
   { id: "doelgroep", label: "Doelgroep", icon: UserGroup02Icon },
   { id: "problemen", label: "Klantproblemen", icon: AlertCircleIcon },
   { id: "usp", label: "USP's", icon: StarIcon },
-  { id: "vertrouwen", label: "Vertrouwen", icon: ShieldCheckIcon },
+  { id: "vertrouwen", label: "Vertrouwen", icon: Shield01Icon },
   { id: "concurrentie", label: "Concurrentie", icon: Crown02Icon },
   { id: "materiaal", label: "Materiaal", icon: Image01Icon },
   { id: "dosdonts", label: "Do's & Don'ts", icon: CheckmarkCircle02Icon },
@@ -322,7 +322,7 @@ export default function ClientIntakeForm({ client }: Props) {
           </Section>
 
           {/* 8. Vertrouwen */}
-          <Section id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={ShieldCheckIcon}>
+          <Section id="vertrouwen" title="8. Vertrouwen & Autoriteit" icon={Shield01Icon}>
             {["Aantal klanten geholpen", "Jaren actief", "Bekende merken gewerkt voor", "Bekend in regio", "Media vermeldingen", "Lid van brancheorganisatie"].map((o) => (
               <Check key={o} label={o} checked={has("vertrouwen", o)} onChange={() => toggle("vertrouwen", o)} />
             ))}
