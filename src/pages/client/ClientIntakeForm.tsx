@@ -163,7 +163,7 @@ export default function ClientIntakeForm({ client }: Props) {
       <div className="grid lg:grid-cols-[220px_1fr] gap-6">
         {/* Section nav */}
         <nav className="lg:sticky lg:top-4 self-start">
-          <ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 pb-2 lg:pb-0">
+          <ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 pb-2 lg:pb-0 lg:bg-card lg:border lg:border-border lg:rounded-lg lg:p-2">
             {visibleSections.map((s) => (
               <li key={s.id} className="shrink-0">
                 <button
