@@ -27,6 +27,8 @@ const columns = [
     links: [
       { label: 'Algemene Voorwaarden', to: '/algemene-voorwaarden' },
       { label: 'Privacy Policy', to: '/privacy-policy' },
+      { label: 'Disclaimer', to: '/disclaimer' },
+      { label: 'Cookiebeleid', to: '/cookiebeleid' },
     ],
   },
 ];
