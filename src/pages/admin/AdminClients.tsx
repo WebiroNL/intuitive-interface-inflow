@@ -765,11 +765,21 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
     <div><Label className="text-[11px]">{label}</Label><Input type="number" step={step ?? "1"} value={form[k] ?? 0} onChange={f(k)} className="h-8" /></div>
   );
 
-  const BulletList = ({ field, label, placeholder }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string }) => {
+  const AiBtn = ({ field, className = "" }: { field: "summary_bullets" | "reach_text" | "benchmark_text" | "plain_language" | "recommendation_bullets" | "insights"; className?: string }) => (
+    <Button type="button" variant="ghost" size="sm" className={`h-6 px-2 text-[11px] ${className}`} onClick={() => generateAI(field)} disabled={aiLoading !== null}>
+      <HugeiconsIcon icon={MagicWand01Icon} size={12} />
+      {aiLoading === field ? "Bezig..." : "AI"}
+    </Button>
+  );
+
+  const BulletList = ({ field, label, placeholder, aiField }: { field: "summary_bullets" | "recommendation_bullets"; label: string; placeholder: string; aiField: "summary_bullets" | "recommendation_bullets" }) => {
     const list: string[] = form[field] ?? [];
     return (
       <div>
-        <Label className="text-[11px] mb-1.5 block">{label}</Label>
+        <div className="flex items-center justify-between mb-1.5">
+          <Label className="text-[11px]">{label}</Label>
+          <AiBtn field={aiField} />
+        </div>
         <div className="space-y-2">
           {list.map((val, i) => (
             <div key={i} className="flex gap-2">
