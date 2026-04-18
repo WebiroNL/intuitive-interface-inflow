@@ -154,6 +154,7 @@ export default function ClientIntakeForm({ client }: Props) {
         </div>
       </div>
 
+      <VisibleSectionsContext.Provider value={visibleSet}>
       <div className="grid lg:grid-cols-[220px_1fr] gap-6">
         {/* Section nav */}
         <nav className="lg:sticky lg:top-4 self-start">
@@ -446,6 +447,7 @@ export default function ClientIntakeForm({ client }: Props) {
           </div>
         </div>
       </div>
+      </VisibleSectionsContext.Provider>
     </div>
   );
 }
