@@ -306,27 +306,26 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         <div><Label>Kortingspercentage (%)</Label><Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage ?? 0} onChange={(e)=>setForm({...form, discount_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 20" /></div>
         <div className="col-span-2"><Label>Aanbetaling (%)</Label><Input type="number" min="0" max="100" value={form.deposit_percentage ?? 50} onChange={(e)=>setForm({...form, deposit_percentage: e.target.value ? Number(e.target.value) : null})} placeholder="bv. 50" /></div>
 
-        <div className="col-span-2 pt-2 border-t border-border">
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Portaal opties</p>
-          <label className="flex items-start gap-2 cursor-pointer mb-3">
-            <input
-              type="checkbox"
-              className="mt-0.5"
-              checked={!!form.show_intake_form}
-              onChange={(e) => setForm({ ...form, show_intake_form: e.target.checked })}
-            />
-            <span className="text-[13px]">
-              <span className="font-medium text-foreground">Intake Formulier zichtbaar in zijmenu</span>
-              <span className="block text-[12px] text-muted-foreground">Toont 'Intake Formulier' onderaan het menu in het klantportaal.</span>
-            </span>
-          </label>
-        </div>
+        <div className="col-span-2 pt-4 mt-2 border-t border-border">
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <div>
+              <p className="text-[12px] uppercase tracking-wider text-muted-foreground">Intake Formulier</p>
+              <p className="text-[12px] text-muted-foreground mt-0.5">Beheer of het formulier zichtbaar is en welke secties de klant ziet.</p>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={!!form.show_intake_form}
+                onChange={(e) => setForm({ ...form, show_intake_form: e.target.checked })}
+              />
+              <span className="text-[13px] font-medium text-foreground">Zichtbaar in zijmenu</span>
+            </label>
+          </div>
 
-        {form.show_intake_form && (
-          <div className="col-span-2 border border-border rounded-md p-3 bg-muted/20">
+          <div className={`border border-border rounded-md p-3 bg-muted/20 ${form.show_intake_form ? "" : "opacity-50 pointer-events-none"}`}>
             <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
               <div>
-                <p className="text-[13px] font-medium text-foreground">Zichtbare secties in Intake</p>
+                <p className="text-[13px] font-medium text-foreground">Zichtbare secties</p>
                 <p className="text-[11px] text-muted-foreground">Standaard staan alle secties aan. Vink uit wat je niet wilt tonen.</p>
               </div>
               <div className="flex gap-2">
@@ -367,7 +366,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
               })}
             </div>
           </div>
-        )}
+        </div>
       </div>
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
