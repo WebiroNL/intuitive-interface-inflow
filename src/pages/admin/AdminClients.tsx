@@ -445,13 +445,13 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-1.5">
-            {INTAKE_SECTIONS.map((s) => {
+            {INTAKE_SECTIONS.map((s, idx) => {
               const checked = enabledSections.includes(s.id);
               return (
                 <label key={s.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
                   <input type="checkbox" checked={checked} onChange={() => toggleSection(s.id)} />
                   <HugeiconsIcon icon={s.icon} size={14} className="text-muted-foreground" />
-                  <span className="text-[13px] text-foreground">{s.label}</span>
+                  <span className="text-[13px] text-foreground">{idx + 1}. {s.title}</span>
                 </label>
               );
             })}
