@@ -262,7 +262,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
   );
 }
 
-function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: () => void }) {
+function ClientFormDialogInline({ client, onSaved, onDelete }: { client: Client; onSaved: () => void; onDelete?: () => void | Promise<void> }) {
   const [form, setForm] = useState<any>({ ...client });
   const [saving, setSaving] = useState(false);
 
@@ -355,7 +355,17 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
 
       </div>
 
-      <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
+      <div className="flex items-center justify-between gap-3 pt-2">
+        {onDelete ? (
+          <Button type="button" variant="destructive" size="sm" onClick={onDelete}>
+            <HugeiconsIcon icon={Delete02Icon} size={14} /> Verwijderen
+          </Button>
+        ) : <span />}
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Opslaan"}
+        </Button>
+      </div>
     </form>
   );
 }
