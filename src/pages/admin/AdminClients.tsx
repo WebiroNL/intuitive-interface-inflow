@@ -419,6 +419,65 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
         </div>
       </div>
 
+      {/* === Aparte sectie: Zichtbare menu-items in zijbalk === */}
+      <div className="mt-6 border border-border rounded-lg bg-card overflow-hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Zijmenu klantportaal</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">Bepaal welke menu-items deze klant ziet in het zijmenu. Standaard staan alle items aan.</p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setEnabledMenus([...ALL_MENU_IDS])}
+              disabled={menusAllOn}
+            >
+              Alles aan
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setEnabledMenus([])}
+              disabled={menusNoneOn}
+            >
+              Alles uit
+            </Button>
+          </div>
+        </div>
+
+        <div className="p-4">
+          <p className="text-[11px] text-muted-foreground mb-2">
+            {menusAllOn
+              ? "Alle menu-items zijn zichtbaar."
+              : menusNoneOn
+                ? "Geen enkel menu-item zichtbaar — de klant ziet alleen de standaard pagina's."
+                : `${enabledMenus.length} van ${ALL_MENU_IDS.length} menu-items zichtbaar.`}
+          </p>
+          <div className="grid sm:grid-cols-2 gap-1.5">
+            {CLIENT_MENUS.map((m) => {
+              const checked = enabledMenus.includes(m.id);
+              return (
+                <label key={m.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/40 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleMenu(m.id)}
+                  />
+                  <HugeiconsIcon icon={m.icon} size={14} className="text-muted-foreground" />
+                  <span className="text-[13px] text-foreground">{m.label}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-3">
+            Let op: items die data vereisen (bijv. Facturen, Bestanden) verschijnen pas in het menu zodra er ook werkelijke data voor de klant beschikbaar is.
+          </p>
+        </div>
+      </div>
+
       <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
     </form>
   );
