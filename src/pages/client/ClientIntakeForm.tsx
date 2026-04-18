@@ -287,9 +287,11 @@ export default function ClientIntakeForm({ client }: Props) {
               </CheckRow>
             </Field>
             <Field labelId="f.segment" label="Specifiek segment">
-              {["Luxe klanten", "Budget klanten", "Spoedzoekers", "Lokale klanten", "Landelijk"].map((o) => (
-                <Check key={o} label={o} checked={has("segment", o)} onChange={() => toggle("segment", o)} />
-              ))}
+              <CheckRow>
+                {["Luxe klanten", "Budget klanten", "Spoedzoekers", "Lokale klanten", "Landelijk"].map((o) => (
+                  <Check key={o} label={o} checked={has("segment", o)} onChange={() => toggle("segment", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
