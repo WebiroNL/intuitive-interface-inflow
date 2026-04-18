@@ -312,18 +312,22 @@ export default function ClientIntakeForm({ client }: Props) {
           {/* 7. USP's */}
           <Sec id="usp" title="7. USP's & Positionering" icon={StarIcon}>
             <Field labelId="f.usp" label="Waarom moeten klanten JOU kiezen?">
-              {["Snelle service", "24/7 beschikbaar", "Goedkoop", "Premium kwaliteit", "Garantie", "Gecertificeerd", "Gratis offerte"].map((o) => (
-                <Check key={o} label={o} checked={has("usp", o)} onChange={() => toggle("usp", o)} />
-              ))}
-              <div className="flex items-center gap-2 mt-2">
+              <CheckRow>
+                {["Snelle service", "24/7 beschikbaar", "Goedkoop", "Premium kwaliteit", "Garantie", "Gecertificeerd", "Gratis offerte"].map((o) => (
+                  <Check key={o} label={o} checked={has("usp", o)} onChange={() => toggle("usp", o)} />
+                ))}
+              </CheckRow>
+              <div className="flex items-center gap-2 mt-3">
                 <Label className="text-[13px]">Ervaring (jaren)</Label>
                 <Input className="w-24" type="number" value={data.ervaring_jaren ?? ""} onChange={(e) => set("ervaring_jaren", e.target.value)} />
               </div>
             </Field>
             <Field labelId="f.ad_focus" label="Advertentie focus">
-              {["Snelheid", "Prijs", "Kwaliteit", "Ervaring", "Garantie", "Luxe uitstraling", "Groot bereik"].map((o) => (
-                <Check key={o} label={o} checked={has("ad_focus", o)} onChange={() => toggle("ad_focus", o)} />
-              ))}
+              <CheckRow>
+                {["Snelheid", "Prijs", "Kwaliteit", "Ervaring", "Garantie", "Luxe uitstraling", "Groot bereik"].map((o) => (
+                  <Check key={o} label={o} checked={has("ad_focus", o)} onChange={() => toggle("ad_focus", o)} />
+                ))}
+              </CheckRow>
             </Field>
           </Sec>
 
