@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import LogoWebiro from '@/imports/LogoWebiro1';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon } from '@hugeicons/core-free-icons';
+import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon, Mail01Icon } from '@hugeicons/core-free-icons';
 
 const columns = [
   {
@@ -74,32 +74,24 @@ export function Footer() {
           <p className="text-muted-foreground text-xs">
             © {new Date().getFullYear()} Webiro. Alle rechten voorbehouden.
           </p>
-          <div className="flex items-center gap-5">
-            <a
-              href="mailto:info@webiro.nl"
-              className="text-muted-foreground hover:text-foreground transition-colors text-xs"
-            >
-              info@webiro.nl
-            </a>
-            <div className="flex items-center gap-3">
-              {[
-                { icon: Facebook01Icon, href: "https://facebook.com/webiro", label: "Facebook" },
-                { icon: InstagramIcon, href: "https://instagram.com/webiro", label: "Instagram" },
-                { icon: Linkedin01Icon, href: "https://linkedin.com/company/webiro", label: "LinkedIn" },
-                { icon: WhatsappIcon, href: "https://wa.me/31855055054", label: "WhatsApp" },
-              ].map(({ icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-                >
-                  <HugeiconsIcon icon={icon} size={16} />
-                </a>
-              ))}
-            </div>
+          <div className="flex items-center gap-3">
+            {[
+              { icon: Facebook01Icon, href: "https://facebook.com/webiro", label: "Facebook", external: true },
+              { icon: InstagramIcon, href: "https://instagram.com/webiro", label: "Instagram", external: true },
+              { icon: Linkedin01Icon, href: "https://linkedin.com/company/webiro", label: "LinkedIn", external: true },
+              { icon: WhatsappIcon, href: "https://wa.me/31855055054", label: "WhatsApp", external: true },
+              { icon: Mail01Icon, href: "mailto:info@webiro.nl", label: "Email", external: false },
+            ].map(({ icon, href, label, external }) => (
+              <a
+                key={label}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                aria-label={label}
+                className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              >
+                <HugeiconsIcon icon={icon} size={16} />
+              </a>
+            ))}
           </div>
         </div>
       </div>
