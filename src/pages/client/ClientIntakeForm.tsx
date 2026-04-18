@@ -455,6 +455,7 @@ export default function ClientIntakeForm({ client }: Props) {
         </div>
       </div>
       </VisibleSectionsContext.Provider>
+      </LabelOverrideContext.Provider>
     </div>
   );
 }
