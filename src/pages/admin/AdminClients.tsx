@@ -306,8 +306,7 @@ function ClientFormDialogInline({ client, onSaved }: { client: Client; onSaved: 
   return (
     <form onSubmit={submit} className="space-y-3 pt-4">
       <div className="grid grid-cols-2 gap-3">
-        <div><Label>Bedrijfsnaam</Label><Input value={form.company_name} onChange={(e)=>setForm({...form, company_name:e.target.value})} /></div>
-        <div><Label>Slug</Label><Input value={form.slug} onChange={(e)=>setForm({...form, slug:slugify(e.target.value)})} /></div>
+        <div className="col-span-2"><Label>Bedrijfsnaam</Label><Input value={form.company_name} onChange={(e)=>setForm({...form, company_name: e.target.value, slug: slugify(e.target.value)})} /></div>
         <div><Label>E-mail</Label><Input value={form.email} onChange={(e)=>setForm({...form, email:e.target.value})} /></div>
         <div><Label>Telefoon</Label><Input value={form.phone ?? ""} onChange={(e)=>setForm({...form, phone:e.target.value})} /></div>
         <div><Label>Contactpersoon</Label><Input value={form.contact_person ?? ""} onChange={(e)=>setForm({...form, contact_person:e.target.value})} /></div>
