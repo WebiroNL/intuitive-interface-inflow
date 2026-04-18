@@ -160,6 +160,7 @@ export default function ClientIntakeForm({ client }: Props) {
         </div>
       </div>
 
+      <LabelOverrideContext.Provider value={(client as any).intake_labels ?? {}}>
       <VisibleSectionsContext.Provider value={{ visible: visibleSet, numbers: numberMap }}>
       <div className="grid lg:grid-cols-[220px_1fr] gap-6">
         {/* Section nav */}
