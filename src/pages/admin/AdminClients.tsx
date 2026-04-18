@@ -969,6 +969,8 @@ function MonthEditDialog({ row, client, onSaved }: { row: any; client: Client; o
 function InvoicesTab({ client }: { client: Client }) {
   const [items, setItems] = useState<any[]>([]);
   const [form, setForm] = useState({ invoice_number: "", amount: 0, status: "open", invoice_date: new Date().toISOString().slice(0,10), file_url: "", payment_url: "", description: "" });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<any>(null);
   const load = async () => {
     const { data } = await supabase.from("invoices").select("*").eq("client_id", client.id).order("invoice_date",{ascending:false});
     setItems(data ?? []);
@@ -980,6 +982,35 @@ function InvoicesTab({ client }: { client: Client }) {
     if (error) { toast.error(error.message); return; }
     toast.success("Toegevoegd");
     setForm({ invoice_number:"", amount:0, status:"open", invoice_date:new Date().toISOString().slice(0,10), file_url:"", payment_url:"", description:"" });
+    load();
+  };
+  const startEdit = (i: any) => {
+    setEditingId(i.id);
+    setEditForm({
+      invoice_number: i.invoice_number ?? "",
+      amount: Number(i.amount ?? 0),
+      status: i.status ?? "open",
+      invoice_date: i.invoice_date ? String(i.invoice_date).slice(0,10) : "",
+      file_url: i.file_url ?? "",
+      payment_url: i.payment_url ?? "",
+      description: i.description ?? "",
+    });
+  };
+  const cancelEdit = () => { setEditingId(null); setEditForm(null); };
+  const saveEdit = async () => {
+    if (!editingId || !editForm) return;
+    const { error } = await supabase.from("invoices").update({
+      invoice_number: editForm.invoice_number,
+      amount: Number(editForm.amount),
+      status: editForm.status,
+      invoice_date: editForm.invoice_date,
+      file_url: editForm.file_url || null,
+      payment_url: editForm.payment_url || null,
+      description: editForm.description || null,
+    }).eq("id", editingId);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Factuur bijgewerkt");
+    cancelEdit();
     load();
   };
   return (
@@ -1002,13 +1033,41 @@ function InvoicesTab({ client }: { client: Client }) {
         <table className="w-full text-sm">
           <thead className="bg-muted/30 text-[12px] uppercase text-muted-foreground"><tr><th className="text-left px-3 py-2">Nr</th><th className="text-left px-3 py-2">Datum</th><th className="text-right px-3 py-2">Bedrag</th><th className="text-left px-3 py-2">Status</th><th></th></tr></thead>
           <tbody className="divide-y divide-border">
-            {items.map((i:any) => (
+            {items.map((i:any) => editingId === i.id ? (
+              <tr key={i.id} className="bg-muted/20">
+                <td colSpan={5} className="p-3">
+                  <div className="grid grid-cols-3 gap-2">
+                    <Input placeholder="Factuurnr" value={editForm.invoice_number} onChange={(e)=>setEditForm({...editForm, invoice_number:e.target.value})} className="h-8" />
+                    <Input type="number" step="0.01" placeholder="Bedrag" value={editForm.amount} onChange={(e)=>setEditForm({...editForm, amount:Number(e.target.value)})} className="h-8" />
+                    <Input type="date" value={editForm.invoice_date} onChange={(e)=>setEditForm({...editForm, invoice_date:e.target.value})} className="h-8" />
+                    <Select value={editForm.status} onValueChange={(v)=>setEditForm({...editForm, status:v})}>
+                      <SelectTrigger className="h-8"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="open">Open</SelectItem><SelectItem value="paid">Betaald</SelectItem><SelectItem value="overdue">Verlopen</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input placeholder="PDF URL (optioneel)" value={editForm.file_url} onChange={(e)=>setEditForm({...editForm, file_url:e.target.value})} className="h-8 col-span-2" />
+                    <Input placeholder="Betaallink (optioneel)" value={editForm.payment_url} onChange={(e)=>setEditForm({...editForm, payment_url:e.target.value})} className="h-8 col-span-3" />
+                    <Input placeholder="Omschrijving (optioneel)" value={editForm.description} onChange={(e)=>setEditForm({...editForm, description:e.target.value})} className="h-8 col-span-3" />
+                    <div className="col-span-3 flex gap-2 justify-end">
+                      <Button type="button" variant="outline" size="sm" onClick={cancelEdit}>Annuleren</Button>
+                      <Button type="button" size="sm" onClick={saveEdit}><HugeiconsIcon icon={FloppyDiskIcon} size={14}/> Opslaan</Button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ) : (
               <tr key={i.id}>
                 <td className="px-3 py-2">{i.invoice_number}</td>
                 <td className="px-3 py-2">{new Date(i.invoice_date).toLocaleDateString("nl-NL")}</td>
                 <td className="px-3 py-2 text-right tabular-nums">{fmtEUR(Number(i.amount))}</td>
                 <td className="px-3 py-2">{i.status}</td>
-                <td className="px-3 py-2 text-right"><Button variant="ghost" size="sm" onClick={async()=>{ await supabase.from("invoices").delete().eq("id",i.id); load(); }}><HugeiconsIcon icon={Delete02Icon} size={14}/></Button></td>
+                <td className="px-3 py-2 text-right">
+                  <div className="flex gap-1 justify-end">
+                    <Button variant="ghost" size="sm" onClick={() => startEdit(i)}><HugeiconsIcon icon={Edit02Icon} size={14}/></Button>
+                    <Button variant="ghost" size="sm" onClick={async()=>{ await supabase.from("invoices").delete().eq("id",i.id); load(); }}><HugeiconsIcon icon={Delete02Icon} size={14}/></Button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
