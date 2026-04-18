@@ -50,7 +50,7 @@ export function ClientTopBar({ client, onMenuClick, isSidebarOpen }: Props) {
 
   const handleLogout = async () => {
     await signOut();
-    navigate("/login");
+    navigate("/client/login");
   };
 
   return (

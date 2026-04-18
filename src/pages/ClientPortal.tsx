@@ -58,7 +58,7 @@ export default function ClientPortal() {
     );
   }
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/client/login" replace />;
   if (!client) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-6">
