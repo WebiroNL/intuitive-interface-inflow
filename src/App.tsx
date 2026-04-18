@@ -20,10 +20,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Intake = lazy(() => import("./pages/Intake"));
-const AlgemeneVoorwaarden = lazy(() => import("./pages/AlgemeneVoorwaarden"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const Disclaimer = lazy(() => import("./pages/Disclaimer"));
-const Cookiebeleid = lazy(() => import("./pages/Cookiebeleid"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
 const Documentatie = lazy(() => import("./pages/Documentatie"));
 const OneTBL = lazy(() => import("./pages/OneTBL"));
 const ReformClub = lazy(() => import("./pages/ReformClub"));
@@ -98,10 +95,11 @@ function AppContent() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/intake" element={<Intake />} />
-            <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/disclaimer" element={<Disclaimer />} />
-            <Route path="/cookiebeleid" element={<Cookiebeleid />} />
+            <Route path="/algemene-voorwaarden" element={<LegalPage />} />
+            <Route path="/privacy-policy" element={<LegalPage />} />
+            <Route path="/disclaimer" element={<LegalPage />} />
+            <Route path="/cookiebeleid" element={<LegalPage />} />
+            <Route path="/legal/:slug" element={<LegalPage />} />
             <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />

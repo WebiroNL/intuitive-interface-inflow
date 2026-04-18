@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import LogoWebiro from '@/imports/LogoWebiro1';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon, Mail01Icon } from '@hugeicons/core-free-icons';
+import { supabase } from '@/integrations/supabase/client';
 
-const columns = [
+const staticColumns = [
   {
     heading: 'Diensten',
     links: [
@@ -22,18 +24,34 @@ const columns = [
       { label: 'Contact', to: '/contact' },
     ],
   },
-  {
-    heading: 'Juridisch',
-    links: [
-      { label: 'Algemene Voorwaarden', to: '/algemene-voorwaarden' },
-      { label: 'Privacy Policy', to: '/privacy-policy' },
-      { label: 'Disclaimer', to: '/disclaimer' },
-      { label: 'Cookiebeleid', to: '/cookiebeleid' },
-    ],
-  },
 ];
 
+interface LegalLink {
+  label: string;
+  to: string;
+}
+
 export function Footer() {
+  const [legalLinks, setLegalLinks] = useState<LegalLink[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('legal_pages')
+      .select('title, slug, sort_order')
+      .eq('published', true)
+      .order('sort_order', { ascending: true })
+      .then(({ data }) => {
+        if (data) {
+          setLegalLinks(data.map((p) => ({ label: p.title, to: `/${p.slug}` })));
+        }
+      });
+  }, []);
+
+  const columns = [
+    ...staticColumns,
+    { heading: 'Juridisch', links: legalLinks },
+  ];
+
   return (
     <footer className="bg-background border-t border-border">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
