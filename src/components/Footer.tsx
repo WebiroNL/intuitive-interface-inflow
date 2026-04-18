@@ -18,7 +18,9 @@ const dienstenLinks: NavLink[] = [
 ];
 
 const staticBedrijfLinks: NavLink[] = [
+  { label: 'Over ons', to: '/over-ons' },
   { label: 'Blog', to: '/blog' },
+  { label: 'Documentatie', to: '/documentatie' },
   { label: 'Contact', to: '/contact' },
 ];
 
