@@ -488,6 +488,69 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
         </Button>
       </div>
 
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Instellingen opslaan"}
+        </Button>
+      </div>
+
+      <div className="border border-border rounded-lg bg-card mt-6">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Vragen hernoemen</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">
+              Pas labels van vragen aan voor deze klant. Laat leeg om de standaardtekst te gebruiken.
+              {overriddenCount > 0 && (
+                <> · <span className="font-medium text-foreground">{overriddenCount}</span> aangepast</>
+              )}
+            </p>
+          </div>
+          <div className="flex gap-2 items-center">
+            <Input
+              placeholder="Zoek label..."
+              value={labelFilter}
+              onChange={(e) => setLabelFilter(e.target.value)}
+              className="h-8 w-48"
+            />
+            <Button type="button" variant="outline" size="sm" onClick={resetAllLabels} disabled={overriddenCount === 0}>
+              Alles resetten
+            </Button>
+          </div>
+        </div>
+        <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
+          {filteredLabelKeys.length === 0 && (
+            <p className="text-[12px] text-muted-foreground text-center py-4">Geen labels gevonden voor "{labelFilter}".</p>
+          )}
+          {filteredLabelKeys.map((key) => {
+            const def = DEFAULT_INTAKE_LABELS[key] ?? "";
+            const cur = (form.intake_labels ?? {})[key] ?? "";
+            const isSection = key.startsWith("sec.");
+            return (
+              <div key={key} className="grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-2 items-center">
+                <div className="flex flex-col">
+                  <span className={`text-[12px] ${isSection ? "font-semibold text-primary" : "text-muted-foreground"}`}>
+                    {isSection ? "Sectie" : "Veld"}
+                  </span>
+                  <span className="text-[13px] text-foreground truncate" title={def}>{def}</span>
+                </div>
+                <Input
+                  placeholder={`(standaard: ${def})`}
+                  value={cur}
+                  onChange={(e) => setLabelOverride(key, e.target.value)}
+                  className="h-8"
+                />
+                {cur && (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setLabelOverride(key, "")}>
+                    Reset
+                  </Button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="border border-border rounded-lg bg-card mt-6">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
           <h3 className="text-[14px] font-semibold text-foreground">Antwoorden bewerken</h3>
@@ -495,6 +558,13 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
             Bewerk hieronder de antwoorden van de klant. Alleen de hierboven ingeschakelde secties zijn zichtbaar. Wijzigingen worden via de knoppen in dit formulier opgeslagen.
           </p>
         </div>
+        <div className="p-2">
+          <ClientIntakeForm client={client} />
+        </div>
+      </div>
+    </form>
+  );
+}
         <div className="p-2">
           <ClientIntakeForm client={client} />
         </div>
