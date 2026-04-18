@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Building03Icon,
-  Invoice01Icon,
   Globe02Icon,
   PackageIcon,
   Target02Icon,
@@ -28,30 +27,13 @@ import {
   FloppyDiskIcon,
   CheckmarkBadge01Icon,
 } from "@hugeicons/core-free-icons";
+import { INTAKE_SECTIONS, isSectionVisible } from "@/components/intake/sections";
 
 interface Props {
   client: Client;
 }
 
 type IntakeData = Record<string, any>;
-
-const SECTIONS = [
-  { id: "bedrijf", label: "Bedrijf & Factuur", icon: Building03Icon },
-  { id: "werkgebied", label: "Werkgebied", icon: Globe02Icon },
-  { id: "dienst", label: "Dienst", icon: PackageIcon },
-  { id: "doel", label: "Doel", icon: Target02Icon },
-  { id: "doelgroep", label: "Doelgroep", icon: UserGroup02Icon },
-  { id: "problemen", label: "Klantproblemen", icon: AlertCircleIcon },
-  { id: "usp", label: "USP's", icon: StarIcon },
-  { id: "vertrouwen", label: "Vertrouwen", icon: Shield01Icon },
-  { id: "concurrentie", label: "Concurrentie", icon: Crown02Icon },
-  { id: "materiaal", label: "Materiaal", icon: Image01Icon },
-  { id: "dosdonts", label: "Do's & Don'ts", icon: CheckmarkCircle02Icon },
-  { id: "faq", label: "Veelgestelde vragen", icon: HelpCircleIcon },
-  { id: "planning", label: "Planning", icon: Calendar03Icon },
-  { id: "uitstraling", label: "Uitstraling", icon: PaintBrushIcon },
-  { id: "kanalen", label: "Kanalen & Budget", icon: Megaphone01Icon },
-];
 
 export default function ClientIntakeForm({ client }: Props) {
   const [data, setData] = useState<IntakeData>({});
