@@ -263,11 +263,34 @@ export default function ClientWebsiteIntakeForm({ client }: Props) {
                 <Grid2>
                   <WField labelId="wf.bedrijfsnaam" label="Bedrijfsnaam"><Input value={data.bedrijfsnaam ?? ""} onChange={(e) => set("bedrijfsnaam", e.target.value)} /></WField>
                   <WField labelId="wf.contactpersoon" label="Contactpersoon"><Input value={data.contactpersoon ?? ""} onChange={(e) => set("contactpersoon", e.target.value)} /></WField>
-                  <WField labelId="wf.email" label="E-mailadres"><Input type="email" value={data.email ?? ""} onChange={(e) => set("email", e.target.value)} /></WField>
                   <WField labelId="wf.telefoon" label="Telefoonnummer"><Input value={data.telefoon ?? ""} onChange={(e) => set("telefoon", e.target.value)} /></WField>
+                  <WField labelId="wf.email" label="E-mailadres"><Input type="email" value={data.email ?? ""} onChange={(e) => set("email", e.target.value)} /></WField>
+                  <WField labelId="wf.vestigingsplaats" label="Vestigingsplaats"><Input value={data.vestigingsplaats ?? ""} onChange={(e) => set("vestigingsplaats", e.target.value)} /></WField>
+                  <WField labelId="wf.whatsapp_block" label="WhatsApp">
+                    <WCheckRow><WCheck label="Telefoon voor contact" checked={!!data.tel_voor_contact} onChange={(v) => set("tel_voor_contact", v)} /></WCheckRow>
+                    <WCheckRow><WCheck label="WhatsApp voor contact" checked={!!data.wa_voor_contact} onChange={(v) => set("wa_voor_contact", v)} /></WCheckRow>
+                  </WField>
                   <WField labelId="wf.huidige_website" label="Huidige website"><Input placeholder="https://..." value={data.huidige_website ?? ""} onChange={(e) => set("huidige_website", e.target.value)} /></WField>
                   <WField labelId="wf.branche" label="Branche / sector"><Input value={data.branche ?? ""} onChange={(e) => set("branche", e.target.value)} /></WField>
                 </Grid2>
+
+                <WDivider />
+
+                <WCheck label="Factuurgegevens zijn hetzelfde als bedrijfsgegevens" checked={!!data.factuur_zelfde} onChange={(v) => set("factuur_zelfde", v)} />
+
+                {!data.factuur_zelfde && (
+                  <div className="mt-3">
+                    <Grid2>
+                      <WField labelId="wf.factuur_naam" label="Officiële bedrijfsnaam"><Input value={data.factuur_naam ?? ""} onChange={(e) => set("factuur_naam", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_email" label="Factuur e-mailadres"><Input type="email" value={data.factuur_email ?? ""} onChange={(e) => set("factuur_email", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_adres" label="Factuuradres"><Input value={data.factuur_adres ?? ""} onChange={(e) => set("factuur_adres", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_postcode" label="Postcode"><Input value={data.factuur_postcode ?? ""} onChange={(e) => set("factuur_postcode", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_plaats" label="Plaats"><Input value={data.factuur_plaats ?? ""} onChange={(e) => set("factuur_plaats", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_kvk" label="KvK-nummer"><Input value={data.factuur_kvk ?? ""} onChange={(e) => set("factuur_kvk", e.target.value)} /></WField>
+                      <WField labelId="wf.factuur_btw" label="BTW-nummer"><Input value={data.factuur_btw ?? ""} onChange={(e) => set("factuur_btw", e.target.value)} /></WField>
+                    </Grid2>
+                  </div>
+                )}
               </WSec>
             )}
 
