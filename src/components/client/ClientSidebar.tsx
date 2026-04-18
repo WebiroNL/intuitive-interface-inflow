@@ -32,6 +32,10 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const base = `/dashboard`;
   const vm = (client.visible_menus as string[] | null | undefined) ?? null;
 
+  // Heeft de admin een expliciete selectie gemaakt? (Dus niet null en niet de "__all__" sentinel.)
+  const adminHasExplicitSelection =
+    Array.isArray(vm) && !(vm.length === 1 && vm[0] === "__all__");
+
   const allItems = [
     { id: "dashboard", label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, hasData: true },
     { id: "campaigns", label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, hasData: sections.hasMonthlyData },
@@ -41,8 +45,14 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     { id: "files", label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, hasData: sections.hasFiles },
     { id: "updates", label: "Updates", href: `${base}/updates`, icon: Notification02Icon, hasData: sections.hasActivity },
   ];
-  // Verberg item als admin het uitgevinkt heeft, OF (voor data-afhankelijke items) als er nog geen data is.
-  const items = allItems.filter((i) => isMenuVisible(vm, i.id) && i.hasData);
+  // Regel:
+  // - Als admin expliciet menu-items aanvinkt → toon precies die items (ook zonder data).
+  // - Anders (default "__all__") → toon alleen items met data, om lege secties te verbergen.
+  const items = allItems.filter((i) => {
+    if (!isMenuVisible(vm, i.id)) return false;
+    if (adminHasExplicitSelection) return true;
+    return i.hasData;
+  });
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
