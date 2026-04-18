@@ -49,7 +49,7 @@ export function StepChoice({ selected, onSelect }: StepChoiceProps) {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
+      <div className="grid md:grid-cols-2 gap-5 w-full">
         {options.map((option, index) => {
           const isSelected = selected === option.id;
 
