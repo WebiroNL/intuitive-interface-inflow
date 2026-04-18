@@ -279,8 +279,8 @@ const Oplossingen = () => {
                 key={title}
                 className="group p-6 rounded-xl border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-4 shadow-sm shadow-primary/20">
-                  <HugeiconsIcon icon={icon} size={20} className="text-primary-foreground" />
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <HugeiconsIcon icon={icon} size={20} className="text-primary" />
                 </div>
                 <h3 className="text-[15px] font-semibold text-foreground mb-2">{title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
