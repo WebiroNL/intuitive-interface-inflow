@@ -22,6 +22,8 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Intake = lazy(() => import("./pages/Intake"));
 const AlgemeneVoorwaarden = lazy(() => import("./pages/AlgemeneVoorwaarden"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Disclaimer = lazy(() => import("./pages/Disclaimer"));
+const Cookiebeleid = lazy(() => import("./pages/Cookiebeleid"));
 const Documentatie = lazy(() => import("./pages/Documentatie"));
 const OneTBL = lazy(() => import("./pages/OneTBL"));
 const ReformClub = lazy(() => import("./pages/ReformClub"));
@@ -98,6 +100,8 @@ function AppContent() {
             <Route path="/intake" element={<Intake />} />
             <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/cookiebeleid" element={<Cookiebeleid />} />
             <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />
