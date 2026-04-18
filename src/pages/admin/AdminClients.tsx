@@ -458,7 +458,12 @@ function IntakeFormTab({ client, onChanged }: { client: Client; onChanged: () =>
           </div>
         </div>
       </div>
-      <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Opslaan"}
+        </Button>
+      </div>
     </form>
   );
 }
@@ -538,7 +543,12 @@ function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () 
           </p>
         </div>
       </div>
-      <Button type="submit" disabled={saving}>{saving ? "Bezig..." : "Opslaan"}</Button>
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Opslaan"}
+        </Button>
+      </div>
     </form>
   );
 }
