@@ -18,26 +18,27 @@ import {
 
 export interface IntakeSectionDef {
   id: string;
-  label: string;
+  /** Titel zonder nummer-prefix. Het volgnummer wordt dynamisch toegevoegd. */
+  title: string;
   icon: any;
 }
 
 export const INTAKE_SECTIONS: IntakeSectionDef[] = [
-  { id: "bedrijf", label: "1. Bedrijf & Factuur", icon: Building03Icon },
-  { id: "werkgebied", label: "2. Werkgebied", icon: Globe02Icon },
-  { id: "dienst", label: "3. Dienst", icon: PackageIcon },
-  { id: "doel", label: "4. Doel", icon: Target02Icon },
-  { id: "doelgroep", label: "5. Doelgroep", icon: UserGroup02Icon },
-  { id: "problemen", label: "6. Klantproblemen", icon: AlertCircleIcon },
-  { id: "usp", label: "7. USP's", icon: StarIcon },
-  { id: "vertrouwen", label: "8. Vertrouwen", icon: Shield01Icon },
-  { id: "concurrentie", label: "9. Concurrentie", icon: Crown02Icon },
-  { id: "materiaal", label: "10. Materiaal", icon: Image01Icon },
-  { id: "dosdonts", label: "11. Do's & Don'ts", icon: CheckmarkCircle02Icon },
-  { id: "faq", label: "12. Veelgestelde vragen", icon: HelpCircleIcon },
-  { id: "planning", label: "13. Planning", icon: Calendar03Icon },
-  { id: "uitstraling", label: "14. Uitstraling", icon: PaintBrushIcon },
-  { id: "kanalen", label: "15. Kanalen & Budget", icon: Megaphone01Icon },
+  { id: "bedrijf", title: "Bedrijf & Factuur", icon: Building03Icon },
+  { id: "werkgebied", title: "Werkgebied", icon: Globe02Icon },
+  { id: "dienst", title: "Dienst", icon: PackageIcon },
+  { id: "doel", title: "Doel", icon: Target02Icon },
+  { id: "doelgroep", title: "Doelgroep", icon: UserGroup02Icon },
+  { id: "problemen", title: "Klantproblemen", icon: AlertCircleIcon },
+  { id: "usp", title: "USP's", icon: StarIcon },
+  { id: "vertrouwen", title: "Vertrouwen", icon: Shield01Icon },
+  { id: "concurrentie", title: "Concurrentie", icon: Crown02Icon },
+  { id: "materiaal", title: "Materiaal", icon: Image01Icon },
+  { id: "dosdonts", title: "Do's & Don'ts", icon: CheckmarkCircle02Icon },
+  { id: "faq", title: "Veelgestelde vragen", icon: HelpCircleIcon },
+  { id: "planning", title: "Planning", icon: Calendar03Icon },
+  { id: "uitstraling", title: "Uitstraling", icon: PaintBrushIcon },
+  { id: "kanalen", title: "Kanalen & Budget", icon: Megaphone01Icon },
 ];
 
 export const ALL_SECTION_IDS = INTAKE_SECTIONS.map((s) => s.id);
@@ -56,4 +57,18 @@ export function isSectionVisible(enabled: string[] | null | undefined, id: strin
   if (enabled === null || enabled === undefined) return true;
   if (enabled.length === 1 && enabled[0] === ALL_SECTIONS_SENTINEL) return true;
   return enabled.includes(id);
+}
+
+/**
+ * Geeft de zichtbare secties terug, met dynamisch volgnummer (1..n).
+ * `label` bevat het nummer + titel, `displayNumber` is het cijfer.
+ */
+export function getVisibleNumberedSections(enabled: string[] | null | undefined) {
+  return INTAKE_SECTIONS
+    .filter((s) => isSectionVisible(enabled, s.id))
+    .map((s, i) => ({
+      ...s,
+      displayNumber: i + 1,
+      label: `${i + 1}. ${s.title}`,
+    }));
 }
