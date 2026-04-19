@@ -94,15 +94,23 @@ function PhoneFrame({ url, title, active, tint }: PhoneFrameProps) {
           {/* Auto-scrolling iframe scaled to mobile viewport */}
           {active ? (
             <div
-              className="absolute inset-0 animate-[showcaseScroll_24s_ease-in-out_infinite_alternate]"
+              className="absolute inset-0 overflow-hidden"
               style={{
-                width: "390px",
-                height: "1600px",
-                transform: "scale(calc(100% / 390 * var(--phone-w, 280)))",
-                transformOrigin: "top left",
+                // Scale a 390px-wide mobile viewport down to fit the screen
+                ['--phone-scale' as string]: 'calc(100% / 390)',
               }}
             >
-              <LazyIframe src={url} title={title} className="h-full w-full" />
+              <div
+                className="origin-top-left animate-[phoneScroll_26s_ease-in-out_infinite_alternate]"
+                style={{
+                  width: '390px',
+                  height: '1800px',
+                  transform: 'scale(var(--phone-scale))',
+                  transformOrigin: 'top left',
+                }}
+              >
+                <LazyIframe src={url} title={title} className="h-full w-full" />
+              </div>
             </div>
           ) : (
             <div
