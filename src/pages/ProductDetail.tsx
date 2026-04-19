@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { updatePageMeta } from "@/utils/seo";
 import { storefrontApiRequest, ShopifyProduct } from "@/lib/shopify";
 import { useAuth } from "@/hooks/useAuth";
+import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 
 const PRODUCT_BY_HANDLE_QUERY = `
@@ -102,7 +103,10 @@ export default function ProductDetail() {
   const formatPrice = (amount: string, currencyCode: string) =>
     new Intl.NumberFormat('nl-NL', { style: 'currency', currency: currencyCode }).format(parseFloat(amount));
 
-  const handleAddToCart = () => {
+  const addItem = useCartStore((s) => s.addItem);
+  const isCartLoading = useCartStore((s) => s.isLoading);
+
+  const handleAddToCart = async () => {
     if (!user) {
       toast.info("Log in om producten aan je winkelwagen toe te voegen", {
         action: {
@@ -112,7 +116,18 @@ export default function ProductDetail() {
       });
       return;
     }
-    toast.success(`${product?.title} toegevoegd aan winkelwagen`);
+    const variant = getCurrentVariant();
+    if (!product || !variant) return;
+
+    await addItem({
+      product: { node: product } as ShopifyProduct,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || [],
+    });
+    toast.success(`${product.title} toegevoegd aan winkelwagen`);
   };
 
   if (loading) {
@@ -250,9 +265,14 @@ export default function ProductDetail() {
               )}
 
               <div className="space-y-3 pt-4">
-                <Button size="lg" className="w-full text-lg py-6 rounded-full" onClick={handleAddToCart}>
+                <Button
+                  size="lg"
+                  className="w-full text-lg py-6 rounded-full"
+                  onClick={handleAddToCart}
+                  disabled={isCartLoading}
+                >
                   <HugeiconsIcon icon={ShoppingCart01Icon} size={20} className="mr-2" />
-                  {user ? "In winkelwagen" : "Inloggen om te bestellen"}
+                  {!user ? "Inloggen om te bestellen" : isCartLoading ? "Bezig..." : "In winkelwagen"}
                 </Button>
                 <p className="text-center text-sm text-muted-foreground">
                   <HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} className="inline mr-1 text-primary" />
