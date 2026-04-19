@@ -198,11 +198,11 @@ export default function LegalPageView() {
               </>
             )}
           </div>
-          <h2 className="text-[28px] lg:text-[34px] leading-[1.15] tracking-[-0.02em] font-semibold text-foreground mb-10 lg:mb-12">
+          <h1 className="text-[32px] lg:text-[40px] leading-[1.1] tracking-[-0.025em] font-semibold text-foreground mb-6">
             {page.title}
-          </h2>
+          </h1>
           {page.subtitle && (
-            <p className="text-[17px] lg:text-[18px] leading-[1.6] text-muted-foreground/90 mb-10 lg:mb-12 max-w-2xl font-light">
+            <p className="text-[16px] lg:text-[17px] leading-[1.65] text-muted-foreground mb-12 lg:mb-16 max-w-[620px]">
               {page.subtitle}
             </p>
           )}
@@ -239,18 +239,18 @@ export default function LegalPageView() {
           <article
             ref={articleRef}
             className="max-w-[680px] prose prose-neutral dark:prose-invert
-              prose-headings:font-semibold prose-headings:tracking-[-0.015em] prose-headings:text-foreground
-              prose-h2:text-[19px] prose-h2:lg:text-[21px] prose-h2:mt-20 prose-h2:mb-8 prose-h2:scroll-mt-28 prose-h2:leading-[1.3]
-              prose-h2:pt-14 prose-h2:border-t prose-h2:border-border/60 first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
-              prose-h3:text-[17px] prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-foreground/90
-              prose-p:text-[15px] prose-p:leading-[1.78] prose-p:text-muted-foreground prose-p:my-7
-              prose-a:text-primary prose-a:font-medium prose-a:no-underline prose-a:underline-offset-4 hover:prose-a:underline
+              prose-headings:font-semibold prose-headings:tracking-[-0.018em] prose-headings:text-foreground
+              prose-h2:text-[20px] prose-h2:lg:text-[22px] prose-h2:mt-16 prose-h2:mb-6 prose-h2:scroll-mt-28 prose-h2:leading-[1.25]
+              prose-h2:pt-12 prose-h2:border-t prose-h2:border-border/50 first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
+              prose-h3:text-[16px] prose-h3:lg:text-[17px] prose-h3:mt-9 prose-h3:mb-3 prose-h3:text-foreground prose-h3:leading-[1.4]
+              prose-p:text-[15px] prose-p:lg:text-[15.5px] prose-p:leading-[1.72] prose-p:text-foreground/75 prose-p:my-5
+              prose-a:text-primary prose-a:font-medium prose-a:no-underline prose-a:underline-offset-[3px] prose-a:decoration-primary/30 hover:prose-a:decoration-primary
               prose-strong:text-foreground prose-strong:font-semibold
-              prose-ul:my-5 prose-ol:my-5 prose-ul:pl-5 prose-ol:pl-5
-              prose-li:text-[15px] prose-li:text-muted-foreground prose-li:leading-[1.78] prose-li:my-1.5 prose-li:marker:text-foreground/30
-              prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:not-italic prose-blockquote:text-foreground prose-blockquote:font-normal prose-blockquote:pl-5 prose-blockquote:my-6
+              prose-ul:my-5 prose-ol:my-5 prose-ul:pl-5 prose-ol:pl-5 prose-ul:space-y-1.5 prose-ol:space-y-1.5
+              prose-li:text-[15px] prose-li:lg:text-[15.5px] prose-li:text-foreground/75 prose-li:leading-[1.72] prose-li:my-0 prose-li:pl-1 prose-li:marker:text-foreground/30
+              prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:not-italic prose-blockquote:text-foreground prose-blockquote:font-normal prose-blockquote:pl-5 prose-blockquote:my-6 prose-blockquote:text-[15.5px]
               prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[12.5px] prose-code:font-mono prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
-              prose-hr:border-border prose-hr:my-14"
+              prose-hr:border-border/60 prose-hr:my-12"
             dangerouslySetInnerHTML={{ __html: page.content }}
           />
         </main>
