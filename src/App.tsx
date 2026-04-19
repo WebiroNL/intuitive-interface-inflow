@@ -9,6 +9,8 @@ import { Suspense, lazy } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { CartDrawer } from "@/components/shop/CartDrawer";
+import { useCartSync } from "@/hooks/useCartSync";
 
 // Lazy load pages
 const Home = lazy(() => import("./pages/Home"));
@@ -78,11 +80,13 @@ function AppContent() {
   const isReportRoute = location.pathname.startsWith('/novellerapport');
   const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute;
+  useCartSync();
 
   return (
     <>
       <ScrollToTop />
       {!hideChrome && <ColumnGuides />}
+      {!hideChrome && <CartDrawer />}
       <div className="min-h-screen bg-background transition-colors duration-300">
         {!hideChrome && <Header />}
         <Suspense fallback={<LoadingFallback />}>

@@ -6,6 +6,7 @@ import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
+import { CartButton } from '@/components/shop/CartButton';
 
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
@@ -244,6 +245,8 @@ export function Header() {
               {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
             </button>
 
+            <CartButton />
+
             {/* Account / Sign in */}
             {user ? (
               <Link
@@ -271,14 +274,17 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Mobile burger */}
-          <button
-            className="lg:hidden ml-auto p-2 text-foreground rounded-[5px] hover:bg-muted/40 transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
-          </button>
+          {/* Mobile actions */}
+          <div className="lg:hidden ml-auto flex items-center gap-1">
+            <CartButton />
+            <button
+              className="p-2 text-foreground rounded-[5px] hover:bg-muted/40 transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
+            </button>
+          </div>
         </div>
       </div>
 
