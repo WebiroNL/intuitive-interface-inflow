@@ -100,7 +100,7 @@ function PhoneFrame({ url, title, active, tint }: PhoneFrameProps) {
         />
 
         {/* Screen */}
-        <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-white">
+        <div ref={screenRef} className="relative h-full w-full overflow-hidden rounded-[34px] bg-white">
           {/* Dynamic island */}
           <div
             aria-hidden
@@ -115,7 +115,7 @@ function PhoneFrame({ url, title, active, tint }: PhoneFrameProps) {
                 className="absolute left-0 top-0"
                 style={{
                   width: '390px',
-                  transform: 'scale(var(--phone-scale, 0.72))',
+                  transform: `scale(${scale})`,
                   transformOrigin: 'top left',
                 }}
               >
