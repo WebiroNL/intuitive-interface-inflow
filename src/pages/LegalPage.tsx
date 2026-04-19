@@ -97,29 +97,37 @@ export default function LegalPageView() {
     });
   }, [slug]);
 
-  // Build TOC + add ids to h2s
+  // Build TOC from h2/h3 in raw content
   const toc = useMemo<TocItem[]>(() => {
     if (!page?.content) return [];
     const parser = new DOMParser();
     const doc = parser.parseFromString(page.content, "text/html");
     const items: TocItem[] = [];
-    doc.querySelectorAll("h2").forEach((h) => {
+    doc.querySelectorAll("h2, h3").forEach((h) => {
       const text = h.textContent ?? "";
       if (text.trim()) items.push({ id: slugify(text), text });
     });
     return items;
   }, [page?.content]);
 
-  // After render: assign ids to h2 elements, prepend numeric labels & set up scrollspy
+  // After render: convert h2 -> h3, assign ids, prepend numeric labels & set up scrollspy
   useEffect(() => {
     if (!articleRef.current || !page) return;
-    const h2s = articleRef.current.querySelectorAll("h2");
-    h2s.forEach((h, i) => {
-      // Remove any previously injected label so we can recompute id from clean text
+
+    // Replace any h2 with h3
+    const h2List = Array.from(articleRef.current.querySelectorAll("h2"));
+    h2List.forEach((h2) => {
+      const h3 = document.createElement("h3");
+      h3.innerHTML = h2.innerHTML;
+      Array.from(h2.attributes).forEach((attr) => h3.setAttribute(attr.name, attr.value));
+      h2.replaceWith(h3);
+    });
+
+    const headings = articleRef.current.querySelectorAll("h3");
+    headings.forEach((h, i) => {
       h.querySelector("[data-doc-label]")?.remove();
       const id = slugify(h.textContent ?? "");
       h.id = id;
-      // Style the H2 itself as a flex container so label sits next to title
       h.classList.add("flex", "items-baseline", "gap-4");
       const label = document.createElement("span");
       label.setAttribute("data-doc-label", "");
@@ -129,7 +137,7 @@ export default function LegalPageView() {
       h.prepend(label);
     });
 
-    if (h2s.length === 0) return;
+    if (headings.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -140,7 +148,7 @@ export default function LegalPageView() {
       },
       { rootMargin: "-100px 0px -65% 0px", threshold: 0 }
     );
-    h2s.forEach((h) => observer.observe(h));
+    headings.forEach((h) => observer.observe(h));
     return () => observer.disconnect();
   }, [page]);
 
