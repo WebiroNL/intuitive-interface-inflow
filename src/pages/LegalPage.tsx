@@ -119,10 +119,12 @@ export default function LegalPageView() {
       h.querySelector("[data-doc-label]")?.remove();
       const id = slugify(h.textContent ?? "");
       h.id = id;
+      // Style the H2 itself as a flex container so label sits next to title
+      h.classList.add("flex", "items-baseline", "gap-4");
       const label = document.createElement("span");
       label.setAttribute("data-doc-label", "");
       label.className =
-        "block text-[11px] font-mono text-muted-foreground/50 tracking-tight mb-3 not-prose";
+        "shrink-0 text-[11px] font-mono text-muted-foreground/50 tracking-tight not-prose font-normal";
       label.textContent = String(i + 1).padStart(2, "0");
       h.prepend(label);
     });
