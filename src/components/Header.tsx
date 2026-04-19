@@ -6,6 +6,7 @@ import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
+import { CartButton } from '@/components/shop/CartButton';
 
 const navLinks = [
   { label: "Oplossingen", href: "/oplossingen", dropdown: true },
@@ -243,6 +244,8 @@ export function Header() {
             >
               {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
             </button>
+
+            <CartButton />
 
             {/* Account / Sign in */}
             {user ? (
