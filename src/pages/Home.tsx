@@ -237,9 +237,16 @@ const Home = () => {
                   Oplossingen
                 </Link>
               </div>
+
+              {/* Mobile/tablet visual — compact dashboard under text */}
+              <div className="lg:hidden mt-12 -mx-2">
+                <div className="max-w-[420px] mx-auto" style={{ animation: 'heroFloat 6s ease-in-out infinite' }}>
+                  <AnimatedDashboard />
+                </div>
+              </div>
             </div>
 
-            {/* Right - Particle Engine Visual */}
+            {/* Right - Particle Engine Visual (desktop) */}
             <div className="hidden lg:flex items-start justify-center self-stretch">
               <div
                 className="w-full max-w-[520px] sticky top-24"
