@@ -30,6 +30,22 @@ interface PhoneFrameProps {
 }
 
 function PhoneFrame({ url, title, active, tint }: PhoneFrameProps) {
+  const screenRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0.72);
+
+  useEffect(() => {
+    const el = screenRef.current;
+    if (!el) return;
+    const update = () => {
+      const w = el.clientWidth;
+      if (w > 0) setScale(w / 390);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div
       className="relative mx-auto"
