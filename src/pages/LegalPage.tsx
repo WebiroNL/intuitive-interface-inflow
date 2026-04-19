@@ -97,6 +97,9 @@ export default function LegalPageView() {
     });
   }, [slug]);
 
+  // Strip leading "1. ", "12) ", etc from heading text
+  const stripLeadingNumber = (s: string) => s.replace(/^\s*\d+[.)]\s*/, "");
+
   // Build TOC from h2/h3 in raw content
   const toc = useMemo<TocItem[]>(() => {
     if (!page?.content) return [];
@@ -104,13 +107,13 @@ export default function LegalPageView() {
     const doc = parser.parseFromString(page.content, "text/html");
     const items: TocItem[] = [];
     doc.querySelectorAll("h2, h3").forEach((h) => {
-      const text = h.textContent ?? "";
+      const text = stripLeadingNumber(h.textContent ?? "");
       if (text.trim()) items.push({ id: slugify(text), text });
     });
     return items;
   }, [page?.content]);
 
-  // After render: convert h2 -> h3, assign ids, prepend numeric labels & set up scrollspy
+  // After render: convert h2 -> h3, strip leading numbers, assign ids, prepend numeric labels & set up scrollspy
   useEffect(() => {
     if (!articleRef.current || !page) return;
 
@@ -126,10 +129,15 @@ export default function LegalPageView() {
     const headings = articleRef.current.querySelectorAll("h3");
     headings.forEach((h, i) => {
       h.querySelector("[data-doc-label]")?.remove();
+      // Strip leading "1. " from the first text node
+      const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      const firstText = walker.nextNode() as Text | null;
+      if (firstText && firstText.nodeValue) {
+        firstText.nodeValue = firstText.nodeValue.replace(/^\s*\d+[.)]\s*/, "");
+      }
       const id = slugify(h.textContent ?? "");
       h.id = id;
       h.classList.add("flex", "items-baseline", "gap-4");
-      // Insert a <br> before the heading (skip if previous sibling already a br we added)
       const prev = h.previousElementSibling;
       if (!(prev && prev.tagName === "BR" && prev.hasAttribute("data-doc-br"))) {
         const br = document.createElement("br");
