@@ -110,13 +110,21 @@ export default function LegalPageView() {
     return items;
   }, [page?.content]);
 
-  // After render: assign ids to h2 elements & set up scrollspy
+  // After render: assign ids to h2 elements, prepend numeric labels & set up scrollspy
   useEffect(() => {
     if (!articleRef.current || !page) return;
     const h2s = articleRef.current.querySelectorAll("h2");
-    h2s.forEach((h) => {
+    h2s.forEach((h, i) => {
+      // Remove any previously injected label so we can recompute id from clean text
+      h.querySelector("[data-doc-label]")?.remove();
       const id = slugify(h.textContent ?? "");
       h.id = id;
+      const label = document.createElement("span");
+      label.setAttribute("data-doc-label", "");
+      label.className =
+        "block text-[11px] font-mono text-muted-foreground/50 tracking-tight mb-3 not-prose";
+      label.textContent = String(i + 1).padStart(2, "0");
+      h.prepend(label);
     });
 
     if (h2s.length === 0) return;
