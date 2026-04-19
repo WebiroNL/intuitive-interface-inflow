@@ -522,134 +522,30 @@ const Home = () => {
       </section>
 
       {/* ══════ SHOWCASE ══════ */}
-      <section className="border-t border-border bg-background">
+      <section className="border-t border-border bg-background overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-12 px-0">
             <div className="max-w-xl">
-              <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
                 Recent werk
+              </p>
+              <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
+                Echte projecten,<br />
+                <span className="text-primary">live in je hand.</span>
               </h2>
+              <p className="mt-5 text-[15px] text-muted-foreground max-w-md">
+                Swipe door een selectie van onze recente websites. Elke preview is een live versie van de productiesite.
+              </p>
             </div>
             <Link to="/contact" className="hidden md:inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
               Bekijk meer <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
-          {/* Featured: Allround Training Center with iframe */}
-          <div className="mb-8 rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-all duration-300">
-            <div className="grid lg:grid-cols-[1fr,420px]">
-              {/* Iframe preview */}
-              <div className="relative w-full aspect-[16/9] lg:aspect-auto lg:min-h-[480px] bg-muted overflow-hidden">
-                <div className="absolute inset-0">
-                  {/* Browser chrome bar */}
-                  <div className="flex items-center gap-2 px-4 py-2.5 bg-muted border-b border-border">
-                    <div className="flex gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-                    </div>
-                    <div className="flex-1 mx-2 px-3 py-1 rounded-md bg-background/60 text-[11px] text-muted-foreground font-mono truncate">
-                      allroundtrainingcenter.nl
-                    </div>
-                  </div>
-                  {/* Iframe scaled to desktop width, auto-scrolling */}
-                  <div className="w-full overflow-hidden" style={{ height: 'calc(100% - 36px)' }}>
-                    <div
-                      className="[--iframe-scale:0.45] lg:[--iframe-scale:0.5] animate-[showcaseScroll_20s_ease-in-out_infinite_alternate]"
-                      style={{
-                        width: '1440px',
-                        height: '4000px',
-                        transform: 'scale(var(--iframe-scale))',
-                        transformOrigin: 'top left',
-                        '--iframe-scale': '0.45',
-                      } as React.CSSProperties}
-                    >
-                      <LazyIframe
-                        src="https://www.allroundtrainingcenter.nl/"
-                        title="Allround Training Center"
-                        className="w-full h-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Info panel */}
-              <div className="p-8 lg:p-10 flex flex-col justify-center">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">Sport & Fitness</p>
-                <h3 className="text-[22px] lg:text-[26px] font-bold text-foreground mb-3">Allround Training Center</h3>
-                <p className="text-[14px] text-muted-foreground leading-relaxed mb-5">
-                  Geheel custom gebouwde website met eigen backend, op maat gemaakt design, AI livechat-integratie en full SEO-pakket. Daarnaast verzorgen we de volledige Google Ads strategie.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"].map((s) => (
-                    <span key={s} className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-primary/10 text-primary">{s}</span>
-                  ))}
-                </div>
-                <a
-                  href="https://www.allroundtrainingcenter.nl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all"
-                >
-                  Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </div>
+        </div>
 
-          {/* Row 1: 3 cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            {showcase.slice(1, 4).map(({ title, cat, url, services, desc }) => (
-              <a
-                key={title}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
-                <div className="p-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
-                  <h3 className="text-[18px] font-bold text-foreground mb-2">{title}</h3>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{desc}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {services.map((s) => (
-                      <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{s}</span>
-                    ))}
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
-                    Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-          {/* Row 2: 2 cards */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {showcase.slice(4, 6).map(({ title, cat, url, services, desc }) => (
-              <a
-                key={title}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary via-[hsl(250,70%,55%)] to-accent" />
-                <div className="p-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">{cat}</p>
-                  <h3 className="text-[18px] font-bold text-foreground mb-2">{title}</h3>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{desc}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {services.map((s) => (
-                      <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{s}</span>
-                    ))}
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary group-hover:gap-3 transition-all">
-                    Bekijk website <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+        {/* Carousel breaks out of container so cards can peek to the edge */}
+        <div className="relative -mt-2 pb-20 lg:pb-28">
+          <PhoneShowcase items={showcase} />
         </div>
       </section>
 
