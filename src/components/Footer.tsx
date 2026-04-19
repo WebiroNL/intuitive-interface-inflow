@@ -39,7 +39,6 @@ export function Footer() {
         const legal: NavLink[] = [];
         const bedrijf: NavLink[] = [];
         data.forEach((p) => {
-          if (p.slug === 'documentatie') return; // handled by static link
           const link = { label: p.title, to: `/${p.slug}` };
           if ((p as { category?: string }).category === 'bedrijf') bedrijf.push(link);
           else legal.push(link);

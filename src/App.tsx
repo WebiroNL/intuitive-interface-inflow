@@ -103,7 +103,7 @@ function AppContent() {
             <Route path="/over-ons" element={<OverOns />} />
             <Route path="/legal/:slug" element={<LegalPage />} />
             <Route path="/p/:slug" element={<LegalPage />} />
-            <Route path="/documentatie" element={<LegalPage />} />
+            <Route path="/documentatie" element={<Documentatie />} />
             <Route path="/1tbl" element={<OneTBL />} />
             <Route path="/reformclub" element={<ReformClub />} />
             <Route path="/sitemap.xml" element={<SitemapRedirect />} />
