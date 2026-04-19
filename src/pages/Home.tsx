@@ -12,6 +12,7 @@ import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { LazyIframe } from "@/components/LazyIframe";
+import { PhoneShowcase } from "@/components/PhoneShowcase";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -167,12 +168,12 @@ const tools = [
 ];
 
 const showcase = [
-  { title: "Allround Training Center", cat: "Sport & Fitness", url: "https://www.allroundtrainingcenter.nl", services: ["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"], desc: "Geheel custom gebouwde website met eigen backend, op maat gemaakt design, AI livechat-integratie en full SEO-pakket. Daarnaast verzorgen we de volledige Google Ads strategie." },
-  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren." },
-  { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor." },
-  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio." },
-  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", services: ["Website", "Meta Ads", "E-mail"], desc: "Shopify webshop met Meta advertenties en geautomatiseerde e-mailflows voor hogere retentie." },
-  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", services: ["Website", "Google Ads"], desc: "Moderne website en Google Ads campagne die structureel nieuwe aanmeldingen genereren." },
+  { title: "Allround Training Center", cat: "Sport & Fitness", url: "https://www.allroundtrainingcenter.nl", services: ["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"], desc: "Custom gebouwde website met eigen backend, AI livechat en full SEO-pakket. Inclusief volledige Google Ads strategie.", tint: "234,82%,57%" },
+  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren.", tint: "16,85%,55%" },
+  { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor.", tint: "215,55%,40%" },
+  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio.", tint: "44,90%,55%" },
+  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", services: ["Website", "Meta Ads", "E-mail"], desc: "Shopify webshop met Meta advertenties en geautomatiseerde e-mailflows voor hogere retentie.", tint: "330,75%,60%" },
+  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", services: ["Website", "Google Ads"], desc: "Moderne website en Google Ads campagne die structureel nieuwe aanmeldingen genereren.", tint: "0,75%,55%" },
 ];
 
 
