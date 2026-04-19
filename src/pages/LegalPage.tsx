@@ -255,43 +255,44 @@ export default function LegalPageView() {
             />
           </main>
 
-        {/* Right TOC */}
-        <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start text-sm">
-          {toc.length > 0 && (
-            <>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70 mb-3">
-                Op deze pagina
-              </p>
-              <nav className="space-y-2 border-l border-border pl-4">
-                {toc.map((item) => {
-                  const active = item.id === activeId;
-                  return (
-                    <a
-                      key={item.id}
-                      href={`#${item.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const el = document.getElementById(item.id);
-                        if (!el) return;
-                        const top = el.getBoundingClientRect().top + window.scrollY - 96;
-                        window.scrollTo({ top, behavior: "smooth" });
-                        history.replaceState(null, "", `#${item.id}`);
-                        setActiveId(item.id);
-                      }}
-                      className={`block text-[13px] leading-snug transition-colors ${
-                        active
-                          ? "text-primary font-medium"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {item.text}
-                    </a>
-                  );
-                })}
-              </nav>
-            </>
-          )}
-        </aside>
+          {/* Right TOC */}
+          <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start text-sm">
+            {toc.length > 0 && (
+              <>
+                <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-foreground/40 mb-3 font-mono">
+                  Op deze pagina
+                </p>
+                <nav className="flex flex-col">
+                  {toc.map((item) => {
+                    const active = item.id === activeId;
+                    return (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const el = document.getElementById(item.id);
+                          if (!el) return;
+                          const top = el.getBoundingClientRect().top + window.scrollY - 96;
+                          window.scrollTo({ top, behavior: "smooth" });
+                          history.replaceState(null, "", `#${item.id}`);
+                          setActiveId(item.id);
+                        }}
+                        className={`group relative -ml-px border-l py-[7px] pl-3 text-[13.5px] leading-snug transition-all ${
+                          active
+                            ? "border-primary text-foreground font-medium"
+                            : "border-transparent text-muted-foreground/80 hover:text-foreground hover:border-border"
+                        }`}
+                      >
+                        {item.text}
+                      </a>
+                    );
+                  })}
+                </nav>
+              </>
+            )}
+          </aside>
+        </div>
       </div>
     </div>
   );
