@@ -50,7 +50,7 @@ export function Footer() {
 
   const columns = [
     { heading: 'Diensten', links: dienstenLinks },
-    { heading: 'Bedrijf', links: [...bedrijfDynamic, ...staticBedrijfLinks] },
+    { heading: 'Bedrijf', links: staticBedrijfLinks },
     { heading: 'Juridisch', links: legalLinks },
   ];
 
