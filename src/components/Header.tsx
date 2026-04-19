@@ -274,14 +274,17 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Mobile burger */}
-          <button
-            className="lg:hidden ml-auto p-2 text-foreground rounded-[5px] hover:bg-muted/40 transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
-          </button>
+          {/* Mobile actions */}
+          <div className="lg:hidden ml-auto flex items-center gap-1">
+            <CartButton />
+            <button
+              className="p-2 text-foreground rounded-[5px] hover:bg-muted/40 transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <HugeiconsIcon icon={Cancel01Icon} size={20} /> : <HugeiconsIcon icon={Menu01Icon} size={20} />}
+            </button>
+          </div>
         </div>
       </div>
 
