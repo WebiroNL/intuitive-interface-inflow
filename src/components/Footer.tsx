@@ -98,9 +98,9 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-3">
             {[
-              { icon: Facebook01Icon, href: "https://facebook.com/webiro", label: "Facebook", external: true },
-              { icon: InstagramIcon, href: "https://instagram.com/webiro", label: "Instagram", external: true },
-              { icon: Linkedin01Icon, href: "https://linkedin.com/company/webiro", label: "LinkedIn", external: true },
+              { icon: Facebook01Icon, href: "https://www.facebook.com/webironl/", label: "Facebook", external: true },
+              { icon: InstagramIcon, href: "https://www.instagram.com/webiro.nl", label: "Instagram", external: true },
+              { icon: Linkedin01Icon, href: "https://www.linkedin.com/company/webironl/", label: "LinkedIn", external: true },
               { icon: WhatsappIcon, href: "https://wa.me/31855055054", label: "WhatsApp", external: true },
               { icon: Mail01Icon, href: "mailto:info@webiro.nl", label: "Email", external: false },
             ].map(({ icon, href, label, external }) => (
