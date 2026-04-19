@@ -129,6 +129,13 @@ export default function LegalPageView() {
       const id = slugify(h.textContent ?? "");
       h.id = id;
       h.classList.add("flex", "items-baseline", "gap-4");
+      // Insert a <br> before the heading (skip if previous sibling already a br we added)
+      const prev = h.previousElementSibling;
+      if (!(prev && prev.tagName === "BR" && prev.hasAttribute("data-doc-br"))) {
+        const br = document.createElement("br");
+        br.setAttribute("data-doc-br", "");
+        h.parentNode?.insertBefore(br, h);
+      }
       const label = document.createElement("span");
       label.setAttribute("data-doc-label", "");
       label.className =
