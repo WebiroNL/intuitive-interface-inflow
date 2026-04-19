@@ -484,3 +484,13 @@
     transform: scale(var(--iframe-scale)) translateY(-2600px);
   }
 }
+
+/* Hide scrollbar for horizontal carousels while keeping scroll functional */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
