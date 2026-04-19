@@ -30,7 +30,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   bedrijf: "Bedrijf",
 };
 
-const CATEGORY_ORDER = ["bedrijf", "legal"];
+const CATEGORY_ORDER = ["legal"];
 
 function slugify(text: string) {
   return text
