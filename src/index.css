@@ -485,6 +485,11 @@
   }
 }
 
+@keyframes phoneScroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1200px); }
+}
+
 /* Hide scrollbar for horizontal carousels while keeping scroll functional */
 .no-scrollbar {
   scrollbar-width: none;
@@ -493,4 +498,5 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 
