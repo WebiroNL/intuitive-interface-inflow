@@ -152,7 +152,7 @@ const whyItems = [
 const tools = [
   { name: "Figma", src: "/images/tools/figma.svg" },
   { name: "Framer", src: "/images/tools/framer.svg" },
-  { name: "Spline", src: "/images/tools/spline.svg" },
+  { name: "Spline", src: "/images/tools/spline.png" },
   { name: "Webflow", src: "/images/tools/webflow.svg" },
   { name: "Shopify", src: "/images/tools/shopify.svg" },
   { name: "WordPress", src: "/images/tools/wordpress.svg" },
