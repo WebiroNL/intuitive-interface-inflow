@@ -198,7 +198,7 @@ export default function LegalPageView() {
               </>
             )}
           </div>
-          <h1 className="text-[32px] lg:text-[40px] leading-[1.1] tracking-[-0.025em] font-semibold text-foreground mb-6">
+          <h1 className="text-[26px] lg:text-[32px] leading-[1.15] tracking-[-0.022em] font-semibold text-foreground mb-6">
             {page.title}
           </h1>
           {page.subtitle && (
