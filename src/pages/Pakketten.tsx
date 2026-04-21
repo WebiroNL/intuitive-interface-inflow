@@ -16,7 +16,7 @@ import { CTASection } from "@/components/CTASection";
 import { BriefingData, ContractDuration } from "@/components/pakketten/types";
 import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "@/components/pakketten/data";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const emptyBriefing: BriefingData = {
