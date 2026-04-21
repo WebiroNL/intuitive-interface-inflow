@@ -16,7 +16,7 @@ import { CTASection } from "@/components/CTASection";
 import { BriefingData, ContractDuration } from "@/components/pakketten/types";
 import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices } from "@/components/pakketten/data";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const emptyBriefing: BriefingData = {
@@ -58,16 +58,18 @@ const Pakketten = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   // Auto-select flow from query param (e.g. ?flow=website or ?flow=marketing)
+  // Reacts to URL changes so switching between flows from the header works.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const flow = params.get('flow') as FlowType | null;
+    const flow = searchParams.get('flow') as FlowType | null;
     if (flow === 'website' || flow === 'marketing') {
       setFlowType(flow);
       setStep(1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     updatePageMeta(
