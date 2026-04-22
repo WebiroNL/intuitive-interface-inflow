@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PartnerProgramNav } from "@/components/admin/PartnerProgramNav";
 
 interface Payout {
   id: string;
@@ -89,6 +90,7 @@ export default function AdminPartnerPayouts() {
 
   return (
     <div className="space-y-6">
+      <PartnerProgramNav />
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Uitbetalingen</h1>
         <p className="text-sm text-muted-foreground mt-1">Beheer payout verzoeken van partners. Markeer als betaald nadat de overschrijving is gedaan.</p>
