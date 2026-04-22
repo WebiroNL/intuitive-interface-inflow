@@ -1373,6 +1373,48 @@ export type Database = {
         }
         Relationships: []
       }
+      showcase_items: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          published: boolean
+          services: string[]
+          sort_order: number
+          tint: string
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          published?: boolean
+          services?: string[]
+          sort_order?: number
+          tint?: string
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          published?: boolean
+          services?: string[]
+          sort_order?: number
+          tint?: string
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
