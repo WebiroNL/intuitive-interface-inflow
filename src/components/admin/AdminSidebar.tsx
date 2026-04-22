@@ -95,43 +95,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
 
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
-          if (item.type === 'group') {
-            return (
-              <div key={item.label}>
-                <button
-                  type="button"
-                  onClick={() => setPartnerOpen((v) => !v)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
-                    isPartnerActive
-                      ? 'text-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                  }`}
-                >
-                  <HugeiconsIcon icon={item.icon} size={16} />
-                  <span className="flex-1 text-left">{item.label}</span>
-                  <HugeiconsIcon icon={partnerOpen ? ArrowDown01Icon : ArrowRight01Icon} size={14} />
-                </button>
-                {partnerOpen && (
-                  <div className="mt-0.5 ml-3 pl-3 border-l border-border space-y-0.5">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        to={child.href}
-                        className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
-                          isActive(child.href)
-                            ? 'bg-primary/10 text-primary'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                        }`}
-                      >
-                        <HugeiconsIcon icon={child.icon} size={14} />
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          }
+          if (item.type === 'group') return null;
           return (
             <Link
               key={item.href}
