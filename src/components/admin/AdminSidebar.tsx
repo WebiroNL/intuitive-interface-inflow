@@ -59,7 +59,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
 
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
-    if (mobileOpen && window.matchMedia("(max-width: 899px)").matches) {
+    if (mobileOpen && window.matchMedia("(max-width: 767px)").matches) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       return () => { document.body.style.overflow = prev; };
