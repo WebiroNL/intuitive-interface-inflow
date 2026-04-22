@@ -34,8 +34,6 @@ const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
-const AccountLogin = lazy(() => import("./pages/AccountLogin"));
-const AccountDashboard = lazy(() => import("./pages/AccountDashboard"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
