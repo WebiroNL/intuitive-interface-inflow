@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Search01Icon, CheckmarkCircle02Icon, Cancel01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
+import { PartnerProgramNav } from "@/components/admin/PartnerProgramNav";
 
 interface PartnerRow {
   id: string;
