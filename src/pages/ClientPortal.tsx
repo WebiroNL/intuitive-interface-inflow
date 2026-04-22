@@ -32,7 +32,7 @@ export default function ClientPortal() {
 
   // Open op desktop + tablet landscape (>=900px), dicht daaronder
   const [sidebarOpen, setSidebarOpen] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth >= 900 : true
+    typeof window !== "undefined" ? window.innerWidth >= 768 : true
   );
 
   // Sluit automatisch bij route-wijziging op kleine schermen
@@ -45,7 +45,7 @@ export default function ClientPortal() {
   // Reset bij resize
   useEffect(() => {
     const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 900);
+      setSidebarOpen(window.innerWidth >= 768);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
