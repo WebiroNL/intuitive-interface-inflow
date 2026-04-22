@@ -230,15 +230,15 @@ export function Header() {
             {/* Account / Sign in */}
             {user ? (
               <Link
-                to="/account"
+                to="/dashboard"
                 className="inline-flex items-center gap-1.5 px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
               >
                 <HugeiconsIcon icon={User03Icon} size={14} />
-                Account
+                Dashboard
               </Link>
             ) : (
               <Link
-                to="/account/login"
+                to="/dashboard"
                 className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
               >
                 Inloggen
@@ -297,15 +297,15 @@ export function Header() {
               </button>
               {user ? (
                 <Link
-                  to="/account"
+                  to="/dashboard"
                   className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
                 >
                   <HugeiconsIcon icon={User03Icon} size={14} />
-                  Mijn Account
+                  Dashboard
                 </Link>
               ) : (
                 <Link
-                  to="/account/login"
+                  to="/dashboard"
                   className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
                 >
                   Inloggen

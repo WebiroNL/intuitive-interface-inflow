@@ -34,8 +34,6 @@ const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
-const AccountLogin = lazy(() => import("./pages/AccountLogin"));
-const AccountDashboard = lazy(() => import("./pages/AccountDashboard"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
@@ -126,9 +124,9 @@ function AppContent() {
             <Route path="/shop/:handle" element={<ProductDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
-            <Route path="/account/login" element={<AccountLogin />} />
             <Route path="/account/reset-password" element={<AccountResetPassword />} />
-            <Route path="/account" element={<AccountDashboard />} />
+            <Route path="/account/login" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/account" element={<Navigate to="/dashboard" replace />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
             <Route path="/client/login" element={<ClientLogin />} />

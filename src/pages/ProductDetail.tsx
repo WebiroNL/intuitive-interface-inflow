@@ -111,7 +111,7 @@ export default function ProductDetail() {
       toast.info("Log in om producten aan je winkelwagen toe te voegen", {
         action: {
           label: "Inloggen",
-          onClick: () => navigate("/account/login", { state: { returnTo: `/shop/${handle}` } }),
+          onClick: () => navigate("/dashboard", { state: { returnTo: `/shop/${handle}` } }),
         },
       });
       return;

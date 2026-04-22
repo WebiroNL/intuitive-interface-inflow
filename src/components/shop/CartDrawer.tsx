@@ -58,7 +58,7 @@ export const CartDrawer = () => {
       toast.info("Log in om af te rekenen", {
         action: {
           label: "Inloggen",
-          onClick: () => navigate("/account/login", { state: { returnTo: "/shop" } }),
+          onClick: () => navigate("/dashboard", { state: { returnTo: "/shop" } }),
         },
       });
       return;
