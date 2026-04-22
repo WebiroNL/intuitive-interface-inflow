@@ -182,12 +182,36 @@ const showcase = [
 const Home = () => {
   const [activeWebsiteStep, setActiveWebsiteStep] = useState(0);
   const [activeAdsStep, setActiveAdsStep] = useState(0);
+  const [showcaseItems, setShowcaseItems] = useState<ShowcaseItem[]>(showcase);
 
   useEffect(() => {
     updatePageMeta(
       "Webiro – Websites, marketing & automation voor ondernemers",
       "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("showcase_items")
+      .select("title,category,url,description,services,tint")
+      .eq("published", true)
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (cancelled || !data || data.length === 0) return;
+        setShowcaseItems(
+          data.map((d) => ({
+            title: d.title,
+            cat: d.category,
+            url: d.url,
+            desc: d.description,
+            services: d.services ?? [],
+            tint: d.tint,
+          }))
+        );
+      });
+    return () => { cancelled = true; };
   }, []);
 
   const activeWebsite = websiteSteps[activeWebsiteStep];
