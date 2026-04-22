@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
@@ -24,9 +24,15 @@ import {
   CreditCardIcon,
   StarIcon,
   Globe02Icon,
+  ArrowDown01Icon,
+  ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const navItems = [
+type NavItem =
+  | { type?: 'item'; label: string; href: string; icon: any }
+  | { type: 'group'; label: string; icon: any; basePath: string; children: { label: string; href: string; icon: any }[] };
+
+const navItems: NavItem[] = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
   { label: 'Klanten', href: '/admin/clients', icon: UserMultiple02Icon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
@@ -34,10 +40,18 @@ const navItems = [
   { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
   { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
   { label: 'Shop', href: '/admin/shop', icon: Package01Icon },
-  { label: 'Partners', href: '/admin/partners', icon: UserGroupIcon },
-  { label: 'Commissies', href: '/admin/partner-commissions', icon: Coins01Icon },
-  { label: 'Uitbetalingen', href: '/admin/partner-payouts', icon: CreditCardIcon },
-  { label: 'Partner tiers', href: '/admin/partner-tiers', icon: StarIcon },
+  {
+    type: 'group',
+    label: 'Partnerprogramma',
+    icon: UserGroupIcon,
+    basePath: '/admin/partner',
+    children: [
+      { label: 'Partners', href: '/admin/partners', icon: UserGroupIcon },
+      { label: 'Commissies', href: '/admin/partner-commissions', icon: Coins01Icon },
+      { label: 'Uitbetalingen', href: '/admin/partner-payouts', icon: CreditCardIcon },
+      { label: 'Tiers', href: '/admin/partner-tiers', icon: StarIcon },
+    ],
+  },
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Blog', href: '/admin/blog', icon: TextIcon },
@@ -58,6 +72,14 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
 
   const isActive = (href: string) =>
     href === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(href);
+
+  const partnerPaths = ['/admin/partners', '/admin/partner-commissions', '/admin/partner-payouts', '/admin/partner-tiers'];
+  const isPartnerActive = partnerPaths.some((p) => location.pathname.startsWith(p));
+  const [partnerOpen, setPartnerOpen] = useState(isPartnerActive);
+
+  useEffect(() => {
+    if (isPartnerActive) setPartnerOpen(true);
+  }, [isPartnerActive]);
 
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
@@ -87,20 +109,59 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
       </div>
 
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            to={item.href}
-            className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
-              isActive(item.href)
-                ? 'bg-primary/10 text-primary'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-            }`}
-          >
-            <HugeiconsIcon icon={item.icon} size={16} />
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          if (item.type === 'group') {
+            return (
+              <div key={item.label}>
+                <button
+                  type="button"
+                  onClick={() => setPartnerOpen((v) => !v)}
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                    isPartnerActive
+                      ? 'text-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                  }`}
+                >
+                  <HugeiconsIcon icon={item.icon} size={16} />
+                  <span className="flex-1 text-left">{item.label}</span>
+                  <HugeiconsIcon icon={partnerOpen ? ArrowDown01Icon : ArrowRight01Icon} size={14} />
+                </button>
+                {partnerOpen && (
+                  <div className="mt-0.5 ml-3 pl-3 border-l border-border space-y-0.5">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        to={child.href}
+                        className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                          isActive(child.href)
+                            ? 'bg-primary/10 text-primary'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                        }`}
+                      >
+                        <HugeiconsIcon icon={child.icon} size={14} />
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                isActive(item.href)
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+              }`}
+            >
+              <HugeiconsIcon icon={item.icon} size={16} />
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="border-t border-border p-3 space-y-1">
