@@ -14,7 +14,7 @@ export default function PartnerPortal() {
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth >= 900 : true
+    typeof window !== "undefined" ? window.innerWidth >= 768 : true
   );
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function PartnerPortal() {
 
   useEffect(() => {
     const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 900);
+      setSidebarOpen(window.innerWidth >= 768);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

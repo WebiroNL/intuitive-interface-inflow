@@ -46,7 +46,7 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
     exact ? location.pathname === href : location.pathname.startsWith(href);
 
   useEffect(() => {
-    if (mobileOpen && window.matchMedia("(max-width: 899px)").matches) {
+    if (mobileOpen && window.matchMedia("(max-width: 767px)").matches) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       return () => { document.body.style.overflow = prev; };
@@ -65,7 +65,7 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
         <button
           onClick={onClose}
           aria-label="Sluit menu"
-          className="ml-auto min-[900px]:hidden w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          className="ml-auto md:hidden w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
         >
           <HugeiconsIcon icon={Cancel01Icon} size={18} />
         </button>
@@ -108,19 +108,19 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
 
   return (
     <>
-      <aside className="hidden min-[900px]:flex w-[240px] h-screen bg-card border-r border-border flex-col flex-shrink-0 sticky top-0">
+      <aside className="hidden md:flex w-[240px] h-screen bg-card border-r border-border flex-col flex-shrink-0 sticky top-0">
         {sidebarInner}
       </aside>
 
       <div
         onClick={onClose}
-        className={`min-[900px]:hidden fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity ${
+        className={`md:hidden fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity ${
           mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden={!mobileOpen}
       />
       <aside
-        className={`min-[900px]:hidden fixed top-0 left-0 z-50 w-[280px] max-w-[85vw] h-screen bg-card border-r border-border flex flex-col transition-transform duration-300 ease-out ${
+        className={`md:hidden fixed top-0 left-0 z-50 w-[280px] max-w-[85vw] h-screen bg-card border-r border-border flex flex-col transition-transform duration-300 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         role="dialog"
