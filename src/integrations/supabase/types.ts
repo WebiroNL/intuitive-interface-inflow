@@ -917,6 +917,435 @@ export type Database = {
           },
         ]
       }
+      partner_assets: {
+        Row: {
+          active: boolean
+          asset_type: string
+          category: string
+          created_at: string
+          description: string | null
+          download_count: number
+          external_url: string | null
+          file_size: number | null
+          file_url: string | null
+          id: string
+          mime_type: string | null
+          min_tier: Database["public"]["Enums"]["partner_tier_name"]
+          sort_order: number
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          asset_type?: string
+          category?: string
+          created_at?: string
+          description?: string | null
+          download_count?: number
+          external_url?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          mime_type?: string | null
+          min_tier?: Database["public"]["Enums"]["partner_tier_name"]
+          sort_order?: number
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          asset_type?: string
+          category?: string
+          created_at?: string
+          description?: string | null
+          download_count?: number
+          external_url?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          mime_type?: string | null
+          min_tier?: Database["public"]["Enums"]["partner_tier_name"]
+          sort_order?: number
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      partner_commissions: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          commission_amount: number
+          commission_percentage: number
+          conversion_source: Database["public"]["Enums"]["partner_conversion_source"]
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          id: string
+          is_recurring: boolean
+          notes: string | null
+          order_id: string | null
+          partner_id: string
+          payout_id: string | null
+          product_id: string | null
+          product_name: string
+          product_type: Database["public"]["Enums"]["partner_product_type"]
+          recurring_months: number | null
+          sale_amount: number
+          shopify_order_id: string | null
+          status: Database["public"]["Enums"]["partner_commission_status"]
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          commission_amount?: number
+          commission_percentage?: number
+          conversion_source?: Database["public"]["Enums"]["partner_conversion_source"]
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          is_recurring?: boolean
+          notes?: string | null
+          order_id?: string | null
+          partner_id: string
+          payout_id?: string | null
+          product_id?: string | null
+          product_name: string
+          product_type: Database["public"]["Enums"]["partner_product_type"]
+          recurring_months?: number | null
+          sale_amount?: number
+          shopify_order_id?: string | null
+          status?: Database["public"]["Enums"]["partner_commission_status"]
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          commission_amount?: number
+          commission_percentage?: number
+          conversion_source?: Database["public"]["Enums"]["partner_conversion_source"]
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          is_recurring?: boolean
+          notes?: string | null
+          order_id?: string | null
+          partner_id?: string
+          payout_id?: string | null
+          product_id?: string | null
+          product_name?: string
+          product_type?: Database["public"]["Enums"]["partner_product_type"]
+          recurring_months?: number | null
+          sale_amount?: number
+          shopify_order_id?: string | null
+          status?: Database["public"]["Enums"]["partner_commission_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_commissions_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_payouts: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          bank_reference: string | null
+          commission_count: number
+          created_at: string
+          iban: string | null
+          id: string
+          invoice_number: string | null
+          invoice_url: string | null
+          paid_at: string | null
+          paid_by: string | null
+          partner_id: string
+          partner_notes: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["partner_payout_status"]
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount?: number
+          bank_reference?: string | null
+          commission_count?: number
+          created_at?: string
+          iban?: string | null
+          id?: string
+          invoice_number?: string | null
+          invoice_url?: string | null
+          paid_at?: string | null
+          paid_by?: string | null
+          partner_id: string
+          partner_notes?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["partner_payout_status"]
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          bank_reference?: string | null
+          commission_count?: number
+          created_at?: string
+          iban?: string | null
+          id?: string
+          invoice_number?: string | null
+          invoice_url?: string | null
+          paid_at?: string | null
+          paid_by?: string | null
+          partner_id?: string
+          partner_notes?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["partner_payout_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_referrals: {
+        Row: {
+          converted: boolean
+          converted_at: string | null
+          converted_order_id: string | null
+          created_at: string
+          id: string
+          ip_hash: string | null
+          landing_page: string | null
+          partner_id: string
+          referral_code: string
+          referrer: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          converted?: boolean
+          converted_at?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          landing_page?: string | null
+          partner_id: string
+          referral_code: string
+          referrer?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          converted?: boolean
+          converted_at?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          landing_page?: string | null
+          partner_id?: string
+          referral_code?: string
+          referrer?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_tiers: {
+        Row: {
+          benefits: Json
+          color: string
+          commission_addon: number
+          commission_marketing: number
+          commission_shop: number
+          commission_website: number
+          created_at: string
+          customer_discount: number
+          description: string | null
+          display_name: string
+          id: string
+          max_revenue: number | null
+          min_revenue: number
+          sort_order: number
+          tier: Database["public"]["Enums"]["partner_tier_name"]
+          updated_at: string
+        }
+        Insert: {
+          benefits?: Json
+          color?: string
+          commission_addon?: number
+          commission_marketing?: number
+          commission_shop?: number
+          commission_website?: number
+          created_at?: string
+          customer_discount?: number
+          description?: string | null
+          display_name: string
+          id?: string
+          max_revenue?: number | null
+          min_revenue?: number
+          sort_order?: number
+          tier: Database["public"]["Enums"]["partner_tier_name"]
+          updated_at?: string
+        }
+        Update: {
+          benefits?: Json
+          color?: string
+          commission_addon?: number
+          commission_marketing?: number
+          commission_shop?: number
+          commission_website?: number
+          created_at?: string
+          customer_discount?: number
+          description?: string | null
+          display_name?: string
+          id?: string
+          max_revenue?: number | null
+          min_revenue?: number
+          sort_order?: number
+          tier?: Database["public"]["Enums"]["partner_tier_name"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      partners: {
+        Row: {
+          address_city: string | null
+          address_country: string | null
+          address_postal: string | null
+          address_street: string | null
+          agreed_terms_at: string | null
+          approved_at: string | null
+          approved_by: string | null
+          available_balance: number
+          avatar_url: string | null
+          bank_name: string | null
+          btw_number: string | null
+          company_name: string
+          contact_person: string
+          created_at: string
+          discount_code: string
+          email: string
+          iban: string | null
+          id: string
+          kvk_number: string | null
+          notes: string | null
+          pending_balance: number
+          phone: string | null
+          referral_code: string
+          status: Database["public"]["Enums"]["partner_status"]
+          tier: Database["public"]["Enums"]["partner_tier_name"]
+          total_commission: number
+          total_conversions: number
+          total_paid: number
+          total_referrals: number
+          total_revenue: number
+          updated_at: string
+          user_id: string | null
+          website: string | null
+        }
+        Insert: {
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
+          agreed_terms_at?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          available_balance?: number
+          avatar_url?: string | null
+          bank_name?: string | null
+          btw_number?: string | null
+          company_name: string
+          contact_person: string
+          created_at?: string
+          discount_code: string
+          email: string
+          iban?: string | null
+          id?: string
+          kvk_number?: string | null
+          notes?: string | null
+          pending_balance?: number
+          phone?: string | null
+          referral_code: string
+          status?: Database["public"]["Enums"]["partner_status"]
+          tier?: Database["public"]["Enums"]["partner_tier_name"]
+          total_commission?: number
+          total_conversions?: number
+          total_paid?: number
+          total_referrals?: number
+          total_revenue?: number
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+        }
+        Update: {
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
+          agreed_terms_at?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          available_balance?: number
+          avatar_url?: string | null
+          bank_name?: string | null
+          btw_number?: string | null
+          company_name?: string
+          contact_person?: string
+          created_at?: string
+          discount_code?: string
+          email?: string
+          iban?: string | null
+          id?: string
+          kvk_number?: string | null
+          notes?: string | null
+          pending_balance?: number
+          phone?: string | null
+          referral_code?: string
+          status?: Database["public"]["Enums"]["partner_status"]
+          tier?: Database["public"]["Enums"]["partner_tier_name"]
+          total_commission?: number
+          total_conversions?: number
+          total_paid?: number
+          total_referrals?: number
+          total_revenue?: number
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -997,7 +1426,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_partner_code: { Args: { prefix?: string }; Returns: string }
       get_my_client_id: { Args: never; Returns: string }
+      get_my_partner_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1005,9 +1436,25 @@ export type Database = {
         }
         Returns: boolean
       }
+      recalculate_partner_balance: {
+        Args: { p_partner_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      partner_commission_status: "pending" | "approved" | "paid" | "cancelled"
+      partner_conversion_source: "link" | "code" | "manual"
+      partner_payout_status: "requested" | "approved" | "paid" | "rejected"
+      partner_product_type:
+        | "website_package"
+        | "marketing_service"
+        | "shop_product"
+        | "addon"
+        | "cms_hosting"
+        | "other"
+      partner_status: "pending" | "approved" | "suspended" | "rejected"
+      partner_tier_name: "bronze" | "silver" | "gold"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1136,6 +1583,19 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      partner_commission_status: ["pending", "approved", "paid", "cancelled"],
+      partner_conversion_source: ["link", "code", "manual"],
+      partner_payout_status: ["requested", "approved", "paid", "rejected"],
+      partner_product_type: [
+        "website_package",
+        "marketing_service",
+        "shop_product",
+        "addon",
+        "cms_hosting",
+        "other",
+      ],
+      partner_status: ["pending", "approved", "suspended", "rejected"],
+      partner_tier_name: ["bronze", "silver", "gold"],
     },
   },
 } as const
