@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Search01Icon, CheckmarkCircle02Icon, Cancel01Icon, UserGroupIcon, Coins01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { Search01Icon, CheckmarkCircle02Icon, Cancel01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 
 interface PartnerRow {
