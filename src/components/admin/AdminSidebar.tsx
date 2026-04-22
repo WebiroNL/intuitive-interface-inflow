@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
