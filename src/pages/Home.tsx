@@ -12,7 +12,8 @@ import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { LazyIframe } from "@/components/LazyIframe";
-import { PhoneShowcase } from "@/components/PhoneShowcase";
+import { PhoneShowcase, type ShowcaseItem } from "@/components/PhoneShowcase";
+import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Fake website mockup for bento cards ─── */
 const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
@@ -181,12 +182,36 @@ const showcase = [
 const Home = () => {
   const [activeWebsiteStep, setActiveWebsiteStep] = useState(0);
   const [activeAdsStep, setActiveAdsStep] = useState(0);
+  const [showcaseItems, setShowcaseItems] = useState<ShowcaseItem[]>(showcase);
 
   useEffect(() => {
     updatePageMeta(
       "Webiro – Websites, marketing & automation voor ondernemers",
       "Professionele websites binnen 7 dagen live. Marketing, automation en AI voor structurele groei. Betaalbaar vanaf €449."
     );
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("showcase_items")
+      .select("title,category,url,description,services,tint")
+      .eq("published", true)
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (cancelled || !data || data.length === 0) return;
+        setShowcaseItems(
+          data.map((d) => ({
+            title: d.title,
+            cat: d.category,
+            url: d.url,
+            desc: d.description,
+            services: d.services ?? [],
+            tint: d.tint,
+          }))
+        );
+      });
+    return () => { cancelled = true; };
   }, []);
 
   const activeWebsite = websiteSteps[activeWebsiteStep];
@@ -546,7 +571,7 @@ const Home = () => {
         {/* Carousel constrained to container width like the rest of the page */}
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
           <div className="relative -mt-2">
-            <PhoneShowcase items={showcase} />
+            <PhoneShowcase items={showcaseItems} />
           </div>
         </div>
       </section>
