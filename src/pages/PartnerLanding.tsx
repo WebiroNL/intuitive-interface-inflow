@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  HandshakeIcon,
+  Handshake01Icon,
   Coins01Icon,
   ChartLineData01Icon,
   Award01Icon,
@@ -13,7 +13,7 @@ import {
   CheckmarkCircle01Icon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
-import { setSeoTags } from "@/utils/seo";
+import { updatePageMeta } from "@/utils/seo";
 
 interface Tier {
   id: string;
