@@ -29,6 +29,11 @@ import {
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
+type NavItem =
+  | { type?: 'item'; label: string; href: string; icon: any }
+  | { type: 'group'; label: string; icon: any; basePath: string; children: { label: string; href: string; icon: any }[] };
+
+const navItems: NavItem[] = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
   { label: 'Klanten', href: '/admin/clients', icon: UserMultiple02Icon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
@@ -36,10 +41,18 @@ const navItems = [
   { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
   { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
   { label: 'Shop', href: '/admin/shop', icon: Package01Icon },
-  { label: 'Partners', href: '/admin/partners', icon: UserGroupIcon },
-  { label: 'Commissies', href: '/admin/partner-commissions', icon: Coins01Icon },
-  { label: 'Uitbetalingen', href: '/admin/partner-payouts', icon: CreditCardIcon },
-  { label: 'Partner tiers', href: '/admin/partner-tiers', icon: StarIcon },
+  {
+    type: 'group',
+    label: 'Partnerprogramma',
+    icon: UserGroupIcon,
+    basePath: '/admin/partner',
+    children: [
+      { label: 'Partners', href: '/admin/partners', icon: UserGroupIcon },
+      { label: 'Commissies', href: '/admin/partner-commissions', icon: Coins01Icon },
+      { label: 'Uitbetalingen', href: '/admin/partner-payouts', icon: CreditCardIcon },
+      { label: 'Tiers', href: '/admin/partner-tiers', icon: StarIcon },
+    ],
+  },
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Blog', href: '/admin/blog', icon: TextIcon },
