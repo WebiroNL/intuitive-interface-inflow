@@ -28,7 +28,6 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const navItems = [
 type NavItem =
   | { type?: 'item'; label: string; href: string; icon: any }
   | { type: 'group'; label: string; icon: any; basePath: string; children: { label: string; href: string; icon: any }[] };
