@@ -207,7 +207,27 @@ export default function ProcessVisual({
   const currentStep = isControlled ? activeStep : internalActive;
   const ActiveScreen = screens[currentStep];
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
     const timer = setInterval(() => {
       const nextStep = (currentStep + 1) % 3;
       if (!isControlled) {
@@ -217,7 +237,7 @@ export default function ProcessVisual({
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [currentStep, isControlled, onStepChange]);
+  }, [currentStep, isControlled, onStepChange, isVisible]);
 
   const handleStepChange = (step: number) => {
     if (!isControlled) {
@@ -227,7 +247,7 @@ export default function ProcessVisual({
   };
 
   return (
-    <div className="relative w-full max-w-[860px] mx-auto">
+    <div ref={wrapperRef} className="relative w-full max-w-[860px] mx-auto">
       {/* Device frame */}
       <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
         {/* Top bar */}
