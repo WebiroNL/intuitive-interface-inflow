@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Handshake01Icon,
+  HandBag01Icon,
   Coins01Icon,
   ChartLineData01Icon,
   Award01Icon,
