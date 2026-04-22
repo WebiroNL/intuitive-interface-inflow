@@ -59,16 +59,12 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const { signOut, user } = useAuth();
   const isDark = document.documentElement.classList.contains('dark');
 
-  const isActive = (href: string) =>
-    href === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(href);
-
   const partnerPaths = ['/admin/partners', '/admin/partner-commissions', '/admin/partner-payouts', '/admin/partner-tiers'];
-  const isPartnerActive = partnerPaths.some((p) => location.pathname.startsWith(p));
-  const [partnerOpen, setPartnerOpen] = useState(isPartnerActive);
-
-  useEffect(() => {
-    if (isPartnerActive) setPartnerOpen(true);
-  }, [isPartnerActive]);
+  const isActive = (href: string) => {
+    if (href === '/admin') return location.pathname === '/admin';
+    if (href === '/admin/partners') return partnerPaths.some((p) => location.pathname.startsWith(p));
+    return location.pathname.startsWith(href);
+  };
 
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
