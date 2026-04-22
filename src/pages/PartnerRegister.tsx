@@ -144,12 +144,12 @@ export default function PartnerRegister() {
             <h2 className="text-[15px] font-semibold text-foreground">Uitbetaling</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="iban">IBAN</Label>
-                <Input id="iban" placeholder="NL00 BANK 0000 0000 00" value={form.iban} onChange={(e) => update("iban", e.target.value)} />
+                <Label htmlFor="bank_name">Rekeninghouder</Label>
+                <Input id="bank_name" value={form.bank_name} onChange={(e) => update("bank_name", e.target.value)} />
               </div>
               <div>
-                <Label htmlFor="bank_name">Banknaam</Label>
-                <Input id="bank_name" value={form.bank_name} onChange={(e) => update("bank_name", e.target.value)} />
+                <Label htmlFor="iban">IBAN</Label>
+                <Input id="iban" placeholder="NL00 BANK 0000 0000 00" value={form.iban} onChange={(e) => update("iban", e.target.value)} />
               </div>
             </div>
           </section>
