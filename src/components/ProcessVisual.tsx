@@ -247,9 +247,9 @@ export default function ProcessVisual({
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-[860px] mx-auto">
+    <div ref={wrapperRef} className="relative w-full max-w-[860px] mx-auto h-full flex">
       {/* Device frame */}
-      <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
+      <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden flex flex-col flex-1">
         {/* Top bar */}
         {showTabs && (
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
@@ -272,7 +272,7 @@ export default function ProcessVisual({
         )}
 
         {/* Screen area */}
-        <div className="relative h-[420px] md:h-[500px] overflow-hidden">
+        <div className="relative flex-1 min-h-[320px] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}

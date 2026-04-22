@@ -423,7 +423,7 @@ const Home = () => {
                   </button>
                 </div>
 
-                <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-center">
+                <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-stretch">
                   <div className="flex justify-center">
                     {isWebsite ? (
                       <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
