@@ -39,6 +39,10 @@ const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
+const PartnerLanding = lazy(() => import("./pages/PartnerLanding"));
+const PartnerLogin = lazy(() => import("./pages/PartnerLogin"));
+const PartnerRegister = lazy(() => import("./pages/PartnerRegister"));
+const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -79,7 +83,8 @@ function AppContent() {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isReportRoute = location.pathname.startsWith('/novellerapport');
   const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login';
-  const hideChrome = isAdminRoute || isReportRoute || isClientRoute;
+  const isPartnerPortalRoute = location.pathname.startsWith('/partner/dashboard') || location.pathname === '/partner/login' || location.pathname === '/partner/register';
+  const hideChrome = isAdminRoute || isReportRoute || isClientRoute || isPartnerPortalRoute;
   useCartSync();
 
   return (
@@ -122,6 +127,10 @@ function AppContent() {
             <Route path="/novellerapport" element={<NovelleRapport />} />
             <Route path="/client/login" element={<ClientLogin />} />
             <Route path="/dashboard/*" element={<ClientPortal />} />
+            <Route path="/partner" element={<PartnerLanding />} />
+            <Route path="/partner/login" element={<PartnerLogin />} />
+            <Route path="/partner/register" element={<PartnerRegister />} />
+            <Route path="/partner/dashboard/*" element={<PartnerPortal />} />
             {/* Legacy aliases */}
             <Route path="/login" element={<Navigate to="/client/login" replace />} />
             <Route path="/client/:slug/*" element={<Navigate to="/dashboard" replace />} />
