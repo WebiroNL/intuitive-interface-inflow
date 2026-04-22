@@ -11,8 +11,8 @@ import webiroLogo from "@/assets/logo-webiro.svg";
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("info@sopmi.com");
+  const [password, setPassword] = useState("mihran12345");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
