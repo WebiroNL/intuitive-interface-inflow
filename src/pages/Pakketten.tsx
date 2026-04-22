@@ -176,7 +176,7 @@ const Pakketten = () => {
           .single();
 
         // 4. Create order
-        await supabase
+        const { data: createdOrder } = await supabase
           .from("orders")
           .insert({
             user_id: userId,
@@ -192,7 +192,42 @@ const Pakketten = () => {
             totaal,
             maandelijks,
             status: "nieuw",
-          } as any);
+          } as any)
+          .select("id")
+          .single();
+
+        // 5. Partner attribution (referral cookie or discount code in briefing)
+        try {
+          const { getPartnerRef } = await import("@/lib/partnerTracking");
+          const cookieRef = getPartnerRef();
+          const codeRef = (briefing.kortingscode || "").trim() || null;
+          const refCode = codeRef || cookieRef;
+          if (refCode && createdOrder?.id) {
+            const items: any[] = [];
+            if (pkg && eenmalig > 0) {
+              items.push({ product_type: "website_package", product_name: pkg.name, product_id: pkg.id, sale_amount: eenmalig });
+            }
+            marketingItems.forEach((m) => {
+              if (m.setupPrice) items.push({ product_type: "marketing_service", product_name: `${m.name} (setup)`, product_id: m.id, sale_amount: m.setupPrice });
+              if (m.monthlyPrice) items.push({ product_type: "marketing_service", product_name: m.name, product_id: m.id, sale_amount: m.monthlyPrice, is_recurring: true, recurring_months: 12 });
+            });
+            if (cmsMonthly > 0 && cmsHosting) {
+              items.push({ product_type: "cms_hosting", product_name: cmsHosting.name, product_id: cmsHosting.id, sale_amount: cmsMonthly, is_recurring: true, recurring_months: 12 });
+            }
+            await supabase.functions.invoke("partner-attribute", {
+              body: {
+                referral_code: refCode,
+                order_id: createdOrder.id,
+                customer_name: briefing.naam,
+                customer_email: briefing.email,
+                conversion_source: codeRef ? "code" : "link",
+                items,
+              },
+            });
+          }
+        } catch (err) {
+          console.warn("Partner attribution failed", err);
+        }
 
         setSubmitted(true);
         toast.success("Bestelling succesvol geplaatst!");
