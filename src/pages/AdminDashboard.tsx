@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="flex-1 min-w-0 overflow-auto flex flex-col">
         {/* Mobile/tablet portrait topbar with hamburger */}
-        <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center px-4 gap-3 min-[900px]:hidden">
+        <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center px-4 gap-3 md:hidden">
           <button
             onClick={() => setSidebarOpen((v) => !v)}
             aria-label={sidebarOpen ? 'Sluit menu' : 'Open menu'}
