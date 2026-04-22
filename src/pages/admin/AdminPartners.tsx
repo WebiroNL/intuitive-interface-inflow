@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Search01Icon, CheckmarkCircle02Icon, Cancel01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
+import { PartnerProgramNav } from "@/components/admin/PartnerProgramNav";
 
 interface PartnerRow {
   id: string;
@@ -103,21 +104,11 @@ export default function AdminPartners() {
 
   return (
     <div className="space-y-6">
+      <PartnerProgramNav />
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Partners</h1>
           <p className="text-sm text-muted-foreground mt-1">Beheer partner accounts, goedkeuring en commissies.</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link to="/admin/partner-tiers" className="text-sm px-3 py-2 rounded-md border border-border hover:bg-muted/50 transition-colors flex items-center gap-2">
-            Tiers beheren <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
-          </Link>
-          <Link to="/admin/partner-commissions" className="text-sm px-3 py-2 rounded-md border border-border hover:bg-muted/50 transition-colors flex items-center gap-2">
-            Commissies <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
-          </Link>
-          <Link to="/admin/partner-payouts" className="text-sm px-3 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-2">
-            Uitbetalingen <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
-          </Link>
         </div>
       </div>
 

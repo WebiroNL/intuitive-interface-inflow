@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkCircle02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { PartnerProgramNav } from "@/components/admin/PartnerProgramNav";
 
 interface Commission {
   id: string;
@@ -70,6 +71,7 @@ export default function AdminPartnerCommissions() {
 
   return (
     <div className="space-y-6">
+      <PartnerProgramNav />
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Commissies</h1>
         <p className="text-sm text-muted-foreground mt-1">Keur commissies goed zodra de bestelling is geleverd. Goedgekeurde commissies worden uitgekeerd.</p>
