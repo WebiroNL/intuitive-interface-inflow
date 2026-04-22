@@ -36,12 +36,12 @@ const AdminDashboard = () => {
 
   // Open op desktop + tablet landscape (>=900px), dicht daaronder
   const [sidebarOpen, setSidebarOpen] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth >= 900 : true
+    typeof window !== 'undefined' ? window.innerWidth >= 768 : true
   );
 
   // Sluit automatisch bij route-wijziging op kleine schermen
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 900) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setSidebarOpen(false);
     }
   }, [location.pathname]);
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   // Reset bij resize
   useEffect(() => {
     const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 900);
+      setSidebarOpen(window.innerWidth >= 768);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="flex-1 min-w-0 overflow-auto flex flex-col">
         {/* Mobile/tablet portrait topbar with hamburger */}
-        <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center px-4 gap-3 min-[900px]:hidden">
+        <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center px-4 gap-3 md:hidden">
           <button
             onClick={() => setSidebarOpen((v) => !v)}
             aria-label={sidebarOpen ? 'Sluit menu' : 'Open menu'}
