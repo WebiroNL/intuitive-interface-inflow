@@ -21,7 +21,7 @@ const AccountResetPassword = () => {
     const hash = window.location.hash;
     if (!hash.includes('type=recovery')) {
       // No recovery token, redirect
-      navigate('/account/login');
+      navigate('/dashboard');
     }
   }, [navigate]);
 
@@ -42,7 +42,7 @@ const AccountResetPassword = () => {
       setError(error.message);
     } else {
       setSuccess(true);
-      setTimeout(() => navigate('/account'), 2000);
+      setTimeout(() => navigate('/dashboard'), 2000);
     }
     setLoading(false);
   };
