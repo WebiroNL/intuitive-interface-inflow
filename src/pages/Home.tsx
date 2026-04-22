@@ -543,9 +543,11 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Carousel breaks out of container so cards can peek to the edge */}
-        <div className="relative -mt-2 pb-20 lg:pb-28">
-          <PhoneShowcase items={showcase} />
+        {/* Carousel constrained to container width like the rest of the page */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
+          <div className="relative -mt-2">
+            <PhoneShowcase items={showcase} />
+          </div>
         </div>
       </section>
 
