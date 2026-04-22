@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Search01Icon, FlashIcon, ChartIncreaseIcon } from "@hugeicons/core-free-icons";
@@ -144,7 +144,27 @@ export default function AdsProcessVisual({
   const currentStep = isControlled ? activeStep : internalActive;
   const ActiveScreen = screens[currentStep];
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
     const timer = setInterval(() => {
       const nextStep = (currentStep + 1) % phases.length;
       if (!isControlled) {
@@ -154,7 +174,7 @@ export default function AdsProcessVisual({
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [currentStep, isControlled, onStepChange]);
+  }, [currentStep, isControlled, onStepChange, isVisible]);
 
   const handleStepChange = (step: number) => {
     if (!isControlled) {
@@ -164,7 +184,7 @@ export default function AdsProcessVisual({
   };
 
   return (
-    <div className="relative w-full max-w-[460px]">
+    <div ref={wrapperRef} className="relative w-full max-w-[460px]">
       <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
         {showTabs && (
           <div className="flex items-center px-4 py-3 border-b border-border bg-muted/30">
