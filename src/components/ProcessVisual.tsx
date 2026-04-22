@@ -227,7 +227,7 @@ export default function ProcessVisual({
   };
 
   return (
-    <div className="relative w-full max-w-[460px]">
+    <div className="relative w-full max-w-[860px] mx-auto">
       {/* Device frame */}
       <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
         {/* Top bar */}
