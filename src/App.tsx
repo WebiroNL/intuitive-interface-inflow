@@ -5,12 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/hooks/useAuth";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { useCartSync } from "@/hooks/useCartSync";
+import { captureReferralFromUrl } from "@/lib/partnerTracking";
 
 // Lazy load pages
 const Home = lazy(() => import("./pages/Home"));
@@ -86,6 +87,11 @@ function AppContent() {
   const isPartnerPortalRoute = location.pathname.startsWith('/partner/dashboard') || location.pathname === '/partner/login' || location.pathname === '/partner/register';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute || isPartnerPortalRoute;
   useCartSync();
+
+  // Capture ?ref= / ?partner= on initial load and on every route change
+  useEffect(() => {
+    captureReferralFromUrl();
+  }, [location.pathname, location.search]);
 
   return (
     <>
