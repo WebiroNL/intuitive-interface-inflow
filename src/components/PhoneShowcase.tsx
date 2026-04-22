@@ -218,8 +218,8 @@ export function PhoneShowcase({ items }: PhoneShowcaseProps) {
         ref={scrollerRef}
         className="flex gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar"
         style={{
-          scrollPaddingInline: "1.5rem",
-          paddingInline: "1.5rem",
+          scrollPaddingInline: "0.25rem",
+          paddingInline: "0.25rem",
         }}
       >
         {items.map((item, i) => {
