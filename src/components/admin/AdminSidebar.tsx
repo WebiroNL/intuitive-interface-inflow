@@ -41,6 +41,7 @@ const navItems = [
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Blog', href: '/admin/blog', icon: TextIcon },
+  { label: 'Showcase', href: '/admin/showcase', icon: Globe02Icon },
   { label: "Pagina's", href: '/admin/pages', icon: File01Icon },
   { label: 'Instellingen', href: '/admin/settings', icon: Settings01Icon },
 ];
