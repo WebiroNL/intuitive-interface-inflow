@@ -302,7 +302,7 @@ const Pakketten = () => {
             </p>
             <div className="flex gap-3 justify-center">
               <button
-                onClick={() => navigate('/account/login')}
+                onClick={() => navigate('/dashboard')}
                 className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
               >
                 Inloggen <ArrowRight className="w-4 h-4" />
