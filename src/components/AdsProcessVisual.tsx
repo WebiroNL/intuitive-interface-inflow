@@ -184,8 +184,8 @@ export default function AdsProcessVisual({
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-[460px]">
-      <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden">
+    <div ref={wrapperRef} className="relative w-full max-w-[860px] mx-auto h-full flex">
+      <div className="rounded-2xl border border-border bg-card shadow-lg overflow-hidden flex flex-col flex-1">
         {showTabs && (
           <div className="flex items-center px-4 py-3 border-b border-border bg-muted/30">
             <div className="flex gap-1.5">
