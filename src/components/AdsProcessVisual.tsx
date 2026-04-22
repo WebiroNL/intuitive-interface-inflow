@@ -206,7 +206,7 @@ export default function AdsProcessVisual({
           </div>
         )}
 
-        <div className="relative h-[220px] overflow-hidden">
+        <div className="relative flex-1 min-h-[320px] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
