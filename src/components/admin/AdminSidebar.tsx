@@ -24,6 +24,9 @@ import {
   CreditCardIcon,
   StarIcon,
   Globe02Icon,
+  ArrowDown01Icon,
+  ArrowRight01Icon,
+  Handshake01Icon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
