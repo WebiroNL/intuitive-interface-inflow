@@ -35,13 +35,13 @@ export default function PartnerLanding() {
   const [tiers, setTiers] = useState<Tier[]>([]);
 
   useEffect(() => {
-    setSeoTags({
-      title: "Webiro Partner Programma — Verdien aan elke verwijzing",
-      description:
-        "Word Webiro partner. Verdien tot 20% commissie op websites, marketing en shop producten. Eigen referral link, kortingscode en dashboard.",
-    });
+    updatePageMeta(
+      "Webiro Partner Programma — Verdien aan elke verwijzing",
+      "Word Webiro partner. Verdien tot 20% commissie op websites, marketing en shop producten.",
+      "/partner",
+    );
     supabase
-      .from("partner_tiers")
+      .from("partner_tiers" as never)
       .select("*")
       .order("sort_order")
       .then(({ data }) => setTiers((data as Tier[]) ?? []));
@@ -54,7 +54,7 @@ export default function PartnerLanding() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
-              <HugeiconsIcon icon={HandshakeIcon} size={14} />
+              <HugeiconsIcon icon={HandBag01Icon} size={14} />
               Partner Programma
             </div>
             <h1 className="text-[44px] lg:text-[64px] leading-[1.05] font-semibold tracking-tight text-foreground">
@@ -93,7 +93,7 @@ export default function PartnerLanding() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: HandshakeIcon,
+                icon: HandBag01Icon,
                 title: "1. Meld je aan",
                 desc: "Vul de aanmelding in. Na goedkeuring krijg je een persoonlijke referral link en kortingscode.",
               },
