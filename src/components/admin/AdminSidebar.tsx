@@ -73,6 +73,14 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const isActive = (href: string) =>
     href === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(href);
 
+  const partnerPaths = ['/admin/partners', '/admin/partner-commissions', '/admin/partner-payouts', '/admin/partner-tiers'];
+  const isPartnerActive = partnerPaths.some((p) => location.pathname.startsWith(p));
+  const [partnerOpen, setPartnerOpen] = useState(isPartnerActive);
+
+  useEffect(() => {
+    if (isPartnerActive) setPartnerOpen(true);
+  }, [isPartnerActive]);
+
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
     if (mobileOpen && window.matchMedia("(max-width: 767px)").matches) {
