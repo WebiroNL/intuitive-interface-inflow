@@ -238,7 +238,7 @@ export function Header() {
               </Link>
             ) : (
               <Link
-                to="/dashboard"
+                to="/client/login"
                 className="px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
               >
                 Inloggen
@@ -305,7 +305,7 @@ export function Header() {
                 </Link>
               ) : (
                 <Link
-                  to="/dashboard"
+                  to="/client/login"
                   className="py-2.5 px-3 text-[14px] font-medium border border-input rounded-[6px] text-center hover:bg-muted/20 transition-colors"
                 >
                   Inloggen
