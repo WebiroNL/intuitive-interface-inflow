@@ -23,6 +23,7 @@ import {
   Coins01Icon,
   CreditCardIcon,
   StarIcon,
+  Globe02Icon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
