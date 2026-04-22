@@ -12,8 +12,8 @@ import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 export default function PartnerLogin() {
   const navigate = useNavigate();
   const { signIn } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@partner.webiro.nl");
+  const [password, setPassword] = useState("DemoPartner2026!");
   const [loading, setLoading] = useState(false);
   const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
 
