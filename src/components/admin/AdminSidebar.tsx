@@ -19,6 +19,10 @@ import {
   UserMultiple02Icon,
   Cancel01Icon,
   File01Icon,
+  Handshake01Icon,
+  Coins01Icon,
+  CreditCardIcon,
+  StarIcon,
 } from "@hugeicons/core-free-icons";
 
 const navItems = [
@@ -29,6 +33,10 @@ const navItems = [
   { label: 'Statistieken', href: '/admin/stats', icon: BarChartIcon },
   { label: 'Berichten', href: '/admin/messages', icon: MessageMultiple01Icon },
   { label: 'Shop', href: '/admin/shop', icon: Package01Icon },
+  { label: 'Partners', href: '/admin/partners', icon: Handshake01Icon },
+  { label: 'Commissies', href: '/admin/partner-commissions', icon: Coins01Icon },
+  { label: 'Uitbetalingen', href: '/admin/partner-payouts', icon: CreditCardIcon },
+  { label: 'Partner tiers', href: '/admin/partner-tiers', icon: StarIcon },
   { label: 'Integraties', href: '/admin/integrations', icon: PlugSocketIcon },
   { label: 'Moodboards', href: '/admin/moodboards', icon: PaintBrushIcon },
   { label: 'Blog', href: '/admin/blog', icon: TextIcon },
