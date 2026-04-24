@@ -468,7 +468,7 @@ const Home = () => {
                         <button
                           key={step.id}
                           onClick={() => setActiveIdx(index)}
-                          className={`w-full text-left rounded-xl border p-4 transition-all duration-300 min-h-[80px] ${
+                          className={`w-full text-left rounded-xl border p-4 transition-all duration-300 min-h-[56px] ${
                             isActive ? `${colorClasses.border} ${colorClasses.bg} shadow-sm` : "border-border bg-card hover:bg-muted/40"
                           }`}
                         >
