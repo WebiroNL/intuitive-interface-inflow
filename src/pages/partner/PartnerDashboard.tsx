@@ -5,6 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Copy01Icon, CheckmarkCircle01Icon, Coins01Icon, Link01Icon, UserGroup02Icon, Award01Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { PartnerProfileForm } from "@/components/partner/PartnerProfileForm";
 
 interface Props {
   tab?: "referrals" | "commissions" | "payouts" | "assets" | "profile";
@@ -201,18 +202,7 @@ export default function PartnerDashboard({ tab }: Props) {
         </div>
       )}
 
-      {tab === "profile" && (
-        <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Profiel</h2>
-          <div className="rounded-xl border border-border bg-card p-6 space-y-2 text-[13px]">
-            <p><strong>Bedrijf:</strong> {partner.company_name}</p>
-            <p><strong>Contact:</strong> {partner.contact_person}</p>
-            <p><strong>E-mail:</strong> {partner.email}</p>
-            <p><strong>IBAN:</strong> {partner.iban || "—"}</p>
-            <p><strong>Tier:</strong> <span className="capitalize">{partner.tier}</span></p>
-          </div>
-        </div>
-      )}
+      {tab === "profile" && <PartnerProfileForm partner={partner} />}
     </div>
   );
 }
