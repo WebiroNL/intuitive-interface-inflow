@@ -170,7 +170,7 @@ export default function PartnerRegister() {
               </div>
               <div>
                 <Label htmlFor="social_facebook">Facebook</Label>
-                <Input id="social_facebook" placeholder="https://facebook.com/..." value={form.social_facebook} onChange={(e) => update("social_facebook", e.target.value)} />
+                <Input id="social_facebook" placeholder="@username" value={form.social_facebook} onChange={(e) => update("social_facebook", e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="social_linkedin">LinkedIn</Label>
