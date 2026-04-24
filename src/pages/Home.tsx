@@ -457,7 +457,7 @@ const Home = () => {
                     )}
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {steps.map((step, index) => {
                       const isActive = activeIdx === index;
                       const colorClasses = isWebsite
@@ -468,32 +468,32 @@ const Home = () => {
                         <button
                           key={step.id}
                           onClick={() => setActiveIdx(index)}
-                          className={`w-full text-left rounded-xl border p-3 transition-all duration-300 ${
+                          className={`w-full text-left rounded-lg border px-3 py-2.5 transition-all duration-300 ${
                             isActive ? `${colorClasses.border} ${colorClasses.bg} shadow-sm` : "border-border bg-card hover:bg-muted/40"
                           }`}
                         >
-                          <div className="flex items-start gap-3.5">
-                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                          <div className="flex items-start gap-2.5">
+                            <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
                               isActive ? colorClasses.iconBg : "bg-muted"
                             }`}>
                               <HugeiconsIcon
                                 icon={step.icon}
-                                className={`w-[18px] h-[18px] transition-colors ${isActive ? colorClasses.iconText : "text-muted-foreground"}`}
+                                className={`w-[14px] h-[14px] transition-colors ${isActive ? colorClasses.iconText : "text-muted-foreground"}`}
                               />
                             </div>
                             <div className="min-w-0">
-                              <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                              <span className="text-[9px] font-bold uppercase tracking-wide text-muted-foreground">
                                 Stap {step.number}
                               </span>
-                              <p className={`text-[15px] font-semibold mt-0.5 transition-colors ${isActive ? "text-foreground" : "text-foreground/80"}`}>
+                              <p className={`text-[13px] font-semibold leading-tight mt-0.5 transition-colors ${isActive ? "text-foreground" : "text-foreground/80"}`}>
                                 {step.title}
                               </p>
                               {isActive && (
                                 <>
-                                  <p className="text-[13px] text-muted-foreground leading-relaxed mt-1.5">{step.desc}</p>
-                                  <div className="flex flex-wrap gap-1.5 mt-3">
+                                  <p className="text-[12px] text-muted-foreground leading-snug mt-1">{step.desc}</p>
+                                  <div className="flex flex-wrap gap-1 mt-2">
                                     {step.focus.map((item) => (
-                                      <span key={item} className={`rounded-md ${colorClasses.chipBg} px-2.5 py-1 text-[11px] font-medium ${colorClasses.chipText}`}>
+                                      <span key={item} className={`rounded ${colorClasses.chipBg} px-2 py-0.5 text-[10px] font-medium ${colorClasses.chipText}`}>
                                         {item}
                                       </span>
                                     ))}
