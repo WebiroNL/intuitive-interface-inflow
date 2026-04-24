@@ -166,7 +166,7 @@ export default function PartnerRegister() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="social_instagram">Instagram</Label>
-                <Input id="social_instagram" placeholder="https://instagram.com/..." value={form.social_instagram} onChange={(e) => update("social_instagram", e.target.value)} />
+                <Input id="social_instagram" placeholder="@username" value={form.social_instagram} onChange={(e) => update("social_instagram", e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="social_facebook">Facebook</Label>
