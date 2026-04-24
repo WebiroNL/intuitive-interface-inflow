@@ -449,7 +449,7 @@ const Home = () => {
                 </div>
 
                 <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-stretch">
-                  <div className="flex justify-center">
+                  <div className="flex justify-center h-full">
                     {isWebsite ? (
                       <ProcessVisual activeStep={activeWebsiteStep} onStepChange={setActiveWebsiteStep} showTabs={false} />
                     ) : (
@@ -457,7 +457,7 @@ const Home = () => {
                     )}
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 flex flex-col h-full">
                     {steps.map((step, index) => {
                       const isActive = activeIdx === index;
                       const colorClasses = isWebsite
