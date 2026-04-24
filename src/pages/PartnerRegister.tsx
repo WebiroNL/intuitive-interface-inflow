@@ -28,6 +28,12 @@ export default function PartnerRegister() {
     address_city: "",
     address_postal: "",
     address_country: "NL",
+    social_instagram: "",
+    social_facebook: "",
+    social_linkedin: "",
+    social_tiktok: "",
+    social_youtube: "",
+    social_x: "",
     notes: "",
     agreed_terms: false,
   });
@@ -150,6 +156,37 @@ export default function PartnerRegister() {
               <div>
                 <Label htmlFor="iban">IBAN</Label>
                 <Input id="iban" placeholder="NL00 BANK 0000 0000 00" value={form.iban} onChange={(e) => update("iban", e.target.value)} />
+              </div>
+            </div>
+          </section>
+
+          {/* Social media */}
+          <section className="space-y-4 pt-4 border-t border-border">
+            <h2 className="text-[15px] font-semibold text-foreground">Social media</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="social_instagram">Instagram</Label>
+                <Input id="social_instagram" placeholder="https://instagram.com/..." value={form.social_instagram} onChange={(e) => update("social_instagram", e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="social_facebook">Facebook</Label>
+                <Input id="social_facebook" placeholder="https://facebook.com/..." value={form.social_facebook} onChange={(e) => update("social_facebook", e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="social_linkedin">LinkedIn</Label>
+                <Input id="social_linkedin" placeholder="https://linkedin.com/in/..." value={form.social_linkedin} onChange={(e) => update("social_linkedin", e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="social_tiktok">TikTok</Label>
+                <Input id="social_tiktok" placeholder="https://tiktok.com/@..." value={form.social_tiktok} onChange={(e) => update("social_tiktok", e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="social_youtube">YouTube</Label>
+                <Input id="social_youtube" placeholder="https://youtube.com/@..." value={form.social_youtube} onChange={(e) => update("social_youtube", e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="social_x">X (Twitter)</Label>
+                <Input id="social_x" placeholder="https://x.com/..." value={form.social_x} onChange={(e) => update("social_x", e.target.value)} />
               </div>
             </div>
           </section>
