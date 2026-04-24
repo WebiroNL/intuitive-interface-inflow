@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import webiroLogo from "@/assets/logo-webiro.svg";
+import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   DashboardSquare01Icon,
@@ -77,7 +78,8 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     <>
       <div className="h-[60px] flex items-center px-5 border-b border-border">
         <Link to={base} className="flex items-center gap-2">
-          <img src={webiroLogo} alt="Webiro" className="h-[22px]" />
+          <img src={webiroLogo} alt="Webiro" className="h-[22px] block dark:hidden" />
+          <img src={webiroLogoDark} alt="Webiro" className="h-[22px] hidden dark:block" />
         </Link>
         <span className="ml-2 text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
           Portaal
