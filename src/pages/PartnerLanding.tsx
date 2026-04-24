@@ -146,10 +146,10 @@ export default function PartnerLanding() {
                 <div className="space-y-2 mb-6">
                   <div className="flex items-baseline gap-1">
                     <span className="text-[40px] font-bold text-foreground">{t.commission_website}%</span>
-                    <span className="text-[13px] text-muted-foreground">commissie websites</span>
+                    <span className="text-[13px] text-muted-foreground">gemiddelde commissie</span>
                   </div>
                   <div className="text-[13px] text-muted-foreground">
-                    Marketing {t.commission_marketing}% · Shop {t.commission_shop}% · Add-ons {t.commission_addon}%
+                    Websites {t.commission_website}% · Marketing {t.commission_marketing}% · Shop {t.commission_shop}% · Add-ons {t.commission_addon}%
                   </div>
                   <div className="text-[13px] text-muted-foreground">
                     Klant krijgt <strong className="text-foreground">{t.customer_discount}% korting</strong>
