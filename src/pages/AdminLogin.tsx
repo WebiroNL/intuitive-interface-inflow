@@ -36,7 +36,8 @@ const AdminLogin = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <img src={webiroLogo} alt="Webiro" className="h-7 mx-auto mb-6" />
+          <img src={webiroLogo} alt="Webiro" className="h-7 mx-auto mb-6 block dark:hidden" />
+          <img src={webiroLogoDark} alt="Webiro" className="h-7 mx-auto mb-6 hidden dark:block" />
           <h1 className="text-xl font-semibold text-foreground">Admin Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-1">Log in om verder te gaan</p>
         </div>
