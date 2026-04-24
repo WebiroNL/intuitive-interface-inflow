@@ -180,14 +180,16 @@ export default function PartnerDashboard({ tab }: Props) {
             <Button onClick={requestPayout} disabled={partner.available_balance <= 0}>Uitbetaling aanvragen</Button>
           </div>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
-            <table className="w-full text-[13px]">
-              <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2">Datum</th><th className="text-left px-4 py-2">Bedrag</th><th className="text-left px-4 py-2">Status</th></tr></thead>
-              <tbody>
-                {payouts.map((p) => (
-                  <tr key={p.id} className="border-t border-border"><td className="px-4 py-2">{new Date(p.created_at).toLocaleDateString("nl-NL")}</td><td className="px-4 py-2 font-semibold">€{Number(p.amount).toFixed(2)}</td><td className="px-4 py-2 capitalize">{p.status}</td></tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[480px] text-[13px]">
+                <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2 whitespace-nowrap">Datum</th><th className="text-left px-4 py-2 whitespace-nowrap">Bedrag</th><th className="text-left px-4 py-2 whitespace-nowrap">Status</th></tr></thead>
+                <tbody>
+                  {payouts.map((p) => (
+                    <tr key={p.id} className="border-t border-border"><td className="px-4 py-2 whitespace-nowrap">{new Date(p.created_at).toLocaleDateString("nl-NL")}</td><td className="px-4 py-2 font-semibold whitespace-nowrap">€{Number(p.amount).toFixed(2)}</td><td className="px-4 py-2 capitalize whitespace-nowrap">{p.status}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
