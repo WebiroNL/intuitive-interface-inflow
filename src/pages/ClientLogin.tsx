@@ -12,8 +12,8 @@ import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-  const [email, setEmail] = useState("info@sopmi.com");
-  const [password, setPassword] = useState("mihran12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -74,6 +74,7 @@ export default function ClientLogin() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1.5"
+              placeholder="••••••••"
               autoComplete="new-password"
             />
           </div>
