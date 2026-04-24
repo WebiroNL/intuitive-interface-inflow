@@ -1,8 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { UserCircleIcon, Logout01Icon, Sun03Icon, Moon02Icon, Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { UserCircleIcon, Logout01Icon, Sun03Icon, Moon02Icon, Menu01Icon, Cancel01Icon, Settings01Icon } from "@hugeicons/core-free-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +31,7 @@ const TITLES: Record<string, string> = {
   commissions: "Commissies",
   payouts: "Uitbetalingen",
   assets: "Materiaal",
-  profile: "Profiel",
+  profile: "Account instellingen",
 };
 
 export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
@@ -98,6 +98,13 @@ export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
             <p className="text-[13px] font-semibold text-foreground truncate">{partner.company_name}</p>
             <p className="text-[11px] font-normal text-muted-foreground truncate">{partner.email}</p>
           </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link to="/partner/dashboard/profile" className="cursor-pointer">
+              <HugeiconsIcon icon={Settings01Icon} size={14} className="mr-2" />
+              Account instellingen
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive focus:bg-muted/70 dark:focus:bg-muted">
             <HugeiconsIcon icon={Logout01Icon} size={14} className="mr-2" />
