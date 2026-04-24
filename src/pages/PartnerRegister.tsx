@@ -69,7 +69,7 @@ export default function PartnerRegister() {
           </Link>
           <h1 className="text-[32px] font-semibold tracking-tight text-foreground">Word partner</h1>
           <p className="text-muted-foreground mt-2">
-            Vul je gegevens in. We beoordelen je aanvraag binnen 1 werkdag.
+            Vul je gegevens in. We beoordelen je aanvraag.
           </p>
         </div>
 
