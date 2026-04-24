@@ -159,14 +159,16 @@ export default function PartnerDashboard({ tab }: Props) {
         <div>
           <h2 className="text-[22px] font-semibold text-foreground mb-4">Commissies</h2>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
-            <table className="w-full text-[13px]">
-              <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2">Product</th><th className="text-left px-4 py-2">Bedrag</th><th className="text-left px-4 py-2">Commissie</th><th className="text-left px-4 py-2">Status</th></tr></thead>
-              <tbody>
-                {commissions.map((c) => (
-                  <tr key={c.id} className="border-t border-border"><td className="px-4 py-2">{c.product_name}</td><td className="px-4 py-2">€{Number(c.sale_amount).toFixed(2)}</td><td className="px-4 py-2 font-semibold">€{Number(c.commission_amount).toFixed(2)}</td><td className="px-4 py-2 capitalize">{c.status}</td></tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[560px] text-[13px]">
+                <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2 whitespace-nowrap">Product</th><th className="text-left px-4 py-2 whitespace-nowrap">Bedrag</th><th className="text-left px-4 py-2 whitespace-nowrap">Commissie</th><th className="text-left px-4 py-2 whitespace-nowrap">Status</th></tr></thead>
+                <tbody>
+                  {commissions.map((c) => (
+                    <tr key={c.id} className="border-t border-border"><td className="px-4 py-2 whitespace-nowrap">{c.product_name}</td><td className="px-4 py-2 whitespace-nowrap">€{Number(c.sale_amount).toFixed(2)}</td><td className="px-4 py-2 font-semibold whitespace-nowrap">€{Number(c.commission_amount).toFixed(2)}</td><td className="px-4 py-2 capitalize whitespace-nowrap">{c.status}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
