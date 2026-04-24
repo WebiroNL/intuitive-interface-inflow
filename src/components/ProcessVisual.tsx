@@ -272,7 +272,7 @@ export default function ProcessVisual({
         )}
 
         {/* Screen area */}
-        <div className="relative flex-1 min-h-[320px] overflow-hidden">
+        <div className="relative flex-1 min-h-0 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
