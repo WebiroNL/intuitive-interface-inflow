@@ -28,6 +28,12 @@ export default function PartnerRegister() {
     address_city: "",
     address_postal: "",
     address_country: "NL",
+    social_instagram: "",
+    social_facebook: "",
+    social_linkedin: "",
+    social_tiktok: "",
+    social_youtube: "",
+    social_x: "",
     notes: "",
     agreed_terms: false,
   });
