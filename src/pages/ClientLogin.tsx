@@ -74,6 +74,7 @@ export default function ClientLogin() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1.5"
+              placeholder="••••••••"
               autoComplete="new-password"
             />
           </div>
