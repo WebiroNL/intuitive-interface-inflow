@@ -165,7 +165,7 @@ export default function PartnerRegister() {
             <Checkbox id="agreed" checked={form.agreed_terms} onCheckedChange={(v) => update("agreed_terms", !!v)} />
             <Label htmlFor="agreed" className="text-[13px] font-normal leading-relaxed cursor-pointer">
               Ik ga akkoord met de{" "}
-              <Link to="/algemene-voorwaarden" className="text-primary underline">partner voorwaarden</Link>{" "}
+              <Link to="/algemene-voorwaarden" className="text-primary underline">algemene voorwaarden</Link>{" "}
               en het privacybeleid van Webiro.
             </Label>
           </div>
