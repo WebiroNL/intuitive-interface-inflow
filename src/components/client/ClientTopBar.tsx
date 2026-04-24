@@ -96,12 +96,18 @@ export function ClientTopBar({ client, onMenuClick, isSidebarOpen }: Props) {
             <p className="text-[11px] font-normal text-muted-foreground truncate">{client.email}</p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/dashboard/account")}>
+          <DropdownMenuItem
+            onClick={() => navigate("/dashboard/account")}
+            className="focus:bg-muted/70 dark:focus:bg-muted focus:text-foreground"
+          >
             <HugeiconsIcon icon={Settings02Icon} size={14} className="mr-2" />
             Accountinstellingen
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
+          <DropdownMenuItem
+            onClick={handleLogout}
+            className="text-destructive focus:text-destructive focus:bg-muted/70 dark:focus:bg-muted"
+          >
             <HugeiconsIcon icon={Logout01Icon} size={14} className="mr-2" />
             Uitloggen
           </DropdownMenuItem>
