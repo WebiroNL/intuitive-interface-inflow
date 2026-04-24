@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { LockPasswordIcon, Mail01Icon, ArrowRight01Icon, Alert02Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
+import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
