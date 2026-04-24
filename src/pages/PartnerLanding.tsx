@@ -143,16 +143,32 @@ export default function PartnerLanding() {
                 </div>
                 <p className="text-[13px] text-muted-foreground mb-6">{t.description}</p>
 
-                <div className="space-y-2 mb-6">
+                <div className="space-y-3 mb-6">
                   <div className="flex items-baseline gap-1">
                     <span className="text-[40px] font-bold text-foreground">{t.commission_website}%</span>
                     <span className="text-[13px] text-muted-foreground">gemiddelde commissie</span>
                   </div>
-                  <div className="text-[13px] text-muted-foreground">
-                    Websites {t.commission_website}% · Marketing {t.commission_marketing}% · Shop {t.commission_shop}% · Add-ons {t.commission_addon}%
-                  </div>
-                  <div className="text-[13px] text-muted-foreground">
-                    Klant krijgt <strong className="text-foreground">{t.customer_discount}% korting</strong>
+                  <div className="space-y-1.5 pt-3 border-t border-border">
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-muted-foreground">Websites</span>
+                      <span className="font-medium text-foreground">{t.commission_website}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-muted-foreground">Marketing</span>
+                      <span className="font-medium text-foreground">{t.commission_marketing}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-muted-foreground">Shop producten</span>
+                      <span className="font-medium text-foreground">{t.commission_shop}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-muted-foreground">Add-ons</span>
+                      <span className="font-medium text-foreground">{t.commission_addon}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[13px] pt-1.5 border-t border-border/50">
+                      <span className="text-muted-foreground">Klantkorting</span>
+                      <span className="font-medium text-primary">{t.customer_discount}%</span>
+                    </div>
                   </div>
                 </div>
 
