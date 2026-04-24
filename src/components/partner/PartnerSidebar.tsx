@@ -11,7 +11,6 @@ import {
   Link01Icon,
   Wallet01Icon,
   File01Icon,
-  UserIcon,
   Logout01Icon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
@@ -33,7 +32,6 @@ const navItems = [
   { label: "Commissies", href: "/partner/dashboard/commissions", icon: Coins01Icon },
   { label: "Uitbetalingen", href: "/partner/dashboard/payouts", icon: Wallet01Icon },
   { label: "Materiaal", href: "/partner/dashboard/assets", icon: File01Icon },
-  { label: "Profiel", href: "/partner/dashboard/profile", icon: UserIcon },
 ];
 
 export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) {
