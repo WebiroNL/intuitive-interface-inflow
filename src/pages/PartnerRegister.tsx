@@ -125,7 +125,7 @@ export default function PartnerRegister() {
             <h2 className="text-[15px] font-semibold text-foreground">Adres</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <Label htmlFor="address_street">Straat + nr</Label>
+                <Label htmlFor="address_street">Straat en huisnummer</Label>
                 <Input id="address_street" value={form.address_street} onChange={(e) => update("address_street", e.target.value)} />
               </div>
               <div>
