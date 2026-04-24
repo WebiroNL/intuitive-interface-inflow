@@ -99,7 +99,7 @@ export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
             <p className="text-[11px] font-normal text-muted-foreground truncate">{partner.email}</p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
+          <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive focus:bg-muted/70 dark:focus:bg-muted">
             <HugeiconsIcon icon={Logout01Icon} size={14} className="mr-2" />
             Uitloggen
           </DropdownMenuItem>
