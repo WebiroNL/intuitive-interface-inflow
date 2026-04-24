@@ -49,7 +49,7 @@ export default function ClientLogin() {
           <p className="text-sm text-muted-foreground mt-1">Log in om je dashboard te bekijken</p>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-4">
+        <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-4" autoComplete="off">
           <div>
             <Label htmlFor="email">E-mailadres</Label>
             <Input
@@ -60,6 +60,7 @@ export default function ClientLogin() {
               required
               className="mt-1.5"
               placeholder="jij@bedrijf.nl"
+              autoComplete="off"
             />
           </div>
           <div>
@@ -71,6 +72,7 @@ export default function ClientLogin() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1.5"
+              autoComplete="new-password"
             />
           </div>
           <Button type="submit" className="w-full" disabled={submitting}>
