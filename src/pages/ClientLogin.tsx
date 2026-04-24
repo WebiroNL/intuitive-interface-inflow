@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import webiroLogo from "@/assets/logo-webiro.svg";
+import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
