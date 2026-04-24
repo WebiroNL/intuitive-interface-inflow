@@ -186,7 +186,7 @@ export default function PartnerRegister() {
               </div>
               <div>
                 <Label htmlFor="social_x">X (Twitter)</Label>
-                <Input id="social_x" placeholder="https://x.com/..." value={form.social_x} onChange={(e) => update("social_x", e.target.value)} />
+                <Input id="social_x" placeholder="@username" value={form.social_x} onChange={(e) => update("social_x", e.target.value)} />
               </div>
             </div>
           </section>
