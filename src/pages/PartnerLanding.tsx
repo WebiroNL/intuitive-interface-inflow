@@ -158,12 +158,12 @@ export default function PartnerLanding() {
                       <span className="font-medium text-foreground">{t.commission_marketing}%</span>
                     </div>
                     <div className="flex items-center justify-between text-[13px]">
-                      <span className="text-muted-foreground">Shop producten</span>
-                      <span className="font-medium text-foreground">{t.commission_shop}%</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[13px]">
                       <span className="text-muted-foreground">Add-ons</span>
                       <span className="font-medium text-foreground">{t.commission_addon}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-muted-foreground">Shop producten</span>
+                      <span className="font-medium text-foreground">{t.commission_shop}%</span>
                     </div>
                     <div className="flex items-center justify-between text-[13px] pt-1.5 border-t border-border/50">
                       <span className="text-muted-foreground">Klantkorting</span>
