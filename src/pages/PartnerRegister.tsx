@@ -182,7 +182,7 @@ export default function PartnerRegister() {
               </div>
               <div>
                 <Label htmlFor="social_youtube">YouTube</Label>
-                <Input id="social_youtube" placeholder="https://youtube.com/@..." value={form.social_youtube} onChange={(e) => update("social_youtube", e.target.value)} />
+                <Input id="social_youtube" placeholder="@username" value={form.social_youtube} onChange={(e) => update("social_youtube", e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="social_x">X (Twitter)</Label>
