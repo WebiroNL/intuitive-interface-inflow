@@ -141,14 +141,16 @@ export default function PartnerDashboard({ tab }: Props) {
         <div>
           <h2 className="text-[22px] font-semibold text-foreground mb-4">Referrals</h2>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
-            <table className="w-full text-[13px]">
-              <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2">Datum</th><th className="text-left px-4 py-2">Landing page</th><th className="text-left px-4 py-2">Status</th></tr></thead>
-              <tbody>
-                {referrals.map((r) => (
-                  <tr key={r.id} className="border-t border-border"><td className="px-4 py-2">{new Date(r.created_at).toLocaleDateString("nl-NL")}</td><td className="px-4 py-2 text-muted-foreground">{r.landing_page}</td><td className="px-4 py-2">{r.converted ? "Geconverteerd" : "Bezoek"}</td></tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[520px] text-[13px]">
+                <thead className="bg-muted/30 text-muted-foreground"><tr><th className="text-left px-4 py-2 whitespace-nowrap">Datum</th><th className="text-left px-4 py-2 whitespace-nowrap">Landing page</th><th className="text-left px-4 py-2 whitespace-nowrap">Status</th></tr></thead>
+                <tbody>
+                  {referrals.map((r) => (
+                    <tr key={r.id} className="border-t border-border"><td className="px-4 py-2 whitespace-nowrap">{new Date(r.created_at).toLocaleDateString("nl-NL")}</td><td className="px-4 py-2 text-muted-foreground whitespace-nowrap">{r.landing_page}</td><td className="px-4 py-2 whitespace-nowrap">{r.converted ? "Geconverteerd" : "Bezoek"}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
