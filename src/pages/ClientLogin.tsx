@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import webiroLogo from "@/assets/logo-webiro.svg";
+import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -44,7 +45,8 @@ export default function ClientLogin() {
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <div className="w-full max-w-[400px]">
         <div className="flex flex-col items-center mb-8">
-          <img src={webiroLogo} alt="Webiro" className="h-7 mb-6" />
+          <img src={webiroLogo} alt="Webiro" className="h-7 mb-6 block dark:hidden" />
+          <img src={webiroLogoDark} alt="Webiro" className="h-7 mb-6 hidden dark:block" />
           <h1 className="text-2xl font-semibold text-foreground">Klantportaal</h1>
           <p className="text-sm text-muted-foreground mt-1">Log in om je dashboard te bekijken</p>
         </div>
