@@ -154,7 +154,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -230,11 +230,11 @@ export function Header() {
             {/* Account / Sign in */}
             {user ? (
               <Link
-                to="/dashboard"
+                to={isAdmin ? "/admin" : "/dashboard"}
                 className="inline-flex items-center gap-1.5 px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
               >
                 <HugeiconsIcon icon={User03Icon} size={14} />
-                Dashboard
+                {isAdmin ? 'Admin' : 'Dashboard'}
               </Link>
             ) : (
               <Link
