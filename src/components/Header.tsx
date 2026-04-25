@@ -230,13 +230,13 @@ export function Header() {
             <CartButton />
 
             {/* Account / Sign in */}
-            {user ? (
+            {user && client ? (
               <Link
-                to={isAdmin ? "/admin" : "/dashboard"}
+                to="/dashboard"
                 className="inline-flex items-center gap-1.5 px-[14px] py-[7px] text-[14px] font-medium border border-input rounded-[6px] text-foreground hover:bg-muted/30 transition-colors leading-none"
               >
                 <HugeiconsIcon icon={User03Icon} size={14} />
-                {isAdmin ? 'Admin' : 'Dashboard'}
+                Dashboard
               </Link>
             ) : (
               <Link
