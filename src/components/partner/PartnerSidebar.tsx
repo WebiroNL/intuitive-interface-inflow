@@ -93,13 +93,9 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
       </nav>
 
       <div className="border-t border-border p-3">
-        <button
-          onClick={signOut}
-          className="flex items-center gap-2.5 w-full px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
-        >
-          <HugeiconsIcon icon={Logout01Icon} size={16} />
-          Uitloggen
-        </button>
+        <p className="px-3 py-2 text-[11px] text-muted-foreground">
+          Dashboard v1.0.0
+        </p>
       </div>
     </>
   );
