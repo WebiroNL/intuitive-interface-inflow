@@ -40,6 +40,7 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
   const { signOut } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const version = useAppSetting("partner_dashboard_version", "1.0.0");
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
