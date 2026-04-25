@@ -91,10 +91,6 @@ export default function AdminPartnerPayouts() {
   return (
     <div className="space-y-6">
       <PartnerProgramNav />
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Uitbetalingen</h1>
-        <p className="text-sm text-muted-foreground mt-1">Beheer payout verzoeken van partners. Markeer als betaald nadat de overschrijving is gedaan.</p>
-      </div>
 
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-card border border-border rounded-lg p-4">
