@@ -62,6 +62,19 @@ const AdminSettings = () => {
     }
   };
 
+  const saveSocial = async (key: string) => {
+    setSaving(key);
+    const { error } = await supabase
+      .from('app_settings')
+      .upsert({ key, value: socials[key] ?? '', updated_by: user?.id ?? null }, { onConflict: 'key' });
+    setSaving(null);
+    if (error) {
+      toast.error('Opslaan mislukt: ' + error.message);
+    } else {
+      toast.success('Social link opgeslagen');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2">
