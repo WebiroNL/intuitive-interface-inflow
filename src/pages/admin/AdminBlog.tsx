@@ -168,7 +168,14 @@ const AdminBlog = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-end mb-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3 text-[13px] text-muted-foreground">
+          <span><span className="font-semibold text-foreground">{posts.length}</span> {posts.length === 1 ? "artikel" : "artikelen"}</span>
+          <span className="text-border">·</span>
+          <span><span className="font-semibold text-foreground">{posts.filter((p) => p.published).length}</span> live</span>
+          <span className="text-border">·</span>
+          <span><span className="font-semibold text-foreground">{posts.filter((p) => !p.published).length}</span> concept</span>
+        </div>
         {!isEditorOpen && (
           <Button onClick={startCreate} size="sm">
             <HugeiconsIcon icon={Add01Icon} size={16} className="mr-1.5" />
