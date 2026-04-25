@@ -107,7 +107,7 @@ export default function AdminPages() {
   return (
     <div className="max-w-6xl">
       <div className="flex items-center justify-end mb-6">
-        <button
+        <Button
           onClick={() => {
             setCreating(true);
             setEditing({
@@ -122,10 +122,9 @@ export default function AdminPages() {
               updated_at: "",
             });
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors"
         >
           <HugeiconsIcon icon={Add01Icon} size={16} /> Nieuwe pagina
-        </button>
+        </Button>
       </div>
 
       {loading ? (
