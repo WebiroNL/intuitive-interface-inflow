@@ -134,14 +134,14 @@ export function PartnerHeroParticles() {
     resize();
     draw();
     window.addEventListener("resize", resize);
-    canvas.addEventListener("mousemove", onMove);
-    canvas.addEventListener("mouseleave", onLeave);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseout", onLeave);
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", onMove);
-      canvas.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseout", onLeave);
     };
   }, [isMobile]);
 
