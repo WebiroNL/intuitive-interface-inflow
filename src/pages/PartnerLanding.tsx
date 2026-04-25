@@ -53,7 +53,7 @@ export default function PartnerLanding() {
       {/* Hero */}
       <section
         className="relative overflow-hidden bg-card"
-        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%)" }}
+        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 140px), 0 100%)" }}
       >
         <PartnerHeroParticles />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-32 lg:pb-44 relative">
@@ -115,15 +115,15 @@ export default function PartnerLanding() {
       </section>
 
       {/* 3D gradient ribbon glued to the slanted hero edge */}
-      <section className="relative overflow-hidden h-[260px] lg:h-[360px] -mt-[80px] pointer-events-none">
+      <section className="relative overflow-hidden h-[280px] lg:h-[380px] -mt-[140px] pointer-events-none">
         {/* Main ribbon — extra wide so the rotated edges run off-screen on both sides */}
         <div
           aria-hidden
-          className="absolute left-[-20%] right-[-20%] top-[20px] lg:top-[40px] h-[110px] lg:h-[150px]"
+          className="absolute left-[-20%] right-[-20%] top-0 h-[120px] lg:h-[160px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
-            transform: "rotate(-6deg)",
+            transform: "rotate(-6deg) translateY(20px)",
             transformOrigin: "center",
             filter: "blur(16px)",
             opacity: 0.95,
@@ -132,11 +132,11 @@ export default function PartnerLanding() {
         {/* Sharper highlight ribbon on top for depth */}
         <div
           aria-hidden
-          className="absolute left-[-20%] right-[-20%] top-[50px] lg:top-[80px] h-[45px] lg:h-[65px]"
+          className="absolute left-[-20%] right-[-20%] top-[35px] lg:top-[55px] h-[45px] lg:h-[65px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 70% / 0.9) 0%, hsl(322 95% 75% / 0.95) 30%, hsl(280 85% 70% / 0.95) 55%, hsl(322 95% 75% / 0.95) 78%, hsl(28 100% 70% / 0.9) 100%)",
-            transform: "rotate(-6deg)",
+            transform: "rotate(-6deg) translateY(20px)",
             transformOrigin: "center",
             filter: "blur(6px)",
             opacity: 0.85,
