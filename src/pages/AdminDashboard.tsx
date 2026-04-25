@@ -2,8 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import { AdminTopBar } from '@/components/admin/AdminTopBar';
 
 const AdminOverview = lazy(() => import('./admin/AdminOverview'));
 const AdminOrders = lazy(() => import('./admin/AdminOrders'));
@@ -72,20 +71,10 @@ const AdminDashboard = () => {
     <div className="flex min-h-screen bg-background">
       <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="flex-1 min-w-0 overflow-auto flex flex-col">
-        {/* Mobile/tablet portrait topbar with hamburger */}
-        <header className="h-[60px] sticky top-0 z-30 bg-card border-b border-border flex items-center px-4 gap-3 md:hidden">
-          <button
-            onClick={() => setSidebarOpen((v) => !v)}
-            aria-label={sidebarOpen ? 'Sluit menu' : 'Open menu'}
-            className="w-9 h-9 -ml-1 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-          >
-            <HugeiconsIcon icon={sidebarOpen ? Cancel01Icon : Menu01Icon} size={18} />
-          </button>
-          <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-wider text-muted-foreground leading-none">Webiro</p>
-            <h1 className="text-[15px] font-semibold text-foreground leading-tight truncate">Admin</h1>
-          </div>
-        </header>
+        <AdminTopBar
+          onMenuClick={() => setSidebarOpen((v) => !v)}
+          isSidebarOpen={sidebarOpen}
+        />
         <div className="flex-1 p-6 lg:p-8">
           <Suspense fallback={<AdminFallback />}>
             <Routes>
