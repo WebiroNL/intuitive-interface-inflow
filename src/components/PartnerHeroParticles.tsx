@@ -57,9 +57,15 @@ export function PartnerHeroParticles() {
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      target.x = e.clientX - rect.left;
-      target.y = e.clientY - rect.top;
-      target.active = true;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x >= 0 && y >= 0 && x <= rect.width && y <= rect.height) {
+        target.x = x;
+        target.y = y;
+        target.active = true;
+      } else {
+        target.active = false;
+      }
     };
     const onLeave = () => {
       target.active = false;
