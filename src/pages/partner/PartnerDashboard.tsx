@@ -174,8 +174,7 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "payouts" && (
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[22px] font-semibold text-foreground">Uitbetalingen</h2>
+          <div className="flex items-center justify-end mb-4">
             <Button onClick={requestPayout} disabled={partner.available_balance <= 0}>Uitbetaling aanvragen</Button>
           </div>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
