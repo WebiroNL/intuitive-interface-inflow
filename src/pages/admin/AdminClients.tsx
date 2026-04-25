@@ -64,8 +64,8 @@ export default function AdminClients() {
       <div className="flex items-center justify-end mb-6">
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
-            <Button size="sm">
-              <HugeiconsIcon icon={Add01Icon} size={14} /> Nieuwe klant
+            <Button>
+              <HugeiconsIcon icon={Add01Icon} size={16} /> Nieuwe klant
             </Button>
           </DialogTrigger>
           <ClientFormDialog onSaved={() => { setCreateOpen(false); load(); }} />
