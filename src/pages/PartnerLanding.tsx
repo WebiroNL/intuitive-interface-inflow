@@ -51,8 +51,9 @@ export default function PartnerLanding() {
   return (
     <div className="bg-background">
       {/* Hero */}
-      <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+      <section className="border-b border-border relative overflow-hidden">
+        <PartnerHeroParticles />
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28 relative">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
               <HugeiconsIcon icon={HandBag01Icon} size={14} />
