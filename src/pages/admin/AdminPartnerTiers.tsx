@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { PartnerProgramNav } from "@/components/admin/PartnerProgramNav";
+import { HexColorPicker } from "react-colorful";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface Tier {
   id: string;
@@ -79,14 +81,36 @@ export default function AdminPartnerTiers() {
               <div>
                 <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Kleur</span>
                 <div className="mt-1 flex items-center gap-2">
-                  <label className="relative w-9 h-9 rounded-md border border-border flex-shrink-0 cursor-pointer overflow-hidden" style={{ backgroundColor: t.color }}>
-                    <input
-                      type="color"
-                      value={t.color}
-                      onChange={(e) => update(t.id, { color: e.target.value })}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        aria-label="Kies kleur"
+                        className="relative w-9 h-9 rounded-md border border-border flex-shrink-0 cursor-pointer overflow-hidden"
+                        style={{ backgroundColor: t.color }}
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-auto p-3">
+                      <div className="space-y-3">
+                        <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Aangepaste kleur</p>
+                        <HexColorPicker
+                          color={t.color}
+                          onChange={(c) => update(t.id, { color: c })}
+                          style={{ width: 240, height: 200 }}
+                        />
+                        <div className="flex items-center gap-2">
+                          <div className="w-9 h-9 rounded-md border border-border flex-shrink-0" style={{ backgroundColor: t.color }} />
+                          <input
+                            type="text"
+                            value={t.color}
+                            onChange={(e) => update(t.id, { color: e.target.value })}
+                            placeholder="#000000"
+                            className="flex-1 h-9 px-2.5 text-sm font-mono bg-muted border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          />
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                   <input
                     type="text"
                     value={t.color}
