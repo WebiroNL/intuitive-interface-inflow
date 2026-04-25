@@ -51,11 +51,6 @@ const AdminSettings = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Instellingen</h1>
-        <p className="text-sm text-muted-foreground mt-1">Account- en systeeminstellingen</p>
-      </div>
-
       <div className="grid gap-4 max-w-2xl">
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
