@@ -157,7 +157,6 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "commissions" && (
         <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Commissies</h2>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-[13px]">
