@@ -53,112 +53,42 @@ export default function PartnerLanding() {
       {/* Hero */}
       <section
         className="relative overflow-hidden bg-card"
-        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 140px), 0 100%)" }}
+        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%)" }}
       >
         <PartnerHeroParticles />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-32 lg:pb-44 relative">
-          <div className="grid lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
-                <HugeiconsIcon icon={HandBag01Icon} size={14} />
-                Partner Programma
-              </div>
-              <h1 className="text-[44px] lg:text-[64px] leading-[1.05] font-semibold tracking-tight text-foreground">
-                Verdien aan elke
-                <br />
-                <span className="text-primary">klant die je aanbrengt</span>
-              </h1>
-              <p className="mt-6 text-[18px] leading-relaxed text-muted-foreground max-w-2xl">
-                Sluit je aan bij het Webiro Partner Programma en verdien tot 20% commissie op websites,
-                marketing diensten en shop producten. Persoonlijke referral link, eigen kortingscode en
-                een transparant dashboard.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link
-                  to="/partner/register"
-                  className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
-                >
-                  Word partner <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/partner/login"
-                  className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
-                >
-                  Inloggen
-                </Link>
-              </div>
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
+              <HugeiconsIcon icon={HandBag01Icon} size={14} />
+              Partner Programma
             </div>
-
-            {/* Recurring commissie tile inside hero (compact, Stripe-style) */}
-            <div className="lg:col-span-4 lg:mt-16">
-              <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center">
-                    <HugeiconsIcon icon={Coins01Icon} size={16} className="text-primary" />
-                  </div>
-                  <h3 className="text-[15px] font-semibold text-foreground">Recurring commissie</h3>
-                </div>
-                <p className="text-[13px] leading-relaxed text-muted-foreground mb-4">
-                  Verdien niet alleen aan de eerste verkoop. Ontvang ook maandelijkse commissie op
-                  CMS, hosting en marketing abonnementen, zolang je klanten klant blijven.
-                </p>
-                <Link
-                  to="/partner/register"
-                  className="inline-flex items-center gap-1.5 text-primary text-[13px] font-semibold hover:gap-2 transition-all"
-                >
-                  Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+            <h1 className="text-[44px] lg:text-[64px] leading-[1.05] font-semibold tracking-tight text-foreground">
+              Verdien aan elke
+              <br />
+              <span className="text-primary">klant die je aanbrengt</span>
+            </h1>
+            <p className="mt-6 text-[18px] leading-relaxed text-muted-foreground max-w-2xl">
+              Sluit je aan bij het Webiro Partner Programma en verdien tot 20% commissie op websites,
+              marketing diensten en shop producten. Persoonlijke referral link, eigen kortingscode en
+              een transparant dashboard.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                to="/partner/register"
+                className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+              >
+                Word partner <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/partner/login"
+                className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+              >
+                Inloggen
+              </Link>
             </div>
           </div>
         </div>
       </section>
-
-      {/* 3D Diagonal gradient ribbon (Stripe-style), follows hero's slanted bottom edge */}
-      <div
-        aria-hidden
-        className="relative w-full overflow-hidden -mt-[140px] lg:-mt-[180px] h-[260px] lg:h-[340px] pointer-events-none"
-      >
-        {/* Soft outer glow */}
-        <div
-          className="absolute left-[-10vw] w-[120vw] h-[180px] lg:h-[230px] opacity-70"
-          style={{
-            top: "50%",
-            transform: "translateY(-50%) rotate(-6deg)",
-            transformOrigin: "center",
-            background:
-              "linear-gradient(90deg, hsl(280 90% 65%) 0%, hsl(295 85% 70%) 25%, hsl(320 90% 70%) 50%, hsl(340 90% 72%) 70%, hsl(30 95% 65%) 100%)",
-            filter: "blur(36px)",
-            borderRadius: "100px",
-          }}
-        />
-        {/* Main ribbon body */}
-        <div
-          className="absolute left-[-10vw] w-[120vw] h-[90px] lg:h-[120px]"
-          style={{
-            top: "50%",
-            transform: "translateY(-50%) rotate(-6deg)",
-            transformOrigin: "center",
-            background:
-              "linear-gradient(90deg, hsl(265 85% 60%) 0%, hsl(280 85% 65%) 18%, hsl(300 88% 70%) 38%, hsl(325 90% 72%) 58%, hsl(345 90% 70%) 78%, hsl(28 95% 62%) 100%)",
-            filter: "blur(14px)",
-            borderRadius: "100px",
-          }}
-        />
-        {/* Sharp glossy highlight */}
-        <div
-          className="absolute left-[-10vw] w-[120vw] h-[26px] lg:h-[34px]"
-          style={{
-            top: "50%",
-            transform: "translateY(-50%) rotate(-6deg)",
-            transformOrigin: "center",
-            background:
-              "linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 30%, hsla(0,0%,100%,0.55) 50%, hsla(0,0%,100%,0.35) 70%, transparent 100%)",
-            filter: "blur(4px)",
-            borderRadius: "100px",
-          }}
-        />
-      </div>
 
       {/* How it works */}
       <section className="border-b border-border">
@@ -212,55 +142,9 @@ export default function PartnerLanding() {
             {tiers.map((t) => (
               <div
                 key={t.id}
-                className="rounded-2xl border border-border p-8 pt-10 bg-card relative overflow-hidden transition-shadow hover:shadow-xl"
-                style={{
-                  boxShadow: `0 8px 24px -16px ${t.color}40, 0 2px 8px -4px ${t.color}20`,
-                }}
+                className="rounded-2xl border border-border p-8 bg-card relative overflow-hidden"
+                style={{ borderTopWidth: 4, borderTopColor: t.color }}
               >
-                {/* 3D glossy top stripe */}
-                <div
-                  aria-hidden
-                  className="absolute top-0 left-0 right-0 h-[6px] pointer-events-none"
-                  style={{
-                    background: `linear-gradient(90deg, ${t.color}00 0%, ${t.color} 20%, ${t.color}ee 50%, ${t.color} 80%, ${t.color}00 100%)`,
-                    boxShadow: `0 0 16px 2px ${t.color}88, 0 0 32px 4px ${t.color}55`,
-                  }}
-                />
-                {/* Glossy highlight on top stripe */}
-                <div
-                  aria-hidden
-                  className="absolute top-0 left-[15%] right-[15%] h-[2px] pointer-events-none"
-                  style={{
-                    background: `linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.7) 50%, transparent 100%)`,
-                  }}
-                />
-                {/* Soft bloom under the stripe */}
-                <div
-                  aria-hidden
-                  className="absolute -top-2 left-1/2 -translate-x-1/2 w-[80%] h-12 pointer-events-none rounded-full"
-                  style={{
-                    background: `radial-gradient(ellipse at top, ${t.color}33 0%, ${t.color}00 70%)`,
-                    filter: "blur(12px)",
-                  }}
-                />
-                {/* Very subtle colored glow */}
-                <div
-                  aria-hidden
-                  className="absolute -top-24 -right-16 w-64 h-64 rounded-full pointer-events-none"
-                  style={{
-                    background: `radial-gradient(circle, ${t.color}1a 0%, ${t.color}00 70%)`,
-                    filter: "blur(20px)",
-                  }}
-                />
-                <div
-                  aria-hidden
-                  className="absolute -bottom-20 -left-16 w-56 h-56 rounded-full pointer-events-none"
-                  style={{
-                    background: `radial-gradient(circle, ${t.color}10 0%, ${t.color}00 70%)`,
-                    filter: "blur(24px)",
-                  }}
-                />
-                <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
                   <HugeiconsIcon icon={Award01Icon} size={20} style={{ color: t.color }} />
                   <h3 className="text-[20px] font-semibold text-foreground">{t.display_name}</h3>
@@ -309,7 +193,6 @@ export default function PartnerLanding() {
                     </li>
                   ))}
                 </ul>
-                </div>
               </div>
             ))}
           </div>
