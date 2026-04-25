@@ -72,6 +72,10 @@ export function AdminTopBar({ onMenuClick, isSidebarOpen }: Props) {
         >
           <HugeiconsIcon icon={isSidebarOpen ? Cancel01Icon : Menu01Icon} size={18} />
         </button>
+        <div className="min-w-0">
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground leading-none">Adminportaal</p>
+          <h1 className="text-[15px] font-semibold text-foreground leading-tight truncate">{title}</h1>
+        </div>
       </div>
 
       <DropdownMenu>
