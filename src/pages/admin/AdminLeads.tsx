@@ -63,11 +63,6 @@ const AdminLeads = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Leads</h1>
-        <p className="text-sm text-muted-foreground mt-1">Beheer binnenkomende aanvragen en contactverzoeken</p>
-      </div>
-
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <HugeiconsIcon icon={Search01Icon} size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
