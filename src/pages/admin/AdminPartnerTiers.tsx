@@ -59,10 +59,6 @@ export default function AdminPartnerTiers() {
   return (
     <div className="space-y-6">
       <PartnerProgramNav />
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Partner tiers</h1>
-        <p className="text-sm text-muted-foreground mt-1">Stel de commissie percentages, omzet drempels en voordelen per tier in.</p>
-      </div>
 
       {loading ? (
         <div className="text-center py-12 text-muted-foreground">Laden...</div>
