@@ -229,12 +229,12 @@ export default function PartnerLanding() {
             <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
               Aanmelden duurt 2 minuten. Na goedkeuring kun je direct beginnen met verdienen.
             </p>
-            <Button asChild size="lg" className="rounded-full">
-              <Link to="/partner/register">
-                Start aanmelding
-                <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-1" />
-              </Link>
-            </Button>
+            <Link
+              to="/partner/register"
+              className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+            >
+              Start aanmelding <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
