@@ -92,7 +92,7 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
         ))}
       </nav>
 
-      <div className="border-t border-border p-4">
+      <div className="border-t border-border p-4 text-center">
         <p className="text-[12px] font-semibold text-foreground leading-tight">Webiro Partner Dashboard</p>
         <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">Versie {version}</p>
       </div>
