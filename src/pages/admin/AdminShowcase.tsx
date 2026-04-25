@@ -144,13 +144,7 @@ export default function AdminShowcase() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Portfolio showcase</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Beheer de websites die op de homepage worden getoond.
-          </p>
-        </div>
+      <div className="flex items-center justify-end flex-wrap gap-3">
         <Button onClick={openNew} className="gap-2">
           <HugeiconsIcon icon={Add01Icon} size={16} />
           Nieuw item
