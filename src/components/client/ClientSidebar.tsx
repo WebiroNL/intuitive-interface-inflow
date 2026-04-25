@@ -27,9 +27,8 @@ interface Props {
 
 export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { signOut } = useAuth();
   const sections = useClientSections(client);
+  const version = useAppSetting("client_dashboard_version", "1.0.0");
   const base = `/dashboard`;
   const vm = (client.visible_menus as string[] | null | undefined) ?? null;
 
