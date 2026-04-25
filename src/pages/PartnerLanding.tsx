@@ -57,8 +57,8 @@ export default function PartnerLanding() {
       >
         <PartnerHeroParticles />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-32 lg:pb-44 relative">
-          <div className="grid lg:grid-cols-12 gap-10 items-start">
-            <div className="lg:col-span-7">
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
                 <HugeiconsIcon icon={HandBag01Icon} size={14} />
                 Partner Programma
@@ -89,25 +89,24 @@ export default function PartnerLanding() {
               </div>
             </div>
 
-            {/* Recurring commissie tile inside hero */}
-            <div className="lg:col-span-5 lg:mt-4">
-              <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <HugeiconsIcon icon={Coins01Icon} size={20} className="text-primary" />
+            {/* Recurring commissie tile inside hero (compact, Stripe-style) */}
+            <div className="lg:col-span-4 lg:mt-16">
+              <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center">
+                    <HugeiconsIcon icon={Coins01Icon} size={16} className="text-primary" />
                   </div>
-                  <h3 className="text-[20px] font-semibold text-foreground">Recurring commissie</h3>
+                  <h3 className="text-[15px] font-semibold text-foreground">Recurring commissie</h3>
                 </div>
-                <p className="text-[15px] leading-relaxed text-muted-foreground mb-5">
-                  Met het Webiro Partner Programma verdien je niet alleen aan de eerste verkoop.
-                  Je ontvangt ook maandelijkse commissie op CMS, hosting en marketing abonnementen
-                  van de klanten die je aanbrengt, zolang ze klant blijven.
+                <p className="text-[13px] leading-relaxed text-muted-foreground mb-4">
+                  Verdien niet alleen aan de eerste verkoop. Ontvang ook maandelijkse commissie op
+                  CMS, hosting en marketing abonnementen, zolang je klanten klant blijven.
                 </p>
                 <Link
                   to="/partner/register"
-                  className="inline-flex items-center gap-1.5 text-primary text-[14px] font-semibold hover:gap-2 transition-all"
+                  className="inline-flex items-center gap-1.5 text-primary text-[13px] font-semibold hover:gap-2 transition-all"
                 >
-                  Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                  Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
