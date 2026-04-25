@@ -196,9 +196,9 @@ export default function PartnerLanding() {
             {tiers.map((t) => (
               <div
                 key={t.id}
-                className="rounded-2xl border border-border p-8 pt-10 bg-card relative overflow-hidden transition-shadow hover:shadow-2xl"
+                className="rounded-2xl border border-border p-8 pt-10 bg-card relative overflow-hidden transition-shadow hover:shadow-xl"
                 style={{
-                  boxShadow: `0 20px 50px -20px ${t.color}66, 0 8px 24px -12px ${t.color}40, inset 0 1px 0 0 ${t.color}20`,
+                  boxShadow: `0 8px 24px -16px ${t.color}40, 0 2px 8px -4px ${t.color}20`,
                 }}
               >
                 {/* 3D glossy top stripe */}
@@ -223,16 +223,16 @@ export default function PartnerLanding() {
                   aria-hidden
                   className="absolute -top-2 left-1/2 -translate-x-1/2 w-[80%] h-12 pointer-events-none rounded-full"
                   style={{
-                    background: `radial-gradient(ellipse at top, ${t.color}55 0%, ${t.color}00 70%)`,
+                    background: `radial-gradient(ellipse at top, ${t.color}33 0%, ${t.color}00 70%)`,
                     filter: "blur(12px)",
                   }}
                 />
-                {/* 3D colored glow */}
+                {/* Very subtle colored glow */}
                 <div
                   aria-hidden
                   className="absolute -top-24 -right-16 w-64 h-64 rounded-full pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle, ${t.color}55 0%, ${t.color}00 70%)`,
+                    background: `radial-gradient(circle, ${t.color}1a 0%, ${t.color}00 70%)`,
                     filter: "blur(20px)",
                   }}
                 />
@@ -240,7 +240,7 @@ export default function PartnerLanding() {
                   aria-hidden
                   className="absolute -bottom-20 -left-16 w-56 h-56 rounded-full pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle, ${t.color}33 0%, ${t.color}00 70%)`,
+                    background: `radial-gradient(circle, ${t.color}10 0%, ${t.color}00 70%)`,
                     filter: "blur(24px)",
                   }}
                 />
