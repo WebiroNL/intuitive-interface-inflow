@@ -38,11 +38,6 @@ const integrations = [
 const AdminIntegrations = () => {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Integraties</h1>
-        <p className="text-sm text-muted-foreground mt-1">Beheer je externe tools en koppelingen</p>
-      </div>
-
       <div className="grid gap-4">
         {integrations.map((int) => (
           <Card key={int.name} className="border border-border p-5 flex items-center justify-between">
