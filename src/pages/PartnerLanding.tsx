@@ -53,7 +53,7 @@ export default function PartnerLanding() {
       {/* Hero */}
       <section
         className="relative overflow-hidden bg-card"
-        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%)" }}
+        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 140px), 0 100%)" }}
       >
         <PartnerHeroParticles />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-32 lg:pb-44 relative">
