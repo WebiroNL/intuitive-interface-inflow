@@ -196,9 +196,31 @@ export default function PartnerLanding() {
             {tiers.map((t) => (
               <div
                 key={t.id}
-                className="rounded-2xl border border-border p-8 bg-card relative overflow-hidden"
-                style={{ borderTopWidth: 4, borderTopColor: t.color }}
+                className="rounded-2xl border border-border p-8 bg-card relative overflow-hidden transition-shadow hover:shadow-2xl"
+                style={{
+                  borderTopWidth: 4,
+                  borderTopColor: t.color,
+                  boxShadow: `0 20px 50px -20px ${t.color}66, 0 8px 24px -12px ${t.color}40, inset 0 1px 0 0 ${t.color}20`,
+                }}
               >
+                {/* 3D colored glow */}
+                <div
+                  aria-hidden
+                  className="absolute -top-24 -right-16 w-64 h-64 rounded-full pointer-events-none"
+                  style={{
+                    background: `radial-gradient(circle, ${t.color}55 0%, ${t.color}00 70%)`,
+                    filter: "blur(20px)",
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute -bottom-20 -left-16 w-56 h-56 rounded-full pointer-events-none"
+                  style={{
+                    background: `radial-gradient(circle, ${t.color}33 0%, ${t.color}00 70%)`,
+                    filter: "blur(24px)",
+                  }}
+                />
+                <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
                   <HugeiconsIcon icon={Award01Icon} size={20} style={{ color: t.color }} />
                   <h3 className="text-[20px] font-semibold text-foreground">{t.display_name}</h3>
