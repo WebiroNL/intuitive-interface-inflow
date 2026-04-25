@@ -12,6 +12,7 @@ import {
   ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface LegalPage {
   id: string;
