@@ -114,6 +114,51 @@ export default function PartnerLanding() {
         </div>
       </section>
 
+      {/* 3D Diagonal gradient ribbon (Stripe-style), follows hero's slanted bottom edge */}
+      <div
+        aria-hidden
+        className="relative w-full overflow-hidden -mt-[140px] lg:-mt-[180px] h-[260px] lg:h-[340px] pointer-events-none"
+      >
+        {/* Soft outer glow */}
+        <div
+          className="absolute left-[-10vw] w-[120vw] h-[180px] lg:h-[230px] opacity-70"
+          style={{
+            top: "50%",
+            transform: "translateY(-50%) rotate(-6deg)",
+            transformOrigin: "center",
+            background:
+              "linear-gradient(90deg, hsl(280 90% 65%) 0%, hsl(295 85% 70%) 25%, hsl(320 90% 70%) 50%, hsl(340 90% 72%) 70%, hsl(30 95% 65%) 100%)",
+            filter: "blur(36px)",
+            borderRadius: "100px",
+          }}
+        />
+        {/* Main ribbon body */}
+        <div
+          className="absolute left-[-10vw] w-[120vw] h-[90px] lg:h-[120px]"
+          style={{
+            top: "50%",
+            transform: "translateY(-50%) rotate(-6deg)",
+            transformOrigin: "center",
+            background:
+              "linear-gradient(90deg, hsl(265 85% 60%) 0%, hsl(280 85% 65%) 18%, hsl(300 88% 70%) 38%, hsl(325 90% 72%) 58%, hsl(345 90% 70%) 78%, hsl(28 95% 62%) 100%)",
+            filter: "blur(14px)",
+            borderRadius: "100px",
+          }}
+        />
+        {/* Sharp glossy highlight */}
+        <div
+          className="absolute left-[-10vw] w-[120vw] h-[26px] lg:h-[34px]"
+          style={{
+            top: "50%",
+            transform: "translateY(-50%) rotate(-6deg)",
+            transformOrigin: "center",
+            background:
+              "linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 30%, hsla(0,0%,100%,0.55) 50%, hsla(0,0%,100%,0.35) 70%, transparent 100%)",
+            filter: "blur(4px)",
+            borderRadius: "100px",
+          }}
+        />
+      </div>
 
       {/* How it works */}
       <section className="border-b border-border">
