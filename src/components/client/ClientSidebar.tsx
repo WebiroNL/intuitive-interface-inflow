@@ -57,10 +57,6 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
 
-  const handleLogout = async () => {
-    await signOut();
-    navigate("/client/login");
-  };
 
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
