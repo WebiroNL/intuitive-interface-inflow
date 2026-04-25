@@ -114,22 +114,22 @@ export default function PartnerLanding() {
         </div>
       </section>
 
-      {/* Decorative diagonal bars (just below the slanted hero edge) */}
-      <section className="relative overflow-hidden h-[120px] lg:h-[160px] -mt-2">
-        {/* Light blue diagonal bar (right, follows the hero slant) */}
+      {/* Decorative diagonal bars (glued to the slanted hero edge) */}
+      <section className="relative overflow-hidden h-[100px] lg:h-[140px] -mt-[80px] pointer-events-none">
+        {/* Light blue diagonal bar — top edge sits exactly on the hero slant */}
         <div
           aria-hidden
-          className="absolute right-0 top-[10px] lg:top-[20px] w-[80%] h-[50px] lg:h-[70px]"
+          className="absolute right-0 top-0 w-[85%] h-[44px] lg:h-[60px]"
           style={{
             background: "hsl(189 95% 75% / 0.55)",
             transform: "rotate(-6deg)",
-            transformOrigin: "right center",
+            transformOrigin: "right top",
           }}
         />
         {/* Dark blue diagonal bar (left, behind purple) */}
         <div
           aria-hidden
-          className="absolute left-0 top-[60px] lg:top-[80px] w-[28%] h-[22px] lg:h-[28px]"
+          className="absolute left-0 bottom-[18px] lg:bottom-[24px] w-[28%] h-[20px] lg:h-[26px]"
           style={{
             background: "hsl(232 85% 52%)",
             transform: "rotate(-6deg)",
@@ -139,7 +139,7 @@ export default function PartnerLanding() {
         {/* Purple diagonal bar (left, in front, offset down) */}
         <div
           aria-hidden
-          className="absolute left-[20px] lg:left-[40px] top-[80px] lg:top-[105px] w-[26%] h-[28px] lg:h-[36px]"
+          className="absolute left-[20px] lg:left-[40px] bottom-0 w-[26%] h-[26px] lg:h-[34px]"
           style={{
             background: "hsl(252 78% 65% / 0.9)",
             transform: "rotate(-6deg)",
