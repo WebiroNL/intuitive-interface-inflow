@@ -61,7 +61,7 @@ export default function ClientLogin() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="mt-1.5"
-              placeholder="jij@bedrijf.nl"
+              placeholder="info@bedrijf.nl"
               autoComplete="off"
             />
           </div>
