@@ -155,7 +155,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
+  const { client } = useMyClient();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
