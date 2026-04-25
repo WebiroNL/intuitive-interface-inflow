@@ -269,6 +269,7 @@ export default function PartnerLanding() {
                     </li>
                   ))}
                 </ul>
+                </div>
               </div>
             ))}
           </div>
