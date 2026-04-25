@@ -2,8 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import { AdminTopBar } from '@/components/admin/AdminTopBar';
 
 const AdminOverview = lazy(() => import('./admin/AdminOverview'));
 const AdminOrders = lazy(() => import('./admin/AdminOrders'));
