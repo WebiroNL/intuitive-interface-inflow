@@ -172,30 +172,35 @@ export default function PartnerLanding() {
                   boxShadow: `0 8px 24px -16px ${t.color}40, 0 2px 8px -4px ${t.color}20`,
                 }}
               >
-                {/* 3D glossy top stripe */}
+                {/* 3D glossy gradient border around entire card */}
                 <div
                   aria-hidden
-                  className="absolute top-0 left-0 right-0 h-[6px] pointer-events-none"
+                  className="absolute inset-0 rounded-2xl pointer-events-none"
                   style={{
-                    background: `linear-gradient(90deg, ${t.color}00 0%, ${t.color} 20%, ${t.color}ee 50%, ${t.color} 80%, ${t.color}00 100%)`,
-                    boxShadow: `0 0 16px 2px ${t.color}88, 0 0 32px 4px ${t.color}55`,
+                    padding: "2px",
+                    background: `linear-gradient(135deg, ${t.color} 0%, ${t.color}cc 25%, ${t.color}ee 50%, ${t.color}cc 75%, ${t.color} 100%)`,
+                    WebkitMask:
+                      "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
+                    boxShadow: `0 0 16px 1px ${t.color}66, 0 0 32px 4px ${t.color}33`,
                   }}
                 />
-                {/* Glossy highlight on top stripe */}
+                {/* Glossy highlight on top edge */}
                 <div
                   aria-hidden
-                  className="absolute top-0 left-[15%] right-[15%] h-[2px] pointer-events-none"
+                  className="absolute top-[2px] left-[15%] right-[15%] h-[1px] pointer-events-none"
                   style={{
                     background: `linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.7) 50%, transparent 100%)`,
                   }}
                 />
-                {/* Soft bloom under the stripe */}
+                {/* Soft bloom around the card */}
                 <div
                   aria-hidden
-                  className="absolute -top-2 left-1/2 -translate-x-1/2 w-[80%] h-12 pointer-events-none rounded-full"
+                  className="absolute -inset-2 rounded-2xl pointer-events-none -z-10"
                   style={{
-                    background: `radial-gradient(ellipse at top, ${t.color}33 0%, ${t.color}00 70%)`,
-                    filter: "blur(12px)",
+                    background: `radial-gradient(ellipse at center, ${t.color}22 0%, ${t.color}00 70%)`,
+                    filter: "blur(16px)",
                   }}
                 />
                 {/* Very subtle colored glow */}
