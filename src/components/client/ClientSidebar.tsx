@@ -11,7 +11,6 @@ import {
   Invoice01Icon,
   FolderLibraryIcon,
   Notification02Icon,
-  Logout01Icon,
   Cancel01Icon,
   TaskDaily01Icon,
 } from "@hugeicons/core-free-icons";
