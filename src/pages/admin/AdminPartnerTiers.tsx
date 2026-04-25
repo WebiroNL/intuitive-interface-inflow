@@ -79,7 +79,14 @@ export default function AdminPartnerTiers() {
               <div>
                 <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Kleur</span>
                 <div className="mt-1 flex items-center gap-2">
-                  <span className="w-9 h-9 rounded-md border border-border flex-shrink-0" style={{ backgroundColor: t.color }} />
+                  <label className="relative w-9 h-9 rounded-md border border-border flex-shrink-0 cursor-pointer overflow-hidden" style={{ backgroundColor: t.color }}>
+                    <input
+                      type="color"
+                      value={t.color}
+                      onChange={(e) => update(t.id, { color: e.target.value })}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  </label>
                   <input
                     type="text"
                     value={t.color}
