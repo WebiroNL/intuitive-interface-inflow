@@ -172,30 +172,29 @@ export default function PartnerLanding() {
                   boxShadow: `0 8px 24px -16px ${t.color}40, 0 2px 8px -4px ${t.color}20`,
                 }}
               >
-                {/* 3D glossy top stripe */}
+                {/* Elegant top accent line */}
                 <div
                   aria-hidden
-                  className="absolute top-0 left-0 right-0 h-[6px] pointer-events-none"
+                  className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none"
                   style={{
-                    background: `linear-gradient(90deg, ${t.color}00 0%, ${t.color} 20%, ${t.color}ee 50%, ${t.color} 80%, ${t.color}00 100%)`,
-                    boxShadow: `0 0 16px 2px ${t.color}88, 0 0 32px 4px ${t.color}55`,
+                    background: `linear-gradient(90deg, ${t.color}00 0%, ${t.color}80 15%, ${t.color} 50%, ${t.color}80 85%, ${t.color}00 100%)`,
                   }}
                 />
-                {/* Glossy highlight on top stripe */}
+                {/* Crisp highlight pixel */}
                 <div
                   aria-hidden
-                  className="absolute top-0 left-[15%] right-[15%] h-[2px] pointer-events-none"
+                  className="absolute top-[2px] left-[20%] right-[20%] h-px pointer-events-none"
                   style={{
-                    background: `linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.7) 50%, transparent 100%)`,
+                    background: `linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.4) 50%, transparent 100%)`,
                   }}
                 />
-                {/* Soft bloom under the stripe */}
+                {/* Soft halo bloom below the line */}
                 <div
                   aria-hidden
-                  className="absolute -top-2 left-1/2 -translate-x-1/2 w-[80%] h-12 pointer-events-none rounded-full"
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 w-[70%] h-10 pointer-events-none"
                   style={{
-                    background: `radial-gradient(ellipse at top, ${t.color}33 0%, ${t.color}00 70%)`,
-                    filter: "blur(12px)",
+                    background: `radial-gradient(ellipse 60% 100% at center top, ${t.color}40 0%, ${t.color}00 70%)`,
+                    filter: "blur(8px)",
                   }}
                 />
                 {/* Very subtle colored glow */}
