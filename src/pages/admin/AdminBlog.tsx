@@ -168,13 +168,7 @@ const AdminBlog = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Blog</h1>
-          <p className="text-[14px] text-muted-foreground mt-1">
-            {posts.length} artikel{posts.length !== 1 ? "en" : ""}
-          </p>
-        </div>
+      <div className="flex items-center justify-end mb-6">
         {!isEditorOpen && (
           <Button onClick={startCreate} size="sm">
             <HugeiconsIcon icon={Add01Icon} size={16} className="mr-1.5" />
