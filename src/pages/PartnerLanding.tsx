@@ -114,36 +114,32 @@ export default function PartnerLanding() {
         </div>
       </section>
 
-      {/* Decorative diagonal bars (glued to the slanted hero edge) */}
-      <section className="relative overflow-hidden h-[100px] lg:h-[140px] -mt-[80px] pointer-events-none">
-        {/* Light blue diagonal bar — top edge sits exactly on the hero slant */}
+      {/* 3D gradient ribbon glued to the slanted hero edge */}
+      <section className="relative overflow-hidden h-[180px] lg:h-[260px] -mt-[80px] pointer-events-none">
+        {/* Main ribbon — full width, diagonal, multi-stop gradient with soft blur for 3D feel */}
         <div
           aria-hidden
-          className="absolute right-0 top-0 w-[85%] h-[44px] lg:h-[60px]"
+          className="absolute left-[-10%] right-[-10%] top-[10px] lg:top-[20px] h-[90px] lg:h-[130px]"
           style={{
-            background: "hsl(189 95% 75% / 0.55)",
+            background:
+              "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
             transform: "rotate(-6deg)",
-            transformOrigin: "right top",
+            transformOrigin: "center",
+            filter: "blur(14px)",
+            opacity: 0.95,
           }}
         />
-        {/* Dark blue diagonal bar (left, behind purple) */}
+        {/* Sharper highlight ribbon on top for depth */}
         <div
           aria-hidden
-          className="absolute left-0 bottom-[18px] lg:bottom-[24px] w-[28%] h-[20px] lg:h-[26px]"
+          className="absolute left-[-10%] right-[-10%] top-[35px] lg:top-[55px] h-[40px] lg:h-[60px]"
           style={{
-            background: "hsl(232 85% 52%)",
+            background:
+              "linear-gradient(90deg, hsl(28 100% 70% / 0.9) 0%, hsl(322 95% 75% / 0.95) 30%, hsl(280 85% 70% / 0.95) 55%, hsl(322 95% 75% / 0.95) 78%, hsl(28 100% 70% / 0.9) 100%)",
             transform: "rotate(-6deg)",
-            transformOrigin: "left center",
-          }}
-        />
-        {/* Purple diagonal bar (left, in front, offset down) */}
-        <div
-          aria-hidden
-          className="absolute left-[20px] lg:left-[40px] bottom-0 w-[26%] h-[26px] lg:h-[34px]"
-          style={{
-            background: "hsl(252 78% 65% / 0.9)",
-            transform: "rotate(-6deg)",
-            transformOrigin: "left center",
+            transformOrigin: "center",
+            filter: "blur(6px)",
+            opacity: 0.85,
           }}
         />
       </section>
