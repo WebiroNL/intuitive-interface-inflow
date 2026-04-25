@@ -90,6 +90,65 @@ export default function PartnerLanding() {
         </div>
       </section>
 
+      {/* Decorative diagonal bars + intro tile (Stripe-style) */}
+      <section className="relative border-b border-border overflow-hidden">
+        {/* Light blue diagonal bar (top right) */}
+        <div
+          aria-hidden
+          className="absolute top-0 right-0 w-[70%] h-[80px] lg:h-[110px] -translate-y-1/2"
+          style={{
+            background: "hsl(199 95% 80% / 0.55)",
+            transform: "translateY(-40%) rotate(-6deg)",
+            transformOrigin: "right center",
+          }}
+        />
+        {/* Dark blue diagonal bar (left, behind purple) */}
+        <div
+          aria-hidden
+          className="absolute left-0 top-[80px] lg:top-[120px] w-[42%] h-[26px] lg:h-[34px]"
+          style={{
+            background: "hsl(232 85% 52%)",
+            transform: "rotate(-6deg)",
+            transformOrigin: "left center",
+          }}
+        />
+        {/* Purple diagonal bar (left, in front, offset down) */}
+        <div
+          aria-hidden
+          className="absolute left-[40px] lg:left-[80px] top-[110px] lg:top-[155px] w-[40%] h-[34px] lg:h-[44px]"
+          style={{
+            background: "hsl(252 78% 65% / 0.85)",
+            transform: "rotate(-6deg)",
+            transformOrigin: "left center",
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-40 lg:pt-56 pb-16 lg:pb-20 relative">
+          <div className="grid lg:grid-cols-2 gap-8 items-start">
+            <div className="hidden lg:block" />
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <HugeiconsIcon icon={Coins01Icon} size={20} className="text-primary" />
+                </div>
+                <h3 className="text-[20px] font-semibold text-foreground">Recurring commissie</h3>
+              </div>
+              <p className="text-[15px] leading-relaxed text-muted-foreground mb-5">
+                Met het Webiro Partner Programma verdien je niet alleen aan de eerste verkoop.
+                Je ontvangt ook maandelijkse commissie op CMS, hosting en marketing abonnementen
+                van de klanten die je aanbrengt — zolang ze klant blijven.
+              </p>
+              <Link
+                to="/partner/register"
+                className="inline-flex items-center gap-1.5 text-primary text-[14px] font-semibold hover:gap-2 transition-all"
+              >
+                Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it works */}
       <section className="border-b border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
