@@ -116,14 +116,14 @@ export default function PartnerLanding() {
 
       {/* 3D gradient ribbon glued to the slanted hero edge */}
       <section className="relative overflow-hidden h-[320px] lg:h-[420px] -mt-[140px] pointer-events-none">
-        {/* Main ribbon — oversized so both diagonal ends stay fully off-canvas */}
+        {/* Main ribbon — diagonal from bottom-left to top-right */}
         <div
           aria-hidden
-          className="absolute top-0 left-[-35vw] w-[170vw] h-[120px] lg:h-[170px]"
+          className="absolute top-[120px] lg:top-[160px] left-[-35vw] w-[170vw] h-[120px] lg:h-[170px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
-            transform: "rotate(-7deg) translateY(26px)",
+            transform: "rotate(-12deg)",
             transformOrigin: "center",
             filter: "blur(16px)",
             opacity: 0.95,
@@ -132,11 +132,11 @@ export default function PartnerLanding() {
         {/* Sharper highlight ribbon on top for depth */}
         <div
           aria-hidden
-          className="absolute top-[38px] lg:top-[60px] left-[-35vw] w-[170vw] h-[44px] lg:h-[64px]"
+          className="absolute top-[158px] lg:top-[220px] left-[-35vw] w-[170vw] h-[44px] lg:h-[64px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 70% / 0.9) 0%, hsl(322 95% 75% / 0.95) 30%, hsl(280 85% 70% / 0.95) 55%, hsl(322 95% 75% / 0.95) 78%, hsl(28 100% 70% / 0.9) 100%)",
-            transform: "rotate(-7deg) translateY(26px)",
+            transform: "rotate(-12deg)",
             transformOrigin: "center",
             filter: "blur(6px)",
             opacity: 0.85,
