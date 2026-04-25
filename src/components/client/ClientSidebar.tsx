@@ -1,6 +1,6 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAppSetting } from "@/hooks/useAppSetting";
 import webiroLogo from "@/assets/logo-webiro.svg";
 import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -11,7 +11,6 @@ import {
   Invoice01Icon,
   FolderLibraryIcon,
   Notification02Icon,
-  Logout01Icon,
   Cancel01Icon,
   TaskDaily01Icon,
 } from "@hugeicons/core-free-icons";
@@ -27,9 +26,8 @@ interface Props {
 
 export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { signOut } = useAuth();
   const sections = useClientSections(client);
+  const version = useAppSetting("client_dashboard_version", "1.0.0");
   const base = `/dashboard`;
   const vm = (client.visible_menus as string[] | null | undefined) ?? null;
 
@@ -58,10 +56,6 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
 
-  const handleLogout = async () => {
-    await signOut();
-    navigate("/client/login");
-  };
 
   // Lock body scroll when mobile drawer open (only below 900px)
   useEffect(() => {
@@ -153,14 +147,9 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         )}
       </nav>
 
-      <div className="border-t border-border p-3">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2.5 w-full px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
-        >
-          <HugeiconsIcon icon={Logout01Icon} size={16} />
-          Uitloggen
-        </button>
+      <div className="border-t border-border p-4">
+        <p className="text-[12px] font-semibold text-foreground leading-tight">Webiro Client Dashboard</p>
+        <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">Versie {version}</p>
       </div>
     </>
   );

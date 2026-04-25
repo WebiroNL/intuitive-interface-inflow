@@ -1,10 +1,53 @@
+import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Settings01Icon, ShieldKeyIcon, Notification01Icon } from "@hugeicons/core-free-icons";
+import { Settings01Icon, ShieldKeyIcon, Notification01Icon, CodeIcon } from "@hugeicons/core-free-icons";
+
+const VERSION_KEYS = [
+  { key: 'partner_dashboard_version', label: 'Partner Dashboard versie' },
+  { key: 'client_dashboard_version', label: 'Client Dashboard versie' },
+];
 
 const AdminSettings = () => {
   const { user } = useAuth();
+  const [versions, setVersions] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState<string | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from('app_settings')
+        .select('key, value')
+        .in('key', VERSION_KEYS.map((v) => v.key));
+      const map: Record<string, string> = {};
+      (data ?? []).forEach((row) => {
+        if (row.value) map[row.key] = row.value;
+      });
+      setVersions(map);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  const saveVersion = async (key: string) => {
+    setSaving(key);
+    const { error } = await supabase
+      .from('app_settings')
+      .upsert({ key, value: versions[key] ?? '', updated_by: user?.id ?? null }, { onConflict: 'key' });
+    setSaving(null);
+    if (error) {
+      toast.error('Opslaan mislukt: ' + error.message);
+    } else {
+      toast.success('Versie opgeslagen');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -14,6 +57,42 @@ const AdminSettings = () => {
       </div>
 
       <div className="grid gap-4 max-w-2xl">
+        <Card className="border border-border p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <HugeiconsIcon icon={CodeIcon} size={18} />
+            </div>
+            <h3 className="text-sm font-semibold text-foreground">Dashboard versies</h3>
+          </div>
+          <p className="text-xs text-muted-foreground mb-4">
+            Versienummers die getoond worden onderaan de Partner- en Client-sidebar.
+          </p>
+          <div className="space-y-4">
+            {VERSION_KEYS.map(({ key, label }) => (
+              <div key={key} className="flex items-end gap-2">
+                <div className="flex-1">
+                  <Label htmlFor={key} className="text-xs text-muted-foreground">{label}</Label>
+                  <Input
+                    id={key}
+                    value={versions[key] ?? ''}
+                    placeholder="1.0.0"
+                    disabled={loading}
+                    onChange={(e) => setVersions((v) => ({ ...v, [key]: e.target.value }))}
+                    className="mt-1"
+                  />
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => saveVersion(key)}
+                  disabled={loading || saving === key}
+                >
+                  {saving === key ? 'Opslaan...' : 'Opslaan'}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </Card>
+
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">

@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
+
+import { useAppSetting } from "@/hooks/useAppSetting";
 import webiroLogo from "@/assets/logo-webiro.svg";
 import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -11,7 +12,6 @@ import {
   Link01Icon,
   Wallet01Icon,
   File01Icon,
-  Logout01Icon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 
@@ -36,9 +36,9 @@ const navItems = [
 
 export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) {
   const location = useLocation();
-  const { signOut } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const version = useAppSetting("partner_dashboard_version", "1.0.0");
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? location.pathname === href : location.pathname.startsWith(href);
@@ -92,10 +92,9 @@ export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) 
         ))}
       </nav>
 
-      <div className="border-t border-border p-3">
-        <p className="px-3 py-2 text-[11px] text-muted-foreground">
-          Dashboard v1.0.0
-        </p>
+      <div className="border-t border-border p-4">
+        <p className="text-[12px] font-semibold text-foreground leading-tight">Webiro Partner Dashboard</p>
+        <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">Versie {version}</p>
       </div>
     </>
   );
