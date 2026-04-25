@@ -99,7 +99,7 @@ export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
             <p className="text-[11px] font-normal text-muted-foreground truncate">{partner.email}</p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="focus:bg-muted/70 dark:focus:bg-muted focus:text-foreground">
             <Link to="/partner/dashboard/profile" className="cursor-pointer">
               <HugeiconsIcon icon={Settings01Icon} size={14} className="mr-2" />
               Account instellingen
