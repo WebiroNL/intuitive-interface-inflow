@@ -6,6 +6,7 @@ import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useMyClient } from '@/hooks/useClient';
 import { CartButton } from '@/components/shop/CartButton';
 
 const navLinks = [
