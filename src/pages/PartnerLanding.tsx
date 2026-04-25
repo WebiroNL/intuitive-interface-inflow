@@ -57,96 +57,96 @@ export default function PartnerLanding() {
       >
         <PartnerHeroParticles />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-32 lg:pb-44 relative">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
-              <HugeiconsIcon icon={HandBag01Icon} size={14} />
-              Partner Programma
+          <div className="grid lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-medium mb-6">
+                <HugeiconsIcon icon={HandBag01Icon} size={14} />
+                Partner Programma
+              </div>
+              <h1 className="text-[44px] lg:text-[64px] leading-[1.05] font-semibold tracking-tight text-foreground">
+                Verdien aan elke
+                <br />
+                <span className="text-primary">klant die je aanbrengt</span>
+              </h1>
+              <p className="mt-6 text-[18px] leading-relaxed text-muted-foreground max-w-2xl">
+                Sluit je aan bij het Webiro Partner Programma en verdien tot 20% commissie op websites,
+                marketing diensten en shop producten. Persoonlijke referral link, eigen kortingscode en
+                een transparant dashboard.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/partner/register"
+                  className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
+                >
+                  Word partner <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/partner/login"
+                  className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
+                >
+                  Inloggen
+                </Link>
+              </div>
             </div>
-            <h1 className="text-[44px] lg:text-[64px] leading-[1.05] font-semibold tracking-tight text-foreground">
-              Verdien aan elke
-              <br />
-              <span className="text-primary">klant die je aanbrengt</span>
-            </h1>
-            <p className="mt-6 text-[18px] leading-relaxed text-muted-foreground max-w-2xl">
-              Sluit je aan bij het Webiro Partner Programma en verdien tot 20% commissie op websites,
-              marketing diensten en shop producten. Persoonlijke referral link, eigen kortingscode en
-              een transparant dashboard.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                to="/partner/register"
-                className="inline-flex items-center gap-2 px-5 py-[11px] bg-primary text-primary-foreground text-[14px] font-semibold rounded-[6px] hover:bg-primary/90 transition-colors"
-              >
-                Word partner <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/partner/login"
-                className="inline-flex items-center gap-2 px-5 py-[11px] border border-input text-foreground text-[14px] font-medium rounded-[6px] hover:bg-muted/40 transition-colors"
-              >
-                Inloggen
-              </Link>
+
+            {/* Recurring commissie tile inside hero */}
+            <div className="lg:col-span-5 lg:mt-4">
+              <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <HugeiconsIcon icon={Coins01Icon} size={20} className="text-primary" />
+                  </div>
+                  <h3 className="text-[20px] font-semibold text-foreground">Recurring commissie</h3>
+                </div>
+                <p className="text-[15px] leading-relaxed text-muted-foreground mb-5">
+                  Met het Webiro Partner Programma verdien je niet alleen aan de eerste verkoop.
+                  Je ontvangt ook maandelijkse commissie op CMS, hosting en marketing abonnementen
+                  van de klanten die je aanbrengt, zolang ze klant blijven.
+                </p>
+                <Link
+                  to="/partner/register"
+                  className="inline-flex items-center gap-1.5 text-primary text-[14px] font-semibold hover:gap-2 transition-all"
+                >
+                  Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Decorative diagonal bars + intro tile (Stripe-style) */}
-      <section className="relative border-b border-border overflow-hidden">
-        {/* Light blue diagonal bar (bottom, spans across) */}
+      {/* Decorative diagonal bars (just below the slanted hero edge) */}
+      <section className="relative overflow-hidden h-[120px] lg:h-[160px] -mt-2">
+        {/* Light blue diagonal bar (right, follows the hero slant) */}
         <div
           aria-hidden
-          className="absolute right-0 bottom-[60px] lg:bottom-[80px] w-[80%] h-[50px] lg:h-[70px]"
+          className="absolute right-0 top-[10px] lg:top-[20px] w-[80%] h-[50px] lg:h-[70px]"
           style={{
             background: "hsl(189 95% 75% / 0.55)",
             transform: "rotate(-6deg)",
             transformOrigin: "right center",
           }}
         />
-        {/* Dark blue diagonal bar (bottom left, behind purple) */}
+        {/* Dark blue diagonal bar (left, behind purple) */}
         <div
           aria-hidden
-          className="absolute left-0 bottom-[10px] lg:bottom-[20px] w-[28%] h-[22px] lg:h-[28px]"
+          className="absolute left-0 top-[60px] lg:top-[80px] w-[28%] h-[22px] lg:h-[28px]"
           style={{
             background: "hsl(232 85% 52%)",
             transform: "rotate(-6deg)",
             transformOrigin: "left center",
           }}
         />
-        {/* Purple diagonal bar (bottom left, in front, offset down) */}
+        {/* Purple diagonal bar (left, in front, offset down) */}
         <div
           aria-hidden
-          className="absolute left-[20px] lg:left-[40px] -bottom-[10px] lg:-bottom-[6px] w-[26%] h-[28px] lg:h-[36px]"
+          className="absolute left-[20px] lg:left-[40px] top-[80px] lg:top-[105px] w-[26%] h-[28px] lg:h-[36px]"
           style={{
             background: "hsl(252 78% 65% / 0.9)",
             transform: "rotate(-6deg)",
             transformOrigin: "left center",
           }}
         />
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 lg:pt-20 pb-32 lg:pb-40 relative">
-          <div className="grid lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-2 hidden lg:block" />
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-sm relative z-10">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <HugeiconsIcon icon={Coins01Icon} size={20} className="text-primary" />
-                </div>
-                <h3 className="text-[20px] font-semibold text-foreground">Recurring commissie</h3>
-              </div>
-              <p className="text-[15px] leading-relaxed text-muted-foreground mb-5">
-                Met het Webiro Partner Programma verdien je niet alleen aan de eerste verkoop.
-                Je ontvangt ook maandelijkse commissie op CMS, hosting en marketing abonnementen
-                van de klanten die je aanbrengt, zolang ze klant blijven.
-              </p>
-              <Link
-                to="/partner/register"
-                className="inline-flex items-center gap-1.5 text-primary text-[14px] font-semibold hover:gap-2 transition-all"
-              >
-                Meer informatie <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* How it works */}
