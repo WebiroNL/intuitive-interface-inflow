@@ -12,7 +12,6 @@ import {
   Link01Icon,
   Wallet01Icon,
   File01Icon,
-  Logout01Icon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 
