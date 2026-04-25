@@ -14,6 +14,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { updatePageMeta } from "@/utils/seo";
+import { PartnerHeroParticles } from "@/components/PartnerHeroParticles";
 
 interface Tier {
   id: string;
