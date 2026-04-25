@@ -96,7 +96,7 @@ export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>
             <p className="text-[13px] font-semibold text-foreground truncate">{partner.company_name}</p>
-            <p className="text-[11px] font-normal text-muted-foreground truncate">{partner.email}</p>
+            
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild className="focus:bg-muted/70 dark:focus:bg-muted focus:text-foreground">
