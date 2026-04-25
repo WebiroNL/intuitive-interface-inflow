@@ -162,6 +162,42 @@ const AdminSettings = () => {
             E-mailnotificaties voor nieuwe leads en orders worden binnenkort toegevoegd.
           </p>
         </Card>
+
+        <Card className="border border-border p-5 md:col-span-2">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <HugeiconsIcon icon={Share08Icon} size={18} />
+            </div>
+            <h3 className="text-sm font-semibold text-foreground">Social media links</h3>
+          </div>
+          <p className="text-xs text-muted-foreground mb-4">
+            URL's die getoond worden in de footer. Laat leeg om een icoon te verbergen.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {SOCIAL_KEYS.map(({ key, label, placeholder }) => (
+              <div key={key} className="flex items-end gap-2">
+                <div className="flex-1">
+                  <Label htmlFor={key} className="text-xs text-muted-foreground">{label}</Label>
+                  <Input
+                    id={key}
+                    value={socials[key] ?? ''}
+                    placeholder={placeholder}
+                    disabled={loading}
+                    onChange={(e) => setSocials((v) => ({ ...v, [key]: e.target.value }))}
+                    className="mt-1"
+                  />
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => saveSocial(key)}
+                  disabled={loading || saving === key}
+                >
+                  {saving === key ? 'Opslaan...' : 'Opslaan'}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
     </div>
   );
