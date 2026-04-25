@@ -47,7 +47,7 @@ export function AdminTopBar({ onMenuClick, isSidebarOpen }: Props) {
   const title = TITLES[segment] ?? "Overzicht";
 
   const email = user?.email ?? "";
-  const name = (user?.user_metadata as any)?.full_name || email.split("@")[0] || "Admin";
+  const name = "Administrator";
 
   const initials = name
     .split(" ")
