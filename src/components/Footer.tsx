@@ -4,6 +4,15 @@ import LogoWebiro from '@/imports/LogoWebiro1';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Facebook01Icon, InstagramIcon, Linkedin01Icon, WhatsappIcon, Mail01Icon } from '@hugeicons/core-free-icons';
 import { supabase } from '@/integrations/supabase/client';
+import { useAppSettings } from '@/hooks/useAppSetting';
+
+const SOCIAL_FALLBACKS = {
+  social_facebook_url: 'https://www.facebook.com/webironl/',
+  social_instagram_url: 'https://www.instagram.com/webiro.nl',
+  social_linkedin_url: 'https://www.linkedin.com/company/webironl/',
+  social_whatsapp_url: 'https://wa.me/31855055054',
+  social_email_url: 'mailto:info@webiro.nl',
+};
 
 interface NavLink {
   label: string;
@@ -27,6 +36,7 @@ const staticBedrijfLinks: NavLink[] = [
 export function Footer() {
   const [legalLinks, setLegalLinks] = useState<NavLink[]>([]);
   const [bedrijfDynamic, setBedrijfDynamic] = useState<NavLink[]>([]);
+  const { values: socials } = useAppSettings(Object.keys(SOCIAL_FALLBACKS), SOCIAL_FALLBACKS);
 
   useEffect(() => {
     supabase
@@ -98,12 +108,12 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-3">
             {[
-              { icon: Facebook01Icon, href: "https://www.facebook.com/webironl/", label: "Facebook", external: true },
-              { icon: InstagramIcon, href: "https://www.instagram.com/webiro.nl", label: "Instagram", external: true },
-              { icon: Linkedin01Icon, href: "https://www.linkedin.com/company/webironl/", label: "LinkedIn", external: true },
-              { icon: WhatsappIcon, href: "https://wa.me/31855055054", label: "WhatsApp", external: true },
-              { icon: Mail01Icon, href: "mailto:info@webiro.nl", label: "Email", external: false },
-            ].map(({ icon, href, label, external }) => (
+              { icon: Facebook01Icon, href: socials.social_facebook_url, label: "Facebook", external: true },
+              { icon: InstagramIcon, href: socials.social_instagram_url, label: "Instagram", external: true },
+              { icon: Linkedin01Icon, href: socials.social_linkedin_url, label: "LinkedIn", external: true },
+              { icon: WhatsappIcon, href: socials.social_whatsapp_url, label: "WhatsApp", external: true },
+              { icon: Mail01Icon, href: socials.social_email_url, label: "Email", external: false },
+            ].filter(({ href }) => !!href).map(({ icon, href, label, external }) => (
               <a
                 key={label}
                 href={href}
