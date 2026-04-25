@@ -114,56 +114,6 @@ export default function PartnerLanding() {
         </div>
       </section>
 
-      {/* 3D gradient ribbon glued to the slanted hero edge.
-          Hero clip-path: polygon(0 0, 100% 0, 100% calc(100% - 140px), 0 100%)
-          → bottom edge runs from (0, 100%) up to (100%, 100% - 140px).
-          We pin the ribbon to that edge and rotate by the same angle (~ -6° desktop). */}
-      <section className="relative overflow-visible h-[180px] lg:h-[220px] -mt-[160px] lg:-mt-[200px] pointer-events-none z-10">
-        <div className="absolute inset-x-0 bottom-0 h-[160px] lg:h-[200px] overflow-hidden">
-          {/* Soft outer glow */}
-          <div
-            aria-hidden
-            className="absolute left-[-10vw] w-[120vw] h-[140px] lg:h-[180px]"
-            style={{
-              top: "calc(100% - 90px)",
-              background:
-                "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
-              transform: "rotate(-6deg)",
-              transformOrigin: "left center",
-              filter: "blur(28px)",
-              opacity: 0.7,
-            }}
-          />
-          {/* Main ribbon body */}
-          <div
-            aria-hidden
-            className="absolute left-[-10vw] w-[120vw] h-[70px] lg:h-[90px]"
-            style={{
-              top: "calc(100% - 60px)",
-              background:
-                "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
-              transform: "rotate(-6deg)",
-              transformOrigin: "left center",
-              filter: "blur(14px)",
-              opacity: 0.95,
-            }}
-          />
-          {/* Sharp highlight stripe */}
-          <div
-            aria-hidden
-            className="absolute left-[-10vw] w-[120vw] h-[22px] lg:h-[28px]"
-            style={{
-              top: "calc(100% - 38px)",
-              background:
-                "linear-gradient(90deg, hsl(28 100% 72% / 0.95) 0%, hsl(322 95% 78% / 1) 30%, hsl(280 85% 72% / 1) 55%, hsl(322 95% 78% / 1) 78%, hsl(28 100% 72% / 0.95) 100%)",
-              transform: "rotate(-6deg)",
-              transformOrigin: "left center",
-              filter: "blur(4px)",
-              opacity: 0.95,
-            }}
-          />
-        </div>
-      </section>
 
       {/* How it works */}
       <section className="border-b border-border">
