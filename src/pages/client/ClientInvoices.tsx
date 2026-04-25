@@ -42,11 +42,6 @@ export default function ClientInvoices({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] space-y-8">
-      <div>
-        <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Financieel</p>
-        <h1 className="text-2xl font-semibold text-foreground">Facturen</h1>
-      </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-card border border-border rounded-lg p-5">
           <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Betaald</p>

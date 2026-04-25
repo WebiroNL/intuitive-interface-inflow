@@ -17,12 +17,7 @@ export default function ClientFinance({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px]">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Financieel</p>
-          <h1 className="text-2xl font-semibold text-foreground">Maandelijkse kosten</h1>
-          <p className="text-sm text-muted-foreground mt-1">{MONTH_NAMES[month - 1]} {year}</p>
-        </div>
+      <div className="flex items-center justify-end mb-8">
         <MonthSelector month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
       </div>
 

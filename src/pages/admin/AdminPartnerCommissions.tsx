@@ -72,10 +72,6 @@ export default function AdminPartnerCommissions() {
   return (
     <div className="space-y-6">
       <PartnerProgramNav />
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Commissies</h1>
-        <p className="text-sm text-muted-foreground mt-1">Keur commissies goed zodra de bestelling is geleverd. Goedgekeurde commissies worden uitgekeerd.</p>
-      </div>
 
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-card border border-border rounded-lg p-4">

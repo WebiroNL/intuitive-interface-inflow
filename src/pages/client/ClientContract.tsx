@@ -29,11 +29,6 @@ export default function ClientContract({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] space-y-10">
-      <div>
-        <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Contract</p>
-        <h1 className="text-2xl font-semibold text-foreground">Jouw contract</h1>
-      </div>
-
       <ContractView client={client} editable={false} />
 
       <section>

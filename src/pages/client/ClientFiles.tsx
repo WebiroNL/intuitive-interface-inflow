@@ -44,11 +44,6 @@ export default function ClientFiles({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px]">
-      <div className="mb-8">
-        <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Bestanden</p>
-        <h1 className="text-2xl font-semibold text-foreground">Creatives & documenten</h1>
-      </div>
-
       <div className="flex gap-1 mb-6 border-b border-border">
         {tabs.map((t) => (
           <button

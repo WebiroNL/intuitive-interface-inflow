@@ -105,13 +105,6 @@ export default function AdminPartners() {
   return (
     <div className="space-y-6">
       <PartnerProgramNav />
-      <div className="flex items-start justify-between flex-wrap gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Partners</h1>
-          <p className="text-sm text-muted-foreground mt-1">Beheer partner accounts, goedkeuring en commissies.</p>
-        </div>
-      </div>
-
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <StatCard label="Totaal" value={stats.total.toString()} />

@@ -42,7 +42,6 @@ export default function ClientDashboard({ client }: Props) {
     <div className="p-6 lg:p-8 max-w-[1400px]">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <div>
-          <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-1">Dashboard</p>
           <h1 className="text-2xl font-semibold text-foreground">Hallo {client.contact_person ?? client.company_name}</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Overzicht voor {MONTH_NAMES[month - 1]} {year}

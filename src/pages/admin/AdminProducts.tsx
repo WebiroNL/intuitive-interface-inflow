@@ -46,13 +46,7 @@ const quickLinks = [
 const AdminProducts = () => {
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Shop</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Beheer je producten, bestellingen en kortingen direct in Shopify. Wijzigingen verschijnen automatisch in je webshop.
-          </p>
-        </div>
+      <div className="flex items-start justify-end gap-4 flex-wrap">
         <Button className="gap-2" asChild>
           <a href={SHOPIFY_ADMIN} target="_blank" rel="noopener noreferrer">
             Open Shopify Admin <HugeiconsIcon icon={LinkSquare01Icon} size={14} />

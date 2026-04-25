@@ -5,11 +5,6 @@ import { MessageMultiple01Icon, Settings02Icon } from "@hugeicons/core-free-icon
 const AdminMessages = () => {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Berichten</h1>
-        <p className="text-sm text-muted-foreground mt-1">Livechat gesprekken en berichten van klanten</p>
-      </div>
-
       <Card className="border border-border p-12 flex flex-col items-center justify-center text-center">
         <div className="p-4 rounded-full bg-primary/10 text-primary mb-4">
           <HugeiconsIcon icon={MessageMultiple01Icon} size={32} />

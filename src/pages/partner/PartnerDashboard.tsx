@@ -140,7 +140,6 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "referrals" && (
         <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Referrals</h2>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[520px] text-[13px]">
@@ -158,7 +157,6 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "commissions" && (
         <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Commissies</h2>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-[13px]">
@@ -176,8 +174,7 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "payouts" && (
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[22px] font-semibold text-foreground">Uitbetalingen</h2>
+          <div className="flex items-center justify-end mb-4">
             <Button onClick={requestPayout} disabled={partner.available_balance <= 0}>Uitbetaling aanvragen</Button>
           </div>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
@@ -197,7 +194,6 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "assets" && (
         <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Marketing materiaal</h2>
           <p className="text-muted-foreground text-[13px]">Materiaal komt binnenkort beschikbaar.</p>
         </div>
       )}

@@ -105,13 +105,7 @@ export default function AdminPages() {
 
   return (
     <div className="max-w-6xl">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Pagina's</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Beheer juridische en bedrijfspagina's. Pagina's verschijnen automatisch in de footer onder de gekozen categorie.
-          </p>
-        </div>
+      <div className="flex items-center justify-end mb-6">
         <button
           onClick={() => {
             setCreating(true);

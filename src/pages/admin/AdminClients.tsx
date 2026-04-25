@@ -61,11 +61,7 @@ export default function AdminClients() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-foreground">Klanten</h1>
-          <p className="text-[13px] text-muted-foreground mt-0.5">Beheer client portalen en gegevens</p>
-        </div>
+      <div className="flex items-center justify-end mb-6">
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
