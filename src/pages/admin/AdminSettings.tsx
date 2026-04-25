@@ -51,7 +51,7 @@ const AdminSettings = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 max-w-2xl">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card className="border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
