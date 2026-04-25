@@ -36,7 +36,6 @@ const navItems = [
 
 export function PartnerSidebar({ partner, mobileOpen = false, onClose }: Props) {
   const location = useLocation();
-  const { signOut } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const version = useAppSetting("partner_dashboard_version", "1.0.0");
