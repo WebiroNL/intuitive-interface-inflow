@@ -80,7 +80,19 @@ export default function AdminPartnerTiers() {
 
               <Input label="Naam" value={t.display_name} onChange={(v) => update(t.id, { display_name: v })} />
               <Input label="Beschrijving" value={t.description || ""} onChange={(v) => update(t.id, { description: v })} />
-              <Input label="Kleur" type="color" value={t.color} onChange={(v) => update(t.id, { color: v })} />
+              <div>
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Kleur</span>
+                <div className="mt-1 flex items-center gap-2">
+                  <span className="w-9 h-9 rounded-md border border-border flex-shrink-0" style={{ backgroundColor: t.color }} />
+                  <input
+                    type="text"
+                    value={t.color}
+                    onChange={(e) => update(t.id, { color: e.target.value })}
+                    placeholder="#000000"
+                    className="flex-1 h-9 px-2.5 text-sm bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
+                </div>
+              </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <Input label="Min omzet €" type="number" value={String(t.min_revenue)} onChange={(v) => update(t.id, { min_revenue: Number(v) })} />
