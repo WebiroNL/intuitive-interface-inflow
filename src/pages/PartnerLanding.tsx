@@ -115,24 +115,24 @@ export default function PartnerLanding() {
       </section>
 
       {/* 3D gradient ribbon glued to the slanted hero edge */}
-      <section className="relative overflow-hidden h-[180px] lg:h-[260px] -mt-[80px] pointer-events-none">
-        {/* Main ribbon — full width, diagonal, multi-stop gradient with soft blur for 3D feel */}
+      <section className="relative overflow-hidden h-[260px] lg:h-[360px] -mt-[80px] pointer-events-none">
+        {/* Main ribbon — extra wide so the rotated edges run off-screen on both sides */}
         <div
           aria-hidden
-          className="absolute left-[-10%] right-[-10%] top-[10px] lg:top-[20px] h-[90px] lg:h-[130px]"
+          className="absolute left-[-20%] right-[-20%] top-[20px] lg:top-[40px] h-[110px] lg:h-[150px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 62%) 0%, hsl(322 95% 65%) 28%, hsl(280 85% 60%) 55%, hsl(322 95% 68%) 78%, hsl(28 100% 62%) 100%)",
             transform: "rotate(-6deg)",
             transformOrigin: "center",
-            filter: "blur(14px)",
+            filter: "blur(16px)",
             opacity: 0.95,
           }}
         />
         {/* Sharper highlight ribbon on top for depth */}
         <div
           aria-hidden
-          className="absolute left-[-10%] right-[-10%] top-[35px] lg:top-[55px] h-[40px] lg:h-[60px]"
+          className="absolute left-[-20%] right-[-20%] top-[50px] lg:top-[80px] h-[45px] lg:h-[65px]"
           style={{
             background:
               "linear-gradient(90deg, hsl(28 100% 70% / 0.9) 0%, hsl(322 95% 75% / 0.95) 30%, hsl(280 85% 70% / 0.95) 55%, hsl(322 95% 75% / 0.95) 78%, hsl(28 100% 70% / 0.9) 100%)",
