@@ -148,14 +148,9 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         )}
       </nav>
 
-      <div className="border-t border-border p-3">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2.5 w-full px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
-        >
-          <HugeiconsIcon icon={Logout01Icon} size={16} />
-          Uitloggen
-        </button>
+      <div className="border-t border-border p-4">
+        <p className="text-[12px] font-semibold text-foreground leading-tight">Webiro Client Dashboard</p>
+        <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">Versie {version}</p>
       </div>
     </>
   );
