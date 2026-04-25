@@ -194,7 +194,6 @@ export default function PartnerDashboard({ tab }: Props) {
 
       {tab === "assets" && (
         <div>
-          <h2 className="text-[22px] font-semibold text-foreground mb-4">Marketing materiaal</h2>
           <p className="text-muted-foreground text-[13px]">Materiaal komt binnenkort beschikbaar.</p>
         </div>
       )}
