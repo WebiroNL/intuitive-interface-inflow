@@ -42,6 +42,7 @@ const PartnerLanding = lazy(() => import("./pages/PartnerLanding"));
 const PartnerLogin = lazy(() => import("./pages/PartnerLogin"));
 const PartnerRegister = lazy(() => import("./pages/PartnerRegister"));
 const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
+const PartnerOnboarding = lazy(() => import("./pages/PartnerOnboarding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -135,6 +136,7 @@ function AppContent() {
             <Route path="/partner/login" element={<PartnerLogin />} />
             <Route path="/partner/register" element={<PartnerRegister />} />
             <Route path="/partner/dashboard/*" element={<PartnerPortal />} />
+            <Route path="/onboarding" element={<PartnerOnboarding />} />
             {/* Legacy aliases */}
             <Route path="/login" element={<Navigate to="/client/login" replace />} />
             <Route path="/client/:slug/*" element={<Navigate to="/dashboard" replace />} />
