@@ -109,7 +109,7 @@ export default function ClientAccount({ client }: Props) {
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
               {client.email && <Row label="E-mail (login)" value={client.email} />}
-              {client.contract_duration && (
+              {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <Row label="Contractduur" value={client.contract_duration} />
               )}
               {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
