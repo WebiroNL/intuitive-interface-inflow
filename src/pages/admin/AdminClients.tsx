@@ -218,22 +218,61 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
   return (
     <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
       <DialogHeader><DialogTitle>{client ? "Klant bewerken" : "Nieuwe klant"}</DialogTitle></DialogHeader>
+
+      {activationUrl ? (
+        <div className="space-y-4">
+          <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-lg p-4">
+            <p className="text-sm font-medium text-emerald-900 dark:text-emerald-200 mb-1">Klant aangemaakt</p>
+            <p className="text-[13px] text-emerald-800 dark:text-emerald-300">
+              Stuur deze activatielink naar de klant. De klant vult zelf ontbrekende gegevens in en kiest een wachtwoord. Link is 14 dagen geldig.
+            </p>
+          </div>
+          <div>
+            <Label>Activatielink</Label>
+            <div className="flex gap-2 mt-1.5">
+              <Input value={activationUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
+              <Button
+                type="button"
+                onClick={() => { navigator.clipboard.writeText(activationUrl); toast.success("Gekopieerd"); }}
+              >
+                Kopieer
+              </Button>
+            </div>
+          </div>
+          <Button type="button" variant="outline" className="w-full" onClick={() => { setActivationUrl(null); onSaved(); }}>
+            Sluiten
+          </Button>
+        </div>
+      ) : (
       <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
-            <Label>Bedrijfsnaam</Label>
+            <Label>Bedrijfsnaam *</Label>
             <Input value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value, slug: form.slug || slugify(e.target.value) })} required />
           </div>
-          <div>
-            <Label>E-mail</Label>
-            <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+          <div className="col-span-2 bg-muted/30 border border-border rounded p-3">
+            <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">Login (e-mail of telefoon — minimaal één)</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-[12px]">E-mail</Label>
+                <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="info@bedrijf.nl" />
+              </div>
+              <div>
+                <Label className="text-[12px]">Telefoon</Label>
+                <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+316..." />
+              </div>
+            </div>
           </div>
           <div>
-            <Label>Telefoon</Label>
-            <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            <Label>Voornaam</Label>
+            <Input value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} />
           </div>
           <div>
-            <Label>Contactpersoon</Label>
+            <Label>Achternaam</Label>
+            <Input value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
+          </div>
+          <div className="col-span-2">
+            <Label>Contactpersoon (optioneel, alternatief voor voor- + achternaam)</Label>
             <Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} />
           </div>
           <div>
@@ -245,13 +284,30 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Input value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} placeholder="12345678" />
           </div>
           <div>
-            <Label>BTW nummer</Label>
+            <Label>BTW nummer (optioneel)</Label>
             <Input value={form.btw_number} onChange={(e) => setForm({ ...form, btw_number: e.target.value })} placeholder="NL000000000B00" />
           </div>
           <div>
             <Label>Maandelijkse fee (€)</Label>
             <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
           </div>
+
+          <div className="col-span-2 pt-2 border-t border-border">
+            <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Adres (optioneel)</p>
+          </div>
+          <div className="col-span-2">
+            <Label>Straat + huisnummer</Label>
+            <Input value={form.address_street} onChange={(e) => setForm({ ...form, address_street: e.target.value })} />
+          </div>
+          <div>
+            <Label>Postcode</Label>
+            <Input value={form.address_postal} onChange={(e) => setForm({ ...form, address_postal: e.target.value })} />
+          </div>
+          <div>
+            <Label>Plaats</Label>
+            <Input value={form.address_city} onChange={(e) => setForm({ ...form, address_city: e.target.value })} />
+          </div>
+
           <div className="col-span-2 pt-2 border-t border-border">
             <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Korting (optioneel)</p>
           </div>
@@ -269,8 +325,14 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
           </div>
         </div>
-        <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : "Opslaan"}</Button>
+        {!client && (
+          <div className="bg-primary/5 border border-primary/20 rounded p-3 text-[12px] text-muted-foreground">
+            Na opslaan krijg je een <span className="font-medium text-foreground">activatielink</span> die je naar de klant kunt sturen. De klant vult zelf ontbrekende gegevens in en kiest een veilig wachtwoord.
+          </div>
+        )}
+        <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : (client ? "Bijwerken" : "Aanmaken + activatielink genereren")}</Button>
       </form>
+      )}
     </DialogContent>
   );
 }
