@@ -117,8 +117,14 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                {...(external ? { target: "_blank", rel: "noopener" } : {})}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 aria-label={label}
+                onClick={(e) => {
+                  if (!external) return;
+                  // Force top-level navigation to bypass iframe sandbox restrictions
+                  e.preventDefault();
+                  window.open(href, "_blank", "noopener,noreferrer");
+                }}
                 className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               >
                 <HugeiconsIcon icon={icon} size={16} />
