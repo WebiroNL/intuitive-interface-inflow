@@ -238,6 +238,7 @@ export type Database = {
           monthly_fee: number | null
           phone: string | null
           show_intake_form: boolean
+          show_onboarding_form: boolean
           show_website_intake_form: boolean
           slug: string
           updated_at: string
@@ -265,6 +266,7 @@ export type Database = {
           monthly_fee?: number | null
           phone?: string | null
           show_intake_form?: boolean
+          show_onboarding_form?: boolean
           show_website_intake_form?: boolean
           slug: string
           updated_at?: string
@@ -292,6 +294,7 @@ export type Database = {
           monthly_fee?: number | null
           phone?: string | null
           show_intake_form?: boolean
+          show_onboarding_form?: boolean
           show_website_intake_form?: boolean
           slug?: string
           updated_at?: string

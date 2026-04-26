@@ -13,6 +13,7 @@ import {
   Notification02Icon,
   Cancel01Icon,
   TaskDaily01Icon,
+  RocketIcon,
 } from "@hugeicons/core-free-icons";
 import type { Client } from "@/hooks/useClient";
 import { useClientSections } from "@/hooks/useClientSections";
@@ -112,7 +113,8 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         </div>
 
         {((client.show_intake_form && isMenuVisible(vm, "intake")) ||
-          ((client as any).show_website_intake_form && isMenuVisible(vm, "website_intake"))) && (
+          ((client as any).show_website_intake_form && isMenuVisible(vm, "website_intake")) ||
+          ((client as any).show_onboarding_form && isMenuVisible(vm, "onboarding"))) && (
           <div className="mt-auto pt-3 border-t border-border space-y-0.5">
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
               Formulieren
@@ -141,6 +143,19 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
               >
                 <HugeiconsIcon icon={TaskDaily01Icon} size={16} />
                 Website Intakeformulier
+              </Link>
+            )}
+            {(client as any).show_onboarding_form && isMenuVisible(vm, "onboarding") && (
+              <Link
+                to={`${base}/onboarding`}
+                className={`flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                  isActive(`${base}/onboarding`)
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <HugeiconsIcon icon={RocketIcon} size={16} />
+                Onboarding
               </Link>
             )}
           </div>

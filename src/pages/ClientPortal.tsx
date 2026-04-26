@@ -16,6 +16,7 @@ const ClientUpdates = lazy(() => import("./client/ClientUpdates"));
 const ClientAccount = lazy(() => import("./client/ClientAccount"));
 const ClientIntakeForm = lazy(() => import("./client/ClientIntakeForm"));
 const ClientWebsiteIntakeForm = lazy(() => import("./client/ClientWebsiteIntakeForm"));
+const ClientOnboardingForm = lazy(() => import("./client/ClientOnboardingForm"));
 
 function Fallback() {
   return (
@@ -96,6 +97,7 @@ export default function ClientPortal() {
               <Route path="account" element={<ClientAccount client={client} />} />
               <Route path="intake" element={<ClientIntakeForm client={client} />} />
               <Route path="website-intake" element={<ClientWebsiteIntakeForm client={client} />} />
+              <Route path="onboarding" element={<ClientOnboardingForm client={client} />} />
             </Routes>
           </Suspense>
         </div>
