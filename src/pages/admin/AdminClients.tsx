@@ -129,44 +129,90 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     email: client?.email ?? "",
     phone: client?.phone ?? "",
     contact_person: client?.contact_person ?? "",
+    first_name: (client as any)?.first_name ?? "",
+    last_name: (client as any)?.last_name ?? "",
     contract_duration: client?.contract_duration ?? "",
     monthly_fee: client?.monthly_fee ?? 0,
     active: client?.active ?? true,
     kvk_number: client?.kvk_number ?? "",
     btw_number: client?.btw_number ?? "",
+    address_street: (client as any)?.address_street ?? "",
+    address_postal: (client as any)?.address_postal ?? "",
+    address_city: (client as any)?.address_city ?? "",
+    address_country: (client as any)?.address_country ?? "NL",
     discount_months: client?.discount_months ?? 0,
     discount_percentage: client?.discount_percentage ?? 0,
     deposit_percentage: client?.deposit_percentage ?? 50,
   });
   const [saving, setSaving] = useState(false);
+  const [activationUrl, setActivationUrl] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validatie: minimaal e-mail OF telefoon
+    if (!form.email.trim() && !form.phone.trim()) {
+      toast.error("Vul minimaal een e-mail of telefoonnummer in");
+      return;
+    }
+
     setSaving(true);
-    const payload = {
-      ...form,
+    const basePayload: any = {
+      company_name: form.company_name,
       slug: form.slug || slugify(form.company_name),
+      email: form.email.trim() || null,
+      phone: form.phone.trim() || null,
+      contact_person: form.contact_person || null,
+      first_name: form.first_name || null,
+      last_name: form.last_name || null,
+      contract_duration: form.contract_duration || null,
+      monthly_fee: form.monthly_fee,
+      active: form.active,
       kvk_number: form.kvk_number || null,
       btw_number: form.btw_number || null,
+      address_street: form.address_street || null,
+      address_postal: form.address_postal || null,
+      address_city: form.address_city || null,
+      address_country: form.address_country || "NL",
       discount_months: form.discount_months ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
       deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
     };
-    const q = client
-      ? supabase.from("clients").update(payload).eq("id", client.id)
-      : supabase.from("clients").insert({
-          ...payload,
-          // Standaard alleen dashboard zichtbaar; admin moet rest handmatig aanzetten
-          visible_menus: ["dashboard"],
-          show_intake_form: false,
-          show_website_intake_form: false,
-          show_onboarding_form: false,
-        });
-    const { error } = await q;
+
+    if (client) {
+      const { error } = await supabase.from("clients").update(basePayload).eq("id", client.id);
+      setSaving(false);
+      if (error) { toast.error(error.message); return; }
+      toast.success("Bijgewerkt");
+      onSaved();
+      return;
+    }
+
+    // Nieuwe klant: genereer activatie token
+    const token = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 14); // 14 dagen geldig
+
+    const { data: inserted, error } = await supabase
+      .from("clients")
+      .insert({
+        ...basePayload,
+        visible_menus: ["dashboard"],
+        show_intake_form: false,
+        show_website_intake_form: false,
+        show_onboarding_form: false,
+        activation_token: token,
+        activation_expires_at: expires.toISOString(),
+      })
+      .select("id")
+      .single();
+
     setSaving(false);
-    if (error) { toast.error(error.message); return; }
-    toast.success(client ? "Bijgewerkt" : "Aangemaakt");
-    onSaved();
+    if (error || !inserted) { toast.error(error?.message ?? "Aanmaken mislukt"); return; }
+
+    const url = `${window.location.origin}/client/activate?token=${token}`;
+    setActivationUrl(url);
+    toast.success("Klant aangemaakt — kopieer de activatielink");
   };
 
   return (
