@@ -271,14 +271,6 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Label>Achternaam</Label>
             <Input value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
           </div>
-          <div className="col-span-2">
-            <Label>Contactpersoon (optioneel, alternatief voor voor- + achternaam)</Label>
-            <Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} />
-          </div>
-          <div>
-            <Label>Contractduur</Label>
-            <Input value={form.contract_duration} onChange={(e) => setForm({ ...form, contract_duration: e.target.value })} placeholder="bv. 12 maanden" />
-          </div>
           <div>
             <Label>KVK nummer</Label>
             <Input value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} placeholder="12345678" />
@@ -286,10 +278,6 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           <div>
             <Label>BTW nummer (optioneel)</Label>
             <Input value={form.btw_number} onChange={(e) => setForm({ ...form, btw_number: e.target.value })} placeholder="NL000000000B00" />
-          </div>
-          <div>
-            <Label>Maandelijkse fee (€)</Label>
-            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
           </div>
 
           <div className="col-span-2 pt-2 border-t border-border">
@@ -306,6 +294,16 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           <div>
             <Label>Plaats</Label>
             <Input value={form.address_city} onChange={(e) => setForm({ ...form, address_city: e.target.value })} />
+          </div>
+
+          <div className="col-span-2 pt-2 border-t border-border" />
+          <div>
+            <Label>Contractduur</Label>
+            <Input value={form.contract_duration} onChange={(e) => setForm({ ...form, contract_duration: e.target.value })} placeholder="bv. 12 maanden" />
+          </div>
+          <div>
+            <Label>Maandelijkse fee (€)</Label>
+            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
           </div>
 
           <div className="col-span-2 pt-2 border-t border-border">
