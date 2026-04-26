@@ -108,7 +108,7 @@ export default function ClientAccount({ client }: Props) {
           <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
-              <Row label="E-mail (login)" value={client.email} />
+              {client.email && <Row label="E-mail (login)" value={client.email} />}
               {client.contract_duration && (
                 <Row label="Contractduur" value={client.contract_duration} />
               )}
