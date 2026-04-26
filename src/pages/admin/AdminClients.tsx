@@ -160,6 +160,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           visible_menus: ["dashboard"],
           show_intake_form: false,
           show_website_intake_form: false,
+          show_onboarding_form: false,
         });
     const { error } = await q;
     setSaving(false);
@@ -245,6 +246,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="intake">Ads Intake</TabsTrigger>
           <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
+          <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
           <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
@@ -269,6 +271,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
+        <TabsContent value="onboarding"><OnboardingFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="menus"><VisibleMenusTab client={client} onChanged={onChanged} /></TabsContent>
       </Tabs>
     </DialogContent>
