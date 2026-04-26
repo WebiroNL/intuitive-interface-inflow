@@ -110,31 +110,44 @@ export default function ClientActivate() {
     }
 
     setSubmitting(true);
-    const { data, error: invokeError } = await supabase.functions.invoke("client-activate", {
-      body: {
-        action: "activate",
-        token,
-        password: form.password,
-        fields: {
-          company_name: form.company_name,
-          email: form.email,
-          phone: form.phone,
-          first_name: form.first_name,
-          last_name: form.last_name,
-          kvk_number: form.kvk_number,
-          btw_number: form.btw_number,
-          address_street: form.address_street,
-          address_postal: form.address_postal,
-          address_city: form.address_city,
-        },
-      },
-    });
-
-    if (invokeError || (data as any)?.error) {
+    let resJson: any = null;
+    try {
+      const res = await fetch(
+        `https://epostamzxunjjrjjnotj.supabase.co/functions/v1/client-activate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "activate",
+            token,
+            password: form.password,
+            fields: {
+              company_name: form.company_name,
+              email: form.email,
+              phone: form.phone,
+              first_name: form.first_name,
+              last_name: form.last_name,
+              kvk_number: form.kvk_number,
+              btw_number: form.btw_number,
+              address_street: form.address_street,
+              address_postal: form.address_postal,
+              address_city: form.address_city,
+            },
+          }),
+        }
+      );
+      resJson = await res.json().catch(() => ({}));
+      if (!res.ok || resJson?.error) {
+        setSubmitting(false);
+        toast.error(resJson?.error ?? `Activeren mislukt (${res.status})`);
+        return;
+      }
+    } catch (err) {
       setSubmitting(false);
-      toast.error((data as any)?.error ?? "Activeren mislukt");
+      toast.error((err as Error).message || "Netwerkfout");
       return;
     }
+    const data = resJson;
 
     const loginEmail = (data as any).login_email as string;
     // Direct inloggen
