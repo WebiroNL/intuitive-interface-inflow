@@ -965,6 +965,7 @@ function OnboardingFormTab({ client, onChanged }: { client: Client; onChanged: (
   );
 }
 
+function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
   const [form, setForm] = useState<any>({ visible_menus: (client as any).visible_menus });
   const [saving, setSaving] = useState(false);
 
