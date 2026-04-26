@@ -132,7 +132,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     first_name: (client as any)?.first_name ?? "",
     last_name: (client as any)?.last_name ?? "",
     contract_duration: client?.contract_duration ?? "",
-    monthly_fee: client?.monthly_fee ?? 0,
+    monthly_fee: client?.monthly_fee != null ? String(client.monthly_fee) : "",
     active: client?.active ?? true,
     kvk_number: client?.kvk_number ?? "",
     btw_number: client?.btw_number ?? "",
@@ -140,9 +140,9 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     address_postal: (client as any)?.address_postal ?? "",
     address_city: (client as any)?.address_city ?? "",
     address_country: (client as any)?.address_country ?? "NL",
-    discount_months: client?.discount_months ?? 0,
-    discount_percentage: client?.discount_percentage ?? 0,
-    deposit_percentage: client?.deposit_percentage ?? 50,
+    discount_months: client?.discount_months != null ? String(client.discount_months) : "",
+    discount_percentage: client?.discount_percentage != null ? String(client.discount_percentage) : "",
+    deposit_percentage: client?.deposit_percentage != null ? String(client.deposit_percentage) : "",
   });
   const [saving, setSaving] = useState(false);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
