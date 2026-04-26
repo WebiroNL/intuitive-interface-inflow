@@ -937,7 +937,7 @@ function OnboardingFormTab({ client, onChanged }: { client: Client; onChanged: (
         </div>
         <div className="p-4">
           <p className="text-[12px] text-muted-foreground">
-            Vergeet niet om het menu-item <span className="font-medium text-foreground">"Onboarding"</span> ook aan te zetten in het tabblad <span className="font-medium text-foreground">"Zijmenu klantportaal"</span>, anders blijft het verborgen.
+            Deze schakelaar wordt automatisch gesynchroniseerd met het menu-item <span className="font-medium text-foreground">"Onboarding"</span> in het tabblad <span className="font-medium text-foreground">"Zijmenu klantportaal"</span>. Aan = klant ziet "Onboarding" links onderaan, uit = verborgen.
           </p>
         </div>
       </div>
