@@ -1245,22 +1245,44 @@ function AccountTab({ client, onChanged }: { client: Client; onChanged: () => vo
     toast.success("Activatielink aangemaakt en gekopieerd");
   };
 
+  // Bestaande (nog geldige, niet-geactiveerde) link tonen
+  const existingActivationUrl = (() => {
+    if (!client.activation_token) return null;
+    if (client.activated_at) return null;
+    if (client.activation_expires_at && new Date(client.activation_expires_at) < new Date()) return null;
+    return `${window.location.origin}/client/activate?token=${client.activation_token}`;
+  })();
+  const currentUrl = activationUrl ?? existingActivationUrl;
+  const expiresLabel = client.activation_expires_at
+    ? new Date(client.activation_expires_at).toLocaleDateString("nl-NL", { day: "2-digit", month: "short", year: "numeric" })
+    : null;
+
   return (
     <div className="pt-4 space-y-6">
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
         <p className="font-medium text-foreground mb-1">Activatielink (klant kiest zelf wachtwoord)</p>
         <p>Genereer een unieke link en stuur deze naar de klant. De klant vult ontbrekende gegevens aan en kiest een sterk wachtwoord. Werkt voor zowel e-mail als telefoon-login. Link is 14 dagen geldig.</p>
-        <Button type="button" size="sm" className="mt-3" onClick={generateActivation} disabled={genLoading}>
-          {genLoading ? "Bezig..." : (client.user_id ? "Nieuwe activatielink genereren (reset)" : "Activatielink genereren")}
-        </Button>
-        {activationUrl && (
-          <div className="mt-3 flex gap-2">
-            <Input value={activationUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
-            <Button type="button" variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(activationUrl); toast.success("Gekopieerd"); }}>
-              Kopieer
-            </Button>
+
+        {currentUrl && (
+          <div className="mt-3">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] uppercase tracking-wide text-muted-foreground">Huidige activatielink</span>
+              {expiresLabel && !activationUrl && (
+                <span className="text-[11px] text-muted-foreground">Geldig t/m {expiresLabel}</span>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input value={currentUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
+              <Button type="button" variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(currentUrl); toast.success("Gekopieerd"); }}>
+                Kopieer
+              </Button>
+            </div>
           </div>
         )}
+
+        <Button type="button" size="sm" className="mt-3" onClick={generateActivation} disabled={genLoading}>
+          {genLoading ? "Bezig..." : (currentUrl ? "Nieuwe activatielink genereren (reset)" : "Activatielink genereren")}
+        </Button>
       </div>
 
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
