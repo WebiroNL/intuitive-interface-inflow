@@ -858,7 +858,113 @@ function WebsiteIntakeFormTab({ client, onChanged }: { client: Client; onChanged
   );
 }
 
-function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+function OnboardingFormTab({ client, onChanged }: { client: Client; onChanged: () => void }) {
+  const [form, setForm] = useState<any>({
+    show_onboarding_form: !!(client as any).show_onboarding_form,
+  });
+  const [saving, setSaving] = useState(false);
+  const [submissions, setSubmissions] = useState<any[]>([]);
+  const [loadingSubs, setLoadingSubs] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      setLoadingSubs(true);
+      const { data } = await (supabase as any)
+        .from("service_onboardings")
+        .select("*")
+        .eq("client_id", client.id)
+        .order("created_at", { ascending: false });
+      setSubmissions(data ?? []);
+      setLoadingSubs(false);
+    })();
+  }, [client.id]);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    const { error } = await supabase.from("clients").update(form).eq("id", client.id);
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Onboarding-instellingen bijgewerkt"); onChanged();
+  };
+
+  return (
+    <form onSubmit={submit} className="space-y-3 pt-4">
+      <div className="border border-border rounded-lg bg-card overflow-hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/30 flex-wrap">
+          <div>
+            <h3 className="text-[14px] font-semibold text-foreground">Onboarding (Aanleverlijst)</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">
+              Beheer of de klant het Onboarding-formulier ziet in het zijmenu. Hierin kan de klant per dienst (Google Ads, Meta, Website, etc.) de benodigde gegevens aanleveren.
+            </p>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={!!form.show_onboarding_form}
+              onChange={(e) => setForm({ ...form, show_onboarding_form: e.target.checked })}
+            />
+            <span className="text-[13px] font-medium text-foreground">Zichtbaar in zijmenu</span>
+          </label>
+        </div>
+        <div className="p-4">
+          <p className="text-[12px] text-muted-foreground">
+            Vergeet niet om het menu-item <span className="font-medium text-foreground">"Onboarding"</span> ook aan te zetten in het tabblad <span className="font-medium text-foreground">"Zijmenu klantportaal"</span>, anders blijft het verborgen.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={saving}>
+          <HugeiconsIcon icon={FloppyDiskIcon} size={14} />
+          {saving ? "Bezig..." : "Instellingen opslaan"}
+        </Button>
+      </div>
+
+      <div className="border border-border rounded-lg bg-card mt-6 overflow-hidden">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-[14px] font-semibold text-foreground">Ingestuurde aanleverlijsten</h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5">
+            Hier verschijnen de antwoorden zodra de klant het Onboarding-formulier indient.
+          </p>
+        </div>
+        {loadingSubs ? (
+          <div className="p-6 text-center text-[13px] text-muted-foreground">Laden...</div>
+        ) : submissions.length === 0 ? (
+          <div className="p-6 text-center text-[13px] text-muted-foreground">Nog geen inzendingen.</div>
+        ) : (
+          <div className="divide-y divide-border">
+            {submissions.map((s) => (
+              <div key={s.id} className="p-4">
+                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                  <div className="text-[13px] font-medium text-foreground">{s.service_type}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {new Date(s.created_at).toLocaleString("nl-NL")} · {s.status}
+                  </div>
+                </div>
+                {s.data && Object.keys(s.data).length > 0 ? (
+                  <dl className="grid sm:grid-cols-2 gap-x-6 gap-y-1 text-[12px]">
+                    {Object.entries(s.data).map(([k, v]) => (
+                      <div key={k} className="break-words">
+                        <dt className="text-muted-foreground">{k}</dt>
+                        <dd className="text-foreground whitespace-pre-wrap">
+                          {Array.isArray(v) ? v.join(", ") : String(v ?? "—")}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <p className="text-[12px] text-muted-foreground italic">Geen data ingevuld.</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </form>
+  );
+}
+
   const [form, setForm] = useState<any>({ visible_menus: (client as any).visible_menus });
   const [saving, setSaving] = useState(false);
 
