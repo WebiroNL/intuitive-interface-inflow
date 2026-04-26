@@ -1023,7 +1023,14 @@ function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () 
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
-    const { error } = await supabase.from("clients").update(form).eq("id", client.id);
+
+    // Synchroniseer 'onboarding' menu-item met show_onboarding_form toggle.
+    const onboardingVisible = isMenuVisibleHelper(form.visible_menus, "onboarding");
+
+    const { error } = await supabase
+      .from("clients")
+      .update({ ...form, show_onboarding_form: onboardingVisible })
+      .eq("id", client.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     toast.success("Zijmenu bijgewerkt"); onChanged();
