@@ -1223,17 +1223,54 @@ function AccountTab({ client, onChanged }: { client: Client; onChanged: () => vo
     onChanged();
   };
 
+  // Activatielink (her)genereren
+  const [activationUrl, setActivationUrl] = useState<string | null>(null);
+  const [genLoading, setGenLoading] = useState(false);
+
+  const generateActivation = async () => {
+    setGenLoading(true);
+    const token = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 14);
+    const { error } = await supabase
+      .from("clients")
+      .update({ activation_token: token, activation_expires_at: expires.toISOString(), activated_at: null })
+      .eq("id", client.id);
+    setGenLoading(false);
+    if (error) { toast.error(error.message); return; }
+    const url = `${window.location.origin}/client/activate?token=${token}`;
+    setActivationUrl(url);
+    navigator.clipboard.writeText(url).catch(() => {});
+    toast.success("Activatielink aangemaakt en gekopieerd");
+  };
+
   return (
-    <div className="pt-4 space-y-4">
+    <div className="pt-4 space-y-6">
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
-        <p className="font-medium text-foreground mb-1">Inlogaccount aanmaken of resetten</p>
-        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant. De klant logt in op <span className="font-mono text-foreground">webiro.nl/login</span>.</p>
+        <p className="font-medium text-foreground mb-1">Activatielink (klant kiest zelf wachtwoord)</p>
+        <p>Genereer een unieke link en stuur deze naar de klant. De klant vult ontbrekende gegevens aan en kiest een sterk wachtwoord. Werkt voor zowel e-mail als telefoon-login. Link is 14 dagen geldig.</p>
+        <Button type="button" size="sm" className="mt-3" onClick={generateActivation} disabled={genLoading}>
+          {genLoading ? "Bezig..." : (client.user_id ? "Nieuwe activatielink genereren (reset)" : "Activatielink genereren")}
+        </Button>
+        {activationUrl && (
+          <div className="mt-3 flex gap-2">
+            <Input value={activationUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
+            <Button type="button" variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(activationUrl); toast.success("Gekopieerd"); }}>
+              Kopieer
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
+        <p className="font-medium text-foreground mb-1">Of: zelf wachtwoord instellen (overschrijft bestaand)</p>
+        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
           <Label>E-mail</Label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input type="email" value={email ?? ""} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
           <Label>Wachtwoord (min. 8)</Label>
