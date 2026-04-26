@@ -1394,6 +1394,78 @@ export type Database = {
         }
         Relationships: []
       }
+      service_onboardings: {
+        Row: {
+          admin_notes: string | null
+          client_id: string | null
+          company_name: string
+          contact_person: string
+          created_at: string
+          data: Json
+          email: string
+          id: string
+          partner_id: string | null
+          phone: string | null
+          service_type: string
+          status: string
+          submitted_at: string | null
+          submitted_by_user_id: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          client_id?: string | null
+          company_name: string
+          contact_person: string
+          created_at?: string
+          data?: Json
+          email: string
+          id?: string
+          partner_id?: string | null
+          phone?: string | null
+          service_type: string
+          status?: string
+          submitted_at?: string | null
+          submitted_by_user_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          client_id?: string | null
+          company_name?: string
+          contact_person?: string
+          created_at?: string
+          data?: Json
+          email?: string
+          id?: string
+          partner_id?: string | null
+          phone?: string | null
+          service_type?: string
+          status?: string
+          submitted_at?: string | null
+          submitted_by_user_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_onboardings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_onboardings_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       showcase_items: {
         Row: {
           category: string
