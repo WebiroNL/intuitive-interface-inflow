@@ -1025,7 +1025,9 @@ function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () 
     e.preventDefault(); setSaving(true);
 
     // Synchroniseer 'onboarding' menu-item met show_onboarding_form toggle.
-    const onboardingVisible = isMenuVisibleHelper(form.visible_menus, "onboarding");
+    const onboardingVisible = isMenuAllSentinel || form.visible_menus == null
+      ? true
+      : Array.isArray(form.visible_menus) && form.visible_menus.includes("onboarding");
 
     const { error } = await supabase
       .from("clients")
