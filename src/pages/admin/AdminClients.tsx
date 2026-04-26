@@ -303,7 +303,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           </div>
           <div>
             <Label>Maandelijkse fee (€)</Label>
-            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
+            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: e.target.value })} placeholder="bv. 500" />
           </div>
 
           <div className="col-span-2 pt-2 border-t border-border">
@@ -311,15 +311,15 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           </div>
           <div>
             <Label>Aantal maanden korting</Label>
-            <Input type="number" min="0" value={form.discount_months} onChange={(e) => setForm({ ...form, discount_months: Number(e.target.value) })} placeholder="bv. 3" />
+            <Input type="number" min="0" value={form.discount_months} onChange={(e) => setForm({ ...form, discount_months: e.target.value })} placeholder="bv. 3" />
           </div>
           <div>
             <Label>Kortingspercentage (%)</Label>
-            <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: Number(e.target.value) })} placeholder="bv. 20" />
+            <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: e.target.value })} placeholder="bv. 20" />
           </div>
           <div className="col-span-2">
             <Label>Aanbetaling (%)</Label>
-            <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: Number(e.target.value) })} placeholder="bv. 50" />
+            <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: e.target.value })} placeholder="bv. 50" />
             <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
           </div>
         </div>
