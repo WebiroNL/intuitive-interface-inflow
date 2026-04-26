@@ -136,6 +136,7 @@ function AppContent() {
             <Route path="/partner/login" element={<PartnerLogin />} />
             <Route path="/partner/register" element={<PartnerRegister />} />
             <Route path="/partner/dashboard/*" element={<PartnerPortal />} />
+            <Route path="/onboarding" element={<PartnerOnboarding />} />
             {/* Legacy aliases */}
             <Route path="/login" element={<Navigate to="/client/login" replace />} />
             <Route path="/client/:slug/*" element={<Navigate to="/dashboard" replace />} />
