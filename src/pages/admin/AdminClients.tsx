@@ -882,7 +882,35 @@ function OnboardingFormTab({ client, onChanged }: { client: Client; onChanged: (
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const { error } = await supabase.from("clients").update(form).eq("id", client.id);
+
+    // Synchroniseer 'onboarding' menu-item met de toggle 'Zichtbaar in zijmenu'.
+    const rawMenus = (client as any).visible_menus;
+    const isAllSentinel =
+      Array.isArray(rawMenus) && rawMenus.length === 1 && rawMenus[0] === "__all__";
+
+    let nextVisibleMenus: any = rawMenus;
+    if (form.show_onboarding_form) {
+      // Aan: zorg dat 'onboarding' in de zichtbare menu's staat.
+      if (isAllSentinel || rawMenus == null) {
+        nextVisibleMenus = ["__all__"]; // alles aan -> al inbegrepen
+      } else if (Array.isArray(rawMenus) && !rawMenus.includes("onboarding")) {
+        const next = [...rawMenus, "onboarding"];
+        nextVisibleMenus = next.length === ALL_MENU_IDS.length ? ["__all__"] : next;
+      }
+    } else {
+      // Uit: verwijder 'onboarding' uit een expliciete selectie.
+      if (isAllSentinel || rawMenus == null) {
+        // Maak expliciete selectie zonder 'onboarding'
+        nextVisibleMenus = ALL_MENU_IDS.filter((id) => id !== "onboarding");
+      } else if (Array.isArray(rawMenus) && rawMenus.includes("onboarding")) {
+        nextVisibleMenus = rawMenus.filter((id: string) => id !== "onboarding");
+      }
+    }
+
+    const { error } = await supabase
+      .from("clients")
+      .update({ ...form, visible_menus: nextVisibleMenus })
+      .eq("id", client.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     toast.success("Onboarding-instellingen bijgewerkt"); onChanged();
