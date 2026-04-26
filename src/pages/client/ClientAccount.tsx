@@ -108,9 +108,13 @@ export default function ClientAccount({ client }: Props) {
           <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
-              <Row label="E-mail (login)" value={client.email} />
-              <Row label="Contractduur" value={client.contract_duration ?? "—"} />
-              <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
+              {client.email && <Row label="E-mail (login)" value={client.email} />}
+              {client.contract_duration && (
+                <Row label="Contractduur" value={client.contract_duration} />
+              )}
+              {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
+                <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
+              )}
               <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
               {hasDiscount && (
                 <Row

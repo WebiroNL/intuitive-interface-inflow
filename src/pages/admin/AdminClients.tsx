@@ -132,7 +132,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     first_name: (client as any)?.first_name ?? "",
     last_name: (client as any)?.last_name ?? "",
     contract_duration: client?.contract_duration ?? "",
-    monthly_fee: client?.monthly_fee ?? 0,
+    monthly_fee: client?.monthly_fee != null ? String(client.monthly_fee) : "",
     active: client?.active ?? true,
     kvk_number: client?.kvk_number ?? "",
     btw_number: client?.btw_number ?? "",
@@ -140,9 +140,9 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     address_postal: (client as any)?.address_postal ?? "",
     address_city: (client as any)?.address_city ?? "",
     address_country: (client as any)?.address_country ?? "NL",
-    discount_months: client?.discount_months ?? 0,
-    discount_percentage: client?.discount_percentage ?? 0,
-    deposit_percentage: client?.deposit_percentage ?? 50,
+    discount_months: client?.discount_months != null ? String(client.discount_months) : "",
+    discount_percentage: client?.discount_percentage != null ? String(client.discount_percentage) : "",
+    deposit_percentage: client?.deposit_percentage != null ? String(client.deposit_percentage) : "",
   });
   const [saving, setSaving] = useState(false);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
@@ -166,7 +166,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       first_name: form.first_name || null,
       last_name: form.last_name || null,
       contract_duration: form.contract_duration || null,
-      monthly_fee: form.monthly_fee,
+      monthly_fee: form.monthly_fee !== "" ? Number(form.monthly_fee) : null,
       active: form.active,
       kvk_number: form.kvk_number || null,
       btw_number: form.btw_number || null,
@@ -174,9 +174,9 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       address_postal: form.address_postal || null,
       address_city: form.address_city || null,
       address_country: form.address_country || "NL",
-      discount_months: form.discount_months ? Number(form.discount_months) : null,
-      discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
-      deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
+      discount_months: form.discount_months !== "" ? Number(form.discount_months) : null,
+      discount_percentage: form.discount_percentage !== "" ? Number(form.discount_percentage) : null,
+      deposit_percentage: form.deposit_percentage !== "" ? Number(form.deposit_percentage) : null,
     };
 
     if (client) {
@@ -303,7 +303,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           </div>
           <div>
             <Label>Maandelijkse fee (€)</Label>
-            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
+            <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: e.target.value })} placeholder="bv. 500" />
           </div>
 
           <div className="col-span-2 pt-2 border-t border-border">
@@ -311,15 +311,15 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
           </div>
           <div>
             <Label>Aantal maanden korting</Label>
-            <Input type="number" min="0" value={form.discount_months} onChange={(e) => setForm({ ...form, discount_months: Number(e.target.value) })} placeholder="bv. 3" />
+            <Input type="number" min="0" value={form.discount_months} onChange={(e) => setForm({ ...form, discount_months: e.target.value })} placeholder="bv. 3" />
           </div>
           <div>
             <Label>Kortingspercentage (%)</Label>
-            <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: Number(e.target.value) })} placeholder="bv. 20" />
+            <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: e.target.value })} placeholder="bv. 20" />
           </div>
           <div className="col-span-2">
             <Label>Aanbetaling (%)</Label>
-            <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: Number(e.target.value) })} placeholder="bv. 50" />
+            <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: e.target.value })} placeholder="bv. 50" />
             <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
           </div>
         </div>
