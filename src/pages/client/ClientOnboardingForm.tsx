@@ -152,7 +152,7 @@ export default function ClientOnboardingForm({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-10">
-      <div className="max-w-3xl">
+      <div className="w-full">
         {/* Header */}
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
