@@ -166,7 +166,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       first_name: form.first_name || null,
       last_name: form.last_name || null,
       contract_duration: form.contract_duration || null,
-      monthly_fee: form.monthly_fee,
+      monthly_fee: form.monthly_fee !== "" ? Number(form.monthly_fee) : null,
       active: form.active,
       kvk_number: form.kvk_number || null,
       btw_number: form.btw_number || null,
@@ -174,9 +174,9 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       address_postal: form.address_postal || null,
       address_city: form.address_city || null,
       address_country: form.address_country || "NL",
-      discount_months: form.discount_months ? Number(form.discount_months) : null,
-      discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
-      deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
+      discount_months: form.discount_months !== "" ? Number(form.discount_months) : null,
+      discount_percentage: form.discount_percentage !== "" ? Number(form.discount_percentage) : null,
+      deposit_percentage: form.deposit_percentage !== "" ? Number(form.deposit_percentage) : null,
     };
 
     if (client) {
