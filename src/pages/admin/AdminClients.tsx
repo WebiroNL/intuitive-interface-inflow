@@ -171,10 +171,6 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Label>Bedrijfsnaam</Label>
             <Input value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value, slug: form.slug || slugify(e.target.value) })} required />
           </div>
-          <div className="col-span-2">
-            <Label>Slug (wordt /client/...)</Label>
-            <Input value={form.slug} onChange={(e) => setForm({ ...form, slug: slugify(e.target.value) })} required />
-          </div>
           <div>
             <Label>E-mail</Label>
             <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
