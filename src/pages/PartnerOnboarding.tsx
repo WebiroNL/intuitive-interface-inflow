@@ -47,11 +47,7 @@ export default function PartnerOnboarding() {
   const [answers, setAnswers] = useState<Record<string, Record<string, any>>>({});
 
   useEffect(() => {
-    setSEO({
-      title: "Onboarding | Webiro",
-      description: "Vul de aanleverlijst in voor je gekozen diensten.",
-      url: "/onboarding",
-    });
+    updatePageMeta("Onboarding", "Vul de aanleverlijst in voor je gekozen diensten.", "/onboarding");
   }, []);
 
   // Pre-fill from partner profile if logged in
@@ -181,7 +177,7 @@ export default function PartnerOnboarding() {
         {/* Header */}
         <div className="mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
-            <RocketIcon size={14} /> Onboarding
+            <HugeiconsIcon icon=RocketIcon size={14} /> Onboarding
           </div>
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Aanleverlijst</h1>
           <p className="mt-3 text-muted-foreground max-w-xl">
@@ -247,7 +243,7 @@ export default function PartnerOnboarding() {
                             </div>
                             {active && (
                               <span className="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground">
-                                <Tick02Icon size={12} />
+                                <HugeiconsIcon icon=Tick02Icon size={12} />
                               </span>
                             )}
                           </div>
@@ -327,7 +323,7 @@ export default function PartnerOnboarding() {
         {step === "done" && (
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6">
-              <Tick02Icon size={32} />
+              <HugeiconsIcon icon=Tick02Icon size={32} />
             </div>
             <h2 className="text-3xl font-semibold mb-3">Bedankt, we hebben alles ontvangen!</h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-8">
@@ -347,16 +343,16 @@ export default function PartnerOnboarding() {
               disabled={step === "company"}
               className="gap-2"
             >
-              <ArrowLeft01Icon size={16} /> Vorige
+              <HugeiconsIcon icon=ArrowLeft01Icon size={16} /> Vorige
             </Button>
 
             {step === "overview" ? (
               <Button onClick={submit} disabled={submitting} className="gap-2">
-                {submitting ? "Versturen..." : "Versturen"} <Tick02Icon size={16} />
+                {submitting ? "Versturen..." : "Versturen"} <HugeiconsIcon icon=Tick02Icon size={16} />
               </Button>
             ) : (
               <Button onClick={next} className="gap-2">
-                Volgende <ArrowRight01Icon size={16} />
+                Volgende <HugeiconsIcon icon=ArrowRight01Icon size={16} />
               </Button>
             )}
           </div>
