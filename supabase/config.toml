@@ -1,1 +1,4 @@
 project_id = "epostamzxunjjrjjnotj"
+
+[functions.client-activate]
+verify_jwt = false

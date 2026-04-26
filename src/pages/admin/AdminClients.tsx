@@ -129,65 +129,150 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     email: client?.email ?? "",
     phone: client?.phone ?? "",
     contact_person: client?.contact_person ?? "",
+    first_name: (client as any)?.first_name ?? "",
+    last_name: (client as any)?.last_name ?? "",
     contract_duration: client?.contract_duration ?? "",
     monthly_fee: client?.monthly_fee ?? 0,
     active: client?.active ?? true,
     kvk_number: client?.kvk_number ?? "",
     btw_number: client?.btw_number ?? "",
+    address_street: (client as any)?.address_street ?? "",
+    address_postal: (client as any)?.address_postal ?? "",
+    address_city: (client as any)?.address_city ?? "",
+    address_country: (client as any)?.address_country ?? "NL",
     discount_months: client?.discount_months ?? 0,
     discount_percentage: client?.discount_percentage ?? 0,
     deposit_percentage: client?.deposit_percentage ?? 50,
   });
   const [saving, setSaving] = useState(false);
+  const [activationUrl, setActivationUrl] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validatie: minimaal e-mail OF telefoon
+    if (!form.email.trim() && !form.phone.trim()) {
+      toast.error("Vul minimaal een e-mail of telefoonnummer in");
+      return;
+    }
+
     setSaving(true);
-    const payload = {
-      ...form,
+    const basePayload: any = {
+      company_name: form.company_name,
       slug: form.slug || slugify(form.company_name),
+      email: form.email.trim() || null,
+      phone: form.phone.trim() || null,
+      contact_person: form.contact_person || null,
+      first_name: form.first_name || null,
+      last_name: form.last_name || null,
+      contract_duration: form.contract_duration || null,
+      monthly_fee: form.monthly_fee,
+      active: form.active,
       kvk_number: form.kvk_number || null,
       btw_number: form.btw_number || null,
+      address_street: form.address_street || null,
+      address_postal: form.address_postal || null,
+      address_city: form.address_city || null,
+      address_country: form.address_country || "NL",
       discount_months: form.discount_months ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage ? Number(form.discount_percentage) : null,
       deposit_percentage: form.deposit_percentage ? Number(form.deposit_percentage) : null,
     };
-    const q = client
-      ? supabase.from("clients").update(payload).eq("id", client.id)
-      : supabase.from("clients").insert({
-          ...payload,
-          // Standaard alleen dashboard zichtbaar; admin moet rest handmatig aanzetten
-          visible_menus: ["dashboard"],
-          show_intake_form: false,
-          show_website_intake_form: false,
-          show_onboarding_form: false,
-        });
-    const { error } = await q;
+
+    if (client) {
+      const { error } = await supabase.from("clients").update(basePayload).eq("id", client.id);
+      setSaving(false);
+      if (error) { toast.error(error.message); return; }
+      toast.success("Bijgewerkt");
+      onSaved();
+      return;
+    }
+
+    // Nieuwe klant: genereer activatie token
+    const token = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 14); // 14 dagen geldig
+
+    const { data: inserted, error } = await supabase
+      .from("clients")
+      .insert({
+        ...basePayload,
+        visible_menus: ["dashboard"],
+        show_intake_form: false,
+        show_website_intake_form: false,
+        show_onboarding_form: false,
+        activation_token: token,
+        activation_expires_at: expires.toISOString(),
+      })
+      .select("id")
+      .single();
+
     setSaving(false);
-    if (error) { toast.error(error.message); return; }
-    toast.success(client ? "Bijgewerkt" : "Aangemaakt");
-    onSaved();
+    if (error || !inserted) { toast.error(error?.message ?? "Aanmaken mislukt"); return; }
+
+    const url = `${window.location.origin}/client/activate?token=${token}`;
+    setActivationUrl(url);
+    toast.success("Klant aangemaakt — kopieer de activatielink");
   };
 
   return (
     <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
       <DialogHeader><DialogTitle>{client ? "Klant bewerken" : "Nieuwe klant"}</DialogTitle></DialogHeader>
+
+      {activationUrl ? (
+        <div className="space-y-4">
+          <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-lg p-4">
+            <p className="text-sm font-medium text-emerald-900 dark:text-emerald-200 mb-1">Klant aangemaakt</p>
+            <p className="text-[13px] text-emerald-800 dark:text-emerald-300">
+              Stuur deze activatielink naar de klant. De klant vult zelf ontbrekende gegevens in en kiest een wachtwoord. Link is 14 dagen geldig.
+            </p>
+          </div>
+          <div>
+            <Label>Activatielink</Label>
+            <div className="flex gap-2 mt-1.5">
+              <Input value={activationUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
+              <Button
+                type="button"
+                onClick={() => { navigator.clipboard.writeText(activationUrl); toast.success("Gekopieerd"); }}
+              >
+                Kopieer
+              </Button>
+            </div>
+          </div>
+          <Button type="button" variant="outline" className="w-full" onClick={() => { setActivationUrl(null); onSaved(); }}>
+            Sluiten
+          </Button>
+        </div>
+      ) : (
       <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
-            <Label>Bedrijfsnaam</Label>
+            <Label>Bedrijfsnaam *</Label>
             <Input value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value, slug: form.slug || slugify(e.target.value) })} required />
           </div>
-          <div>
-            <Label>E-mail</Label>
-            <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+          <div className="col-span-2 bg-muted/30 border border-border rounded p-3">
+            <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">Login (e-mail of telefoon — minimaal één)</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-[12px]">E-mail</Label>
+                <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="info@bedrijf.nl" />
+              </div>
+              <div>
+                <Label className="text-[12px]">Telefoon</Label>
+                <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+316..." />
+              </div>
+            </div>
           </div>
           <div>
-            <Label>Telefoon</Label>
-            <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            <Label>Voornaam</Label>
+            <Input value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} />
           </div>
           <div>
-            <Label>Contactpersoon</Label>
+            <Label>Achternaam</Label>
+            <Input value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
+          </div>
+          <div className="col-span-2">
+            <Label>Contactpersoon (optioneel, alternatief voor voor- + achternaam)</Label>
             <Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} />
           </div>
           <div>
@@ -199,13 +284,30 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Input value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} placeholder="12345678" />
           </div>
           <div>
-            <Label>BTW nummer</Label>
+            <Label>BTW nummer (optioneel)</Label>
             <Input value={form.btw_number} onChange={(e) => setForm({ ...form, btw_number: e.target.value })} placeholder="NL000000000B00" />
           </div>
           <div>
             <Label>Maandelijkse fee (€)</Label>
             <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: Number(e.target.value) })} />
           </div>
+
+          <div className="col-span-2 pt-2 border-t border-border">
+            <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Adres (optioneel)</p>
+          </div>
+          <div className="col-span-2">
+            <Label>Straat + huisnummer</Label>
+            <Input value={form.address_street} onChange={(e) => setForm({ ...form, address_street: e.target.value })} />
+          </div>
+          <div>
+            <Label>Postcode</Label>
+            <Input value={form.address_postal} onChange={(e) => setForm({ ...form, address_postal: e.target.value })} />
+          </div>
+          <div>
+            <Label>Plaats</Label>
+            <Input value={form.address_city} onChange={(e) => setForm({ ...form, address_city: e.target.value })} />
+          </div>
+
           <div className="col-span-2 pt-2 border-t border-border">
             <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Korting (optioneel)</p>
           </div>
@@ -223,8 +325,14 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
           </div>
         </div>
-        <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : "Opslaan"}</Button>
+        {!client && (
+          <div className="bg-primary/5 border border-primary/20 rounded p-3 text-[12px] text-muted-foreground">
+            Na opslaan krijg je een <span className="font-medium text-foreground">activatielink</span> die je naar de klant kunt sturen. De klant vult zelf ontbrekende gegevens in en kiest een veilig wachtwoord.
+          </div>
+        )}
+        <Button type="submit" disabled={saving} className="w-full">{saving ? "Bezig..." : (client ? "Bijwerken" : "Aanmaken + activatielink genereren")}</Button>
       </form>
+      )}
     </DialogContent>
   );
 }
@@ -1115,17 +1223,54 @@ function AccountTab({ client, onChanged }: { client: Client; onChanged: () => vo
     onChanged();
   };
 
+  // Activatielink (her)genereren
+  const [activationUrl, setActivationUrl] = useState<string | null>(null);
+  const [genLoading, setGenLoading] = useState(false);
+
+  const generateActivation = async () => {
+    setGenLoading(true);
+    const token = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 14);
+    const { error } = await supabase
+      .from("clients")
+      .update({ activation_token: token, activation_expires_at: expires.toISOString(), activated_at: null })
+      .eq("id", client.id);
+    setGenLoading(false);
+    if (error) { toast.error(error.message); return; }
+    const url = `${window.location.origin}/client/activate?token=${token}`;
+    setActivationUrl(url);
+    navigator.clipboard.writeText(url).catch(() => {});
+    toast.success("Activatielink aangemaakt en gekopieerd");
+  };
+
   return (
-    <div className="pt-4 space-y-4">
+    <div className="pt-4 space-y-6">
       <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
-        <p className="font-medium text-foreground mb-1">Inlogaccount aanmaken of resetten</p>
-        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant. De klant logt in op <span className="font-mono text-foreground">webiro.nl/login</span>.</p>
+        <p className="font-medium text-foreground mb-1">Activatielink (klant kiest zelf wachtwoord)</p>
+        <p>Genereer een unieke link en stuur deze naar de klant. De klant vult ontbrekende gegevens aan en kiest een sterk wachtwoord. Werkt voor zowel e-mail als telefoon-login. Link is 14 dagen geldig.</p>
+        <Button type="button" size="sm" className="mt-3" onClick={generateActivation} disabled={genLoading}>
+          {genLoading ? "Bezig..." : (client.user_id ? "Nieuwe activatielink genereren (reset)" : "Activatielink genereren")}
+        </Button>
+        {activationUrl && (
+          <div className="mt-3 flex gap-2">
+            <Input value={activationUrl} readOnly onFocus={(e) => e.currentTarget.select()} className="font-mono text-[12px]" />
+            <Button type="button" variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(activationUrl); toast.success("Gekopieerd"); }}>
+              Kopieer
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-muted/30 border border-border rounded p-4 text-[13px] text-muted-foreground">
+        <p className="font-medium text-foreground mb-1">Of: zelf wachtwoord instellen (overschrijft bestaand)</p>
+        <p>Vul e-mail + wachtwoord in. Bestaat het e-mailadres al? Dan wordt het wachtwoord overschreven en gekoppeld aan deze klant.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
           <Label>E-mail</Label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input type="email" value={email ?? ""} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
           <Label>Wachtwoord (min. 8)</Label>

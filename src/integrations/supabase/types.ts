@@ -220,7 +220,14 @@ export type Database = {
       }
       clients: {
         Row: {
+          activated_at: string | null
+          activation_expires_at: string | null
+          activation_token: string | null
           active: boolean
+          address_city: string | null
+          address_country: string | null
+          address_postal: string | null
+          address_street: string | null
           btw_number: string | null
           company_name: string
           contact_person: string | null
@@ -229,11 +236,13 @@ export type Database = {
           deposit_percentage: number | null
           discount_months: number | null
           discount_percentage: number | null
-          email: string
+          email: string | null
+          first_name: string | null
           id: string
           intake_labels: Json
           intake_sections: Json
           kvk_number: string | null
+          last_name: string | null
           logo_url: string | null
           monthly_fee: number | null
           phone: string | null
@@ -248,7 +257,14 @@ export type Database = {
           website_intake_sections: Json
         }
         Insert: {
+          activated_at?: string | null
+          activation_expires_at?: string | null
+          activation_token?: string | null
           active?: boolean
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
           btw_number?: string | null
           company_name: string
           contact_person?: string | null
@@ -257,11 +273,13 @@ export type Database = {
           deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
-          email: string
+          email?: string | null
+          first_name?: string | null
           id?: string
           intake_labels?: Json
           intake_sections?: Json
           kvk_number?: string | null
+          last_name?: string | null
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null
@@ -276,7 +294,14 @@ export type Database = {
           website_intake_sections?: Json
         }
         Update: {
+          activated_at?: string | null
+          activation_expires_at?: string | null
+          activation_token?: string | null
           active?: boolean
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
           btw_number?: string | null
           company_name?: string
           contact_person?: string | null
@@ -285,11 +310,13 @@ export type Database = {
           deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
-          email?: string
+          email?: string | null
+          first_name?: string | null
           id?: string
           intake_labels?: Json
           intake_sections?: Json
           kvk_number?: string | null
+          last_name?: string | null
           logo_url?: string | null
           monthly_fee?: number | null
           phone?: string | null

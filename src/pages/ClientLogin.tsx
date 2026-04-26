@@ -12,7 +12,7 @@ import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,17 +25,30 @@ export default function ClientLogin() {
         .eq("user_id", user.id)
         .maybeSingle();
       if (data?.id) navigate("/dashboard", { replace: true });
-      else toast.error("Geen klantaccount gekoppeld aan dit e-mailadres.");
+      else toast.error("Geen klantaccount gekoppeld aan dit account.");
     })();
   }, [user, isLoading, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    // Vertaal identifier (e-mail of telefoon) naar het login e-mail dat Supabase Auth gebruikt
+    const { data: resolved, error: resolveError } = await supabase.functions.invoke("client-activate", {
+      body: { action: "resolve_login", identifier: identifier.trim() },
+    });
+
+    if (resolveError || (resolved as any)?.error) {
+      setSubmitting(false);
+      toast.error((resolved as any)?.error ?? "Ongeldige login");
+      return;
+    }
+
+    const loginEmail = (resolved as any).login_email as string;
+    const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
     setSubmitting(false);
     if (error) {
-      toast.error(error.message);
+      toast.error("Ongeldige inloggegevens");
       return;
     }
     toast.success("Ingelogd");
@@ -48,20 +61,20 @@ export default function ClientLogin() {
           <img src={webiroLogo} alt="Webiro" className="h-7 mb-6 block dark:hidden" />
           <img src={webiroLogoDark} alt="Webiro" className="h-7 mb-6 hidden dark:block" />
           <h1 className="text-2xl font-semibold text-foreground">Klantportaal</h1>
-          <p className="text-sm text-muted-foreground mt-1">Log in om je dashboard te bekijken</p>
+          <p className="text-sm text-muted-foreground mt-1">Log in met je e-mail of telefoonnummer</p>
         </div>
 
         <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-4" autoComplete="off">
           <div>
-            <Label htmlFor="email">E-mailadres</Label>
+            <Label htmlFor="identifier">E-mail of telefoonnummer</Label>
             <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="identifier"
+              type="text"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               required
               className="mt-1.5"
-              placeholder="info@bedrijf.nl"
+              placeholder="info@bedrijf.nl of +316..."
               autoComplete="off"
             />
           </div>
@@ -75,7 +88,7 @@ export default function ClientLogin() {
               required
               className="mt-1.5"
               placeholder="••••••••"
-              autoComplete="new-password"
+              autoComplete="current-password"
             />
           </div>
           <Button type="submit" className="w-full" disabled={submitting}>

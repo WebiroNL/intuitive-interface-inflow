@@ -37,6 +37,7 @@ const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
+const ClientActivate = lazy(() => import("./pages/ClientActivate"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
 const PartnerLanding = lazy(() => import("./pages/PartnerLanding"));
 const PartnerLogin = lazy(() => import("./pages/PartnerLogin"));
@@ -82,7 +83,7 @@ function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isReportRoute = location.pathname.startsWith('/novellerapport');
-  const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login';
+  const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login' || location.pathname.startsWith('/client/');
   const isPartnerPortalRoute = location.pathname.startsWith('/partner/dashboard') || location.pathname === '/partner/login' || location.pathname === '/partner/register';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute || isPartnerPortalRoute;
   useCartSync();
@@ -131,6 +132,7 @@ function AppContent() {
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
             <Route path="/client/login" element={<ClientLogin />} />
+            <Route path="/client/activate" element={<ClientActivate />} />
             <Route path="/dashboard/*" element={<ClientPortal />} />
             <Route path="/partner" element={<PartnerLanding />} />
             <Route path="/partner/login" element={<PartnerLogin />} />
