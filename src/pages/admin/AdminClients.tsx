@@ -154,7 +154,13 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     };
     const q = client
       ? supabase.from("clients").update(payload).eq("id", client.id)
-      : supabase.from("clients").insert(payload);
+      : supabase.from("clients").insert({
+          ...payload,
+          // Standaard alleen dashboard zichtbaar; admin moet rest handmatig aanzetten
+          visible_menus: ["dashboard"],
+          show_intake_form: false,
+          show_website_intake_form: false,
+        });
     const { error } = await q;
     setSaving(false);
     if (error) { toast.error(error.message); return; }
