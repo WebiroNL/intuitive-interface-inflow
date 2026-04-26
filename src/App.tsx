@@ -42,6 +42,7 @@ const PartnerLanding = lazy(() => import("./pages/PartnerLanding"));
 const PartnerLogin = lazy(() => import("./pages/PartnerLogin"));
 const PartnerRegister = lazy(() => import("./pages/PartnerRegister"));
 const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
+const PartnerOnboarding = lazy(() => import("./pages/PartnerOnboarding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
