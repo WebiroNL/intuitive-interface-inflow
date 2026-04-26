@@ -117,7 +117,7 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...(external ? { target: "_blank", rel: "noopener" } : {})}
                 aria-label={label}
                 className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               >
