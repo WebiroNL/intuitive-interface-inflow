@@ -38,6 +38,9 @@ interface Client {
   deposit_percentage: number | null;
   logo_url: string | null;
   show_intake_form?: boolean;
+  activation_token?: string | null;
+  activation_expires_at?: string | null;
+  activated_at?: string | null;
   created_at: string; updated_at: string;
 }
 
