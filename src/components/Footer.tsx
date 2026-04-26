@@ -117,23 +117,8 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...(external ? { target: "_blank", rel: "noopener" } : {})}
                 aria-label={label}
-                onClick={(e) => {
-                  // Debug log: which URL is loaded from DB and is the external flag correct?
-                  console.log("[Footer social click]", {
-                    label,
-                    href,
-                    external,
-                    expectedExternal: href?.startsWith("http"),
-                    flagMatchesUrl: external === !!href?.startsWith("http"),
-                    source: "app_settings",
-                  });
-                  if (!external) return;
-                  // Force top-level navigation to bypass iframe sandbox restrictions
-                  e.preventDefault();
-                  window.open(href, "_blank", "noopener,noreferrer");
-                }}
                 className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               >
                 <HugeiconsIcon icon={icon} size={16} />
