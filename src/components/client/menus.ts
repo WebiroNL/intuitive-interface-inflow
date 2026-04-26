@@ -9,6 +9,7 @@ import {
   PackageIcon,
   ActivityIcon,
   TaskDaily01Icon,
+  RocketIcon,
 } from "@hugeicons/core-free-icons";
 
 export interface ClientMenuDef {
@@ -29,6 +30,7 @@ export const CLIENT_MENUS: ClientMenuDef[] = [
   { id: "updates", label: "Activiteit / Updates", icon: Notification02Icon },
   { id: "intake", label: "Ads Intakeformulier", icon: TaskDaily01Icon },
   { id: "website_intake", label: "Website Intakeformulier", icon: TaskDaily01Icon },
+  { id: "onboarding", label: "Onboarding", icon: RocketIcon },
 ];
 
 export const ALL_MENU_IDS = CLIENT_MENUS.map((m) => m.id);

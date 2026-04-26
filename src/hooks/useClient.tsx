@@ -20,6 +20,8 @@ export interface Client {
   discount_percentage: number | null;
   deposit_percentage: number | null;
   show_intake_form?: boolean | null;
+  show_website_intake_form?: boolean | null;
+  show_onboarding_form?: boolean | null;
   intake_sections?: string[] | null;
   visible_menus?: string[] | null;
   created_at: string;
