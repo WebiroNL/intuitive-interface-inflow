@@ -11,8 +11,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { ONBOARDING_SERVICES, getServiceById, type OnboardingField } from "@/lib/onboardingChecklists";
-import { ArrowRight01Icon, ArrowLeft01Icon, Tick02Icon, RocketIcon } from "@hugeicons/react";
-import { setSEO } from "@/utils/seo";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon, ArrowLeft01Icon, Tick02Icon, RocketIcon } from "@hugeicons/core-free-icons";
+import { updatePageMeta } from "@/utils/seo";
 
 type Step = "company" | "services" | "fields" | "overview" | "done";
 
