@@ -29,6 +29,9 @@ const TITLES: Record<string, string> = {
   files: "Bestanden",
   updates: "Updates",
   account: "Account",
+  intake: "Ads Intakeformulier",
+  "website-intake": "Website Intakeformulier",
+  onboarding: "Onboarding",
 };
 
 export function ClientTopBar({ client, onMenuClick, isSidebarOpen }: Props) {
