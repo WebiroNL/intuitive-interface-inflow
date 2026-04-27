@@ -140,7 +140,7 @@ export default function ClientOnboardingForm({ client }: Props) {
         phone: client.phone ?? null,
         website: null,
         service_type: serviceId,
-        data: answers[serviceId] ?? {},
+        data: { ...(answers[serviceId] ?? {}), _common_assets: commonAssets },
         status: "submitted",
       }));
 
