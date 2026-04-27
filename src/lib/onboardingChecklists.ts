@@ -182,6 +182,8 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "examples", label: "Voorbeeldsites die je mooi vindt (URLs)", type: "textarea" },
       { key: "examples_disliked", label: "Sites die je juist niet mooi vindt", type: "textarea" },
       { key: "brand_assets", label: "Wat is er aan huisstijl?", type: "multiselect", options: ["Logo", "Kleurenpalet", "Typografie", "Brand book", "Fotografie", "Iconen", "Niets, opnieuw maken"] },
+      { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden." },
+      { key: "content_url", label: "Link naar content (teksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link met teksten, foto's en eventuele video's." },
       { key: "content_provider", label: "Wie levert teksten en beeld?", type: "select", options: ["Wij (klant)", "Webiro", "Mix"] },
       { key: "integrations", label: "Benodigde integraties", type: "multiselect", options: ["Contactformulier", "Nieuwsbrief", "Calendly / boekingen", "Live chat", "CRM (HubSpot/Pipedrive)", "Google Maps", "Reviews", "Anders"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Spaans", "Anders"] },
