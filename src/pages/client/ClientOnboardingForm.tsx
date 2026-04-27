@@ -17,7 +17,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   ONBOARDING_SERVICES,
-  COMMON_ASSET_FIELDS,
+  getCommonAssetFields,
   getServiceById,
   type OnboardingField,
 } from "@/lib/onboardingChecklists";
