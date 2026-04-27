@@ -17,6 +17,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   ONBOARDING_SERVICES,
+  COMMON_ASSET_FIELDS,
   getServiceById,
   type OnboardingField,
 } from "@/lib/onboardingChecklists";
@@ -26,9 +27,10 @@ import {
   ArrowLeft01Icon,
   Tick02Icon,
   RocketIcon,
+  PaintBrushIcon,
 } from "@hugeicons/core-free-icons";
 
-type Step = "services" | "fields" | "overview" | "done";
+type Step = "services" | "fields" | "assets" | "overview" | "done";
 
 interface Props {
   client: Client;
