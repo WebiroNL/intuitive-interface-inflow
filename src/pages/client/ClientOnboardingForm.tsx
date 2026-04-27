@@ -322,7 +322,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                     <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
                       {svc.fields.map((f) => {
                         const v = data[f.key];
-                        const display = Array.isArray(v) ? v.join(", ") : v;
+                        const display = Array.isArray(v) ? v.filter((x: any) => x && String(x).trim()).join("\n") : v;
                         if (!display && display !== 0) return null;
                         return (
                           <div key={f.key} className="break-words">
@@ -347,7 +347,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                 <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
                   {commonFields.map((f) => {
                     const v = commonAssets[f.key];
-                    const display = Array.isArray(v) ? v.join(", ") : v;
+                    const display = Array.isArray(v) ? v.filter((x: any) => x && String(x).trim()).join("\n") : v;
                     if (!display && display !== 0) return null;
                     return (
                       <div key={f.key} className="break-words">
