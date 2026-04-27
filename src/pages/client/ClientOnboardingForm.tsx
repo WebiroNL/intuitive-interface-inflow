@@ -589,6 +589,71 @@ function DynamicField({
     );
   }
 
+  if (field.type === "multilink") {
+    const links: string[] = Array.isArray(value)
+      ? value
+      : typeof value === "string" && value
+        ? [value]
+        : [""];
+    const safeLinks = links.length > 0 ? links : [""];
+
+    const updateAt = (idx: number, v: string) => {
+      const next = [...safeLinks];
+      next[idx] = v;
+      // Voeg automatisch een leeg veld toe als de laatste rij ingevuld is
+      if (idx === next.length - 1 && v.trim() !== "") {
+        next.push("");
+      }
+      onChange(next);
+    };
+
+    const removeAt = (idx: number) => {
+      const next = safeLinks.filter((_, i) => i !== idx);
+      onChange(next.length > 0 ? next : [""]);
+    };
+
+    return (
+      <Field label={label}>
+        <div className="space-y-2">
+          {safeLinks.map((link, idx) => (
+            <div key={idx} className="flex gap-2">
+              <Input
+                type="url"
+                placeholder={field.placeholder}
+                value={link}
+                onChange={(e) => updateAt(idx, e.target.value)}
+              />
+              {safeLinks.length > 1 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeAt(idx)}
+                  aria-label="Link verwijderen"
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} size={16} />
+                </Button>
+              )}
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="gap-2 text-muted-foreground hover:text-foreground"
+            onClick={() => onChange([...safeLinks, ""])}
+          >
+            <HugeiconsIcon icon={PlusSignIcon} size={14} />
+            Nog een link toevoegen
+          </Button>
+        </div>
+        {field.help && (
+          <p className="text-xs text-muted-foreground">{field.help}</p>
+        )}
+      </Field>
+    );
+  }
+
   return (
     <Field label={label}>
       <Input
