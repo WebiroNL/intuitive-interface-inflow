@@ -112,7 +112,7 @@ export default function ClientOnboardingForm({ client }: Props) {
       if (activeServiceIndex < selectedServices.length - 1) {
         setActiveServiceIndex((i) => i + 1);
       } else {
-        setStep("assets");
+        setStep(commonFields.length > 0 ? "assets" : "overview");
       }
     } else if (step === "assets") {
       setStep("overview");
@@ -128,7 +128,12 @@ export default function ClientOnboardingForm({ client }: Props) {
       setActiveServiceIndex(selectedServices.length - 1);
       setStep("fields");
     } else if (step === "overview") {
-      setStep("assets");
+      if (commonFields.length > 0) {
+        setStep("assets");
+      } else {
+        setActiveServiceIndex(selectedServices.length - 1);
+        setStep("fields");
+      }
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
