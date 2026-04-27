@@ -258,6 +258,24 @@ export default function ClientOnboardingForm({ client }: Props) {
           </Section>
         )}
 
+        {step === "assets" && (
+          <Section
+            title="Aanleveren van merkmateriaal"
+            subtitle="Deze informatie hebben we sowieso nodig — ongeacht welke dienst(en) je hebt gekozen."
+          >
+            <div className="space-y-5">
+              {COMMON_ASSET_FIELDS.map((field) => (
+                <DynamicField
+                  key={field.key}
+                  field={field}
+                  value={commonAssets[field.key]}
+                  onChange={(v) => setCommonAsset(field.key, v)}
+                />
+              ))}
+            </div>
+          </Section>
+        )}
+
         {step === "overview" && (
           <Section
             title="Controleren en verzenden"
