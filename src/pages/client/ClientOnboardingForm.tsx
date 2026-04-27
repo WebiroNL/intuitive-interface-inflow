@@ -384,6 +384,7 @@ export default function ClientOnboardingForm({ client }: Props) {
             </p>
             <Button
               variant="outline"
+              className="hover:bg-primary/10 hover:text-primary hover:border-primary/40"
               onClick={() => {
                 setSelectedServices([]);
                 setAnswers({});
