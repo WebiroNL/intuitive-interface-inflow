@@ -192,6 +192,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "integrations", label: "Benodigde integraties", type: "multiselect", options: ["Contactformulier", "Nieuwsbrief", "Calendly / boekingen", "Live chat", "CRM (HubSpot/Pipedrive)", "Google Maps", "Reviews", "Anders"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Spaans", "Anders"] },
       { key: "deadline", label: "Gewenste oplevering", type: "text", placeholder: "Bijv. eind Q2 2026" },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
   {
