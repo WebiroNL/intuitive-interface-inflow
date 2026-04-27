@@ -107,8 +107,10 @@ export default function ClientOnboardingForm({ client }: Props) {
       if (activeServiceIndex < selectedServices.length - 1) {
         setActiveServiceIndex((i) => i + 1);
       } else {
-        setStep("overview");
+        setStep("assets");
       }
+    } else if (step === "assets") {
+      setStep("overview");
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -117,9 +119,11 @@ export default function ClientOnboardingForm({ client }: Props) {
     if (step === "fields") {
       if (activeServiceIndex > 0) setActiveServiceIndex((i) => i - 1);
       else setStep("services");
-    } else if (step === "overview") {
+    } else if (step === "assets") {
       setActiveServiceIndex(selectedServices.length - 1);
       setStep("fields");
+    } else if (step === "overview") {
+      setStep("assets");
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
