@@ -348,7 +348,7 @@ export default function ClientIntakeForm({ client }: Props) {
               </CheckRow>
             </Field>
             <Field labelId="f.review_links" label="Links naar reviews">
-              <Textarea value={data.review_links ?? ""} onChange={(e) => set("review_links", e.target.value)} placeholder="https://drive.google.com/... of https://wetransfer.com/..." />
+              <Textarea value={data.review_links ?? ""} onChange={(e) => set("review_links", e.target.value)} placeholder="Google Drive, WeTransfer, Dropbox, OneDrive, iCloud, Box of Mega..." />
             </Field>
           </Sec>
 
@@ -385,7 +385,7 @@ export default function ClientIntakeForm({ client }: Props) {
               </CheckRow>
             </Field>
             <Field labelId="f.materiaal_links" label="Links naar materiaal">
-              <Textarea value={data.materiaal_links ?? ""} onChange={(e) => set("materiaal_links", e.target.value)} placeholder="https://drive.google.com/... of https://wetransfer.com/..." />
+              <Textarea value={data.materiaal_links ?? ""} onChange={(e) => set("materiaal_links", e.target.value)} placeholder="Google Drive, WeTransfer, Dropbox, OneDrive, iCloud, Box of Mega..." />
             </Field>
           </Sec>
 
