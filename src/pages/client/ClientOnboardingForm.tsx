@@ -47,6 +47,11 @@ export default function ClientOnboardingForm({ client }: Props) {
   const [answers, setAnswers] = useState<Record<string, Record<string, any>>>(
     {}
   );
+  const [commonAssets, setCommonAssets] = useState<Record<string, any>>({});
+
+  const setCommonAsset = (key: string, value: any) => {
+    setCommonAssets((prev) => ({ ...prev, [key]: value }));
+  };
 
   const activeService = useMemo(
     () =>
