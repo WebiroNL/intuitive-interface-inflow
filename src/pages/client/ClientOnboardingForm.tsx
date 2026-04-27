@@ -61,6 +61,11 @@ export default function ClientOnboardingForm({ client }: Props) {
     [step, selectedServices, activeServiceIndex]
   );
 
+  const commonFields = useMemo(
+    () => getCommonAssetFields(selectedServices),
+    [selectedServices]
+  );
+
   const setAnswer = (serviceId: string, key: string, value: any) => {
     setAnswers((prev) => ({
       ...prev,
