@@ -629,6 +629,7 @@ function DynamicField({
                   type="button"
                   variant="ghost"
                   size="icon"
+                  className="hover:bg-primary/10 hover:text-primary"
                   onClick={() => removeAt(idx)}
                   aria-label="Link verwijderen"
                 >
