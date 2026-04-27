@@ -88,7 +88,7 @@ export default function ClientPortal() {
         <div className="flex-1">
           <Suspense fallback={<Fallback />}>
             <Routes>
-              <Route index element={<ClientDashboard client={client} />} />
+              <Route index element={<DashboardIndex client={client} />} />
               <Route path="campaigns" element={<ClientCampaigns client={client} />} />
               <Route path="finance" element={<Navigate to="/dashboard/campaigns" replace />} />
               <Route path="reports" element={<ClientReports client={client} />} />
@@ -106,4 +106,44 @@ export default function ClientPortal() {
       </main>
     </div>
   );
+}
+
+/**
+ * Toont het dashboard als zichtbaar; anders redirect naar het eerste beschikbare menu-item
+ * in vaste volgorde (campagnes, rapporten, contract, facturen, bestanden, updates,
+ * intake, website-intake, onboarding, account).
+ */
+function DashboardIndex({ client }: { client: any }) {
+  const sections = useClientSections(client);
+  const vm = (client.visible_menus as string[] | null | undefined) ?? null;
+  const adminHasExplicitSelection =
+    Array.isArray(vm) && !(vm.length === 1 && vm[0] === "__all__");
+
+  if (sections.loading) return <Fallback />;
+
+  if (isMenuVisible(vm, "dashboard")) {
+    return <ClientDashboard client={client} />;
+  }
+
+  const candidates: { id: string; path: string; hasData: boolean }[] = [
+    { id: "campaigns", path: "/dashboard/campaigns", hasData: sections.hasMonthlyData },
+    { id: "reports", path: "/dashboard/reports", hasData: sections.hasMonthlyData },
+    { id: "contract", path: "/dashboard/contract", hasData: sections.hasContracts || sections.hasServices },
+    { id: "invoices", path: "/dashboard/invoices", hasData: sections.hasInvoices },
+    { id: "files", path: "/dashboard/files", hasData: sections.hasFiles },
+    { id: "updates", path: "/dashboard/updates", hasData: sections.hasActivity },
+    { id: "intake", path: "/dashboard/intake", hasData: !!(client as any).show_intake_form },
+    { id: "website_intake", path: "/dashboard/website-intake", hasData: !!(client as any).show_website_intake_form },
+    { id: "onboarding", path: "/dashboard/onboarding", hasData: !!(client as any).show_onboarding_form },
+    { id: "account", path: "/dashboard/account", hasData: true },
+  ];
+
+  for (const c of candidates) {
+    if (!isMenuVisible(vm, c.id)) continue;
+    if (adminHasExplicitSelection || c.hasData) {
+      return <Navigate to={c.path} replace />;
+    }
+  }
+
+  return <ClientDashboard client={client} />;
 }
