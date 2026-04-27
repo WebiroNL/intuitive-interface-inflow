@@ -427,10 +427,11 @@ function ProgressBar({
 }) {
   const totalFieldSteps = Math.max(services.length, 1);
   let pct = 0;
-  if (step === "services") pct = 15;
+  if (step === "services") pct = 10;
   else if (step === "fields")
-    pct = 15 + ((activeIndex + 1) / totalFieldSteps) * 70;
-  else if (step === "overview") pct = 90;
+    pct = 10 + ((activeIndex + 1) / totalFieldSteps) * 65;
+  else if (step === "assets") pct = 82;
+  else if (step === "overview") pct = 92;
   else if (step === "done") pct = 100;
 
   return (
