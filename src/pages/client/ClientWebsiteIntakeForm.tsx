@@ -270,7 +270,7 @@ export default function ClientWebsiteIntakeForm({ client }: Props) {
                     <WCheckRow><WCheck label="Telefoon voor contact" checked={!!data.tel_voor_contact} onChange={(v) => set("tel_voor_contact", v)} /></WCheckRow>
                     <WCheckRow><WCheck label="WhatsApp voor contact" checked={!!data.wa_voor_contact} onChange={(v) => set("wa_voor_contact", v)} /></WCheckRow>
                   </WField>
-                  <WField labelId="wf.huidige_website" label="Huidige website"><Input placeholder="Google Drive, WeTransfer, Dropbox, OneDrive, iCloud, Box of Mega..." value={data.huidige_website ?? ""} onChange={(e) => set("huidige_website", e.target.value)} /></WField>
+                  <WField labelId="wf.huidige_website" label="Huidige website"><Input placeholder="https://..." value={data.huidige_website ?? ""} onChange={(e) => set("huidige_website", e.target.value)} /></WField>
                   <WField labelId="wf.branche" label="Branche / sector"><Input value={data.branche ?? ""} onChange={(e) => set("branche", e.target.value)} /></WField>
                 </Grid2>
 
