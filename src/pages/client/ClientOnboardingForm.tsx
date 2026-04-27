@@ -384,6 +384,7 @@ export default function ClientOnboardingForm({ client }: Props) {
             </p>
             <Button
               variant="outline"
+              className="hover:bg-primary/10 hover:text-primary hover:border-primary/40"
               onClick={() => {
                 setSelectedServices([]);
                 setAnswers({});
@@ -404,7 +405,7 @@ export default function ClientOnboardingForm({ client }: Props) {
               variant="ghost"
               onClick={back}
               disabled={step === "services"}
-              className="gap-2"
+              className="gap-2 hover:bg-primary/10 hover:text-primary"
             >
               <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> Vorige
             </Button>
@@ -628,6 +629,7 @@ function DynamicField({
                   type="button"
                   variant="ghost"
                   size="icon"
+                  className="hover:bg-primary/10 hover:text-primary"
                   onClick={() => removeAt(idx)}
                   aria-label="Link verwijderen"
                 >
@@ -640,7 +642,7 @@ function DynamicField({
             type="button"
             variant="ghost"
             size="sm"
-            className="gap-2 text-muted-foreground hover:text-foreground"
+            className="gap-2 text-muted-foreground hover:bg-primary/10 hover:text-primary"
             onClick={() => onChange([...safeLinks, ""])}
           >
             <HugeiconsIcon icon={PlusSignIcon} size={14} />
