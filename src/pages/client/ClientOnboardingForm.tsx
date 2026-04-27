@@ -405,7 +405,7 @@ export default function ClientOnboardingForm({ client }: Props) {
               variant="ghost"
               onClick={back}
               disabled={step === "services"}
-              className="gap-2"
+              className="gap-2 hover:bg-primary/10 hover:text-primary"
             >
               <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> Vorige
             </Button>
