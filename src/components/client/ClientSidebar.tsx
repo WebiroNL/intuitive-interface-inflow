@@ -163,7 +163,8 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
               </Link>
             )}
           </div>
-        )}
+          );
+        })()}
       </nav>
 
       <div className="border-t border-border p-4 text-center">
