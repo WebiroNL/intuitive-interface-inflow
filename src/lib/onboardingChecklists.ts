@@ -11,6 +11,12 @@ export interface OnboardingField {
   help?: string;
   required?: boolean;
   options?: string[]; // voor select / multiselect
+  /**
+   * Optioneel: lijst van service-id's die dit veld al (deels) afdekken.
+   * Wordt gebruikt om gemeenschappelijke aanlevervelden te verbergen
+   * wanneer ze al binnen een gekozen dienst gevraagd zijn.
+   */
+  coveredBy?: string[];
 }
 
 export interface OnboardingService {
