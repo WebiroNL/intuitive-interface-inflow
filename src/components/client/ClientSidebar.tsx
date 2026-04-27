@@ -112,12 +112,16 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
           ))}
         </div>
 
-        {((client.show_intake_form && isMenuVisible(vm, "intake")) ||
-          ((client as any).show_website_intake_form && isMenuVisible(vm, "website_intake")) ||
-          ((client as any).show_onboarding_form && isMenuVisible(vm, "onboarding"))) && (
+        {(() => {
+          const showIntake = !!client.show_intake_form && isMenuVisible(vm, "intake");
+          const showWebsiteIntake = !!(client as any).show_website_intake_form && isMenuVisible(vm, "website_intake");
+          const showOnboarding = !!(client as any).show_onboarding_form && isMenuVisible(vm, "onboarding");
+          const formCount = [showIntake, showWebsiteIntake, showOnboarding].filter(Boolean).length;
+          if (formCount === 0) return null;
+          return (
           <div className={`mt-auto space-y-0.5 ${items.length > 0 ? "pt-3 border-t border-border" : ""}`}>
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
-              Formulieren
+              {formCount === 1 ? "Formulier" : "Formulieren"}
             </p>
             {client.show_intake_form && isMenuVisible(vm, "intake") && (
               <Link
@@ -159,7 +163,8 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
               </Link>
             )}
           </div>
-        )}
+          );
+        })()}
       </nav>
 
       <div className="border-t border-border p-4 text-center">
