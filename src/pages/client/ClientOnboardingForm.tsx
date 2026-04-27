@@ -28,6 +28,8 @@ import {
   Tick02Icon,
   RocketIcon,
   PaintBrushIcon,
+  PlusSignIcon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 
 type Step = "services" | "fields" | "assets" | "overview" | "done";
