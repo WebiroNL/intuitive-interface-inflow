@@ -4,6 +4,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useMyClient } from "@/hooks/useClient";
 import { ClientSidebar } from "@/components/client/ClientSidebar";
 import { ClientTopBar } from "@/components/client/ClientTopBar";
+import { useClientSections } from "@/hooks/useClientSections";
+import { isMenuVisible } from "@/components/client/menus";
 
 const ClientDashboard = lazy(() => import("./client/ClientDashboard"));
 const ClientCampaigns = lazy(() => import("./client/ClientCampaigns"));
