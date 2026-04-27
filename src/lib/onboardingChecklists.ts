@@ -204,6 +204,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "platform", label: "Voorkeur platform", type: "select", options: ["Shopify", "WooCommerce", "Lightspeed", "Custom", "Advies graag"], required: true },
       { key: "domain", label: "Gewenste domeinnaam", type: "text", required: true },
       { key: "current_shop", label: "Huidige webshop URL (indien migratie)", type: "url" },
+      { key: "company_description", label: "Korte beschrijving van het bedrijf", type: "textarea", required: true },
       { key: "product_count", label: "Aantal producten / SKU's", type: "number" },
       { key: "product_categories", label: "Productcategorieën", type: "textarea" },
       { key: "product_data_ready", label: "Productdata aanwezig (foto's, teksten, prijzen)?", type: "select", options: ["Ja, compleet", "Deels", "Nee, hulp nodig"] },
