@@ -60,14 +60,14 @@ export default function ClientLogin() {
           <img src={webiroLogo} alt="Webiro" className="h-7 mb-6 block dark:hidden" />
           <img src={webiroLogoDark} alt="Webiro" className="h-7 mb-6 hidden dark:block" />
           <h1 className="text-2xl font-semibold text-foreground">Klantportaal</h1>
-          <p className="text-sm text-muted-foreground mt-1">Log in met je e-mail of telefoonnummer</p>
+          <p className="text-sm text-muted-foreground mt-1">Log in met je mobiel nummer of e-mailadres</p>
         </div>
 
         <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-3" autoComplete="off">
           <FloatingInput
             id="identifier"
             type="text"
-            label="E-mail of telefoonnummer"
+            label="Mobiel nummer of e-mailadres"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             required
