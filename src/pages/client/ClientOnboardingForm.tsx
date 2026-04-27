@@ -17,6 +17,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   ONBOARDING_SERVICES,
+  COMMON_ASSET_FIELDS,
   getServiceById,
   type OnboardingField,
 } from "@/lib/onboardingChecklists";
@@ -26,9 +27,10 @@ import {
   ArrowLeft01Icon,
   Tick02Icon,
   RocketIcon,
+  PaintBrushIcon,
 } from "@hugeicons/core-free-icons";
 
-type Step = "services" | "fields" | "overview" | "done";
+type Step = "services" | "fields" | "assets" | "overview" | "done";
 
 interface Props {
   client: Client;
@@ -45,6 +47,11 @@ export default function ClientOnboardingForm({ client }: Props) {
   const [answers, setAnswers] = useState<Record<string, Record<string, any>>>(
     {}
   );
+  const [commonAssets, setCommonAssets] = useState<Record<string, any>>({});
+
+  const setCommonAsset = (key: string, value: any) => {
+    setCommonAssets((prev) => ({ ...prev, [key]: value }));
+  };
 
   const activeService = useMemo(
     () =>
@@ -100,8 +107,10 @@ export default function ClientOnboardingForm({ client }: Props) {
       if (activeServiceIndex < selectedServices.length - 1) {
         setActiveServiceIndex((i) => i + 1);
       } else {
-        setStep("overview");
+        setStep("assets");
       }
+    } else if (step === "assets") {
+      setStep("overview");
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -110,9 +119,11 @@ export default function ClientOnboardingForm({ client }: Props) {
     if (step === "fields") {
       if (activeServiceIndex > 0) setActiveServiceIndex((i) => i - 1);
       else setStep("services");
-    } else if (step === "overview") {
+    } else if (step === "assets") {
       setActiveServiceIndex(selectedServices.length - 1);
       setStep("fields");
+    } else if (step === "overview") {
+      setStep("assets");
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -129,7 +140,7 @@ export default function ClientOnboardingForm({ client }: Props) {
         phone: client.phone ?? null,
         website: null,
         service_type: serviceId,
-        data: answers[serviceId] ?? {},
+        data: { ...(answers[serviceId] ?? {}), _common_assets: commonAssets },
         status: "submitted",
       }));
 
@@ -247,6 +258,24 @@ export default function ClientOnboardingForm({ client }: Props) {
           </Section>
         )}
 
+        {step === "assets" && (
+          <Section
+            title="Aanleveren van merkmateriaal"
+            subtitle="Deze informatie hebben we sowieso nodig — ongeacht welke dienst(en) je hebt gekozen."
+          >
+            <div className="space-y-5">
+              {COMMON_ASSET_FIELDS.map((field) => (
+                <DynamicField
+                  key={field.key}
+                  field={field}
+                  value={commonAssets[field.key]}
+                  onChange={(v) => setCommonAsset(field.key, v)}
+                />
+              ))}
+            </div>
+          </Section>
+        )}
+
         {step === "overview" && (
           <Section
             title="Controleren en verzenden"
@@ -298,6 +327,33 @@ export default function ClientOnboardingForm({ client }: Props) {
                   </div>
                 );
               })}
+
+              <div className="rounded-xl border border-border p-4">
+                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                  Merkmateriaal
+                </div>
+                <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                  {COMMON_ASSET_FIELDS.map((f) => {
+                    const v = commonAssets[f.key];
+                    const display = Array.isArray(v) ? v.join(", ") : v;
+                    if (!display && display !== 0) return null;
+                    return (
+                      <div key={f.key} className="break-words">
+                        <dt className="text-muted-foreground text-xs">{f.label}</dt>
+                        <dd className="whitespace-pre-wrap">{String(display)}</dd>
+                      </div>
+                    );
+                  })}
+                  {COMMON_ASSET_FIELDS.every((f) => {
+                    const v = commonAssets[f.key];
+                    return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
+                  }) && (
+                    <div className="text-muted-foreground text-xs col-span-full">
+                      Geen merkmateriaal aangeleverd.
+                    </div>
+                  )}
+                </dl>
+              </div>
             </div>
           </Section>
         )}
@@ -319,6 +375,7 @@ export default function ClientOnboardingForm({ client }: Props) {
               onClick={() => {
                 setSelectedServices([]);
                 setAnswers({});
+                setCommonAssets({});
                 setActiveServiceIndex(0);
                 setStep("services");
               }}
@@ -370,10 +427,11 @@ function ProgressBar({
 }) {
   const totalFieldSteps = Math.max(services.length, 1);
   let pct = 0;
-  if (step === "services") pct = 15;
+  if (step === "services") pct = 10;
   else if (step === "fields")
-    pct = 15 + ((activeIndex + 1) / totalFieldSteps) * 70;
-  else if (step === "overview") pct = 90;
+    pct = 10 + ((activeIndex + 1) / totalFieldSteps) * 65;
+  else if (step === "assets") pct = 82;
+  else if (step === "overview") pct = 92;
   else if (step === "done") pct = 100;
 
   return (

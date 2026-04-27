@@ -182,8 +182,6 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "examples", label: "Voorbeeldsites die je mooi vindt (URLs)", type: "textarea" },
       { key: "examples_disliked", label: "Sites die je juist niet mooi vindt", type: "textarea" },
       { key: "brand_assets", label: "Wat is er aan huisstijl?", type: "multiselect", options: ["Logo", "Kleurenpalet", "Typografie", "Brand book", "Fotografie", "Iconen", "Niets, opnieuw maken"] },
-      { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden." },
-      { key: "content_url", label: "Link naar content (teksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link met teksten, foto's en eventuele video's." },
       { key: "content_provider", label: "Wie levert teksten en beeld?", type: "select", options: ["Wij (klant)", "Webiro", "Mix"] },
       { key: "integrations", label: "Benodigde integraties", type: "multiselect", options: ["Contactformulier", "Nieuwsbrief", "Calendly / boekingen", "Live chat", "CRM (HubSpot/Pipedrive)", "Google Maps", "Reviews", "Anders"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Spaans", "Anders"] },
@@ -210,12 +208,30 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "integrations", label: "Integraties", type: "multiselect", options: ["Boekhouding (Moneybird/Exact)", "ERP", "CRM", "Email-marketing", "Google Merchant", "Meta Catalog", "Reviews (Trustpilot/Kiyoh)", "Anders"] },
       { key: "examples", label: "Voorbeeldshops die je mooi vindt", type: "textarea" },
       { key: "brand_assets", label: "Huisstijl beschikbaar?", type: "multiselect", options: ["Logo", "Kleuren", "Typografie", "Brand book", "Productfoto's", "Lifestyle foto's", "Niets"] },
-      { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden." },
-      { key: "content_url", label: "Link naar content (productteksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link met productteksten, foto's en lifestyle materiaal." },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Anders"] },
       { key: "deadline", label: "Gewenste live-datum", type: "text" },
     ],
   },
+];
+
+/**
+ * Algemene aanlevervelden die altijd gevraagd worden, ongeacht de gekozen dienst(en).
+ * Worden getoond als laatste stap vóór "Controleren en verzenden".
+ */
+export const COMMON_ASSET_FIELDS: OnboardingField[] = [
+  { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden — bij voorkeur in vector (SVG/AI/EPS) én PNG." },
+  { key: "content_url", label: "Link naar content (teksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link naar teksten, foto's en eventuele video's." },
+  { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — als je al een huisstijldocument hebt." },
+  { key: "brand_colors", label: "Huisstijl kleuren (HEX-codes)", type: "textarea", placeholder: "#0F172A\n#3A4DEA\n#F8FAFC" },
+  { key: "brand_fonts", label: "Lettertypes (fonts)", type: "text", placeholder: "Bijv. Inter, Söhne, Helvetica Neue" },
+  { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig..." },
+  { key: "company_description_short", label: "Korte beschrijving van je bedrijf (1–2 zinnen)", type: "textarea" },
+  { key: "key_contacts", label: "Contactpersonen (naam, rol, e-mail, telefoon)", type: "textarea", placeholder: "Jan de Vries — Marketing — jan@bedrijf.nl — 06 12345678" },
+  { key: "social_links", label: "Links naar social media kanalen", type: "textarea", placeholder: "Instagram: https://instagram.com/...\nLinkedIn: https://linkedin.com/company/...\nFacebook: ...\nTikTok: ..." },
+  { key: "domain_dns_access", label: "Wie beheert het domein / DNS?", type: "select", options: ["Wij (klant)", "Externe partij", "Webiro mag overnemen", "Weet ik niet"] },
+  { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
+  { key: "deadline_general", label: "Belangrijke deadlines of mijlpalen", type: "textarea", placeholder: "Bijv. event op 12 juni, lancering Q3 2026..." },
+  { key: "extra_notes", label: "Overige opmerkingen of bestanden", type: "textarea", placeholder: "Alles wat we nog moeten weten." },
 ];
 
 export function getServiceById(id: string): OnboardingService | undefined {
