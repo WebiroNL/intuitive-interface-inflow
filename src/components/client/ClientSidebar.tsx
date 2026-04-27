@@ -115,7 +115,7 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
         {((client.show_intake_form && isMenuVisible(vm, "intake")) ||
           ((client as any).show_website_intake_form && isMenuVisible(vm, "website_intake")) ||
           ((client as any).show_onboarding_form && isMenuVisible(vm, "onboarding"))) && (
-          <div className="mt-auto pt-3 border-t border-border space-y-0.5">
+          <div className={`mt-auto space-y-0.5 ${items.length > 0 ? "pt-3 border-t border-border" : ""}`}>
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-3 mb-1">
               Formulieren
             </p>
