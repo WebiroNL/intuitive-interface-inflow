@@ -192,6 +192,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "integrations", label: "Benodigde integraties", type: "multiselect", options: ["Contactformulier", "Nieuwsbrief", "Calendly / boekingen", "Live chat", "CRM (HubSpot/Pipedrive)", "Google Maps", "Reviews", "Anders"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Spaans", "Anders"] },
       { key: "deadline", label: "Gewenste oplevering", type: "text", placeholder: "Bijv. eind Q2 2026" },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
   {
@@ -203,6 +204,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "platform", label: "Voorkeur platform", type: "select", options: ["Shopify", "WooCommerce", "Lightspeed", "Custom", "Advies graag"], required: true },
       { key: "domain", label: "Gewenste domeinnaam", type: "text", required: true },
       { key: "current_shop", label: "Huidige webshop URL (indien migratie)", type: "url" },
+      { key: "company_description", label: "Korte beschrijving van het bedrijf", type: "textarea", required: true },
       { key: "product_count", label: "Aantal producten / SKU's", type: "number" },
       { key: "product_categories", label: "Productcategorieën", type: "textarea" },
       { key: "product_data_ready", label: "Productdata aanwezig (foto's, teksten, prijzen)?", type: "select", options: ["Ja, compleet", "Deels", "Nee, hulp nodig"] },
@@ -216,6 +218,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "brand_assets", label: "Huisstijl beschikbaar?", type: "multiselect", options: ["Logo", "Kleuren", "Typografie", "Brand book", "Productfoto's", "Lifestyle foto's", "Niets"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Anders"] },
       { key: "deadline", label: "Gewenste live-datum", type: "text" },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
 ];
@@ -231,12 +234,7 @@ export const COMMON_ASSET_FIELDS: OnboardingField[] = [
   { key: "brand_colors", label: "Huisstijl kleuren (HEX-codes)", type: "textarea", placeholder: "#0F172A\n#3A4DEA\n#F8FAFC" },
   { key: "brand_fonts", label: "Lettertypes (fonts)", type: "text", placeholder: "Bijv. Inter, Söhne, Helvetica Neue" },
   { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig...", coveredBy: ["meta_ads", "social_media"] },
-  { key: "company_description_short", label: "Korte beschrijving van je bedrijf (1–2 zinnen)", type: "textarea", coveredBy: ["website", "webshop"] },
-  { key: "key_contacts", label: "Contactpersonen (naam, rol, e-mail, telefoon)", type: "textarea", placeholder: "Jan de Vries — Marketing — jan@bedrijf.nl — 06 12345678" },
-  { key: "social_links", label: "Links naar social media kanalen", type: "textarea", placeholder: "Instagram: https://instagram.com/...\nLinkedIn: https://linkedin.com/company/...\nFacebook: ...\nTikTok: ...", coveredBy: ["social_media"] },
   { key: "domain_dns_access", label: "Wie beheert het domein / DNS?", type: "select", options: ["Wij (klant)", "Externe partij", "Webiro mag overnemen", "Weet ik niet"], coveredBy: ["website", "webshop", "email_marketing"] },
-  { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
-  { key: "deadline_general", label: "Belangrijke deadlines of mijlpalen", type: "textarea", placeholder: "Bijv. event op 12 juni, lancering Q3 2026...", coveredBy: ["website", "webshop"] },
   { key: "extra_notes", label: "Overige opmerkingen of bestanden", type: "textarea", placeholder: "Alles wat we nog moeten weten." },
 ];
 
