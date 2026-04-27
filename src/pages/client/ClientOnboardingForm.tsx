@@ -327,6 +327,33 @@ export default function ClientOnboardingForm({ client }: Props) {
                   </div>
                 );
               })}
+
+              <div className="rounded-xl border border-border p-4">
+                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                  Merkmateriaal
+                </div>
+                <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                  {COMMON_ASSET_FIELDS.map((f) => {
+                    const v = commonAssets[f.key];
+                    const display = Array.isArray(v) ? v.join(", ") : v;
+                    if (!display && display !== 0) return null;
+                    return (
+                      <div key={f.key} className="break-words">
+                        <dt className="text-muted-foreground text-xs">{f.label}</dt>
+                        <dd className="whitespace-pre-wrap">{String(display)}</dd>
+                      </div>
+                    );
+                  })}
+                  {COMMON_ASSET_FIELDS.every((f) => {
+                    const v = commonAssets[f.key];
+                    return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
+                  }) && (
+                    <div className="text-muted-foreground text-xs col-span-full">
+                      Geen merkmateriaal aangeleverd.
+                    </div>
+                  )}
+                </dl>
+              </div>
             </div>
           </Section>
         )}
