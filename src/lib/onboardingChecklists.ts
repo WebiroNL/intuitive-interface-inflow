@@ -192,7 +192,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "integrations", label: "Benodigde integraties", type: "multiselect", options: ["Contactformulier", "Nieuwsbrief", "Calendly / boekingen", "Live chat", "CRM (HubSpot/Pipedrive)", "Google Maps", "Reviews", "Anders"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Spaans", "Anders"] },
       { key: "deadline", label: "Gewenste oplevering", type: "text", placeholder: "Bijv. eind Q2 2026" },
-      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
   {
@@ -218,7 +218,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "brand_assets", label: "Huisstijl beschikbaar?", type: "multiselect", options: ["Logo", "Kleuren", "Typografie", "Brand book", "Productfoto's", "Lifestyle foto's", "Niets"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Anders"] },
       { key: "deadline", label: "Gewenste live-datum", type: "text" },
-      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
 ];
@@ -229,8 +229,8 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
  */
 export const COMMON_ASSET_FIELDS: OnboardingField[] = [
   { key: "logo_url", label: "Link naar logo", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel één of meerdere links (Drive, Dropbox, WeTransfer) naar je logo bestanden — bij voorkeur in vector (SVG/AI/EPS) én PNG." },
-  { key: "content_url", label: "Link naar content (teksten & beeld)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Deel één of meerdere links naar teksten, foto's en eventuele video's." },
-  { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — voeg meerdere links toe als je huisstijldocumenten op verschillende plekken staan." },
+  { key: "content_url", label: "Link naar content (teksten & beeld)", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel één of meerdere links naar teksten, foto's en eventuele video's." },
+  { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Optioneel — voeg meerdere links toe als je huisstijldocumenten op verschillende plekken staan." },
   { key: "brand_colors", label: "Huisstijl kleuren (HEX-codes)", type: "textarea", placeholder: "#0F172A\n#3A4DEA\n#F8FAFC" },
   { key: "brand_fonts", label: "Lettertypes (fonts)", type: "text", placeholder: "Bijv. Inter, Söhne, Helvetica Neue" },
   { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig...", coveredBy: ["meta_ads", "social_media"] },
