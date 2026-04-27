@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { FloatingInput } from '@/components/ui/floating-input';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { LockPasswordIcon, Mail01Icon, ArrowRight01Icon, Alert02Icon } from '@hugeicons/core-free-icons';
+import { ArrowRight01Icon, Alert02Icon } from '@hugeicons/core-free-icons';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 
