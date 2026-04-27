@@ -225,9 +225,9 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
  * Worden getoond als laatste stap vóór "Controleren en verzenden".
  */
 export const COMMON_ASSET_FIELDS: OnboardingField[] = [
-  { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden — bij voorkeur in vector (SVG/AI/EPS) én PNG." },
-  { key: "content_url", label: "Link naar content (teksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link naar teksten, foto's en eventuele video's." },
-  { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — als je al een huisstijldocument hebt." },
+  { key: "logo_url", label: "Link naar logo", type: "multilink", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel één of meerdere links (Drive, Dropbox, WeTransfer) naar je logo bestanden — bij voorkeur in vector (SVG/AI/EPS) én PNG." },
+  { key: "content_url", label: "Link naar content (teksten & beeld)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Deel één of meerdere links naar teksten, foto's en eventuele video's." },
+  { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — voeg meerdere links toe als je huisstijldocumenten op verschillende plekken staan." },
   { key: "brand_colors", label: "Huisstijl kleuren (HEX-codes)", type: "textarea", placeholder: "#0F172A\n#3A4DEA\n#F8FAFC" },
   { key: "brand_fonts", label: "Lettertypes (fonts)", type: "text", placeholder: "Bijv. Inter, Söhne, Helvetica Neue" },
   { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig...", coveredBy: ["meta_ads", "social_media"] },
