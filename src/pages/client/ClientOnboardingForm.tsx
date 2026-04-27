@@ -375,6 +375,7 @@ export default function ClientOnboardingForm({ client }: Props) {
               onClick={() => {
                 setSelectedServices([]);
                 setAnswers({});
+                setCommonAssets({});
                 setActiveServiceIndex(0);
                 setStep("services");
               }}
