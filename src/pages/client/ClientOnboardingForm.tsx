@@ -642,7 +642,7 @@ function DynamicField({
             type="button"
             variant="ghost"
             size="sm"
-            className="gap-2 text-muted-foreground hover:text-foreground"
+            className="gap-2 text-muted-foreground hover:bg-primary/10 hover:text-primary"
             onClick={() => onChange([...safeLinks, ""])}
           >
             <HugeiconsIcon icon={PlusSignIcon} size={14} />
