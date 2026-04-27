@@ -218,6 +218,7 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "brand_assets", label: "Huisstijl beschikbaar?", type: "multiselect", options: ["Logo", "Kleuren", "Typografie", "Brand book", "Productfoto's", "Lifestyle foto's", "Niets"] },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Anders"] },
       { key: "deadline", label: "Gewenste live-datum", type: "text" },
+      { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "multilink", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
     ],
   },
 ];
