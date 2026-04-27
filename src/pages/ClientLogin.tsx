@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FloatingInput } from "@/components/ui/floating-input";
 import { toast } from "sonner";
 import webiroLogo from "@/assets/logo-webiro.svg";
 import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
@@ -64,33 +63,26 @@ export default function ClientLogin() {
           <p className="text-sm text-muted-foreground mt-1">Log in met je e-mail of telefoonnummer</p>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-4" autoComplete="off">
-          <div>
-            <Label htmlFor="identifier">E-mail of telefoonnummer</Label>
-            <Input
-              id="identifier"
-              type="text"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              required
-              className="mt-1.5"
-              placeholder="info@bedrijf.nl of +316..."
-              autoComplete="off"
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Wachtwoord</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1.5"
-              placeholder="••••••••"
-              autoComplete="current-password"
-            />
-          </div>
+        <form onSubmit={handleLogin} className="bg-card border border-border rounded-lg p-6 space-y-3" autoComplete="off">
+          <FloatingInput
+            id="identifier"
+            type="text"
+            label="E-mail of telefoonnummer"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <FloatingInput
+            id="password"
+            type="password"
+            label="Wachtwoord"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+            showPasswordToggle
+          />
           <Button type="submit" className="w-full" disabled={submitting}>
             {submitting ? "Bezig..." : "Inloggen"}
           </Button>

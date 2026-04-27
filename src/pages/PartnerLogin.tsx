@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FloatingInput } from "@/components/ui/floating-input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import webiroLogo from "@/assets/logo-webiro.svg";
@@ -63,15 +62,26 @@ export default function PartnerLogin() {
           <p className="text-muted-foreground mt-1 text-[14px]">Log in op je partner dashboard</p>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-border bg-card p-6">
-          <div>
-            <Label htmlFor="email">E-mailadres</Label>
-            <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <Label htmlFor="password">Wachtwoord</Label>
-            <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-          </div>
+        <form onSubmit={onSubmit} className="space-y-3 rounded-2xl border border-border bg-card p-6">
+          <FloatingInput
+            id="email"
+            type="email"
+            label="E-mailadres"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+          />
+          <FloatingInput
+            id="password"
+            type="password"
+            label="Wachtwoord"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            showPasswordToggle
+          />
           <Button type="submit" disabled={loading} className="w-full">
             {loading ? "Inloggen..." : "Inloggen"}
           </Button>
