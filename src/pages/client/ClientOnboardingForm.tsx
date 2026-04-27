@@ -269,7 +269,7 @@ export default function ClientOnboardingForm({ client }: Props) {
             subtitle="Deze informatie hebben we sowieso nodig — ongeacht welke dienst(en) je hebt gekozen."
           >
             <div className="space-y-5">
-              {COMMON_ASSET_FIELDS.map((field) => (
+              {commonFields.map((field) => (
                 <DynamicField
                   key={field.key}
                   field={field}
@@ -338,7 +338,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                   Merkmateriaal
                 </div>
                 <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
-                  {COMMON_ASSET_FIELDS.map((f) => {
+                  {commonFields.map((f) => {
                     const v = commonAssets[f.key];
                     const display = Array.isArray(v) ? v.join(", ") : v;
                     if (!display && display !== 0) return null;
@@ -349,7 +349,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                       </div>
                     );
                   })}
-                  {COMMON_ASSET_FIELDS.every((f) => {
+                  {commonFields.every((f) => {
                     const v = commonAssets[f.key];
                     return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
                   }) && (
