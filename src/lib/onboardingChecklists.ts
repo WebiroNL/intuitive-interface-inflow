@@ -1,7 +1,7 @@
 // Aanleverlijsten per dienst voor de partner/klant onboarding wizard.
 // Elke dienst heeft een set velden die de invuller moet beantwoorden.
 
-export type FieldType = "text" | "textarea" | "url" | "email" | "tel" | "select" | "multiselect" | "number" | "checkbox";
+export type FieldType = "text" | "textarea" | "url" | "email" | "tel" | "select" | "multiselect" | "number" | "checkbox" | "multilink";
 
 export interface OnboardingField {
   key: string;
