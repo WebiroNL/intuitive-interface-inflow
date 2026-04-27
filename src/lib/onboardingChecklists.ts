@@ -11,6 +11,12 @@ export interface OnboardingField {
   help?: string;
   required?: boolean;
   options?: string[]; // voor select / multiselect
+  /**
+   * Optioneel: lijst van service-id's die dit veld al (deels) afdekken.
+   * Wordt gebruikt om gemeenschappelijke aanlevervelden te verbergen
+   * wanneer ze al binnen een gekozen dienst gevraagd zijn.
+   */
+  coveredBy?: string[];
 }
 
 export interface OnboardingService {
@@ -224,15 +230,26 @@ export const COMMON_ASSET_FIELDS: OnboardingField[] = [
   { key: "brand_book_url", label: "Link naar brand book / huisstijl", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — als je al een huisstijldocument hebt." },
   { key: "brand_colors", label: "Huisstijl kleuren (HEX-codes)", type: "textarea", placeholder: "#0F172A\n#3A4DEA\n#F8FAFC" },
   { key: "brand_fonts", label: "Lettertypes (fonts)", type: "text", placeholder: "Bijv. Inter, Söhne, Helvetica Neue" },
-  { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig..." },
-  { key: "company_description_short", label: "Korte beschrijving van je bedrijf (1–2 zinnen)", type: "textarea" },
+  { key: "tone_of_voice", label: "Tone of voice / schrijfstijl", type: "textarea", placeholder: "Bijv. zakelijk, persoonlijk, speels, deskundig...", coveredBy: ["meta_ads", "social_media"] },
+  { key: "company_description_short", label: "Korte beschrijving van je bedrijf (1–2 zinnen)", type: "textarea", coveredBy: ["website", "webshop"] },
   { key: "key_contacts", label: "Contactpersonen (naam, rol, e-mail, telefoon)", type: "textarea", placeholder: "Jan de Vries — Marketing — jan@bedrijf.nl — 06 12345678" },
-  { key: "social_links", label: "Links naar social media kanalen", type: "textarea", placeholder: "Instagram: https://instagram.com/...\nLinkedIn: https://linkedin.com/company/...\nFacebook: ...\nTikTok: ..." },
-  { key: "domain_dns_access", label: "Wie beheert het domein / DNS?", type: "select", options: ["Wij (klant)", "Externe partij", "Webiro mag overnemen", "Weet ik niet"] },
+  { key: "social_links", label: "Links naar social media kanalen", type: "textarea", placeholder: "Instagram: https://instagram.com/...\nLinkedIn: https://linkedin.com/company/...\nFacebook: ...\nTikTok: ...", coveredBy: ["social_media"] },
+  { key: "domain_dns_access", label: "Wie beheert het domein / DNS?", type: "select", options: ["Wij (klant)", "Externe partij", "Webiro mag overnemen", "Weet ik niet"], coveredBy: ["website", "webshop", "email_marketing"] },
   { key: "legal_docs_url", label: "Link naar juridische documenten (KVK, BTW, AV)", type: "url", placeholder: "https://drive.google.com/...", help: "Optioneel — handig voor facturatie en eventuele integraties." },
-  { key: "deadline_general", label: "Belangrijke deadlines of mijlpalen", type: "textarea", placeholder: "Bijv. event op 12 juni, lancering Q3 2026..." },
+  { key: "deadline_general", label: "Belangrijke deadlines of mijlpalen", type: "textarea", placeholder: "Bijv. event op 12 juni, lancering Q3 2026...", coveredBy: ["website", "webshop"] },
   { key: "extra_notes", label: "Overige opmerkingen of bestanden", type: "textarea", placeholder: "Alles wat we nog moeten weten." },
 ];
+
+/**
+ * Geeft de gemeenschappelijke aanlevervelden terug, met velden die al door
+ * een gekozen dienst gevraagd worden eruit gefilterd.
+ */
+export function getCommonAssetFields(selectedServiceIds: string[]): OnboardingField[] {
+  return COMMON_ASSET_FIELDS.filter((f) => {
+    if (!f.coveredBy || f.coveredBy.length === 0) return true;
+    return !f.coveredBy.some((sid) => selectedServiceIds.includes(sid));
+  });
+}
 
 export function getServiceById(id: string): OnboardingService | undefined {
   return ONBOARDING_SERVICES.find((s) => s.id === id);

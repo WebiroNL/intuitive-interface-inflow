@@ -17,7 +17,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   ONBOARDING_SERVICES,
-  COMMON_ASSET_FIELDS,
+  getCommonAssetFields,
   getServiceById,
   type OnboardingField,
 } from "@/lib/onboardingChecklists";
@@ -59,6 +59,11 @@ export default function ClientOnboardingForm({ client }: Props) {
         ? getServiceById(selectedServices[activeServiceIndex])
         : undefined,
     [step, selectedServices, activeServiceIndex]
+  );
+
+  const commonFields = useMemo(
+    () => getCommonAssetFields(selectedServices),
+    [selectedServices]
   );
 
   const setAnswer = (serviceId: string, key: string, value: any) => {
@@ -107,7 +112,7 @@ export default function ClientOnboardingForm({ client }: Props) {
       if (activeServiceIndex < selectedServices.length - 1) {
         setActiveServiceIndex((i) => i + 1);
       } else {
-        setStep("assets");
+        setStep(commonFields.length > 0 ? "assets" : "overview");
       }
     } else if (step === "assets") {
       setStep("overview");
@@ -123,7 +128,12 @@ export default function ClientOnboardingForm({ client }: Props) {
       setActiveServiceIndex(selectedServices.length - 1);
       setStep("fields");
     } else if (step === "overview") {
-      setStep("assets");
+      if (commonFields.length > 0) {
+        setStep("assets");
+      } else {
+        setActiveServiceIndex(selectedServices.length - 1);
+        setStep("fields");
+      }
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -264,7 +274,7 @@ export default function ClientOnboardingForm({ client }: Props) {
             subtitle="Deze informatie hebben we sowieso nodig — ongeacht welke dienst(en) je hebt gekozen."
           >
             <div className="space-y-5">
-              {COMMON_ASSET_FIELDS.map((field) => (
+              {commonFields.map((field) => (
                 <DynamicField
                   key={field.key}
                   field={field}
@@ -333,7 +343,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                   Merkmateriaal
                 </div>
                 <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
-                  {COMMON_ASSET_FIELDS.map((f) => {
+                  {commonFields.map((f) => {
                     const v = commonAssets[f.key];
                     const display = Array.isArray(v) ? v.join(", ") : v;
                     if (!display && display !== 0) return null;
@@ -344,7 +354,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                       </div>
                     );
                   })}
-                  {COMMON_ASSET_FIELDS.every((f) => {
+                  {commonFields.every((f) => {
                     const v = commonAssets[f.key];
                     return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
                   }) && (
