@@ -210,6 +210,8 @@ export const ONBOARDING_SERVICES: OnboardingService[] = [
       { key: "integrations", label: "Integraties", type: "multiselect", options: ["Boekhouding (Moneybird/Exact)", "ERP", "CRM", "Email-marketing", "Google Merchant", "Meta Catalog", "Reviews (Trustpilot/Kiyoh)", "Anders"] },
       { key: "examples", label: "Voorbeeldshops die je mooi vindt", type: "textarea" },
       { key: "brand_assets", label: "Huisstijl beschikbaar?", type: "multiselect", options: ["Logo", "Kleuren", "Typografie", "Brand book", "Productfoto's", "Lifestyle foto's", "Niets"] },
+      { key: "logo_url", label: "Link naar logo", type: "url", placeholder: "https://drive.google.com/... of https://wetransfer.com/...", help: "Deel een link (Drive, Dropbox, WeTransfer) naar je logo bestanden." },
+      { key: "content_url", label: "Link naar content (productteksten & beeld)", type: "url", placeholder: "https://drive.google.com/...", help: "Deel een link met productteksten, foto's en lifestyle materiaal." },
       { key: "languages", label: "Talen", type: "multiselect", options: ["Nederlands", "Engels", "Duits", "Frans", "Anders"] },
       { key: "deadline", label: "Gewenste live-datum", type: "text" },
     ],
