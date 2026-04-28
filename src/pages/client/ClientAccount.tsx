@@ -38,18 +38,31 @@ export default function ClientAccount({ client }: Props) {
   const [saving, setSaving] = useState(false);
   const [contracts, setContracts] = useState<ContractDoc[]>([]);
   const [contractsLoading, setContractsLoading] = useState(true);
+  const [hasPakketServices, setHasPakketServices] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
-        .from("contracts")
-        .select("*")
-        .eq("client_id", client.id)
-        .order("start_date", { ascending: false });
-      setContracts((data as ContractDoc[]) ?? []);
+      const [contractsRes, servicesRes] = await Promise.all([
+        supabase
+          .from("contracts")
+          .select("*")
+          .eq("client_id", client.id)
+          .order("start_date", { ascending: false }),
+        supabase
+          .from("client_services")
+          .select("id", { count: "exact", head: true })
+          .eq("client_id", client.id),
+      ]);
+      setContracts((contractsRes.data as ContractDoc[]) ?? []);
+      setHasPakketServices((servicesRes.count ?? 0) > 0);
       setContractsLoading(false);
     })();
   }, [client.id]);
+
+  const hasAdsContract = client.monthly_fee != null && Number(client.monthly_fee) > 0;
+  const hasPakketContract = hasPakketServices;
+  const showDocs = hasAdsContract || hasPakketContract;
+  const defaultTab = hasAdsContract ? "ads" : hasPakketContract ? "pakket" : "bedrijf";
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
