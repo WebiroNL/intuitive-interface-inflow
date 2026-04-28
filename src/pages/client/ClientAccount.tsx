@@ -342,6 +342,22 @@ export default function ClientAccount({ client }: Props) {
                   {campaigns.map((c) => {
                     const costs = (c as any).platform_costs ?? {};
                     const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
+                    const _today = new Date(); _today.setHours(0, 0, 0, 0);
+                    const _dStart = c.discount_start_date
+                      ? new Date(c.discount_start_date)
+                      : c.contract_start_date
+                      ? new Date(c.contract_start_date)
+                      : null;
+                    let discountActive = false;
+                    if (c.discount_percentage && c.discount_months && _dStart) {
+                      const _dEnd = new Date(_dStart);
+                      _dEnd.setMonth(_dEnd.getMonth() + c.discount_months);
+                      _dEnd.setDate(_dEnd.getDate() - 1);
+                      discountActive = _today >= _dStart && _today <= _dEnd;
+                    }
+                    const discountedCampaign = discountActive
+                      ? total * (1 - Number(c.discount_percentage) / 100)
+                      : total;
                     return (
                       <li
                         key={c.id}
@@ -350,9 +366,32 @@ export default function ClientAccount({ client }: Props) {
                         <div className="flex items-center justify-between gap-3">
                           <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
                           {total > 0 && (
-                            <span className="text-sm font-semibold text-foreground tabular-nums shrink-0">
-                              {fmtEUR(total)}
-                            </span>
+                            <div className="flex flex-col items-end shrink-0">
+                              {discountActive ? (
+                                <>
+                                  <span className="flex items-baseline gap-2">
+                                    <span className="text-[12px] line-through text-muted-foreground tabular-nums">
+                                      {fmtEUR(total)}
+                                    </span>
+                                    <span className="text-sm font-semibold text-foreground tabular-nums">
+                                      {fmtEUR(discountedCampaign)}
+                                    </span>
+                                  </span>
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                                    Fee deze maand
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="text-sm font-semibold text-foreground tabular-nums">
+                                    {fmtEUR(total)}
+                                  </span>
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                                    Fee deze maand
+                                  </span>
+                                </>
+                              )}
+                            </div>
                           )}
                         </div>
                         <ul className="space-y-1">
