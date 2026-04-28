@@ -217,10 +217,10 @@ export function ContractView({ client, editable }: Props) {
   // Read-only (client) view: cleaner, more scannable layout
   if (!editable) {
     return (
-      <div className="space-y-8">
+      <div className="space-y-4">
         {/* Hero summary */}
-        <div className="rounded-2xl border border-border bg-card p-6 lg:p-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="rounded-xl border border-border bg-card p-4 lg:p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Stat
               label="Eenmalig"
               value={fmtEUR(oneTimeTotal, 2)}
@@ -242,7 +242,7 @@ export function ContractView({ client, editable }: Props) {
             />
           </div>
           {(startFormatted || contractEndFormatted || discountEndDate) && (
-            <div className="mt-6 pt-5 border-t border-border flex flex-wrap justify-center gap-x-8 gap-y-2 text-[12px] text-center">
+            <div className="mt-4 pt-3 border-t border-border flex flex-wrap justify-center gap-x-6 gap-y-1 text-[11px] text-center">
               {startFormatted && (
                 <div>
                   <span className="text-muted-foreground">Contract gestart op </span>
@@ -267,20 +267,20 @@ export function ContractView({ client, editable }: Props) {
 
 
         {lines.length === 0 ? (
-          <div className="p-12 text-center text-sm text-muted-foreground border border-border rounded-2xl bg-card">
+          <div className="p-8 text-center text-sm text-muted-foreground border border-border rounded-xl bg-card">
             Nog geen diensten gekoppeld aan dit account.
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2.5">
             {orderedCats.map((cat) => {
               const items = grouped[cat];
               const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
               const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
               return (
-                <div key={cat} className="rounded-2xl border border-border bg-card overflow-hidden">
-                  <div className="px-6 py-3 bg-muted/30 border-b border-border flex items-center justify-between">
-                    <h3 className="text-[13px] font-semibold text-foreground">{cat}</h3>
-                    <div className="flex items-center gap-4 text-[12px] text-muted-foreground tabular-nums">
+                <div key={cat} className="rounded-xl border border-border bg-card overflow-hidden">
+                  <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between">
+                    <h3 className="text-[12px] font-semibold text-foreground">{cat}</h3>
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground tabular-nums">
                       {catOneTime > 0 && <span>Eenmalig <span className="text-foreground font-medium ml-1">{fmtEUR(catOneTime, 2)}</span></span>}
                       {catMonthly > 0 && <span>Per maand <span className="text-foreground font-medium ml-1">{fmtEUR(catMonthly, 2)}</span></span>}
                     </div>
@@ -291,31 +291,31 @@ export function ContractView({ client, editable }: Props) {
                       const monthly = Number(l.monthly_price) * Number(l.quantity);
                       const qty = Number(l.quantity);
                       return (
-                        <li key={l.id} className="px-6 py-3.5 flex items-center justify-between gap-6">
-                          <div className="min-w-0 flex-1 flex items-center gap-3">
-                            <span className="text-[14px] text-foreground truncate">{l.service_name}</span>
+                        <li key={l.id} className="px-4 py-2 flex items-center justify-between gap-4">
+                          <div className="min-w-0 flex-1 flex items-center gap-2">
+                            <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
                             {qty > 1 && (
-                              <span className="text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
                                 {qty}×
                               </span>
                             )}
                           </div>
                           <div className="text-right shrink-0 tabular-nums">
                             {oneTime > 0 && (
-                              <span className="text-[13px] text-foreground font-medium">
+                              <span className="text-[12px] text-foreground font-medium">
                                 {fmtEUR(oneTime, 2)}
-                                <span className="text-[11px] text-muted-foreground ml-1 font-normal">eenmalig</span>
+                                <span className="text-[10px] text-muted-foreground ml-1 font-normal">eenmalig</span>
                               </span>
                             )}
-                            {oneTime > 0 && monthly > 0 && <span className="text-muted-foreground mx-2">·</span>}
+                            {oneTime > 0 && monthly > 0 && <span className="text-muted-foreground mx-1.5">·</span>}
                             {monthly > 0 && (
-                              <span className="text-[13px] text-foreground font-medium">
+                              <span className="text-[12px] text-foreground font-medium">
                                 {fmtEUR(monthly, 2)}
-                                <span className="text-[11px] text-muted-foreground ml-1 font-normal">/mnd</span>
+                                <span className="text-[10px] text-muted-foreground ml-1 font-normal">/mnd</span>
                               </span>
                             )}
                             {oneTime === 0 && monthly === 0 && (
-                              <span className="text-[12px] text-muted-foreground italic">Inbegrepen</span>
+                              <span className="text-[11px] text-muted-foreground italic">Inbegrepen</span>
                             )}
                           </div>
                         </li>
@@ -328,9 +328,9 @@ export function ContractView({ client, editable }: Props) {
           </div>
         )}
 
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-            <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
+        <div className="grid md:grid-cols-2 gap-3">
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
             {startFormatted && <Row label="Startdatum contract" value={startFormatted} />}
             {contractEndFormatted && <Row label="Einddatum contract" value={contractEndFormatted} />}
             {(startFormatted || contractEndFormatted) && <div className="h-px bg-border" />}
@@ -351,13 +351,13 @@ export function ContractView({ client, editable }: Props) {
             )}
           </div>
 
-          <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-            <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
             <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
             <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
             <div className="h-px bg-border" />
             <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-            <p className="text-[11px] text-muted-foreground pt-2 text-center">Bedragen op basis van facturen op deze klant.</p>
+            <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
           </div>
         </div>
       </div>
