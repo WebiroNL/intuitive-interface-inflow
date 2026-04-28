@@ -12,6 +12,7 @@ import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contract
 import { HugeiconsIcon } from "@hugeicons/react";
 import { File02Icon, Download01Icon, Building03Icon, ChartLineData01Icon, Folder02Icon } from "@hugeicons/core-free-icons";
 import { ContractView } from "@/components/contract/ContractView";
+import { AD_PLATFORMS, type AdsCampaign } from "@/components/admin/AdsCampaigns";
 
 interface Props { client: Client }
 
