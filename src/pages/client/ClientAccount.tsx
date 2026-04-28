@@ -238,24 +238,24 @@ export default function ClientAccount({ client }: Props) {
               </span>
             }
           >
-            {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
-              <div className="mb-6 pb-6 border-b border-border">
-                <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
-                  {discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
-                </p>
-                {discount.isActiveNow ? (
-                  <div className="flex items-baseline gap-3 flex-wrap">
-                    <span className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.discountedFee)}</span>
-                    <span className="text-base line-through text-muted-foreground">{fmtEUR(discount.baseFee)}</span>
-                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      −{discount.percentage}%
-                    </span>
-                  </div>
-                ) : (
-                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.baseFee)}</p>
-                )}
-              </div>
-            )}
+            {(() => {
+              const totalMonthly = campaigns.reduce((sum, c) => {
+                const costs = (c as any).platform_costs ?? {};
+                return sum + c.platforms.reduce((s, pid) => s + (Number(costs[pid]) || 0), 0);
+              }, 0);
+              if (totalMonthly <= 0) return null;
+              return (
+                <div className="mb-6 pb-6 border-b border-border">
+                  <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
+                    Totaal maandbedrag
+                  </p>
+                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(totalMonthly)}</p>
+                  <p className="text-[12px] text-muted-foreground mt-1">
+                    Som van alle platform kosten over {campaigns.length} {campaigns.length === 1 ? "campagne" : "campagnes"}.
+                  </p>
+                </div>
+              );
+            })()}
 
             {campaigns.length > 0 && (
               <div className="mb-6 pb-6 border-b border-border space-y-4">
@@ -334,80 +334,95 @@ export default function ClientAccount({ client }: Props) {
                             );
                           })}
                         </ul>
-                        {(c.contract_start_date ||
-                          c.contract_duration ||
-                          c.deposit_percentage != null ||
-                          (c.discount_percentage != null && c.discount_months != null)) && (
-                          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 pt-2 mt-1 border-t border-border/60 text-[12px]">
-                            {c.contract_start_date && (
-                              <div className="flex justify-between gap-2">
-                                <dt className="text-muted-foreground">Startdatum</dt>
-                                <dd className="text-foreground font-medium">{formatDate(new Date(c.contract_start_date))}</dd>
-                              </div>
-                            )}
-                            {c.contract_duration && (
-                              <div className="flex justify-between gap-2">
-                                <dt className="text-muted-foreground">Contractduur</dt>
-                                <dd className="text-foreground font-medium">
-                                  {/maand|jaar|jr|year/i.test(c.contract_duration)
-                                    ? c.contract_duration
-                                    : `${c.contract_duration} ${c.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
-                                </dd>
-                              </div>
-                            )}
-                            {c.discount_percentage != null && c.discount_months != null && (
-                              <div className="flex justify-between gap-2">
-                                <dt className="text-muted-foreground">Korting</dt>
-                                <dd className="text-foreground font-medium">
-                                  {c.discount_percentage}% • {c.discount_months}{" "}
-                                  {c.discount_months === 1 ? "maand" : "maanden"}
-                                </dd>
-                              </div>
-                            )}
-                            {c.discount_start_date && (
-                              <div className="flex justify-between gap-2">
-                                <dt className="text-muted-foreground">Startdatum korting</dt>
-                                <dd className="text-foreground font-medium">{formatDate(new Date(c.discount_start_date))}</dd>
-                              </div>
-                            )}
-                            {c.deposit_percentage != null && (
-                              <div className="flex justify-between gap-2">
-                                <dt className="text-muted-foreground">Aanbetaling</dt>
-                                <dd className="text-foreground font-medium">{c.deposit_percentage}%</dd>
-                              </div>
-                            )}
-                          </dl>
-                        )}
+                        {(() => {
+                          const parseMonths = (s?: string | null) => {
+                            if (!s) return null;
+                            const m = s.match(/(\d+)/);
+                            if (!m) return null;
+                            const n = parseInt(m[1], 10);
+                            if (!n) return null;
+                            return /jaar|jr|year/i.test(s) ? n * 12 : n;
+                          };
+                          const addMonths = (d: Date, months: number) => {
+                            const x = new Date(d);
+                            x.setMonth(x.getMonth() + months);
+                            x.setDate(x.getDate() - 1);
+                            return x;
+                          };
+                          const startDate = c.contract_start_date ? new Date(c.contract_start_date) : null;
+                          const months = parseMonths(c.contract_duration);
+                          const endDate = startDate && months ? addMonths(startDate, months) : null;
+                          const discStart = c.discount_start_date
+                            ? new Date(c.discount_start_date)
+                            : startDate;
+                          const discEnd =
+                            discStart && c.discount_months ? addMonths(discStart, c.discount_months) : null;
+                          const hasAny =
+                            startDate ||
+                            c.contract_duration ||
+                            c.deposit_percentage != null ||
+                            (c.discount_percentage != null && c.discount_months != null);
+                          if (!hasAny) return null;
+                          return (
+                            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 pt-2 mt-1 border-t border-border/60 text-[12px]">
+                              {c.contract_duration && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Contractduur</dt>
+                                  <dd className="text-foreground font-medium">
+                                    {/maand|jaar|jr|year/i.test(c.contract_duration)
+                                      ? c.contract_duration
+                                      : `${c.contract_duration} ${
+                                          c.contract_duration.trim() === "1" ? "maand" : "maanden"
+                                        }`}
+                                  </dd>
+                                </div>
+                              )}
+                              {startDate && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Startdatum</dt>
+                                  <dd className="text-foreground font-medium">{formatDate(startDate)}</dd>
+                                </div>
+                              )}
+                              {endDate && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Einddatum</dt>
+                                  <dd className="text-foreground font-medium">{formatDate(endDate)}</dd>
+                                </div>
+                              )}
+                              {c.discount_percentage != null && c.discount_months != null && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Korting</dt>
+                                  <dd className="text-foreground font-medium">
+                                    {c.discount_percentage}% • {c.discount_months}{" "}
+                                    {c.discount_months === 1 ? "maand" : "maanden"}
+                                  </dd>
+                                </div>
+                              )}
+                              {discStart && discEnd && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Kortingsperiode</dt>
+                                  <dd className="text-foreground font-medium">
+                                    {formatDate(discStart)} t/m {formatDate(discEnd)}
+                                  </dd>
+                                </div>
+                              )}
+                              {c.deposit_percentage != null && (
+                                <div className="flex justify-between gap-2">
+                                  <dt className="text-muted-foreground">Aanbetaling</dt>
+                                  <dd className="text-foreground font-medium">{c.deposit_percentage}%</dd>
+                                </div>
+                              )}
+                            </dl>
+                          );
+                        })()}
                       </li>
                     );
                   })}
                 </ul>
               </div>
             )}
-            <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
-              {client.contract_duration && client.contract_duration.trim() !== "" && (
-                <DetailRow
-                  label="Contractduur"
-                  value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
-                />
-              )}
-              {contract.startDate && <DetailRow label="Startdatum" value={formatDate(contract.startDate)} />}
-              {lastContractDay && <DetailRow label="Einddatum" value={formatDate(lastContractDay)} />}
-              {discount.hasDiscount && (
-                <>
-                  <DetailRow
-                    label="Korting"
-                    value={`${discount.percentage}% • ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
-                  />
-                  {discount.startDate && lastDiscountDay && (
-                    <DetailRow
-                      label="Kortingsperiode"
-                      value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
-                    />
-                  )}
-                </>
-              )}
-            </dl>
+
+
 
             <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
               Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
