@@ -120,6 +120,7 @@ export default function ClientAccount({ client }: Props) {
           <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
+              <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <Row
                   label="Contractduur"
@@ -147,7 +148,6 @@ export default function ClientAccount({ client }: Props) {
                   value={fmtEUR(discount.baseFee)}
                 />
               )}
-              <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
               {discount.hasDiscount && (
                 <>
                   <Row
