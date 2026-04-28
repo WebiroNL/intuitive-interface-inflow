@@ -150,7 +150,7 @@ export default function ClientAccount({ client }: Props) {
         </div>
 
         {/* Contractgegevens */}
-        <div className="lg:col-span-2">
+        <div>
           <SectionCard
             title="Ads contract"
             description="Een overzicht van je actieve advertentie-contract bij Webiro."
