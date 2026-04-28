@@ -394,7 +394,7 @@ export default function ClientAccount({ client }: Props) {
                             </div>
                           )}
                         </div>
-                        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
                           {c.platforms.map((pid) => {
                             const p = AD_PLATFORMS.find((x) => x.id === pid);
                             if (!p) return null;
