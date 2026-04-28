@@ -24,6 +24,12 @@ export interface AdsCampaign {
   name: string;
   platforms: string[];
   platform_costs?: Record<string, number>;
+  contract_start_date?: string | null;
+  contract_duration?: string | null;
+  discount_months?: number | null;
+  discount_percentage?: number | null;
+  discount_start_date?: string | null;
+  deposit_percentage?: number | null;
 }
 
 const fmtEUR = (n: number) =>
