@@ -36,7 +36,7 @@ export default function ClientContract({ client }: Props) {
         {loading ? (
           <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
         ) : contracts.length === 0 ? (
-          <div className="bg-card border border-border rounded-lg p-6 text-sm text-muted-foreground">Nog geen contract beschikbaar.</div>
+          <div className="bg-card border border-border rounded-lg p-6 text-sm text-muted-foreground text-center">Nog geen contract beschikbaar.</div>
         ) : (
           <div className="space-y-2">
             {contracts.map((c) => (
