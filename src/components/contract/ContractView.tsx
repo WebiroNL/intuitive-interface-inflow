@@ -10,6 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Add01Icon, Delete02Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { packages, cmsHostingTiers, addOns, addOnCategoryLabels, marketingServices } from "@/components/pakketten/data";
+import { getContractInfo, getDiscountInfo, formatDate, contractLastDay, discountLastDay } from "@/lib/discount";
 import type { Client } from "@/hooks/useClient";
 
 interface ServiceLine {
@@ -195,16 +196,23 @@ export function ContractView({ client, editable }: Props) {
     return <div className="p-8 text-sm text-muted-foreground">Laden...</div>;
   }
 
-  // Format helpers
-  const fmtDate = (d: string | null) =>
-    d ? new Date(d).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" }) : null;
-  const discountEndDate = (() => {
-    if (!contractStart || !discountMonths) return null;
-    const d = new Date(contractStart);
-    d.setMonth(d.getMonth() + discountMonths);
-    return fmtDate(d.toISOString().slice(0, 10));
-  })();
-  const startFormatted = fmtDate(contractStart);
+  // Format helpers — gebruik dag-precisie via shared helpers
+  const contractInfo = getContractInfo(client);
+  const discountInfo = getDiscountInfo({
+    monthly_fee: client.monthly_fee,
+    discount_months: client.discount_months,
+    discount_percentage: client.discount_percentage,
+    discount_start_date: client.discount_start_date,
+    contract_start_date: client.contract_start_date,
+  });
+  // Fallback naar contracts-tabel als clients.contract_start_date leeg is
+  const fallbackStart = contractStart ? new Date(contractStart) : null;
+  const startDate = contractInfo.startDate ?? fallbackStart;
+  const contractEndDay = contractLastDay(contractInfo);
+  const discountEndDay = discountLastDay(discountInfo);
+  const startFormatted = startDate ? formatDate(startDate) : null;
+  const contractEndFormatted = contractEndDay ? formatDate(contractEndDay) : null;
+  const discountEndDate = discountEndDay ? formatDate(discountEndDay) : null;
 
   // Read-only (client) view: cleaner, more scannable layout
   if (!editable) {
@@ -233,12 +241,18 @@ export function ContractView({ client, editable }: Props) {
               hint={`Verdeeld over ${orderedCats.length} categorie${orderedCats.length === 1 ? "" : "ën"}`}
             />
           </div>
-          {(startFormatted || discountEndDate) && (
+          {(startFormatted || contractEndFormatted || discountEndDate) && (
             <div className="mt-6 pt-5 border-t border-border flex flex-wrap gap-x-8 gap-y-2 text-[12px]">
               {startFormatted && (
                 <div>
                   <span className="text-muted-foreground">Contract gestart op </span>
                   <span className="text-foreground font-medium">{startFormatted}</span>
+                </div>
+              )}
+              {contractEndFormatted && (
+                <div>
+                  <span className="text-muted-foreground">Einddatum contract </span>
+                  <span className="text-foreground font-medium">{contractEndFormatted}</span>
                 </div>
               )}
               {discountEndDate && (
@@ -317,6 +331,9 @@ export function ContractView({ client, editable }: Props) {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
             <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
+            {startFormatted && <Row label="Startdatum contract" value={startFormatted} />}
+            {contractEndFormatted && <Row label="Einddatum contract" value={contractEndFormatted} />}
+            {(startFormatted || contractEndFormatted) && <div className="h-px bg-border" />}
             <Row label="Eenmalig totaal" value={fmtEUR(oneTimeTotal, 2)} />
             <Row label="Maandelijks totaal" value={fmtEUR(monthlyTotal, 2)} />
             {depositPct > 0 && oneTimeTotal > 0 && (
@@ -327,6 +344,7 @@ export function ContractView({ client, editable }: Props) {
                 <div className="h-px bg-border" />
                 <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
                 <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
+                {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
                 <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
                 <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
               </>
