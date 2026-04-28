@@ -338,7 +338,7 @@ export default function ClientAccount({ client }: Props) {
                 )}
 
                 {/* Campagne lijst */}
-                <ul className="space-y-2">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                   {campaigns.map((c) => {
                     const costs = (c as any).platform_costs ?? {};
                     const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
