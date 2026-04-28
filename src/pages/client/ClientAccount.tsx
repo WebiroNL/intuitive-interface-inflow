@@ -12,9 +12,9 @@ import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contract
 interface Props { client: Client }
 
 const schema = z.object({
-  company_name: z.string().trim().min(1, "Verplicht").max(120),
-  contact_person: z.string().trim().max(120).optional().or(z.literal("")),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
+  company_name: z.string().trim().min(1, "Bedrijfsnaam is verplicht").max(120),
+  contact_person: z.string().trim().min(1, "Contactpersoon is verplicht").max(120),
+  phone: z.string().trim().min(1, "Telefoonnummer is verplicht").max(40),
   kvk_number: z.string().trim().max(40).optional().or(z.literal("")),
   btw_number: z.string().trim().max(40).optional().or(z.literal("")),
 });
@@ -76,21 +76,24 @@ export default function ClientAccount({ client }: Props) {
               label="Contactpersoon"
               value={form.contact_person}
               onChange={(v) => setForm({ ...form, contact_person: v })}
+              required
             />
             {client.email && (
               <Field
-                label="E-mail (login)"
+                label="E-mailadres (login)"
                 value={client.email}
                 onChange={() => {}}
                 type="email"
                 readOnly
+                required
               />
             )}
             <Field
-              label="Telefoon"
+              label="Telefoon nummer"
               value={form.phone}
               onChange={(v) => setForm({ ...form, phone: v })}
               type="tel"
+              required
             />
             <Field
               label="KVK nummer"
