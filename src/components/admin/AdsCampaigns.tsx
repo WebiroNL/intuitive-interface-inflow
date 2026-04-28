@@ -321,24 +321,6 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
                     <p className="text-[11px] text-muted-foreground mt-1">Leeg = gelijk aan contractstart.</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <Label className="text-[12px]">Aanbetaling (%)</Label>
-                    <Input
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="1"
-                      value={c.deposit_percentage ?? ""}
-                      onChange={(e) =>
-                        updateCampaign(c, {
-                          deposit_percentage: e.target.value !== "" ? Number(e.target.value) : null,
-                        })
-                      }
-                      placeholder="bv. 50"
-                    />
-                  </div>
-                </div>
               </div>
             </li>
           ))}
@@ -468,20 +450,6 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
                 onChange={(e) => setDraft({ ...draft, discount_start_date: e.target.value })}
               />
               <p className="text-[11px] text-muted-foreground mt-1">Leeg = gelijk aan contractstart.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <Label className="text-[12px]">Aanbetaling (%)</Label>
-              <Input
-                type="number"
-                min="0"
-                max="100"
-                step="1"
-                value={draft.deposit_percentage}
-                onChange={(e) => setDraft({ ...draft, deposit_percentage: e.target.value })}
-                placeholder="bv. 50"
-              />
             </div>
           </div>
         </div>
