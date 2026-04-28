@@ -275,8 +275,10 @@ export default function ClientAccount({ client }: Props) {
             </p>
           </SectionCard>
         </TabsContent>
+        )}
 
         {/* Tab 4 — Documenten */}
+        {showDocs && (
         <TabsContent value="docs" className="mt-0">
           <SectionCard
             title="Contract documenten"
@@ -322,6 +324,7 @@ export default function ClientAccount({ client }: Props) {
             )}
           </SectionCard>
         </TabsContent>
+        )}
       </Tabs>
     </div>
   );
