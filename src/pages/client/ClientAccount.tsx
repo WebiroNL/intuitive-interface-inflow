@@ -404,7 +404,6 @@ export default function ClientAccount({ client }: Props) {
                           const hasAny =
                             startDate ||
                             c.contract_duration ||
-                            c.deposit_percentage != null ||
                             (c.discount_percentage != null && c.discount_months != null);
                           if (!hasAny) return null;
                           return (
@@ -448,12 +447,6 @@ export default function ClientAccount({ client }: Props) {
                                   <dd className="text-foreground font-medium">
                                     {formatDate(discStart)} t/m {formatDate(discEnd)}
                                   </dd>
-                                </div>
-                              )}
-                              {c.deposit_percentage != null && (
-                                <div className="flex justify-between gap-2">
-                                  <dt className="text-muted-foreground">Aanbetaling</dt>
-                                  <dd className="text-foreground font-medium">{c.deposit_percentage}%</dd>
                                 </div>
                               )}
                             </dl>
