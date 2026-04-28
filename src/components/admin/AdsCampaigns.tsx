@@ -10,12 +10,24 @@ import { Delete02Icon, Add01Icon, FloppyDiskIcon } from "@hugeicons/core-free-ic
 
 export const AD_PLATFORMS: { id: string; label: string; logo: string }[] = [
   { id: "google", label: "Google Ads", logo: "/images/tools/googleads.svg" },
-  { id: "meta", label: "Meta (Facebook & Instagram)", logo: "/images/tools/meta.svg" },
+  { id: "meta", label: "Meta Ads", logo: "/images/tools/meta.svg" },
   { id: "tiktok", label: "TikTok Ads", logo: "/images/tools/tiktok.svg" },
   { id: "linkedin", label: "LinkedIn Ads", logo: "/images/tools/linkedin.svg" },
-  { id: "youtube", label: "YouTube Ads", logo: "/images/tools/youtube.svg" },
   { id: "snapchat", label: "Snapchat Ads", logo: "/images/tools/snapchat.svg" },
   { id: "pinterest", label: "Pinterest Ads", logo: "/images/tools/pinterest.svg" },
+  { id: "reddit", label: "Reddit Ads", logo: "/images/tools/reddit.svg" },
+  { id: "x", label: "X Ads (Twitter)", logo: "/images/tools/x.svg" },
+  { id: "youtube", label: "YouTube Ads", logo: "/images/tools/youtube.svg" },
+  { id: "quora", label: "Quora Ads", logo: "/images/tools/quora.svg" },
+  { id: "googledisplay", label: "Google Display Network", logo: "/images/tools/googledisplay.svg" },
+  { id: "microsoft", label: "Microsoft Ads (Bing)", logo: "/images/tools/microsoft.svg" },
+  { id: "taboola", label: "Taboola", logo: "/images/tools/taboola.svg" },
+  { id: "outbrain", label: "Outbrain", logo: "/images/tools/outbrain.svg" },
+  { id: "amazon", label: "Amazon Ads", logo: "/images/tools/amazon.svg" },
+  { id: "bol", label: "Bol.com Ads", logo: "/images/tools/bol.svg" },
+  { id: "etsy", label: "Etsy Ads", logo: "/images/tools/etsy.svg" },
+  { id: "spotify", label: "Spotify Ads", logo: "/images/tools/spotify.svg" },
+  { id: "apple", label: "Apple Search Ads", logo: "/images/tools/apple.svg" },
 ];
 
 export interface AdsCampaign {
