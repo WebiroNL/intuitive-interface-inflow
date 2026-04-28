@@ -201,9 +201,11 @@ export default function ClientAccount({ client }: Props) {
         </TabsContent>
 
         {/* Tab 2 — Pakket contract (volledig overzicht) */}
-        <TabsContent value="pakket" className="mt-0">
-          <ContractView client={client} editable={false} />
-        </TabsContent>
+        {hasPakketContract && (
+          <TabsContent value="pakket" className="mt-0">
+            <ContractView client={client} editable={false} />
+          </TabsContent>
+        )}
 
         {/* Tab 3 — Ads contract */}
         <TabsContent value="ads" className="mt-0">
