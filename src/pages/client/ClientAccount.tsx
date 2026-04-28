@@ -342,7 +342,19 @@ export default function ClientAccount({ client }: Props) {
                   {campaigns.map((c) => {
                     const costs = (c as any).platform_costs ?? {};
                     const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
-                    const discountActive = isDiscountActive(c);
+                    const _today = new Date(); _today.setHours(0, 0, 0, 0);
+                    const _dStart = c.discount_start_date
+                      ? new Date(c.discount_start_date)
+                      : c.contract_start_date
+                      ? new Date(c.contract_start_date)
+                      : null;
+                    let discountActive = false;
+                    if (c.discount_percentage && c.discount_months && _dStart) {
+                      const _dEnd = new Date(_dStart);
+                      _dEnd.setMonth(_dEnd.getMonth() + c.discount_months);
+                      _dEnd.setDate(_dEnd.getDate() - 1);
+                      discountActive = _today >= _dStart && _today <= _dEnd;
+                    }
                     const discountedCampaign = discountActive
                       ? total * (1 - Number(c.discount_percentage) / 100)
                       : total;
