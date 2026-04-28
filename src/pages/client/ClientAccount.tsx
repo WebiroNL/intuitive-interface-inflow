@@ -102,7 +102,7 @@ export default function ClientAccount({ client }: Props) {
         <p className="text-sm text-muted-foreground mt-1.5">Beheer je bedrijfs- en contractgegevens.</p>
       </header>
 
-      <Tabs defaultValue="bedrijf" className="w-full">
+      <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 overflow-x-auto">
           <TabsTrigger
             value="bedrijf"
@@ -111,27 +111,33 @@ export default function ClientAccount({ client }: Props) {
             <HugeiconsIcon icon={Building03Icon} size={15} />
             Contractgegevens
           </TabsTrigger>
-          <TabsTrigger
-            value="ads"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
-            Ads contract
-          </TabsTrigger>
-          <TabsTrigger
-            value="pakket"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={File02Icon} size={15} />
-            Pakket contract
-          </TabsTrigger>
-          <TabsTrigger
-            value="docs"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={Folder02Icon} size={15} />
-            Documenten
-          </TabsTrigger>
+          {hasAdsContract && (
+            <TabsTrigger
+              value="ads"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
+              Ads contract
+            </TabsTrigger>
+          )}
+          {hasPakketContract && (
+            <TabsTrigger
+              value="pakket"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={File02Icon} size={15} />
+              Pakket contract
+            </TabsTrigger>
+          )}
+          {showDocs && (
+            <TabsTrigger
+              value="docs"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={Folder02Icon} size={15} />
+              Documenten
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {/* Tab 1 — Contractgegevens (bedrijfsinfo form) */}
