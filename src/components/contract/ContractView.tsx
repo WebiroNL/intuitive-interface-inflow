@@ -357,7 +357,7 @@ export function ContractView({ client, editable }: Props) {
             <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
             <div className="h-px bg-border" />
             <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-            <p className="text-[11px] text-muted-foreground pt-2">Bedragen op basis van facturen op deze klant.</p>
+            <p className="text-[11px] text-muted-foreground pt-2 text-center">Bedragen op basis van facturen op deze klant.</p>
           </div>
         </div>
       </div>
@@ -495,7 +495,7 @@ export function ContractView({ client, editable }: Props) {
           <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
           <div className="h-px bg-border" />
           <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-          <p className="text-[11px] text-muted-foreground pt-2">Bedragen op basis van facturen op deze klant.</p>
+          <p className="text-[11px] text-muted-foreground pt-2 text-center">Bedragen op basis van facturen op deze klant.</p>
         </div>
       </div>
     </div>
