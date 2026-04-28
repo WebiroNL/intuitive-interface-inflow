@@ -367,7 +367,6 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="services">Diensten</TabsTrigger>
           <TabsTrigger value="months">Maanddata</TabsTrigger>
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
-          <TabsTrigger value="contracts">Contracten</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="intake">Ads Intake</TabsTrigger>
           <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
@@ -392,7 +391,6 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="services"><ContractView client={client as any} editable /></TabsContent>
         <TabsContent value="months"><MonthsTab client={client} /></TabsContent>
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
-        <TabsContent value="contracts"><ContractsTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
