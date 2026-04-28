@@ -106,7 +106,7 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const saveCampaign = async (c: AdsCampaign) => {
     const { error } = await supabase
       .from("ads_campaigns")
-      .update({ name: c.name, platforms: c.platforms })
+      .update({ name: c.name, platforms: c.platforms, platform_costs: c.platform_costs ?? {} })
       .eq("id", c.id);
     if (error) {
       toast.error(error.message);
