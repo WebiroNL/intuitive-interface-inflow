@@ -36,6 +36,8 @@ interface Client {
   kvk_number: string | null; btw_number: string | null;
   discount_months: number | null; discount_percentage: number | null;
   deposit_percentage: number | null;
+  contract_start_date?: string | null;
+  discount_start_date?: string | null;
   logo_url: string | null;
   show_intake_form?: boolean;
   activation_token?: string | null;
