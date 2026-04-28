@@ -92,7 +92,7 @@ export default function ClientAccount({ client }: Props) {
         {/* Bedrijfsgegevens */}
         <div className="lg:col-span-3">
           <SectionCard
-            title="Bedrijfsgegevens"
+            title="Pakket contract gegevens"
             description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
           >
             <form onSubmit={handleSave} className="space-y-5">
