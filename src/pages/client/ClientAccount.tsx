@@ -88,9 +88,9 @@ export default function ClientAccount({ client }: Props) {
         <p className="text-sm text-muted-foreground mt-1.5">Beheer je bedrijfs- en contractgegevens.</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div className="space-y-6">
         {/* Bedrijfsgegevens */}
-        <div className="lg:col-span-3">
+        <div>
           <SectionCard
             title="Pakket contract gegevens"
             description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
