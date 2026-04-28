@@ -367,7 +367,7 @@ export default function ClientAccount({ client }: Props) {
                             {c.discount_start_date && (
                               <div className="flex justify-between gap-2">
                                 <dt className="text-muted-foreground">Startdatum korting</dt>
-                                <dd className="text-foreground font-medium">{formatDate(c.discount_start_date)}</dd>
+                                <dd className="text-foreground font-medium">{formatDate(new Date(c.discount_start_date))}</dd>
                               </div>
                             )}
                             {c.deposit_percentage != null && (
