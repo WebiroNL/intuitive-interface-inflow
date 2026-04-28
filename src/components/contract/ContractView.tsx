@@ -505,18 +505,18 @@ export function ContractView({ client, editable }: Props) {
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="text-center">
-      <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">{label}</p>
-      <p className="text-2xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
-      {hint && <p className="text-[12px] text-muted-foreground mt-1">{hint}</p>}
+      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1">{label}</p>
+      <p className="text-xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
+      {hint && <p className="text-[11px] text-muted-foreground mt-0.5">{hint}</p>}
     </div>
   );
 }
 
 function Row({ label, value, bold, highlight, positive, warn }: { label: string; value: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
-    <div className="flex justify-between items-baseline">
-      <span className={`text-sm ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`tabular-nums text-sm ${
+    <div className="flex justify-between items-baseline gap-3">
+      <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
+      <span className={`tabular-nums text-[12px] ${
         bold ? "font-bold text-foreground" :
         highlight ? "font-semibold text-primary" :
         positive ? "font-semibold text-foreground" :
