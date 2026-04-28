@@ -300,7 +300,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
       <dt className="text-[13px] text-muted-foreground">{label}</dt>
-      <dd className="text-[13px] font-medium text-foreground text-right">{value}</dd>
+      <dd className="font-medium text-foreground text-right text-xs">{value}</dd>
     </div>
   );
 }
