@@ -80,7 +80,7 @@ export default function ClientAccount({ client }: Props) {
             />
             {client.email && (
               <Field
-                label="E-mailadres (login)"
+                label="E-mailadres"
                 value={client.email}
                 onChange={() => {}}
                 type="email"
