@@ -80,7 +80,7 @@ export default function ClientAccount({ client }: Props) {
             />
             {client.email && (
               <Field
-                label="E-mailadres (login)"
+                label="E-mailadres"
                 value={client.email}
                 onChange={() => {}}
                 type="email"
@@ -89,7 +89,7 @@ export default function ClientAccount({ client }: Props) {
               />
             )}
             <Field
-              label="Telefoon nummer"
+              label="Mobiel nummer"
               value={form.phone}
               onChange={(v) => setForm({ ...form, phone: v })}
               type="tel"
