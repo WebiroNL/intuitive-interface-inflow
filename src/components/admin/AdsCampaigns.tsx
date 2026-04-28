@@ -101,13 +101,19 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
       name: draft.name.trim(),
       platforms: draft.platforms,
       platform_costs: draft.platform_costs,
+      contract_start_date: draft.contract_start_date || null,
+      contract_duration: draft.contract_duration || null,
+      discount_months: draft.discount_months !== "" ? Number(draft.discount_months) : null,
+      discount_percentage: draft.discount_percentage !== "" ? Number(draft.discount_percentage) : null,
+      discount_start_date: draft.discount_start_date || draft.contract_start_date || null,
+      deposit_percentage: draft.deposit_percentage !== "" ? Number(draft.deposit_percentage) : null,
     });
     setSaving(false);
     if (error) {
       toast.error(error.message);
       return;
     }
-    setDraft({ name: "", platforms: [], platform_costs: {} });
+    setDraft(emptyDraft);
     toast.success("Campagne toegevoegd");
     load();
   };
