@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { useMonthlyData, totalSpend, totalPaid, pctChange, fmtEUR, fmtNum } from "@/hooks/useMonthlyData";
 import { MonthSelector, MONTH_NAMES } from "@/components/client/MonthSelector";
+import { getDiscountInfo, formatMonthYear, discountLastMonth } from "@/lib/discount";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Money02Icon,
@@ -12,6 +13,7 @@ import {
   ArrowDown01Icon,
   Target02Icon,
   Tag01Icon,
+  Calendar03Icon,
 } from "@hugeicons/core-free-icons";
 
 interface Props {
@@ -49,6 +51,8 @@ export default function ClientDashboard({ client }: Props) {
         </div>
         <MonthSelector month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
       </div>
+
+      <ContractCard client={client} year={year} month={month} />
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -119,6 +123,64 @@ function PlatformBlock({ label, spend, conv }: { label: string; spend: number; c
         <p className="text-xl font-semibold text-foreground tabular-nums">{fmtEUR(spend)}</p>
         <p className="text-[12px] text-muted-foreground">{fmtNum(conv)} conversies</p>
       </div>
+    </div>
+  );
+}
+
+function ContractCard({ client, year, month }: { client: Client; year: number; month: number }) {
+  const refDate = new Date(year, month - 1, 1);
+  const discount = getDiscountInfo(client, refDate);
+  const lastDiscountMonth = discountLastMonth(discount);
+  const baseFee = Number(client.monthly_fee ?? 0);
+  if (baseFee <= 0 && !client.contract_start_date && !discount.hasDiscount) return null;
+
+  const feeNow = discount.isActiveNow ? discount.discountedFee : baseFee;
+
+  return (
+    <div className="bg-card border border-border rounded-lg p-5 mb-8">
+      <div className="flex items-center gap-2 mb-4">
+        <HugeiconsIcon icon={Calendar03Icon} size={16} className="text-muted-foreground" />
+        <p className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">Contract</p>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {client.contract_start_date && (
+          <ContractItem label="Startdatum contract" value={formatMonthYear(new Date(client.contract_start_date))} />
+        )}
+        {client.contract_duration && (
+          <ContractItem label="Contractduur" value={client.contract_duration} />
+        )}
+        {baseFee > 0 && (
+          <div>
+            <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+              {discount.isActiveNow ? `Fee ${MONTH_NAMES[month - 1]}` : "Maandelijkse fee"}
+            </p>
+            {discount.isActiveNow ? (
+              <p className="text-lg font-semibold tabular-nums">
+                <span className="line-through text-muted-foreground text-sm font-normal mr-2">{fmtEUR(baseFee)}</span>
+                <span className="text-foreground">{fmtEUR(feeNow)}</span>
+                <span className="ml-2 text-[11px] text-emerald-600 font-medium">−{discount.percentage}%</span>
+              </p>
+            ) : (
+              <p className="text-lg font-semibold text-foreground tabular-nums">{fmtEUR(baseFee)}</p>
+            )}
+          </div>
+        )}
+        {discount.hasDiscount && discount.startDate && lastDiscountMonth && (
+          <ContractItem
+            label="Kortingsperiode"
+            value={`${formatMonthYear(discount.startDate)} t/m ${formatMonthYear(lastDiscountMonth)}`}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ContractItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
+      <p className="text-sm text-foreground">{value}</p>
     </div>
   );
 }

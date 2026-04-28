@@ -232,10 +232,12 @@ export type Database = {
           company_name: string
           contact_person: string | null
           contract_duration: string | null
+          contract_start_date: string | null
           created_at: string
           deposit_percentage: number | null
           discount_months: number | null
           discount_percentage: number | null
+          discount_start_date: string | null
           email: string | null
           first_name: string | null
           id: string
@@ -269,10 +271,12 @@ export type Database = {
           company_name: string
           contact_person?: string | null
           contract_duration?: string | null
+          contract_start_date?: string | null
           created_at?: string
           deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
+          discount_start_date?: string | null
           email?: string | null
           first_name?: string | null
           id?: string
@@ -306,10 +310,12 @@ export type Database = {
           company_name?: string
           contact_person?: string | null
           contract_duration?: string | null
+          contract_start_date?: string | null
           created_at?: string
           deposit_percentage?: number | null
           discount_months?: number | null
           discount_percentage?: number | null
+          discount_start_date?: string | null
           email?: string | null
           first_name?: string | null
           id?: string
