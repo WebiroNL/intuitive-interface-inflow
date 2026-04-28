@@ -125,7 +125,17 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const saveCampaign = async (c: AdsCampaign) => {
     const { error } = await supabase
       .from("ads_campaigns")
-      .update({ name: c.name, platforms: c.platforms, platform_costs: c.platform_costs ?? {} })
+      .update({
+        name: c.name,
+        platforms: c.platforms,
+        platform_costs: c.platform_costs ?? {},
+        contract_start_date: c.contract_start_date || null,
+        contract_duration: c.contract_duration || null,
+        discount_months: c.discount_months ?? null,
+        discount_percentage: c.discount_percentage ?? null,
+        discount_start_date: c.discount_start_date || c.contract_start_date || null,
+        deposit_percentage: c.deposit_percentage ?? null,
+      })
       .eq("id", c.id);
     if (error) {
       toast.error(error.message);
