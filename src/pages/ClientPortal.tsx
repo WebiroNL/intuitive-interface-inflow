@@ -92,7 +92,7 @@ export default function ClientPortal() {
               <Route path="campaigns" element={<ClientCampaigns client={client} />} />
               <Route path="finance" element={<Navigate to="/dashboard/campaigns" replace />} />
               <Route path="reports" element={<ClientReports client={client} />} />
-              <Route path="contract" element={<ClientContract client={client} />} />
+              <Route path="contract" element={<Navigate to="/dashboard/account" replace />} />
               <Route path="invoices" element={<ClientInvoices client={client} />} />
               <Route path="files" element={<ClientFiles client={client} />} />
               <Route path="updates" element={<ClientUpdates client={client} />} />

@@ -22,7 +22,6 @@ export interface ClientMenuDef {
 export const CLIENT_MENUS: ClientMenuDef[] = [
   { id: "dashboard", label: "Info (Dashboard)", icon: DashboardSquare01Icon },
   { id: "account", label: "Account", icon: UserAccountIcon },
-  { id: "contract", label: "Diensten / Contract", icon: PackageIcon },
   { id: "campaigns", label: "Maanddata / Campagnes", icon: ChartBarLineIcon },
   { id: "reports", label: "Rapporten", icon: File02Icon },
   { id: "invoices", label: "Facturen", icon: Invoice01Icon },
