@@ -369,6 +369,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="months">Maanddata</TabsTrigger>
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
+          <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
           <TabsTrigger value="intake">Ads Intake</TabsTrigger>
           <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
           <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
