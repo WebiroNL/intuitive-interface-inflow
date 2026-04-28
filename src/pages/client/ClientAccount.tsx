@@ -90,13 +90,20 @@ export default function ClientAccount({ client }: Props) {
       </header>
 
       <Tabs defaultValue="bedrijf" className="w-full">
-        <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6">
+        <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 overflow-x-auto">
           <TabsTrigger
             value="bedrijf"
             className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
           >
             <HugeiconsIcon icon={Building03Icon} size={15} />
-            Pakket contract gegevens
+            Contractgegevens
+          </TabsTrigger>
+          <TabsTrigger
+            value="pakket"
+            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+          >
+            <HugeiconsIcon icon={File02Icon} size={15} />
+            Pakket contract
           </TabsTrigger>
           <TabsTrigger
             value="ads"
@@ -114,10 +121,10 @@ export default function ClientAccount({ client }: Props) {
           </TabsTrigger>
         </TabsList>
 
-        {/* Tab 1 — Pakket contract gegevens (form) */}
+        {/* Tab 1 — Contractgegevens (bedrijfsinfo form) */}
         <TabsContent value="bedrijf" className="mt-0">
           <SectionCard
-            title="Pakket contract gegevens"
+            title="Contractgegevens"
             description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
           >
             <form onSubmit={handleSave} className="space-y-5">
@@ -174,77 +181,24 @@ export default function ClientAccount({ client }: Props) {
           </SectionCard>
         </TabsContent>
 
-        {/* Tab 2 — Ads contract */}
-        <TabsContent value="ads" className="mt-0 space-y-6">
-          <SectionCard
-            title="Ads contract"
-            description="Een overzicht van je actieve advertentie-contract bij Webiro."
-            headerExtra={
-              <span
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full ${
-                  client.active
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                    : "bg-muted text-muted-foreground"
-                }`}
-              >
-                <span className={`w-1.5 h-1.5 rounded-full ${client.active ? "bg-emerald-500" : "bg-muted-foreground"}`} />
-                {client.active ? "Actief" : "Inactief"}
-              </span>
-            }
-          >
-            {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
-              <div className="mb-6 pb-6 border-b border-border">
-                <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
-                  {discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
-                </p>
-                {discount.isActiveNow ? (
-                  <div className="flex items-baseline gap-3 flex-wrap">
-                    <span className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.discountedFee)}</span>
-                    <span className="text-base line-through text-muted-foreground">{fmtEUR(discount.baseFee)}</span>
-                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      −{discount.percentage}%
-                    </span>
-                  </div>
-                ) : (
-                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.baseFee)}</p>
-                )}
-              </div>
-            )}
-
-            <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
-              {client.contract_duration && client.contract_duration.trim() !== "" && (
-                <DetailRow
-                  label="Contractduur"
-                  value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
-                />
-              )}
-              {contract.startDate && <DetailRow label="Startdatum" value={formatDate(contract.startDate)} />}
-              {lastContractDay && <DetailRow label="Einddatum" value={formatDate(lastContractDay)} />}
-              {discount.hasDiscount && (
-                <>
-                  <DetailRow
-                    label="Korting"
-                    value={`${discount.percentage}% • ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
-                  />
-                  {discount.startDate && lastDiscountDay && (
-                    <DetailRow
-                      label="Kortingsperiode"
-                      value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
-                    />
-                  )}
-                </>
-              )}
-            </dl>
-
-            <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
-              Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
-            </p>
-          </SectionCard>
-
+        {/* Tab 2 — Pakket contract (volledig overzicht) */}
+        <TabsContent value="pakket" className="mt-0">
           <ContractView client={client} editable={false} />
         </TabsContent>
 
-        {/* Tab 3 — Documenten */}
+        {/* Tab 3 — Ads contract (alleen intro) */}
+        <TabsContent value="ads" className="mt-0">
+          <SectionCard
+            title="Ads contract"
+            description="Een overzicht van je actieve advertentie-contract bij Webiro."
+          >
+            <p className="text-sm text-muted-foreground">
+              Wijzigingen aan je advertentie-contract? Mail je accountmanager bij Webiro.
+            </p>
+          </SectionCard>
+        </TabsContent>
+
+        {/* Tab 4 — Documenten */}
         <TabsContent value="docs" className="mt-0">
           <SectionCard
             title="Contract documenten"
