@@ -55,7 +55,13 @@ export type Database = {
       ads_campaigns: {
         Row: {
           client_id: string
+          contract_duration: string | null
+          contract_start_date: string | null
           created_at: string
+          deposit_percentage: number | null
+          discount_months: number | null
+          discount_percentage: number | null
+          discount_start_date: string | null
           id: string
           name: string
           platform_costs: Json
@@ -64,7 +70,13 @@ export type Database = {
         }
         Insert: {
           client_id: string
+          contract_duration?: string | null
+          contract_start_date?: string | null
           created_at?: string
+          deposit_percentage?: number | null
+          discount_months?: number | null
+          discount_percentage?: number | null
+          discount_start_date?: string | null
           id?: string
           name: string
           platform_costs?: Json
@@ -73,7 +85,13 @@ export type Database = {
         }
         Update: {
           client_id?: string
+          contract_duration?: string | null
+          contract_start_date?: string | null
           created_at?: string
+          deposit_percentage?: number | null
+          discount_months?: number | null
+          discount_percentage?: number | null
+          discount_start_date?: string | null
           id?: string
           name?: string
           platform_costs?: Json
