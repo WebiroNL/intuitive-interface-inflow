@@ -4,8 +4,8 @@ export interface DiscountInputs {
   monthly_fee: number | null | undefined;
   discount_months: number | null | undefined;
   discount_percentage: number | null | undefined;
-  discount_start_date: string | null | undefined; // ISO date (yyyy-mm-dd)
-  contract_start_date: string | null | undefined; // ISO date — fallback voor discount_start
+  discount_start_date?: string | null;
+  contract_start_date?: string | null;
 }
 
 export interface DiscountInfo {
