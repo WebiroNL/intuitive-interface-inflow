@@ -186,14 +186,70 @@ export default function ClientAccount({ client }: Props) {
           <ContractView client={client} editable={false} />
         </TabsContent>
 
-        {/* Tab 3 — Ads contract (alleen intro) */}
+        {/* Tab 3 — Ads contract */}
         <TabsContent value="ads" className="mt-0">
           <SectionCard
             title="Ads contract"
             description="Een overzicht van je actieve advertentie-contract bij Webiro."
+            headerExtra={
+              <span
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full ${
+                  client.active
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${client.active ? "bg-emerald-500" : "bg-muted-foreground"}`} />
+                {client.active ? "Actief" : "Inactief"}
+              </span>
+            }
           >
-            <p className="text-sm text-muted-foreground">
-              Wijzigingen aan je advertentie-contract? Mail je accountmanager bij Webiro.
+            {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
+              <div className="mb-6 pb-6 border-b border-border">
+                <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
+                  {discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
+                </p>
+                {discount.isActiveNow ? (
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.discountedFee)}</span>
+                    <span className="text-base line-through text-muted-foreground">{fmtEUR(discount.baseFee)}</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                      −{discount.percentage}%
+                    </span>
+                  </div>
+                ) : (
+                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.baseFee)}</p>
+                )}
+              </div>
+            )}
+
+            <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
+              {client.contract_duration && client.contract_duration.trim() !== "" && (
+                <DetailRow
+                  label="Contractduur"
+                  value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
+                />
+              )}
+              {contract.startDate && <DetailRow label="Startdatum" value={formatDate(contract.startDate)} />}
+              {lastContractDay && <DetailRow label="Einddatum" value={formatDate(lastContractDay)} />}
+              {discount.hasDiscount && (
+                <>
+                  <DetailRow
+                    label="Korting"
+                    value={`${discount.percentage}% • ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
+                  />
+                  {discount.startDate && lastDiscountDay && (
+                    <DetailRow
+                      label="Kortingsperiode"
+                      value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
+                    />
+                  )}
+                </>
+              )}
+            </dl>
+
+            <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
+              Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
             </p>
           </SectionCard>
         </TabsContent>
