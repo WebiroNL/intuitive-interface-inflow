@@ -52,6 +52,33 @@ export type Database = {
           },
         ]
       }
+      ads_campaigns: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          name: string
+          platforms: string[]
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          name: string
+          platforms?: string[]
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          platforms?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       app_settings: {
         Row: {
           key: string

@@ -28,6 +28,7 @@ import {
   ALL_WEBSITE_INTAKE_LABEL_KEYS,
 } from "@/components/intake/websiteLabels";
 import { WEBSITE_LABEL_KEYS_BY_SECTION } from "@/components/intake/websiteLabelGroups";
+import { AdsCampaignsTab } from "@/components/admin/AdsCampaigns";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
@@ -368,6 +369,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="months">Maanddata</TabsTrigger>
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
+          <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
           <TabsTrigger value="intake">Ads Intake</TabsTrigger>
           <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
           <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
@@ -392,6 +394,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="months"><MonthsTab client={client} /></TabsContent>
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
+        <TabsContent value="ads_campaigns"><AdsCampaignsTab clientId={client.id} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="onboarding"><OnboardingFormTab client={client} onChanged={onChanged} /></TabsContent>
