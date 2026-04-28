@@ -208,6 +208,7 @@ export default function ClientAccount({ client }: Props) {
         )}
 
         {/* Tab 3 — Ads contract */}
+        {hasAdsContract && (
         <TabsContent value="ads" className="mt-0">
           <SectionCard
             title="Ads contract"
