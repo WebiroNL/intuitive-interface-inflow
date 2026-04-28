@@ -10,6 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Add01Icon, Delete02Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { packages, cmsHostingTiers, addOns, addOnCategoryLabels, marketingServices } from "@/components/pakketten/data";
+import { getContractInfo, getDiscountInfo, formatDate, contractLastDay, discountLastDay } from "@/lib/discount";
 import type { Client } from "@/hooks/useClient";
 
 interface ServiceLine {
@@ -195,16 +196,23 @@ export function ContractView({ client, editable }: Props) {
     return <div className="p-8 text-sm text-muted-foreground">Laden...</div>;
   }
 
-  // Format helpers
-  const fmtDate = (d: string | null) =>
-    d ? new Date(d).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" }) : null;
-  const discountEndDate = (() => {
-    if (!contractStart || !discountMonths) return null;
-    const d = new Date(contractStart);
-    d.setMonth(d.getMonth() + discountMonths);
-    return fmtDate(d.toISOString().slice(0, 10));
-  })();
-  const startFormatted = fmtDate(contractStart);
+  // Format helpers — gebruik dag-precisie via shared helpers
+  const contractInfo = getContractInfo(client);
+  const discountInfo = getDiscountInfo({
+    monthly_fee: client.monthly_fee,
+    discount_months: client.discount_months,
+    discount_percentage: client.discount_percentage,
+    discount_start_date: client.discount_start_date,
+    contract_start_date: client.contract_start_date,
+  });
+  // Fallback naar contracts-tabel als clients.contract_start_date leeg is
+  const fallbackStart = contractStart ? new Date(contractStart) : null;
+  const startDate = contractInfo.startDate ?? fallbackStart;
+  const contractEndDay = contractLastDay(contractInfo);
+  const discountEndDay = discountLastDay(discountInfo);
+  const startFormatted = startDate ? formatDate(startDate) : null;
+  const contractEndFormatted = contractEndDay ? formatDate(contractEndDay) : null;
+  const discountEndDate = discountEndDay ? formatDate(discountEndDay) : null;
 
   // Read-only (client) view: cleaner, more scannable layout
   if (!editable) {
