@@ -110,17 +110,38 @@ export default function ClientAccount({ client }: Props) {
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <Row label="Contractduur" value={client.contract_duration} />
               )}
+              {client.contract_start_date && (
+                <Row label="Startdatum contract" value={formatMonthYear(new Date(client.contract_start_date))} />
+              )}
               {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
-                <Row label="Maandelijkse fee" value={fmtEUR(Number(client.monthly_fee))} />
+                <Row
+                  label={discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
+                  valueNode={
+                    discount.isActiveNow ? (
+                      <span className="text-sm">
+                        <span className="line-through text-muted-foreground mr-2">{fmtEUR(discount.baseFee)}</span>
+                        <span className="text-foreground font-medium">{fmtEUR(discount.discountedFee)}</span>
+                        <span className="ml-2 text-[11px] text-emerald-600">−{discount.percentage}%</span>
+                      </span>
+                    ) : undefined
+                  }
+                  value={fmtEUR(discount.baseFee)}
+                />
               )}
               <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
-              {hasDiscount && (
-                <Row
-                  label="Kortingsperiode"
-                  value={`${client.discount_percentage}% korting voor ${client.discount_months} ${
-                    Number(client.discount_months) === 1 ? "maand" : "maanden"
-                  }`}
-                />
+              {discount.hasDiscount && (
+                <>
+                  <Row
+                    label="Korting"
+                    value={`${discount.percentage}% voor ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
+                  />
+                  {discount.startDate && lastDiscountMonth && (
+                    <Row
+                      label="Kortingsperiode"
+                      value={`${formatMonthYear(discount.startDate)} t/m ${formatMonthYear(lastDiscountMonth)}`}
+                    />
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -157,11 +178,11 @@ function Field({
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value, valueNode }: { label: string; value: string; valueNode?: React.ReactNode }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 gap-1">
       <p className="text-[13px] font-medium text-muted-foreground">{label}</p>
-      <p className="text-sm text-foreground">{value}</p>
+      {valueNode ?? <p className="text-sm text-foreground">{value}</p>}
     </div>
   );
 }
