@@ -148,6 +148,8 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     discount_months: client?.discount_months != null ? String(client.discount_months) : "",
     discount_percentage: client?.discount_percentage != null ? String(client.discount_percentage) : "",
     deposit_percentage: client?.deposit_percentage != null ? String(client.deposit_percentage) : "",
+    contract_start_date: (client as any)?.contract_start_date ?? "",
+    discount_start_date: (client as any)?.discount_start_date ?? "",
   });
   const [saving, setSaving] = useState(false);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
@@ -182,6 +184,8 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       discount_months: form.discount_months !== "" ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage !== "" ? Number(form.discount_percentage) : null,
       deposit_percentage: form.deposit_percentage !== "" ? Number(form.deposit_percentage) : null,
+      contract_start_date: form.contract_start_date || null,
+      discount_start_date: form.discount_start_date || form.contract_start_date || null,
     };
 
     if (client) {
