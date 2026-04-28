@@ -42,7 +42,7 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
     { id: "dashboard", label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, hasData: true },
     { id: "campaigns", label: "Campagnes", href: `${base}/campaigns`, icon: ChartBarLineIcon, hasData: sections.hasMonthlyData },
     { id: "reports", label: "Rapporten", href: `${base}/reports`, icon: File02Icon, hasData: sections.hasMonthlyData },
-    { id: "contract", label: "Contract", href: `${base}/contract`, icon: File02Icon, hasData: sections.hasContracts || sections.hasServices },
+    
     { id: "invoices", label: "Facturen", href: `${base}/invoices`, icon: Invoice01Icon, hasData: sections.hasInvoices },
     { id: "files", label: "Bestanden", href: `${base}/files`, icon: FolderLibraryIcon, hasData: sections.hasFiles },
     { id: "updates", label: "Updates", href: `${base}/updates`, icon: Notification02Icon, hasData: sections.hasActivity },
