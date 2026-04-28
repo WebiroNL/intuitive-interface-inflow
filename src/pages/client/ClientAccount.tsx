@@ -293,10 +293,15 @@ export default function ClientAccount({ client }: Props) {
                       {fmtEUR(baseTotal)}
                     </p>
                   )}
-                  <p className="text-[12px] text-muted-foreground mt-1">
-                    Som van alle platform kosten over {campaigns.length}{" "}
-                    {campaigns.length === 1 ? "campagne" : "campagnes"}.
-                  </p>
+                  {(() => {
+                    const totalCampaigns = campaigns.reduce((s, c) => s + (c.platforms?.length || 0), 0);
+                    return (
+                      <p className="text-[12px] text-muted-foreground mt-1">
+                        Som van alle platform kosten over {totalCampaigns}{" "}
+                        {totalCampaigns === 1 ? "campagne" : "campagnes"}.
+                      </p>
+                    );
+                  })()}
                 </div>
               );
             })()}
@@ -308,7 +313,10 @@ export default function ClientAccount({ client }: Props) {
                     Actieve campagnes
                   </p>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full bg-primary/10 text-primary">
-                    {campaigns.length} {campaigns.length === 1 ? "campagne" : "campagnes"}
+                    {(() => {
+                      const t = campaigns.reduce((s, c) => s + (c.platforms?.length || 0), 0);
+                      return `${t} ${t === 1 ? "campagne" : "campagnes"}`;
+                    })()}
                   </span>
                 </div>
 
