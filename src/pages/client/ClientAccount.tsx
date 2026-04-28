@@ -394,7 +394,7 @@ export default function ClientAccount({ client }: Props) {
                             </div>
                           )}
                         </div>
-                        <ul className="space-y-1">
+                        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                           {c.platforms.map((pid) => {
                             const p = AD_PLATFORMS.find((x) => x.id === pid);
                             if (!p) return null;
@@ -402,7 +402,7 @@ export default function ClientAccount({ client }: Props) {
                             return (
                               <li
                                 key={pid}
-                                className="flex items-center justify-between gap-3 px-2 py-1.5 rounded-md bg-background border border-border/60"
+                                className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-md bg-background border border-border/60 min-w-0"
                               >
                                 <span className="flex items-center gap-2 min-w-0">
                                   <img src={p.logo} alt={p.label} className="w-4 h-4 object-contain shrink-0" />
