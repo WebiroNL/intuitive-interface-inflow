@@ -241,12 +241,18 @@ export function ContractView({ client, editable }: Props) {
               hint={`Verdeeld over ${orderedCats.length} categorie${orderedCats.length === 1 ? "" : "ën"}`}
             />
           </div>
-          {(startFormatted || discountEndDate) && (
+          {(startFormatted || contractEndFormatted || discountEndDate) && (
             <div className="mt-6 pt-5 border-t border-border flex flex-wrap gap-x-8 gap-y-2 text-[12px]">
               {startFormatted && (
                 <div>
                   <span className="text-muted-foreground">Contract gestart op </span>
                   <span className="text-foreground font-medium">{startFormatted}</span>
+                </div>
+              )}
+              {contractEndFormatted && (
+                <div>
+                  <span className="text-muted-foreground">Einddatum contract </span>
+                  <span className="text-foreground font-medium">{contractEndFormatted}</span>
                 </div>
               )}
               {discountEndDate && (
@@ -325,6 +331,9 @@ export function ContractView({ client, editable }: Props) {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
             <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
+            {startFormatted && <Row label="Startdatum contract" value={startFormatted} />}
+            {contractEndFormatted && <Row label="Einddatum contract" value={contractEndFormatted} />}
+            {(startFormatted || contractEndFormatted) && <div className="h-px bg-border" />}
             <Row label="Eenmalig totaal" value={fmtEUR(oneTimeTotal, 2)} />
             <Row label="Maandelijks totaal" value={fmtEUR(monthlyTotal, 2)} />
             {depositPct > 0 && oneTimeTotal > 0 && (
@@ -335,6 +344,7 @@ export function ContractView({ client, editable }: Props) {
                 <div className="h-px bg-border" />
                 <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
                 <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
+                {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
                 <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
                 <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
               </>
