@@ -184,8 +184,8 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
       discount_months: form.discount_months !== "" ? Number(form.discount_months) : null,
       discount_percentage: form.discount_percentage !== "" ? Number(form.discount_percentage) : null,
       deposit_percentage: form.deposit_percentage !== "" ? Number(form.deposit_percentage) : null,
-      contract_start_date: form.contract_start_date || null,
-      discount_start_date: form.discount_start_date || form.contract_start_date || null,
+      contract_start_date: form.contract_start_date || (client ? null : new Date().toISOString().slice(0, 10)),
+      discount_start_date: form.discount_start_date || form.contract_start_date || (client ? null : new Date().toISOString().slice(0, 10)),
     };
 
     if (client) {
