@@ -314,6 +314,11 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Label>Maandelijkse fee (€)</Label>
             <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: e.target.value })} placeholder="bv. 500" />
           </div>
+          <div>
+            <Label>Startdatum contract</Label>
+            <Input type="date" value={form.contract_start_date} onChange={(e) => setForm({ ...form, contract_start_date: e.target.value })} />
+            <p className="text-[11px] text-muted-foreground mt-1">Vanaf welke maand het contract ingaat.</p>
+          </div>
 
           <div className="col-span-2 pt-2 border-t border-border">
             <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Korting (optioneel)</p>
