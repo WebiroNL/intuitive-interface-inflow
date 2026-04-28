@@ -148,7 +148,7 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
     discount_months: client?.discount_months != null ? String(client.discount_months) : "",
     discount_percentage: client?.discount_percentage != null ? String(client.discount_percentage) : "",
     deposit_percentage: client?.deposit_percentage != null ? String(client.deposit_percentage) : "",
-    contract_start_date: (client as any)?.contract_start_date ?? "",
+    contract_start_date: (client as any)?.contract_start_date ?? (client ? "" : new Date().toISOString().slice(0, 10)),
     discount_start_date: (client as any)?.discount_start_date ?? "",
   });
   const [saving, setSaving] = useState(false);
