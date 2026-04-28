@@ -150,7 +150,7 @@ export default function ClientAccount({ client }: Props) {
               )}
             </div>
           </div>
-          <p className="text-[12px] text-muted-foreground mt-3">
+          <p className="text-[12px] text-muted-foreground mt-3 text-center">
             Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
           </p>
         </div>
