@@ -257,6 +257,72 @@ export default function ClientAccount({ client }: Props) {
               </div>
             )}
 
+            {campaigns.length > 0 && (
+              <div className="mb-6 pb-6 border-b border-border space-y-4">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                  <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
+                    Actieve campagnes
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full bg-primary/10 text-primary">
+                    {campaigns.length} {campaigns.length === 1 ? "campagne" : "campagnes"}
+                  </span>
+                </div>
+
+                {/* Platform overzicht (logos) */}
+                {allPlatforms.length > 0 && (
+                  <div>
+                    <p className="text-[11px] text-muted-foreground mb-2">Platforms</p>
+                    <div className="flex flex-wrap gap-2">
+                      {allPlatforms.map((pid) => {
+                        const p = AD_PLATFORMS.find((x) => x.id === pid);
+                        if (!p) return null;
+                        return (
+                          <span
+                            key={pid}
+                            className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border bg-background"
+                            title={p.label}
+                          >
+                            <img src={p.logo} alt={p.label} className="w-5 h-5 object-contain" />
+                            <span className="text-[12px] font-medium text-foreground">
+                              {p.label.replace(/ Ads$/, "").replace(/ \(.*\)$/, "")}
+                            </span>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Campagne lijst */}
+                <ul className="space-y-2">
+                  {campaigns.map((c) => (
+                    <li
+                      key={c.id}
+                      className="flex items-start justify-between gap-4 p-3 rounded-lg border border-border bg-muted/20"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {c.platforms.map((pid) => {
+                            const p = AD_PLATFORMS.find((x) => x.id === pid);
+                            if (!p) return null;
+                            return (
+                              <img
+                                key={pid}
+                                src={p.logo}
+                                alt={p.label}
+                                title={p.label}
+                                className="w-4 h-4 object-contain"
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <DetailRow
