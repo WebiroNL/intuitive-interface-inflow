@@ -23,7 +23,11 @@ export interface AdsCampaign {
   client_id: string;
   name: string;
   platforms: string[];
+  platform_costs?: Record<string, number>;
 }
+
+const fmtEUR = (n: number) =>
+  new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(n || 0);
 
 export function PlatformBadge({ platformId, size = "md" }: { platformId: string; size?: "sm" | "md" }) {
   const p = AD_PLATFORMS.find((x) => x.id === platformId);
@@ -44,7 +48,11 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const [campaigns, setCampaigns] = useState<AdsCampaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [draft, setDraft] = useState<{ name: string; platforms: string[] }>({ name: "", platforms: [] });
+  const [draft, setDraft] = useState<{ name: string; platforms: string[]; platform_costs: Record<string, number> }>({
+    name: "",
+    platforms: [],
+    platform_costs: {},
+  });
 
   const load = async () => {
     setLoading(true);
@@ -79,13 +87,14 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
       client_id: clientId,
       name: draft.name.trim(),
       platforms: draft.platforms,
+      platform_costs: draft.platform_costs,
     });
     setSaving(false);
     if (error) {
       toast.error(error.message);
       return;
     }
-    setDraft({ name: "", platforms: [] });
+    setDraft({ name: "", platforms: [], platform_costs: {} });
     toast.success("Campagne toegevoegd");
     load();
   };
@@ -97,7 +106,7 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const saveCampaign = async (c: AdsCampaign) => {
     const { error } = await supabase
       .from("ads_campaigns")
-      .update({ name: c.name, platforms: c.platforms })
+      .update({ name: c.name, platforms: c.platforms, platform_costs: c.platform_costs ?? {} })
       .eq("id", c.id);
     if (error) {
       toast.error(error.message);
@@ -154,31 +163,68 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
                 </div>
               </div>
               <div>
-                <Label className="text-[12px] mb-2 block">Platforms</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <Label className="text-[12px] mb-2 block">Platforms & kosten</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {AD_PLATFORMS.map((p) => {
                     const checked = c.platforms.includes(p.id);
+                    const cost = c.platform_costs?.[p.id] ?? 0;
                     return (
-                      <label
+                      <div
                         key={p.id}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
                           checked
                             ? "border-primary/60 bg-primary/5"
-                            : "border-border bg-background hover:bg-muted/50"
+                            : "border-border bg-background"
                         }`}
                       >
-                        <Checkbox
-                          checked={checked}
-                          onCheckedChange={() =>
-                            togglePlatform(p.id, c.platforms, (v) => updateCampaign(c, { platforms: v }))
-                          }
-                        />
-                        <img src={p.logo} alt="" className="w-5 h-5 object-contain" />
-                        <span className="text-[12px] font-medium text-foreground">{p.label}</span>
-                      </label>
+                        <label className="flex items-center gap-2 flex-1 cursor-pointer min-w-0">
+                          <Checkbox
+                            checked={checked}
+                            onCheckedChange={() => {
+                              const newPlatforms = checked
+                                ? c.platforms.filter((x) => x !== p.id)
+                                : [...c.platforms, p.id];
+                              const newCosts = { ...(c.platform_costs ?? {}) };
+                              if (!checked && newCosts[p.id] === undefined) newCosts[p.id] = 0;
+                              if (checked) delete newCosts[p.id];
+                              updateCampaign(c, { platforms: newPlatforms, platform_costs: newCosts });
+                            }}
+                          />
+                          <img src={p.logo} alt="" className="w-5 h-5 object-contain shrink-0" />
+                          <span className="text-[12px] font-medium text-foreground truncate">{p.label}</span>
+                        </label>
+                        {checked && (
+                          <div className="flex items-center gap-1 shrink-0">
+                            <span className="text-[12px] text-muted-foreground">€</span>
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={cost}
+                              onChange={(e) =>
+                                updateCampaign(c, {
+                                  platform_costs: {
+                                    ...(c.platform_costs ?? {}),
+                                    [p.id]: parseFloat(e.target.value) || 0,
+                                  },
+                                })
+                              }
+                              className="h-8 w-24 text-[12px]"
+                              placeholder="0,00"
+                            />
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
+                {c.platforms.length > 0 && (
+                  <p className="text-[11px] text-muted-foreground mt-2">
+                    Totaal: <span className="font-semibold text-foreground">{fmtEUR(
+                      c.platforms.reduce((sum, pid) => sum + (c.platform_costs?.[pid] ?? 0), 0)
+                    )}</span>
+                  </p>
+                )}
               </div>
             </li>
           ))}
@@ -197,28 +243,59 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
           />
         </div>
         <div>
-          <Label className="text-[12px] mb-2 block">Platforms</Label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <Label className="text-[12px] mb-2 block">Platforms & kosten</Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {AD_PLATFORMS.map((p) => {
               const checked = draft.platforms.includes(p.id);
+              const cost = draft.platform_costs[p.id] ?? 0;
               return (
-                <label
+                <div
                   key={p.id}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
                     checked
                       ? "border-primary/60 bg-primary/5"
-                      : "border-border bg-background hover:bg-muted/50"
+                      : "border-border bg-background"
                   }`}
                 >
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={() =>
-                      togglePlatform(p.id, draft.platforms, (v) => setDraft({ ...draft, platforms: v }))
-                    }
-                  />
-                  <img src={p.logo} alt="" className="w-5 h-5 object-contain" />
-                  <span className="text-[12px] font-medium text-foreground">{p.label}</span>
-                </label>
+                  <label className="flex items-center gap-2 flex-1 cursor-pointer min-w-0">
+                    <Checkbox
+                      checked={checked}
+                      onCheckedChange={() => {
+                        const newPlatforms = checked
+                          ? draft.platforms.filter((x) => x !== p.id)
+                          : [...draft.platforms, p.id];
+                        const newCosts = { ...draft.platform_costs };
+                        if (!checked && newCosts[p.id] === undefined) newCosts[p.id] = 0;
+                        if (checked) delete newCosts[p.id];
+                        setDraft({ ...draft, platforms: newPlatforms, platform_costs: newCosts });
+                      }}
+                    />
+                    <img src={p.logo} alt="" className="w-5 h-5 object-contain shrink-0" />
+                    <span className="text-[12px] font-medium text-foreground truncate">{p.label}</span>
+                  </label>
+                  {checked && (
+                    <div className="flex items-center gap-1 shrink-0">
+                      <span className="text-[12px] text-muted-foreground">€</span>
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={cost}
+                        onChange={(e) =>
+                          setDraft({
+                            ...draft,
+                            platform_costs: {
+                              ...draft.platform_costs,
+                              [p.id]: parseFloat(e.target.value) || 0,
+                            },
+                          })
+                        }
+                        className="h-8 w-24 text-[12px]"
+                        placeholder="0,00"
+                      />
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
