@@ -77,6 +77,15 @@ export default function ClientAccount({ client }: Props) {
               value={form.contact_person}
               onChange={(v) => setForm({ ...form, contact_person: v })}
             />
+            {client.email && (
+              <Field
+                label="E-mail (login)"
+                value={client.email}
+                onChange={() => {}}
+                type="email"
+                readOnly
+              />
+            )}
             <Field
               label="Telefoon"
               value={form.phone}
@@ -108,7 +117,6 @@ export default function ClientAccount({ client }: Props) {
           <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
-              {client.email && <Row label="E-mail (login)" value={client.email} />}
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <Row label="Contractduur" value={client.contract_duration} />
               )}
@@ -160,7 +168,7 @@ export default function ClientAccount({ client }: Props) {
 }
 
 function Field({
-  label, value, onChange, required, type = "text", placeholder,
+  label, value, onChange, required, type = "text", placeholder, readOnly,
 }: {
   label: string;
   value: string;
@@ -168,6 +176,7 @@ function Field({
   required?: boolean;
   type?: string;
   placeholder?: string;
+  readOnly?: boolean;
 }) {
   return (
     <div>
@@ -177,7 +186,8 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="mt-1.5"
+        readOnly={readOnly}
+        className={`mt-1.5${readOnly ? " bg-muted/40 cursor-not-allowed" : ""}`}
       />
     </div>
   );
