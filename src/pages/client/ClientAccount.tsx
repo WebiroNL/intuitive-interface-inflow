@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
-import { getDiscountInfo, formatMonthYear, discountLastMonth } from "@/lib/discount";
+import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contractLastDay } from "@/lib/discount";
 
 interface Props { client: Client }
 
@@ -56,7 +56,9 @@ export default function ClientAccount({ client }: Props) {
   };
 
   const discount = getDiscountInfo(client);
-  const lastDiscountMonth = discountLastMonth(discount);
+  const contract = getContractInfo(client);
+  const lastDiscountDay = discountLastDay(discount);
+  const lastContractDay = contractLastDay(contract);
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px]">
@@ -110,8 +112,11 @@ export default function ClientAccount({ client }: Props) {
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <Row label="Contractduur" value={client.contract_duration} />
               )}
-              {client.contract_start_date && (
-                <Row label="Startdatum contract" value={formatMonthYear(new Date(client.contract_start_date))} />
+              {contract.startDate && (
+                <Row label="Startdatum contract" value={formatDate(contract.startDate)} />
+              )}
+              {lastContractDay && (
+                <Row label="Einddatum contract" value={formatDate(lastContractDay)} />
               )}
               {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
                 <Row
@@ -135,10 +140,10 @@ export default function ClientAccount({ client }: Props) {
                     label="Korting"
                     value={`${discount.percentage}% voor ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
                   />
-                  {discount.startDate && lastDiscountMonth && (
+                  {discount.startDate && lastDiscountDay && (
                     <Row
                       label="Kortingsperiode"
-                      value={`${formatMonthYear(discount.startDate)} t/m ${formatMonthYear(lastDiscountMonth)}`}
+                      value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
                     />
                   )}
                 </>
