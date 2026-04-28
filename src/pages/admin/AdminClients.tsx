@@ -394,6 +394,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="months"><MonthsTab client={client} /></TabsContent>
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
+        <TabsContent value="ads_campaigns"><AdsCampaignsTab clientId={client.id} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="onboarding"><OnboardingFormTab client={client} onChanged={onChanged} /></TabsContent>
