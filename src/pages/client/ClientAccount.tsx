@@ -488,7 +488,7 @@ export default function ClientAccount({ client }: Props) {
 
 
 
-            <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
+            <p className="mt-6 text-[12px] text-muted-foreground text-center leading-relaxed">
               Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
             </p>
           </SectionCard>
