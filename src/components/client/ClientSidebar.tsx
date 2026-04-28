@@ -32,9 +32,11 @@ export function ClientSidebar({ client, mobileOpen = false, onClose }: Props) {
   const base = `/dashboard`;
   const vm = (client.visible_menus as string[] | null | undefined) ?? null;
 
-  // Heeft de admin een expliciete selectie gemaakt? (Dus niet null en niet de "__all__" sentinel.)
-  const adminHasExplicitSelection =
-    Array.isArray(vm) && !(vm.length === 1 && vm[0] === "__all__");
+  // Heeft de admin een expliciete selectie gemaakt in admin → klant?
+  // Zowel een handmatige selectie als de "__all__" sentinel (= "Alles aan" geklikt)
+  // tellen als expliciete keuze. Alleen als er nooit iets is opgeslagen (null/undefined)
+  // vallen we terug op de "verberg lege secties"-default.
+  const adminHasExplicitSelection = Array.isArray(vm);
 
   const allItems = [
     { id: "dashboard", label: "Dashboard", href: base, icon: DashboardSquare01Icon, exact: true, hasData: true },

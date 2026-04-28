@@ -1200,7 +1200,7 @@ function VisibleMenusTab({ client, onChanged }: { client: Client; onChanged: () 
             })}
           </div>
           <p className="text-[11px] text-muted-foreground mt-3">
-            Standaard ("alles aan") verbergt items zonder data automatisch (bijv. Facturen pas zichtbaar zodra er een factuur is). Zodra je hierboven een eigen selectie maakt, worden precies de aangevinkte items getoond — ook als er nog geen data is.
+            Aangevinkte items zijn altijd zichtbaar voor de klant — ook als er nog geen data is. Vink items uit om ze volledig te verbergen.
           </p>
         </div>
       </div>
