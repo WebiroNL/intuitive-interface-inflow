@@ -82,150 +82,225 @@ export default function ClientAccount({ client }: Props) {
   const lastContractDay = contractLastDay(contract);
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px]">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <h2 className="text-sm font-semibold text-foreground mb-3">Bedrijfsgegevens</h2>
-          <form onSubmit={handleSave} className="bg-card border border-border rounded-lg p-6 space-y-5">
-            <Field
-              label="Bedrijfsnaam"
-              value={form.company_name}
-              onChange={(v) => setForm({ ...form, company_name: v })}
-              required
-            />
-            <Field
-              label="Contactpersoon"
-              value={form.contact_person}
-              onChange={(v) => setForm({ ...form, contact_person: v })}
-              required
-            />
-            {client.email && (
-              <Field
-                label="E-mailadres"
-                value={client.email}
-                onChange={() => {}}
-                type="email"
-                readOnly
-                required
-              />
-            )}
-            <Field
-              label="Mobiel nummer"
-              value={form.phone}
-              onChange={(v) => setForm({ ...form, phone: v })}
-              type="tel"
-              required
-            />
-            <Field
-              label="KVK nummer"
-              value={form.kvk_number}
-              onChange={(v) => setForm({ ...form, kvk_number: v })}
-              placeholder="12345678"
-            />
-            <Field
-              label="BTW nummer"
-              value={form.btw_number}
-              onChange={(v) => setForm({ ...form, btw_number: v })}
-              placeholder="NL000000000B00"
-            />
+    <div className="p-6 lg:p-10 max-w-[1400px] mx-auto">
+      <header className="mb-8">
+        <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground">Accountinstellingen</h1>
+        <p className="text-sm text-muted-foreground mt-1.5">Beheer je bedrijfs- en contractgegevens.</p>
+      </header>
 
-            <div className="flex justify-end pt-2">
-              <Button type="submit" disabled={saving}>
-                {saving ? "Opslaan..." : "Opslaan"}
-              </Button>
-            </div>
-          </form>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* Bedrijfsgegevens */}
+        <div className="lg:col-span-3">
+          <SectionCard
+            title="Bedrijfsgegevens"
+            description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
+          >
+            <form onSubmit={handleSave} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <Field
+                  label="Bedrijfsnaam"
+                  value={form.company_name}
+                  onChange={(v) => setForm({ ...form, company_name: v })}
+                  required
+                />
+                <Field
+                  label="Contactpersoon"
+                  value={form.contact_person}
+                  onChange={(v) => setForm({ ...form, contact_person: v })}
+                  required
+                />
+                {client.email && (
+                  <Field
+                    label="E-mailadres"
+                    value={client.email}
+                    onChange={() => {}}
+                    type="email"
+                    readOnly
+                    required
+                  />
+                )}
+                <Field
+                  label="Mobiel nummer"
+                  value={form.phone}
+                  onChange={(v) => setForm({ ...form, phone: v })}
+                  type="tel"
+                  required
+                />
+                <Field
+                  label="KVK nummer"
+                  value={form.kvk_number}
+                  onChange={(v) => setForm({ ...form, kvk_number: v })}
+                  placeholder="12345678"
+                />
+                <Field
+                  label="BTW nummer"
+                  value={form.btw_number}
+                  onChange={(v) => setForm({ ...form, btw_number: v })}
+                  placeholder="NL000000000B00"
+                />
+              </div>
+
+              <div className="flex justify-end pt-3 border-t border-border">
+                <Button type="submit" disabled={saving}>
+                  {saving ? "Opslaan..." : "Wijzigingen opslaan"}
+                </Button>
+              </div>
+            </form>
+          </SectionCard>
         </div>
 
-        <div>
-          <h2 className="text-sm font-semibold text-foreground mb-3">Contractgegevens</h2>
-          <div className="bg-card border border-border rounded-lg overflow-hidden">
-            <div className="divide-y divide-border">
-              <Row label="Status" value={client.active ? "Actief" : "Inactief"} />
+        {/* Contractgegevens */}
+        <div className="lg:col-span-2">
+          <SectionCard
+            title="Contractgegevens"
+            description="Een overzicht van je actieve abonnement bij Webiro."
+            headerExtra={
+              <span
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full ${
+                  client.active
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${client.active ? "bg-emerald-500" : "bg-muted-foreground"}`} />
+                {client.active ? "Actief" : "Inactief"}
+              </span>
+            }
+          >
+            {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
+              <div className="mb-6 pb-6 border-b border-border">
+                <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
+                  {discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
+                </p>
+                {discount.isActiveNow ? (
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.discountedFee)}</span>
+                    <span className="text-base line-through text-muted-foreground">{fmtEUR(discount.baseFee)}</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                      −{discount.percentage}%
+                    </span>
+                  </div>
+                ) : (
+                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.baseFee)}</p>
+                )}
+              </div>
+            )}
+
+            <dl className="space-y-3.5 text-sm">
               {client.contract_duration && client.contract_duration.trim() !== "" && (
-                <Row
+                <DetailRow
                   label="Contractduur"
                   value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
                 />
               )}
-              {contract.startDate && (
-                <Row label="Startdatum contract" value={formatDate(contract.startDate)} />
-              )}
-              {lastContractDay && (
-                <Row label="Einddatum contract" value={formatDate(lastContractDay)} />
-              )}
-              {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
-                <Row
-                  label={discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
-                  valueNode={
-                    discount.isActiveNow ? (
-                      <span className="text-sm">
-                        <span className="line-through text-muted-foreground mr-2">{fmtEUR(discount.baseFee)}</span>
-                        <span className="text-foreground font-medium">{fmtEUR(discount.discountedFee)}</span>
-                        <span className="ml-2 text-[11px] text-emerald-600">−{discount.percentage}%</span>
-                      </span>
-                    ) : undefined
-                  }
-                  value={fmtEUR(discount.baseFee)}
-                />
-              )}
+              {contract.startDate && <DetailRow label="Startdatum" value={formatDate(contract.startDate)} />}
+              {lastContractDay && <DetailRow label="Einddatum" value={formatDate(lastContractDay)} />}
               {discount.hasDiscount && (
                 <>
-                  <Row
+                  <DetailRow
                     label="Korting"
-                    value={`${discount.percentage}% voor ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
+                    value={`${discount.percentage}% • ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
                   />
                   {discount.startDate && lastDiscountDay && (
-                    <Row
+                    <DetailRow
                       label="Kortingsperiode"
                       value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
                     />
                   )}
                 </>
               )}
-            </div>
-          </div>
-          <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center">
-            Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
-          </p>
+            </dl>
+
+            <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
+              Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
+            </p>
+          </SectionCard>
         </div>
       </div>
 
-      <section className="mt-10">
+      <section className="mt-8">
         <ContractView client={client} editable={false} />
       </section>
 
-      <section className="mt-10">
-        <h2 className="text-sm font-semibold text-foreground mb-3">Contract documenten</h2>
-        {contractsLoading ? (
-          <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
-        ) : contracts.length === 0 ? (
-          <div className="bg-card border border-border rounded-lg p-6 text-sm text-muted-foreground text-center">Nog geen contract beschikbaar.</div>
-        ) : (
-          <div className="space-y-2">
-            {contracts.map((c) => (
-              <div key={c.id} className="bg-card border border-border rounded-lg p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded bg-muted flex items-center justify-center">
-                    <HugeiconsIcon icon={File02Icon} size={16} className="text-muted-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{c.title}</p>
-                    <p className="text-[12px] text-muted-foreground">
-                      {c.start_date ? new Date(c.start_date).toLocaleDateString("nl-NL") : "—"} – {c.end_date ? new Date(c.end_date).toLocaleDateString("nl-NL") : "doorlopend"}
-                    </p>
-                  </div>
-                </div>
-                {c.file_url && (
-                  <a href={c.file_url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-medium text-primary hover:underline flex items-center gap-1.5">
-                    <HugeiconsIcon icon={Download01Icon} size={14} /> Download
-                  </a>
-                )}
+      <section className="mt-8">
+        <SectionCard
+          title="Contract documenten"
+          description="Download je ondertekende overeenkomsten en bijlagen."
+        >
+          {contractsLoading ? (
+            <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
+          ) : contracts.length === 0 ? (
+            <div className="py-10 text-center">
+              <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-muted flex items-center justify-center">
+                <HugeiconsIcon icon={File02Icon} size={18} className="text-muted-foreground" />
               </div>
-            ))}
-          </div>
-        )}
+              <p className="text-sm text-muted-foreground">Nog geen contract beschikbaar.</p>
+            </div>
+          ) : (
+            <ul className="divide-y divide-border -my-2">
+              {contracts.map((c) => (
+                <li key={c.id} className="py-4 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
+                      <HugeiconsIcon icon={File02Icon} size={16} className="text-muted-foreground" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{c.title}</p>
+                      <p className="text-[12px] text-muted-foreground mt-0.5">
+                        {c.start_date ? new Date(c.start_date).toLocaleDateString("nl-NL") : "—"} t/m {c.end_date ? new Date(c.end_date).toLocaleDateString("nl-NL") : "doorlopend"}
+                      </p>
+                    </div>
+                  </div>
+                  {c.file_url && (
+                    <a
+                      href={c.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium rounded-lg border border-border bg-background hover:bg-muted/60 hover:border-primary/40 transition-colors"
+                    >
+                      <HugeiconsIcon icon={Download01Icon} size={14} /> Download
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </SectionCard>
       </section>
+    </div>
+  );
+}
+
+function SectionCard({
+  title,
+  description,
+  headerExtra,
+  children,
+}: {
+  title: string;
+  description?: string;
+  headerExtra?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden h-full flex flex-col">
+      <div className="px-6 py-5 border-b border-border flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold text-foreground tracking-tight">{title}</h2>
+          {description && <p className="text-[13px] text-muted-foreground mt-1 leading-relaxed">{description}</p>}
+        </div>
+        {headerExtra && <div className="shrink-0">{headerExtra}</div>}
+      </div>
+      <div className="p-6 flex-1">{children}</div>
+    </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <dt className="text-[13px] text-muted-foreground">{label}</dt>
+      <dd className="text-[13px] font-medium text-foreground text-right">{value}</dd>
     </div>
   );
 }
