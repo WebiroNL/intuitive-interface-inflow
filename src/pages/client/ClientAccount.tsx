@@ -84,20 +84,44 @@ export default function ClientAccount({ client }: Props) {
 
   return (
     <div className="p-6 lg:p-10 max-w-[1400px] mx-auto">
-      <header className="mb-8">
+      <header className="mb-6">
         <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground">Accountinstellingen</h1>
         <p className="text-sm text-muted-foreground mt-1.5">Beheer je bedrijfs- en contractgegevens.</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Bedrijfsgegevens */}
-        <div className="lg:col-span-3">
+      <Tabs defaultValue="bedrijf" className="w-full">
+        <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6">
+          <TabsTrigger
+            value="bedrijf"
+            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+          >
+            <HugeiconsIcon icon={Building03Icon} size={15} />
+            Pakket contract gegevens
+          </TabsTrigger>
+          <TabsTrigger
+            value="ads"
+            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+          >
+            <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
+            Ads contract
+          </TabsTrigger>
+          <TabsTrigger
+            value="docs"
+            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+          >
+            <HugeiconsIcon icon={Folder02Icon} size={15} />
+            Documenten
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Tab 1 — Pakket contract gegevens (form) */}
+        <TabsContent value="bedrijf" className="mt-0">
           <SectionCard
             title="Pakket contract gegevens"
             description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
           >
             <form onSubmit={handleSave} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <Field
                   label="Bedrijfsnaam"
                   value={form.company_name}
@@ -141,17 +165,17 @@ export default function ClientAccount({ client }: Props) {
                 />
               </div>
 
-              <div className="flex justify-end pt-3 border-t border-border">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <Button type="submit" disabled={saving}>
                   {saving ? "Opslaan..." : "Wijzigingen opslaan"}
                 </Button>
               </div>
             </form>
           </SectionCard>
-        </div>
+        </TabsContent>
 
-        {/* Contractgegevens */}
-        <div className="lg:col-span-2">
+        {/* Tab 2 — Ads contract */}
+        <TabsContent value="ads" className="mt-0 space-y-6">
           <SectionCard
             title="Ads contract"
             description="Een overzicht van je actieve advertentie-contract bij Webiro."
@@ -187,7 +211,7 @@ export default function ClientAccount({ client }: Props) {
               </div>
             )}
 
-            <dl className="space-y-3.5 text-sm">
+            <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
               {client.contract_duration && client.contract_duration.trim() !== "" && (
                 <DetailRow
                   label="Contractduur"
@@ -216,58 +240,57 @@ export default function ClientAccount({ client }: Props) {
               Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
             </p>
           </SectionCard>
-        </div>
-      </div>
 
-      <section className="mt-8">
-        <ContractView client={client} editable={false} />
-      </section>
+          <ContractView client={client} editable={false} />
+        </TabsContent>
 
-      <section className="mt-8">
-        <SectionCard
-          title="Contract documenten"
-          description="Download je ondertekende overeenkomsten en bijlagen."
-        >
-          {contractsLoading ? (
-            <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
-          ) : contracts.length === 0 ? (
-            <div className="py-10 text-center">
-              <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-muted flex items-center justify-center">
-                <HugeiconsIcon icon={File02Icon} size={18} className="text-muted-foreground" />
+        {/* Tab 3 — Documenten */}
+        <TabsContent value="docs" className="mt-0">
+          <SectionCard
+            title="Contract documenten"
+            description="Download je ondertekende overeenkomsten en bijlagen."
+          >
+            {contractsLoading ? (
+              <div className="h-20 bg-muted/40 rounded-lg animate-pulse" />
+            ) : contracts.length === 0 ? (
+              <div className="py-10 text-center">
+                <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-muted flex items-center justify-center">
+                  <HugeiconsIcon icon={File02Icon} size={18} className="text-muted-foreground" />
+                </div>
+                <p className="text-sm text-muted-foreground">Nog geen contract beschikbaar.</p>
               </div>
-              <p className="text-sm text-muted-foreground">Nog geen contract beschikbaar.</p>
-            </div>
-          ) : (
-            <ul className="divide-y divide-border -my-2">
-              {contracts.map((c) => (
-                <li key={c.id} className="py-4 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
-                      <HugeiconsIcon icon={File02Icon} size={16} className="text-muted-foreground" />
+            ) : (
+              <ul className="divide-y divide-border -my-2">
+                {contracts.map((c) => (
+                  <li key={c.id} className="py-4 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
+                        <HugeiconsIcon icon={File02Icon} size={16} className="text-muted-foreground" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{c.title}</p>
+                        <p className="text-[12px] text-muted-foreground mt-0.5">
+                          {c.start_date ? new Date(c.start_date).toLocaleDateString("nl-NL") : "—"} t/m {c.end_date ? new Date(c.end_date).toLocaleDateString("nl-NL") : "doorlopend"}
+                        </p>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{c.title}</p>
-                      <p className="text-[12px] text-muted-foreground mt-0.5">
-                        {c.start_date ? new Date(c.start_date).toLocaleDateString("nl-NL") : "—"} t/m {c.end_date ? new Date(c.end_date).toLocaleDateString("nl-NL") : "doorlopend"}
-                      </p>
-                    </div>
-                  </div>
-                  {c.file_url && (
-                    <a
-                      href={c.file_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium rounded-lg border border-border bg-background hover:bg-muted/60 hover:border-primary/40 transition-colors"
-                    >
-                      <HugeiconsIcon icon={Download01Icon} size={14} /> Download
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-        </SectionCard>
-      </section>
+                    {c.file_url && (
+                      <a
+                        href={c.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium rounded-lg border border-border bg-background hover:bg-muted/60 hover:border-primary/40 transition-colors"
+                      >
+                        <HugeiconsIcon icon={Download01Icon} size={14} /> Download
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SectionCard>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
