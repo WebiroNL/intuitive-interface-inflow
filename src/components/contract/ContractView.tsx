@@ -504,7 +504,7 @@ export function ContractView({ client, editable }: Props) {
 
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div>
+    <div className="text-center">
       <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">{label}</p>
       <p className="text-2xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
       {hint && <p className="text-[12px] text-muted-foreground mt-1">{hint}</p>}
