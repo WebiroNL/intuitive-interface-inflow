@@ -239,19 +239,63 @@ export default function ClientAccount({ client }: Props) {
             }
           >
             {(() => {
-              const totalMonthly = campaigns.reduce((sum, c) => {
-                const costs = (c as any).platform_costs ?? {};
-                return sum + c.platforms.reduce((s, pid) => s + (Number(costs[pid]) || 0), 0);
-              }, 0);
-              if (totalMonthly <= 0) return null;
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const isDiscountActive = (c: any): boolean => {
+                if (!c.discount_percentage || !c.discount_months) return false;
+                const start = c.discount_start_date
+                  ? new Date(c.discount_start_date)
+                  : c.contract_start_date
+                  ? new Date(c.contract_start_date)
+                  : null;
+                if (!start) return false;
+                const end = new Date(start);
+                end.setMonth(end.getMonth() + c.discount_months);
+                end.setDate(end.getDate() - 1);
+                return today >= start && today <= end;
+              };
+
+              let baseTotal = 0;
+              let discountedTotal = 0;
+              let anyDiscountActive = false;
+              campaigns.forEach((c: any) => {
+                const costs = c.platform_costs ?? {};
+                const sub = c.platforms.reduce(
+                  (s: number, pid: string) => s + (Number(costs[pid]) || 0),
+                  0
+                );
+                baseTotal += sub;
+                if (isDiscountActive(c)) {
+                  anyDiscountActive = true;
+                  discountedTotal += sub * (1 - Number(c.discount_percentage) / 100);
+                } else {
+                  discountedTotal += sub;
+                }
+              });
+
+              if (baseTotal <= 0) return null;
               return (
                 <div className="mb-6 pb-6 border-b border-border">
                   <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
-                    Totaal maandbedrag
+                    {anyDiscountActive ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
                   </p>
-                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(totalMonthly)}</p>
+                  {anyDiscountActive ? (
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                      <span className="text-3xl font-semibold text-foreground tracking-tight">
+                        {fmtEUR(discountedTotal)}
+                      </span>
+                      <span className="text-base line-through text-muted-foreground">
+                        {fmtEUR(baseTotal)}
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="text-3xl font-semibold text-foreground tracking-tight">
+                      {fmtEUR(baseTotal)}
+                    </p>
+                  )}
                   <p className="text-[12px] text-muted-foreground mt-1">
-                    Som van alle platform kosten over {campaigns.length} {campaigns.length === 1 ? "campagne" : "campagnes"}.
+                    Som van alle platform kosten over {campaigns.length}{" "}
+                    {campaigns.length === 1 ? "campagne" : "campagnes"}.
                   </p>
                 </div>
               );
