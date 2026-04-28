@@ -92,7 +92,7 @@ export default function ClientAccount({ client }: Props) {
         {/* Bedrijfsgegevens */}
         <div className="lg:col-span-3">
           <SectionCard
-            title="Bedrijfsgegevens"
+            title="Pakket contract gegevens"
             description="Houd je bedrijfsinformatie actueel voor facturatie en communicatie."
           >
             <form onSubmit={handleSave} className="space-y-5">
@@ -152,8 +152,8 @@ export default function ClientAccount({ client }: Props) {
         {/* Contractgegevens */}
         <div className="lg:col-span-2">
           <SectionCard
-            title="Contractgegevens"
-            description="Een overzicht van je actieve abonnement bij Webiro."
+            title="Ads contract"
+            description="Een overzicht van je actieve advertentie-contract bij Webiro."
             headerExtra={
               <span
                 className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full ${
