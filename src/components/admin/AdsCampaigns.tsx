@@ -87,13 +87,14 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
       client_id: clientId,
       name: draft.name.trim(),
       platforms: draft.platforms,
+      platform_costs: draft.platform_costs,
     });
     setSaving(false);
     if (error) {
       toast.error(error.message);
       return;
     }
-    setDraft({ name: "", platforms: [] });
+    setDraft({ name: "", platforms: [], platform_costs: {} });
     toast.success("Campagne toegevoegd");
     load();
   };
