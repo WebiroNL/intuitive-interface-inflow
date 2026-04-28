@@ -40,10 +40,11 @@ export default function ClientAccount({ client }: Props) {
   const [contracts, setContracts] = useState<ContractDoc[]>([]);
   const [contractsLoading, setContractsLoading] = useState(true);
   const [hasPakketServices, setHasPakketServices] = useState(false);
+  const [campaigns, setCampaigns] = useState<AdsCampaign[]>([]);
 
   useEffect(() => {
     (async () => {
-      const [contractsRes, servicesRes] = await Promise.all([
+      const [contractsRes, servicesRes, campaignsRes] = await Promise.all([
         supabase
           .from("contracts")
           .select("*")
@@ -53,17 +54,27 @@ export default function ClientAccount({ client }: Props) {
           .from("client_services")
           .select("id", { count: "exact", head: true })
           .eq("client_id", client.id),
+        supabase
+          .from("ads_campaigns")
+          .select("*")
+          .eq("client_id", client.id)
+          .order("created_at", { ascending: true }),
       ]);
       setContracts((contractsRes.data as ContractDoc[]) ?? []);
       setHasPakketServices((servicesRes.count ?? 0) > 0);
+      setCampaigns((campaignsRes.data as AdsCampaign[]) ?? []);
       setContractsLoading(false);
     })();
   }, [client.id]);
 
-  const hasAdsContract = client.monthly_fee != null && Number(client.monthly_fee) > 0;
+  const hasAdsContract =
+    (client.monthly_fee != null && Number(client.monthly_fee) > 0) || campaigns.length > 0;
   const hasPakketContract = hasPakketServices;
   const showDocs = hasAdsContract || hasPakketContract;
   const defaultTab = hasAdsContract ? "ads" : hasPakketContract ? "pakket" : "bedrijf";
+
+  // Verzamel unieke platforms over alle campagnes
+  const allPlatforms = Array.from(new Set(campaigns.flatMap((c) => c.platforms)));
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
