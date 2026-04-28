@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { useMonthlyData, totalSpend, totalPaid, pctChange, fmtEUR, fmtNum } from "@/hooks/useMonthlyData";
 import { MonthSelector, MONTH_NAMES } from "@/components/client/MonthSelector";
+import { getDiscountInfo, formatMonthYear, discountLastMonth } from "@/lib/discount";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Money02Icon,
@@ -12,6 +13,7 @@ import {
   ArrowDown01Icon,
   Target02Icon,
   Tag01Icon,
+  Calendar03Icon,
 } from "@hugeicons/core-free-icons";
 
 interface Props {
