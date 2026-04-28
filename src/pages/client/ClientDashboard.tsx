@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { useMonthlyData, totalSpend, totalPaid, pctChange, fmtEUR, fmtNum } from "@/hooks/useMonthlyData";
 import { MonthSelector, MONTH_NAMES } from "@/components/client/MonthSelector";
-import { getDiscountInfo, formatMonthYear, discountLastMonth } from "@/lib/discount";
+import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contractLastDay } from "@/lib/discount";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Money02Icon,
@@ -130,7 +130,9 @@ function PlatformBlock({ label, spend, conv }: { label: string; spend: number; c
 function ContractCard({ client, year, month }: { client: Client; year: number; month: number }) {
   const refDate = new Date(year, month - 1, 1);
   const discount = getDiscountInfo(client, refDate);
-  const lastDiscountMonth = discountLastMonth(discount);
+  const contract = getContractInfo(client);
+  const lastDiscountDay = discountLastDay(discount);
+  const lastContractDay = contractLastDay(contract);
   const baseFee = Number(client.monthly_fee ?? 0);
   if (baseFee <= 0 && !client.contract_start_date && !discount.hasDiscount) return null;
 
@@ -143,11 +145,14 @@ function ContractCard({ client, year, month }: { client: Client; year: number; m
         <p className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">Contract</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {client.contract_start_date && (
-          <ContractItem label="Startdatum contract" value={formatMonthYear(new Date(client.contract_start_date))} />
+        {contract.startDate && (
+          <ContractItem label="Startdatum contract" value={formatDate(contract.startDate)} />
         )}
         {client.contract_duration && (
           <ContractItem label="Contractduur" value={client.contract_duration} />
+        )}
+        {lastContractDay && (
+          <ContractItem label="Einddatum contract" value={formatDate(lastContractDay)} />
         )}
         {baseFee > 0 && (
           <div>
@@ -165,10 +170,10 @@ function ContractCard({ client, year, month }: { client: Client; year: number; m
             )}
           </div>
         )}
-        {discount.hasDiscount && discount.startDate && lastDiscountMonth && (
+        {discount.hasDiscount && discount.startDate && lastDiscountDay && (
           <ContractItem
             label="Kortingsperiode"
-            value={`${formatMonthYear(discount.startDate)} t/m ${formatMonthYear(lastDiscountMonth)}`}
+            value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
           />
         )}
       </div>
