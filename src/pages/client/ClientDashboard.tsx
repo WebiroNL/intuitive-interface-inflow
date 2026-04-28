@@ -138,54 +138,57 @@ function ContractCard({ client, year, month }: { client: Client; year: number; m
 
   const feeNow = discount.isActiveNow ? discount.discountedFee : baseFee;
 
+  const items: { label: string; value: string }[] = [];
+  if (contract.startDate) items.push({ label: "Start", value: formatDate(contract.startDate) });
+  if (lastContractDay) items.push({ label: "Einddatum", value: formatDate(lastContractDay) });
+  if (client.contract_duration) items.push({ label: "Duur", value: client.contract_duration });
+  if (discount.hasDiscount && discount.startDate && lastDiscountDay) {
+    items.push({
+      label: "Kortingsperiode",
+      value: `${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`,
+    });
+  }
+
   return (
-    <div className="bg-card border border-border rounded-lg p-5 mb-8">
-      <div className="flex items-center gap-2 mb-4">
-        <HugeiconsIcon icon={Calendar03Icon} size={16} className="text-muted-foreground" />
-        <p className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">Contract</p>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {contract.startDate && (
-          <ContractItem label="Startdatum contract" value={formatDate(contract.startDate)} />
-        )}
-        {client.contract_duration && (
-          <ContractItem label="Contractduur" value={client.contract_duration} />
-        )}
-        {lastContractDay && (
-          <ContractItem label="Einddatum contract" value={formatDate(lastContractDay)} />
-        )}
+    <div className="bg-card border border-border rounded-lg mb-8 overflow-hidden">
+      <div className="flex items-center justify-between gap-4 px-5 py-4">
+        <div className="flex items-center gap-2 min-w-0">
+          <HugeiconsIcon icon={Calendar03Icon} size={14} className="text-muted-foreground shrink-0" />
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Contract</p>
+        </div>
         {baseFee > 0 && (
-          <div>
-            <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-              {discount.isActiveNow ? `Fee ${MONTH_NAMES[month - 1]}` : "Maandelijkse fee"}
-            </p>
+          <div className="flex items-baseline gap-2 tabular-nums shrink-0">
             {discount.isActiveNow ? (
-              <p className="text-lg font-semibold tabular-nums">
-                <span className="line-through text-muted-foreground text-sm font-normal mr-2">{fmtEUR(baseFee)}</span>
-                <span className="text-foreground">{fmtEUR(feeNow)}</span>
-                <span className="ml-2 text-[11px] text-emerald-600 font-medium">−{discount.percentage}%</span>
-              </p>
+              <>
+                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mr-1">
+                  Fee {MONTH_NAMES[month - 1]}
+                </span>
+                <span className="line-through text-muted-foreground text-[12px]">{fmtEUR(baseFee)}</span>
+                <span className="text-base font-semibold text-foreground">{fmtEUR(feeNow)}</span>
+                <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                  −{discount.percentage}%
+                </span>
+              </>
             ) : (
-              <p className="text-lg font-semibold text-foreground tabular-nums">{fmtEUR(baseFee)}</p>
+              <>
+                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mr-1">Fee /mnd</span>
+                <span className="text-base font-semibold text-foreground">{fmtEUR(baseFee)}</span>
+              </>
             )}
           </div>
         )}
-        {discount.hasDiscount && discount.startDate && lastDiscountDay && (
-          <ContractItem
-            label="Kortingsperiode"
-            value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
-          />
-        )}
       </div>
+      {items.length > 0 && (
+        <div className="border-t border-border px-5 py-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px]">
+          {items.map((it, i) => (
+            <div key={i} className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">{it.label}</span>
+              <span className="text-foreground font-medium">{it.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function ContractItem({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
-      <p className="text-sm text-foreground">{value}</p>
-    </div>
-  );
-}
