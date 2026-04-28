@@ -334,6 +334,50 @@ export default function ClientAccount({ client }: Props) {
                             );
                           })}
                         </ul>
+                        {(c.contract_start_date ||
+                          c.contract_duration ||
+                          c.deposit_percentage != null ||
+                          (c.discount_percentage != null && c.discount_months != null)) && (
+                          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 pt-2 mt-1 border-t border-border/60 text-[12px]">
+                            {c.contract_start_date && (
+                              <div className="flex justify-between gap-2">
+                                <dt className="text-muted-foreground">Startdatum</dt>
+                                <dd className="text-foreground font-medium">{formatDate(new Date(c.contract_start_date))}</dd>
+                              </div>
+                            )}
+                            {c.contract_duration && (
+                              <div className="flex justify-between gap-2">
+                                <dt className="text-muted-foreground">Contractduur</dt>
+                                <dd className="text-foreground font-medium">
+                                  {/maand|jaar|jr|year/i.test(c.contract_duration)
+                                    ? c.contract_duration
+                                    : `${c.contract_duration} ${c.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
+                                </dd>
+                              </div>
+                            )}
+                            {c.discount_percentage != null && c.discount_months != null && (
+                              <div className="flex justify-between gap-2">
+                                <dt className="text-muted-foreground">Korting</dt>
+                                <dd className="text-foreground font-medium">
+                                  {c.discount_percentage}% • {c.discount_months}{" "}
+                                  {c.discount_months === 1 ? "maand" : "maanden"}
+                                </dd>
+                              </div>
+                            )}
+                            {c.discount_start_date && (
+                              <div className="flex justify-between gap-2">
+                                <dt className="text-muted-foreground">Startdatum korting</dt>
+                                <dd className="text-foreground font-medium">{formatDate(new Date(c.discount_start_date))}</dd>
+                              </div>
+                            )}
+                            {c.deposit_percentage != null && (
+                              <div className="flex justify-between gap-2">
+                                <dt className="text-muted-foreground">Aanbetaling</dt>
+                                <dd className="text-foreground font-medium">{c.deposit_percentage}%</dd>
+                              </div>
+                            )}
+                          </dl>
+                        )}
                       </li>
                     );
                   })}
