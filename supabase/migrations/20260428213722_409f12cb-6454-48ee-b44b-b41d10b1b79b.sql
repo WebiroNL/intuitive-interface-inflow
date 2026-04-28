@@ -1,0 +1,1 @@
+ALTER TABLE public.ads_campaigns ADD COLUMN IF NOT EXISTS platform_costs jsonb NOT NULL DEFAULT '{}'::jsonb;

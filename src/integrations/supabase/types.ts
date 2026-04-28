@@ -58,6 +58,7 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          platform_costs: Json
           platforms: string[]
           updated_at: string
         }
@@ -66,6 +67,7 @@ export type Database = {
           created_at?: string
           id?: string
           name: string
+          platform_costs?: Json
           platforms?: string[]
           updated_at?: string
         }
@@ -74,6 +76,7 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string
+          platform_costs?: Json
           platforms?: string[]
           updated_at?: string
         }
