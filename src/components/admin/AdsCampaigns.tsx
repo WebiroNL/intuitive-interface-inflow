@@ -23,7 +23,11 @@ export interface AdsCampaign {
   client_id: string;
   name: string;
   platforms: string[];
+  platform_costs?: Record<string, number>;
 }
+
+const fmtEUR = (n: number) =>
+  new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(n || 0);
 
 export function PlatformBadge({ platformId, size = "md" }: { platformId: string; size?: "sm" | "md" }) {
   const p = AD_PLATFORMS.find((x) => x.id === platformId);
