@@ -54,11 +54,18 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const [campaigns, setCampaigns] = useState<AdsCampaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [draft, setDraft] = useState<{ name: string; platforms: string[]; platform_costs: Record<string, number> }>({
+  const emptyDraft = {
     name: "",
-    platforms: [],
-    platform_costs: {},
-  });
+    platforms: [] as string[],
+    platform_costs: {} as Record<string, number>,
+    contract_start_date: new Date().toISOString().slice(0, 10),
+    contract_duration: "",
+    discount_months: "",
+    discount_percentage: "",
+    discount_start_date: "",
+    deposit_percentage: "50",
+  };
+  const [draft, setDraft] = useState(emptyDraft);
 
   const load = async () => {
     setLoading(true);
