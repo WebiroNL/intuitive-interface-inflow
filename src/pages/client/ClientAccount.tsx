@@ -22,6 +22,10 @@ const schema = z.object({
   btw_number: z.string().trim().max(40).optional().or(z.literal("")),
 });
 
+interface ContractDoc {
+  id: string; title: string; file_url: string | null; start_date: string | null; end_date: string | null;
+}
+
 export default function ClientAccount({ client }: Props) {
   const [form, setForm] = useState({
     company_name: client.company_name ?? "",
@@ -31,6 +35,20 @@ export default function ClientAccount({ client }: Props) {
     btw_number: client.btw_number ?? "",
   });
   const [saving, setSaving] = useState(false);
+  const [contracts, setContracts] = useState<ContractDoc[]>([]);
+  const [contractsLoading, setContractsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("contracts")
+        .select("*")
+        .eq("client_id", client.id)
+        .order("start_date", { ascending: false });
+      setContracts((data as ContractDoc[]) ?? []);
+      setContractsLoading(false);
+    })();
+  }, [client.id]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
