@@ -121,7 +121,10 @@ export default function ClientAccount({ client }: Props) {
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="divide-y divide-border">
               {client.contract_duration && client.contract_duration.trim() !== "" && (
-                <Row label="Contractduur" value={client.contract_duration} />
+                <Row
+                  label="Contractduur"
+                  value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
+                />
               )}
               {contract.startDate && (
                 <Row label="Startdatum contract" value={formatDate(contract.startDate)} />
