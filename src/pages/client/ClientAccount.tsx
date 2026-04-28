@@ -408,18 +408,6 @@ export default function ClientAccount({ client }: Props) {
                           if (!hasAny) return null;
                           return (
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 pt-2 mt-1 border-t border-border/60 text-[12px]">
-                              {c.contract_duration && (
-                                <div className="flex justify-between gap-2">
-                                  <dt className="text-muted-foreground">Contractduur</dt>
-                                  <dd className="text-foreground font-medium">
-                                    {/maand|jaar|jr|year/i.test(c.contract_duration)
-                                      ? c.contract_duration
-                                      : `${c.contract_duration} ${
-                                          c.contract_duration.trim() === "1" ? "maand" : "maanden"
-                                        }`}
-                                  </dd>
-                                </div>
-                              )}
                               {startDate && (
                                 <div className="flex justify-between gap-2">
                                   <dt className="text-muted-foreground">Startdatum</dt>
