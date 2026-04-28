@@ -99,18 +99,18 @@ export default function ClientAccount({ client }: Props) {
             Contractgegevens
           </TabsTrigger>
           <TabsTrigger
-            value="pakket"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={File02Icon} size={15} />
-            Pakket contract
-          </TabsTrigger>
-          <TabsTrigger
             value="ads"
             className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
           >
             <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
             Ads contract
+          </TabsTrigger>
+          <TabsTrigger
+            value="pakket"
+            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+          >
+            <HugeiconsIcon icon={File02Icon} size={15} />
+            Pakket contract
           </TabsTrigger>
           <TabsTrigger
             value="docs"
