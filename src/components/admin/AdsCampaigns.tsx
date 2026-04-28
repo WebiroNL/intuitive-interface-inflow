@@ -414,6 +414,78 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
             })}
           </div>
         </div>
+
+        {/* Contractgegevens nieuwe campagne */}
+        <div className="pt-3 border-t border-border space-y-3">
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Contractgegevens</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <Label className="text-[12px]">Startdatum contract</Label>
+              <Input
+                type="date"
+                value={draft.contract_start_date}
+                onChange={(e) => setDraft({ ...draft, contract_start_date: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label className="text-[12px]">Contractduur</Label>
+              <Input
+                value={draft.contract_duration}
+                onChange={(e) => setDraft({ ...draft, contract_duration: e.target.value })}
+                placeholder="bv. 12 maanden"
+              />
+            </div>
+          </div>
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground pt-1">Korting (optioneel)</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div>
+              <Label className="text-[12px]">Aantal maanden korting</Label>
+              <Input
+                type="number"
+                min="0"
+                value={draft.discount_months}
+                onChange={(e) => setDraft({ ...draft, discount_months: e.target.value })}
+                placeholder="bv. 3"
+              />
+            </div>
+            <div>
+              <Label className="text-[12px]">Kortingspercentage (%)</Label>
+              <Input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={draft.discount_percentage}
+                onChange={(e) => setDraft({ ...draft, discount_percentage: e.target.value })}
+                placeholder="bv. 20"
+              />
+            </div>
+            <div>
+              <Label className="text-[12px]">Startdatum korting</Label>
+              <Input
+                type="date"
+                value={draft.discount_start_date}
+                onChange={(e) => setDraft({ ...draft, discount_start_date: e.target.value })}
+              />
+              <p className="text-[11px] text-muted-foreground mt-1">Leeg = gelijk aan contractstart.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <Label className="text-[12px]">Aanbetaling (%)</Label>
+              <Input
+                type="number"
+                min="0"
+                max="100"
+                step="1"
+                value={draft.deposit_percentage}
+                onChange={(e) => setDraft({ ...draft, deposit_percentage: e.target.value })}
+                placeholder="bv. 50"
+              />
+            </div>
+          </div>
+        </div>
+
         <Button type="button" onClick={addCampaign} disabled={saving} size="sm">
           <HugeiconsIcon icon={Add01Icon} size={14} />
           {saving ? "Bezig..." : "Campagne toevoegen"}
