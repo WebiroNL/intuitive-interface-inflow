@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { Client } from "@/hooks/useClient";
 import { useMonthlyData, totalSpend, totalPaid, pctChange, fmtEUR, fmtNum } from "@/hooks/useMonthlyData";
 import { MonthSelector, MONTH_NAMES } from "@/components/client/MonthSelector";
-import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contractLastDay } from "@/lib/discount";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Money02Icon,
@@ -13,7 +12,6 @@ import {
   ArrowDown01Icon,
   Target02Icon,
   Tag01Icon,
-  Calendar03Icon,
 } from "@hugeicons/core-free-icons";
 
 interface Props {
@@ -52,7 +50,7 @@ export default function ClientDashboard({ client }: Props) {
         <MonthSelector month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
       </div>
 
-      <ContractCard client={client} year={year} month={month} />
+      
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -123,71 +121,6 @@ function PlatformBlock({ label, spend, conv }: { label: string; spend: number; c
         <p className="text-xl font-semibold text-foreground tabular-nums">{fmtEUR(spend)}</p>
         <p className="text-[12px] text-muted-foreground">{fmtNum(conv)} conversies</p>
       </div>
-    </div>
-  );
-}
-
-function ContractCard({ client, year, month }: { client: Client; year: number; month: number }) {
-  const refDate = new Date(year, month - 1, 1);
-  const discount = getDiscountInfo(client, refDate);
-  const contract = getContractInfo(client);
-  const lastDiscountDay = discountLastDay(discount);
-  const lastContractDay = contractLastDay(contract);
-  const baseFee = Number(client.monthly_fee ?? 0);
-  if (baseFee <= 0 && !client.contract_start_date && !discount.hasDiscount) return null;
-
-  const feeNow = discount.isActiveNow ? discount.discountedFee : baseFee;
-
-  const items: { label: string; value: string }[] = [];
-  if (contract.startDate) items.push({ label: "Start", value: formatDate(contract.startDate) });
-  if (lastContractDay) items.push({ label: "Einddatum", value: formatDate(lastContractDay) });
-  if (client.contract_duration) items.push({ label: "Duur", value: client.contract_duration });
-  if (discount.hasDiscount && discount.startDate && lastDiscountDay) {
-    items.push({
-      label: "Kortingsperiode",
-      value: `${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`,
-    });
-  }
-
-  return (
-    <div className="bg-card border border-border rounded-lg mb-8 overflow-hidden">
-      <div className="flex items-center justify-between gap-4 px-5 py-4">
-        <div className="flex items-center gap-2 min-w-0">
-          <HugeiconsIcon icon={Calendar03Icon} size={14} className="text-muted-foreground shrink-0" />
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Contract</p>
-        </div>
-        {baseFee > 0 && (
-          <div className="flex items-baseline gap-2 tabular-nums shrink-0">
-            {discount.isActiveNow ? (
-              <>
-                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mr-1">
-                  Fee {MONTH_NAMES[month - 1]}
-                </span>
-                <span className="line-through text-muted-foreground text-[12px]">{fmtEUR(baseFee)}</span>
-                <span className="text-base font-semibold text-foreground">{fmtEUR(feeNow)}</span>
-                <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">
-                  −{discount.percentage}%
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mr-1">Fee /mnd</span>
-                <span className="text-base font-semibold text-foreground">{fmtEUR(baseFee)}</span>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-      {items.length > 0 && (
-        <div className="border-t border-border px-5 py-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px]">
-          {items.map((it, i) => (
-            <div key={i} className="flex items-center gap-1.5">
-              <span className="text-muted-foreground">{it.label}</span>
-              <span className="text-foreground font-medium">{it.value}</span>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
