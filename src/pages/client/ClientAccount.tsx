@@ -89,7 +89,7 @@ export default function ClientAccount({ client }: Props) {
               />
             )}
             <Field
-              label="Telefoon nummer"
+              label="Mobiel nummer"
               value={form.phone}
               onChange={(v) => setForm({ ...form, phone: v })}
               type="tel"
