@@ -28,6 +28,7 @@ import {
   ALL_WEBSITE_INTAKE_LABEL_KEYS,
 } from "@/components/intake/websiteLabels";
 import { WEBSITE_LABEL_KEYS_BY_SECTION } from "@/components/intake/websiteLabelGroups";
+import { AdsCampaignsTab } from "@/components/admin/AdsCampaigns";
 
 interface Client {
   id: string; user_id: string | null; slug: string; company_name: string;
