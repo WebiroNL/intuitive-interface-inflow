@@ -238,24 +238,24 @@ export default function ClientAccount({ client }: Props) {
               </span>
             }
           >
-            {client.monthly_fee != null && Number(client.monthly_fee) > 0 && (
-              <div className="mb-6 pb-6 border-b border-border">
-                <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
-                  {discount.isActiveNow ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
-                </p>
-                {discount.isActiveNow ? (
-                  <div className="flex items-baseline gap-3 flex-wrap">
-                    <span className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.discountedFee)}</span>
-                    <span className="text-base line-through text-muted-foreground">{fmtEUR(discount.baseFee)}</span>
-                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      −{discount.percentage}%
-                    </span>
-                  </div>
-                ) : (
-                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(discount.baseFee)}</p>
-                )}
-              </div>
-            )}
+            {(() => {
+              const totalMonthly = campaigns.reduce((sum, c) => {
+                const costs = (c as any).platform_costs ?? {};
+                return sum + c.platforms.reduce((s, pid) => s + (Number(costs[pid]) || 0), 0);
+              }, 0);
+              if (totalMonthly <= 0) return null;
+              return (
+                <div className="mb-6 pb-6 border-b border-border">
+                  <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
+                    Totaal maandbedrag
+                  </p>
+                  <p className="text-3xl font-semibold text-foreground tracking-tight">{fmtEUR(totalMonthly)}</p>
+                  <p className="text-[12px] text-muted-foreground mt-1">
+                    Som van alle platform kosten over {campaigns.length} {campaigns.length === 1 ? "campagne" : "campagnes"}.
+                  </p>
+                </div>
+              );
+            })()}
 
             {campaigns.length > 0 && (
               <div className="mb-6 pb-6 border-b border-border space-y-4">
