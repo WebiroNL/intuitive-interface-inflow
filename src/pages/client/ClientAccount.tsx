@@ -330,12 +330,3 @@ function Field({
     </div>
   );
 }
-
-function Row({ label, value, valueNode }: { label: string; value: string; valueNode?: React.ReactNode }) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 gap-1">
-      <p className="text-[13px] font-medium text-muted-foreground">{label}</p>
-      {valueNode ?? <p className="text-sm text-foreground">{value}</p>}
-    </div>
-  );
-}
