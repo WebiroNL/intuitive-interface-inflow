@@ -384,30 +384,8 @@ export default function ClientAccount({ client }: Props) {
                 </ul>
               </div>
             )}
-            <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 text-sm">
-              {client.contract_duration && client.contract_duration.trim() !== "" && (
-                <DetailRow
-                  label="Contractduur"
-                  value={/maand|jaar|jr|year/i.test(client.contract_duration) ? client.contract_duration : `${client.contract_duration} ${client.contract_duration.trim() === "1" ? "maand" : "maanden"}`}
-                />
-              )}
-              {contract.startDate && <DetailRow label="Startdatum" value={formatDate(contract.startDate)} />}
-              {lastContractDay && <DetailRow label="Einddatum" value={formatDate(lastContractDay)} />}
-              {discount.hasDiscount && (
-                <>
-                  <DetailRow
-                    label="Korting"
-                    value={`${discount.percentage}% • ${discount.months} ${discount.months === 1 ? "maand" : "maanden"}`}
-                  />
-                  {discount.startDate && lastDiscountDay && (
-                    <DetailRow
-                      label="Kortingsperiode"
-                      value={`${formatDate(discount.startDate)} t/m ${formatDate(lastDiscountDay)}`}
-                    />
-                  )}
-                </>
-              )}
-            </dl>
+
+
 
             <p className="mt-6 pt-5 border-t border-border text-[12px] text-muted-foreground text-center leading-relaxed">
               Wijzigingen aan contract of e-mail? Mail je accountmanager bij Webiro.
