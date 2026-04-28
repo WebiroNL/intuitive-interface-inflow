@@ -48,7 +48,11 @@ export function AdsCampaignsTab({ clientId }: { clientId: string }) {
   const [campaigns, setCampaigns] = useState<AdsCampaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [draft, setDraft] = useState<{ name: string; platforms: string[] }>({ name: "", platforms: [] });
+  const [draft, setDraft] = useState<{ name: string; platforms: string[]; platform_costs: Record<string, number> }>({
+    name: "",
+    platforms: [],
+    platform_costs: {},
+  });
 
   const load = async () => {
     setLoading(true);
