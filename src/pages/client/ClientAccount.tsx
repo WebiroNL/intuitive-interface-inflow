@@ -295,31 +295,48 @@ export default function ClientAccount({ client }: Props) {
 
                 {/* Campagne lijst */}
                 <ul className="space-y-2">
-                  {campaigns.map((c) => (
-                    <li
-                      key={c.id}
-                      className="flex items-start justify-between gap-4 p-3 rounded-lg border border-border bg-muted/20"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
-                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  {campaigns.map((c) => {
+                    const costs = (c as any).platform_costs ?? {};
+                    const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
+                    return (
+                      <li
+                        key={c.id}
+                        className="p-3 rounded-lg border border-border bg-muted/20 space-y-2"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
+                          {total > 0 && (
+                            <span className="text-sm font-semibold text-foreground tabular-nums shrink-0">
+                              {fmtEUR(total)}
+                            </span>
+                          )}
+                        </div>
+                        <ul className="space-y-1">
                           {c.platforms.map((pid) => {
                             const p = AD_PLATFORMS.find((x) => x.id === pid);
                             if (!p) return null;
+                            const cost = Number(costs[pid]) || 0;
                             return (
-                              <img
+                              <li
                                 key={pid}
-                                src={p.logo}
-                                alt={p.label}
-                                title={p.label}
-                                className="w-4 h-4 object-contain"
-                              />
+                                className="flex items-center justify-between gap-3 px-2 py-1.5 rounded-md bg-background border border-border/60"
+                              >
+                                <span className="flex items-center gap-2 min-w-0">
+                                  <img src={p.logo} alt={p.label} className="w-4 h-4 object-contain shrink-0" />
+                                  <span className="text-[12px] text-foreground truncate">
+                                    {p.label.replace(/ Ads$/, "").replace(/ \(.*\)$/, "")}
+                                  </span>
+                                </span>
+                                <span className="text-[12px] font-medium text-foreground tabular-nums shrink-0">
+                                  {fmtEUR(cost)}
+                                </span>
+                              </li>
                             );
                           })}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                        </ul>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
