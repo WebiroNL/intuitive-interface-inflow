@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { getDiscountInfo, getContractInfo, formatDate, discountLastDay, contractLastDay } from "@/lib/discount";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { File02Icon, Download01Icon, Building03Icon, ChartLineData01Icon, FolderLibraryIcon } from "@hugeicons/core-free-icons";
+import { File02Icon, Download01Icon, Building03Icon, ChartLineData01Icon, Folder02Icon } from "@hugeicons/core-free-icons";
 import { ContractView } from "@/components/contract/ContractView";
 
 interface Props { client: Client }
