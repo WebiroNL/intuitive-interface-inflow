@@ -242,7 +242,7 @@ export function ContractView({ client, editable }: Props) {
             />
           </div>
           {(startFormatted || contractEndFormatted || discountEndDate) && (
-            <div className="mt-6 pt-5 border-t border-border flex flex-wrap gap-x-8 gap-y-2 text-[12px]">
+            <div className="mt-6 pt-5 border-t border-border flex flex-wrap justify-center gap-x-8 gap-y-2 text-[12px] text-center">
               {startFormatted && (
                 <div>
                   <span className="text-muted-foreground">Contract gestart op </span>
