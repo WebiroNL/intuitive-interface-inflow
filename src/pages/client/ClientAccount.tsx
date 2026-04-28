@@ -38,18 +38,31 @@ export default function ClientAccount({ client }: Props) {
   const [saving, setSaving] = useState(false);
   const [contracts, setContracts] = useState<ContractDoc[]>([]);
   const [contractsLoading, setContractsLoading] = useState(true);
+  const [hasPakketServices, setHasPakketServices] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
-        .from("contracts")
-        .select("*")
-        .eq("client_id", client.id)
-        .order("start_date", { ascending: false });
-      setContracts((data as ContractDoc[]) ?? []);
+      const [contractsRes, servicesRes] = await Promise.all([
+        supabase
+          .from("contracts")
+          .select("*")
+          .eq("client_id", client.id)
+          .order("start_date", { ascending: false }),
+        supabase
+          .from("client_services")
+          .select("id", { count: "exact", head: true })
+          .eq("client_id", client.id),
+      ]);
+      setContracts((contractsRes.data as ContractDoc[]) ?? []);
+      setHasPakketServices((servicesRes.count ?? 0) > 0);
       setContractsLoading(false);
     })();
   }, [client.id]);
+
+  const hasAdsContract = client.monthly_fee != null && Number(client.monthly_fee) > 0;
+  const hasPakketContract = hasPakketServices;
+  const showDocs = hasAdsContract || hasPakketContract;
+  const defaultTab = hasAdsContract ? "ads" : hasPakketContract ? "pakket" : "bedrijf";
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +102,7 @@ export default function ClientAccount({ client }: Props) {
         <p className="text-sm text-muted-foreground mt-1.5">Beheer je bedrijfs- en contractgegevens.</p>
       </header>
 
-      <Tabs defaultValue="bedrijf" className="w-full">
+      <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 overflow-x-auto">
           <TabsTrigger
             value="bedrijf"
@@ -98,27 +111,33 @@ export default function ClientAccount({ client }: Props) {
             <HugeiconsIcon icon={Building03Icon} size={15} />
             Contractgegevens
           </TabsTrigger>
-          <TabsTrigger
-            value="ads"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
-            Ads contract
-          </TabsTrigger>
-          <TabsTrigger
-            value="pakket"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={File02Icon} size={15} />
-            Pakket contract
-          </TabsTrigger>
-          <TabsTrigger
-            value="docs"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
-          >
-            <HugeiconsIcon icon={Folder02Icon} size={15} />
-            Documenten
-          </TabsTrigger>
+          {hasAdsContract && (
+            <TabsTrigger
+              value="ads"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
+              Ads contract
+            </TabsTrigger>
+          )}
+          {hasPakketContract && (
+            <TabsTrigger
+              value="pakket"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={File02Icon} size={15} />
+              Pakket contract
+            </TabsTrigger>
+          )}
+          {showDocs && (
+            <TabsTrigger
+              value="docs"
+              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            >
+              <HugeiconsIcon icon={Folder02Icon} size={15} />
+              Documenten
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {/* Tab 1 — Contractgegevens (bedrijfsinfo form) */}
@@ -182,11 +201,14 @@ export default function ClientAccount({ client }: Props) {
         </TabsContent>
 
         {/* Tab 2 — Pakket contract (volledig overzicht) */}
-        <TabsContent value="pakket" className="mt-0">
-          <ContractView client={client} editable={false} />
-        </TabsContent>
+        {hasPakketContract && (
+          <TabsContent value="pakket" className="mt-0">
+            <ContractView client={client} editable={false} />
+          </TabsContent>
+        )}
 
         {/* Tab 3 — Ads contract */}
+        {hasAdsContract && (
         <TabsContent value="ads" className="mt-0">
           <SectionCard
             title="Ads contract"
@@ -253,8 +275,10 @@ export default function ClientAccount({ client }: Props) {
             </p>
           </SectionCard>
         </TabsContent>
+        )}
 
         {/* Tab 4 — Documenten */}
+        {showDocs && (
         <TabsContent value="docs" className="mt-0">
           <SectionCard
             title="Contract documenten"
@@ -300,6 +324,7 @@ export default function ClientAccount({ client }: Props) {
             )}
           </SectionCard>
         </TabsContent>
+        )}
       </Tabs>
     </div>
   );
