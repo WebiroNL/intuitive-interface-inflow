@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
+import { getDiscountInfo, formatMonthYear, discountLastMonth } from "@/lib/discount";
 
 interface Props { client: Client }
 
@@ -54,11 +55,8 @@ export default function ClientAccount({ client }: Props) {
     toast.success("Bedrijfsgegevens opgeslagen");
   };
 
-  const hasDiscount =
-    client.discount_months != null &&
-    client.discount_percentage != null &&
-    Number(client.discount_months) > 0 &&
-    Number(client.discount_percentage) > 0;
+  const discount = getDiscountInfo(client);
+  const lastDiscountMonth = discountLastMonth(discount);
 
   return (
     <div className="p-6 lg:p-8 max-w-[1400px]">
