@@ -332,6 +332,11 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
             <Input type="number" min="0" max="100" step="0.1" value={form.discount_percentage} onChange={(e) => setForm({ ...form, discount_percentage: e.target.value })} placeholder="bv. 20" />
           </div>
           <div className="col-span-2">
+            <Label>Startdatum korting (optioneel)</Label>
+            <Input type="date" value={form.discount_start_date} onChange={(e) => setForm({ ...form, discount_start_date: e.target.value })} />
+            <p className="text-[11px] text-muted-foreground mt-1">Laat leeg om de contractstart te gebruiken. Vul in om een korting tussentijds te starten.</p>
+          </div>
+          <div className="col-span-2">
             <Label>Aanbetaling (%)</Label>
             <Input type="number" min="0" max="100" step="1" value={form.deposit_percentage} onChange={(e) => setForm({ ...form, deposit_percentage: e.target.value })} placeholder="bv. 50" />
             <p className="text-[11px] text-muted-foreground mt-1">Percentage van de eenmalige kosten dat de klant vooraf betaalt.</p>
