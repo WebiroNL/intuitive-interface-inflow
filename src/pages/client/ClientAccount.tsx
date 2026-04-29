@@ -115,39 +115,39 @@ export default function ClientAccount({ client }: Props) {
       </header>
 
       <Tabs defaultValue={defaultTab} className="w-full">
-        <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 overflow-x-auto">
+        <TabsList className="w-full grid grid-cols-2 sm:flex sm:justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 gap-x-1">
           <TabsTrigger
             value="bedrijf"
-            className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+            className="gap-1.5 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-2 sm:px-4 py-2.5 text-[12px] sm:text-sm whitespace-nowrap min-w-0"
           >
-            <HugeiconsIcon icon={Building03Icon} size={15} />
-            Contractgegevens
+            <HugeiconsIcon icon={Building03Icon} size={14} className="shrink-0" />
+            <span className="truncate">Contract<span className="hidden sm:inline">gegevens</span></span>
           </TabsTrigger>
           {hasAdsContract && (
             <TabsTrigger
               value="ads"
-              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+              className="gap-1.5 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-2 sm:px-4 py-2.5 text-[12px] sm:text-sm whitespace-nowrap min-w-0"
             >
-              <HugeiconsIcon icon={ChartLineData01Icon} size={15} />
-              Ads contract
+              <HugeiconsIcon icon={ChartLineData01Icon} size={14} className="shrink-0" />
+              <span className="truncate">Ads<span className="hidden sm:inline"> contract</span></span>
             </TabsTrigger>
           )}
           {hasPakketContract && (
             <TabsTrigger
               value="pakket"
-              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+              className="gap-1.5 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-2 sm:px-4 py-2.5 text-[12px] sm:text-sm whitespace-nowrap min-w-0"
             >
-              <HugeiconsIcon icon={File02Icon} size={15} />
-              Pakket contract
+              <HugeiconsIcon icon={File02Icon} size={14} className="shrink-0" />
+              <span className="truncate">Pakket<span className="hidden sm:inline"> contract</span></span>
             </TabsTrigger>
           )}
           {showDocs && (
             <TabsTrigger
               value="docs"
-              className="gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm"
+              className="gap-1.5 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-2 sm:px-4 py-2.5 text-[12px] sm:text-sm whitespace-nowrap min-w-0"
             >
-              <HugeiconsIcon icon={Folder02Icon} size={15} />
-              Documenten
+              <HugeiconsIcon icon={Folder02Icon} size={14} className="shrink-0" />
+              <span className="truncate">Documenten</span>
             </TabsTrigger>
           )}
         </TabsList>
