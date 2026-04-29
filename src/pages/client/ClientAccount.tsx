@@ -397,8 +397,8 @@ export default function ClientAccount({ client }: Props) {
                                   </span>
                                 </span>
                                 {discountActive && cost > 0 ? (
-                                  <span className="flex items-baseline gap-1.5 shrink-0">
-                                    <span className="text-[11px] line-through text-muted-foreground tabular-nums">
+                                  <span className="flex flex-col items-end shrink-0 leading-tight">
+                                    <span className="text-[10px] line-through text-muted-foreground tabular-nums">
                                       {fmtEUR(cost)}
                                     </span>
                                     <span className="text-[12px] font-medium text-foreground tabular-nums">
