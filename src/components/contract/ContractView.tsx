@@ -373,7 +373,7 @@ export function ContractView({ client, editable }: Props) {
               </div>
               {discountPct > 0 && discountMonths > 0 && (
                 <div className="flex items-center justify-between gap-4 text-[12px]">
-                  <span className="text-muted-foreground">Na {discountMonths} maanden</span>
+                  <span className="text-muted-foreground">Na kortingsperiode</span>
                   <span className="tabular-nums text-foreground">{fmtEUR(monthlyTotal, 2)}</span>
                 </div>
               )}
