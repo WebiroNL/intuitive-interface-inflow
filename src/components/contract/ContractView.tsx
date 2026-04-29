@@ -395,48 +395,6 @@ export function ContractView({ client, editable }: Props) {
             <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
           </div>
         </div>
-
-          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
-            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
-            <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
-            <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
-            <div className="h-px bg-border" />
-            <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-            <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
-          </div>
-        </div>
-
-        {/* Final summary block (KPN-style) */}
-        <div className="rounded-2xl bg-muted/40 border border-border p-6 space-y-4">
-          <div className="flex items-center justify-between gap-4">
-            <h3 className="text-[18px] font-bold text-foreground">Totaal per maand</h3>
-            <div className="flex items-baseline gap-3 tabular-nums">
-              {discountPct > 0 && discountMonths > 0 ? (
-                <>
-                  <span className="text-[16px] line-through text-muted-foreground font-medium">{fmtEUR(monthlyTotal, 2)}</span>
-                  <span className="text-[20px] font-bold text-foreground">{fmtEUR(monthlyAfterDiscount, 2)}</span>
-                </>
-              ) : (
-                <span className="text-[20px] font-bold text-foreground">{fmtEUR(monthlyTotal, 2)}</span>
-              )}
-            </div>
-          </div>
-          {discountPct > 0 && discountMonths > 0 && (
-            <div className="flex items-center justify-between gap-4 text-[13px]">
-              <span className="text-muted-foreground">Na {discountMonths} maanden</span>
-              <span className="tabular-nums text-foreground">{fmtEUR(monthlyTotal, 2)}</span>
-            </div>
-          )}
-          {oneTimeTotal > 0 && (
-            <>
-              <div className="h-px bg-border" />
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-[18px] font-bold text-foreground">Totaal eenmalig</h3>
-                <span className="text-[20px] font-bold text-foreground tabular-nums">{fmtEUR(oneTimeTotal, 2)}</span>
-              </div>
-            </>
-          )}
-        </div>
       </div>
     );
   }
