@@ -317,8 +317,6 @@ export function ContractView({ client, editable }: Props) {
 
           <div className="p-4 rounded-xl border border-border bg-card space-y-3">
             <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
-            {startFormatted && <Row label="Startdatum contract" value={startFormatted} />}
-            {contractEndFormatted && <Row label="Einddatum contract" value={contractEndFormatted} />}
             {depositPct > 0 && oneTimeTotal > 0 && (
               <>
                 <div className="h-px bg-border" />
