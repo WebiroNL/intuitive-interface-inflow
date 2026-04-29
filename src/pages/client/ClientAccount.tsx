@@ -327,11 +327,7 @@ export default function ClientAccount({ client }: Props) {
                     const costs = (c as any).platform_costs ?? {};
                     const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
                     const _today = new Date(); _today.setHours(0, 0, 0, 0);
-                    const _dStart = c.discount_start_date
-                      ? new Date(c.discount_start_date)
-                      : c.contract_start_date
-                      ? new Date(c.contract_start_date)
-                      : null;
+                    const _dStart = parseLocalDate(c.discount_start_date) ?? parseLocalDate(c.contract_start_date);
                     let discountActive = false;
                     if (c.discount_percentage && c.discount_months && _dStart) {
                       const _dEnd = new Date(_dStart);
