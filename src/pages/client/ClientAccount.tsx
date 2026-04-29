@@ -253,11 +253,7 @@ export default function ClientAccount({ client }: Props) {
               today.setHours(0, 0, 0, 0);
               const isDiscountActive = (c: any): boolean => {
                 if (!c.discount_percentage || !c.discount_months) return false;
-                const start = c.discount_start_date
-                  ? new Date(c.discount_start_date)
-                  : c.contract_start_date
-                  ? new Date(c.contract_start_date)
-                  : null;
+                const start = parseLocalDate(c.discount_start_date) ?? parseLocalDate(c.contract_start_date);
                 if (!start) return false;
                 const end = new Date(start);
                 end.setMonth(end.getMonth() + c.discount_months);
