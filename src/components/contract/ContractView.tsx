@@ -272,16 +272,17 @@ export function ContractView({ client, editable }: Props) {
           </div>
         ) : (
           <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-3 py-2 bg-muted/40 border-b border-border grid grid-cols-[1fr_110px_110px] items-center gap-3">
+              <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Dienst</span>
+              <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Eenmalig</span>
+              <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Per maand</span>
+            </div>
             {orderedCats.map((cat, catIdx) => {
               const items = grouped[cat];
-              const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
-              const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
               return (
                 <div key={cat} className={catIdx > 0 ? "border-t border-border" : ""}>
-                  <div className="px-3 py-1.5 bg-muted/30 border-b border-border grid grid-cols-[1fr_110px_110px] items-center gap-3">
+                  <div className="px-3 py-1 bg-muted/20 border-b border-border">
                     <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{cat}</h3>
-                    <div className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Eenmalig</div>
-                    <div className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Per maand</div>
                   </div>
                   <ul className="divide-y divide-border">
                     {items.map((l) => {
