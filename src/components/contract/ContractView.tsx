@@ -271,7 +271,7 @@ export function ContractView({ client, editable }: Props) {
             Nog geen diensten gekoppeld aan dit account.
           </div>
         ) : (
-          <div className="space-y-2.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {orderedCats.map((cat) => {
               const items = grouped[cat];
               const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
