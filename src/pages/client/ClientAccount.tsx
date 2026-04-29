@@ -279,7 +279,7 @@ export default function ClientAccount({ client }: Props) {
                 <div className="mb-6 pb-6 border-b border-border">
                   <div className="flex items-start justify-between gap-4 flex-wrap mb-2">
                     <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
-                      {anyDiscountActive ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
+                      {anyDiscountActive ? "Totaal Maandelijkse fee (deze maand)" : "Totaal Maandelijkse fee"}
                     </p>
                     <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
                       Actieve campagnes
