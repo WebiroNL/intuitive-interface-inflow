@@ -21,6 +21,8 @@ const AdminOrders = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [selected, setSelected] = useState<any>(null);
+  const [generating, setGenerating] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState<string | null>(null);
 
   useEffect(() => { fetchOrders(); }, []);
 
