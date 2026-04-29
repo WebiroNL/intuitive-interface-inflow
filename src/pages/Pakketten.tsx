@@ -60,6 +60,15 @@ const Pakketten = () => {
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [checkoutContext, setCheckoutContext] = useState<{
+    orderId: string;
+    userId: string | null;
+    eenmalig: number;
+    maandelijks: number;
+    pkgName: string | null;
+  } | null>(null);
+  const [checkoutPhase, setCheckoutPhase] = useState<"deposit" | "subscription" | null>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
