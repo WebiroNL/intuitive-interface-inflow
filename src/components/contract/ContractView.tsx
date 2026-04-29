@@ -278,9 +278,9 @@ export function ContractView({ client, editable }: Props) {
               const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
               return (
                 <div key={cat} className={catIdx > 0 ? "border-t border-border" : ""}>
-                  <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between">
-                    <h3 className="text-[12px] font-semibold text-foreground">{cat}</h3>
-                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground tabular-nums">
+                  <div className="px-3 py-1.5 bg-muted/30 border-b border-border flex items-center justify-between">
+                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{cat}</h3>
+                    <div className="flex items-center gap-3 text-[10px] text-muted-foreground tabular-nums">
                       {catOneTime > 0 && <span>Eenmalig <span className="text-foreground font-medium ml-1">{fmtEUR(catOneTime, 2)}</span></span>}
                       {catMonthly > 0 && <span>Per maand <span className="text-foreground font-medium ml-1">{fmtEUR(catMonthly, 2)}</span></span>}
                     </div>
@@ -291,7 +291,7 @@ export function ContractView({ client, editable }: Props) {
                       const monthly = Number(l.monthly_price) * Number(l.quantity);
                       const qty = Number(l.quantity);
                       return (
-                        <li key={l.id} className="px-4 py-2 flex items-center justify-between gap-4">
+                        <li key={l.id} className="px-3 py-1.5 flex items-center justify-between gap-4">
                           <div className="min-w-0 flex-1 flex items-center gap-2">
                             <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
                             {qty > 1 && (
