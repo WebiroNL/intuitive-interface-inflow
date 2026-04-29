@@ -274,51 +274,46 @@ export default function ClientAccount({ client }: Props) {
               });
 
               if (baseTotal <= 0) return null;
+              const totalCampaigns = campaigns.reduce((s, c) => s + (c.platforms?.length || 0), 0);
               return (
                 <div className="mb-6 pb-6 border-b border-border">
-                  <p className="text-[12px] uppercase tracking-wider text-muted-foreground mb-2">
-                    {anyDiscountActive ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
-                  </p>
-                  {anyDiscountActive ? (
-                    <div className="flex items-baseline gap-3 flex-wrap">
-                      <span className="text-3xl font-semibold text-foreground tracking-tight">
-                        {fmtEUR(discountedTotal)}
-                      </span>
-                      <span className="text-base line-through text-muted-foreground">
-                        {fmtEUR(baseTotal)}
-                      </span>
-                    </div>
-                  ) : (
-                    <p className="text-3xl font-semibold text-foreground tracking-tight">
-                      {fmtEUR(baseTotal)}
+                  <div className="flex items-start justify-between gap-4 flex-wrap mb-2">
+                    <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
+                      {anyDiscountActive ? "Maandelijkse fee (deze maand)" : "Maandelijkse fee"}
                     </p>
-                  )}
-                  {(() => {
-                    const totalCampaigns = campaigns.reduce((s, c) => s + (c.platforms?.length || 0), 0);
-                    return (
-                      <p className="text-[12px] text-muted-foreground mt-1">
-                        Som van alle platform kosten over {totalCampaigns}{" "}
-                        {totalCampaigns === 1 ? "campagne" : "campagnes"}.
+                    <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
+                      Actieve campagnes
+                    </p>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-4 flex-wrap">
+                    {anyDiscountActive ? (
+                      <div className="flex items-baseline gap-3 flex-wrap">
+                        <span className="text-3xl font-semibold text-foreground tracking-tight">
+                          {fmtEUR(discountedTotal)}
+                        </span>
+                        <span className="text-base line-through text-muted-foreground">
+                          {fmtEUR(baseTotal)}
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="text-3xl font-semibold text-foreground tracking-tight">
+                        {fmtEUR(baseTotal)}
                       </p>
-                    );
-                  })()}
+                    )}
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full bg-primary/10 text-primary">
+                      {`${totalCampaigns} ${totalCampaigns === 1 ? "campagne" : "campagnes"}`}
+                    </span>
+                  </div>
+                  <p className="text-[12px] text-muted-foreground mt-1">
+                    Som van alle platform kosten over {totalCampaigns}{" "}
+                    {totalCampaigns === 1 ? "campagne" : "campagnes"}.
+                  </p>
                 </div>
               );
             })()}
 
             {campaigns.length > 0 && (
               <div className="mb-6 pb-6 border-b border-border space-y-4">
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                  <p className="text-[12px] uppercase tracking-wider text-muted-foreground">
-                    Actieve campagnes
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full bg-primary/10 text-primary">
-                    {(() => {
-                      const t = campaigns.reduce((s, c) => s + (c.platforms?.length || 0), 0);
-                      return `${t} ${t === 1 ? "campagne" : "campagnes"}`;
-                    })()}
-                  </span>
-                </div>
 
                 {/* Campagne lijst */}
                 <ul className="space-y-2">
