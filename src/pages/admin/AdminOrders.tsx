@@ -39,6 +39,33 @@ const AdminOrders = () => {
     fetchOrders();
   };
 
+  const generateFinalPaymentLink = async (orderId: string) => {
+    setGenerating(true);
+    setGeneratedLink(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-final-payment-link', {
+        body: {
+          orderId,
+          environment: getStripeEnvironment(),
+          baseUrl: window.location.origin,
+        },
+      });
+      if (error || !data?.url) throw new Error(error?.message || 'Kon betaallink niet genereren');
+      setGeneratedLink(data.url);
+      toast.success('Slotbetaling link aangemaakt');
+      fetchOrders();
+    } catch (e: any) {
+      toast.error(e.message || 'Er ging iets mis');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const copyLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    toast.success('Link gekopieerd');
+  };
+
   const filtered = orders.filter((o) => {
     const matchSearch = !search || 
       o.order_number?.toLowerCase().includes(search.toLowerCase()) ||
