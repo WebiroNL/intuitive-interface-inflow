@@ -355,7 +355,7 @@ export function ContractView({ client, editable }: Props) {
                 <div className="flex flex-col gap-1">
                   <span className="text-[14px] font-bold text-foreground">Totaal per maand</span>
                   {discountPct > 0 && discountMonths > 0 && (
-                    <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md bg-lime-300 text-foreground text-[10px] font-semibold">
+                    <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md text-[10px] font-semibold bg-primary text-primary-foreground">
                       Actie: {discountMonths} maanden korting
                     </span>
                   )}
