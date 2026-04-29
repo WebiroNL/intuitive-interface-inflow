@@ -42,14 +42,14 @@ export default function CheckoutReturn() {
       <div className="max-w-md w-full text-center space-y-6">
         {status === "loading" ? (
           <>
-            <Loading03Icon className="h-12 w-12 text-primary animate-spin mx-auto" />
+            <HugeiconsIcon icon={Loading03Icon} className="h-12 w-12 text-primary animate-spin mx-auto" />
             <h1 className="text-2xl font-semibold">Betaling verwerken...</h1>
             <p className="text-muted-foreground">Even geduld, we bevestigen je betaling.</p>
           </>
         ) : (
           <>
             <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-              <Tick02Icon className="h-8 w-8 text-primary" />
+              <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-8 w-8 text-primary" />
             </div>
             <h1 className="text-2xl font-semibold">Bedankt voor je betaling</h1>
             <p className="text-muted-foreground">
