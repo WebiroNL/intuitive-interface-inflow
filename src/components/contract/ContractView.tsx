@@ -386,13 +386,13 @@ export function ContractView({ client, editable }: Props) {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-border bg-card space-y-2 text-center">
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
             <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
-            <PayRow label="Betaald" value={fmtEUR(paid, 2)} />
-            <PayRow label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
+            <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
+            <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
             <div className="h-px bg-border" />
-            <PayRow label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-            <p className="text-[10px] text-muted-foreground pt-1.5">Bedragen op basis van facturen op deze klant.</p>
+            <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
+            <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
           </div>
         </div>
       </div>
@@ -544,15 +544,6 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
       <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1">{label}</p>
       <p className="text-xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
       {hint && <p className="text-[11px] text-muted-foreground mt-0.5">{hint}</p>}
-    </div>
-  );
-}
-
-function PayRow({ label, value, bold, warn }: { label: string; value: string; bold?: boolean; warn?: boolean }) {
-  return (
-    <div className="flex items-center justify-center gap-2">
-      <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`tabular-nums text-[12px] ${bold ? "font-bold text-foreground" : warn ? "font-semibold text-foreground" : "text-foreground"}`}>{value}</span>
     </div>
   );
 }
