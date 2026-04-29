@@ -277,41 +277,31 @@ export function ContractView({ client, editable }: Props) {
               <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Eenmalig</span>
               <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Per maand</span>
             </div>
-            {orderedCats.map((cat, catIdx) => {
-              const items = grouped[cat];
-              return (
-                <div key={cat} className={catIdx > 0 ? "border-t border-border" : ""}>
-                  <div className="px-3 py-1 bg-muted/20 border-b border-border">
-                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{cat}</h3>
-                  </div>
-                  <ul className="divide-y divide-border">
-                    {items.map((l) => {
-                      const oneTime = Number(l.one_time_price) * Number(l.quantity);
-                      const monthly = Number(l.monthly_price) * Number(l.quantity);
-                      const qty = Number(l.quantity);
-                      return (
-                        <li key={l.id} className="px-3 py-1.5 grid grid-cols-[1fr_110px_110px] items-center gap-3">
-                          <div className="min-w-0 flex items-center gap-2">
-                            <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
-                            {qty > 1 && (
-                              <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                                {qty}×
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
-                            {oneTime > 0 ? fmtEUR(oneTime, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
-                          </div>
-                          <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
-                            {monthly > 0 ? fmtEUR(monthly, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
+            <ul className="divide-y divide-border">
+              {orderedCats.flatMap((cat) => grouped[cat]).map((l) => {
+                const oneTime = Number(l.one_time_price) * Number(l.quantity);
+                const monthly = Number(l.monthly_price) * Number(l.quantity);
+                const qty = Number(l.quantity);
+                return (
+                  <li key={l.id} className="px-3 py-1.5 grid grid-cols-[1fr_110px_110px] items-center gap-3">
+                    <div className="min-w-0 flex items-center gap-2">
+                      <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
+                      {qty > 1 && (
+                        <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                          {qty}×
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
+                      {oneTime > 0 ? fmtEUR(oneTime, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
+                    </div>
+                    <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
+                      {monthly > 0 ? fmtEUR(monthly, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         )}
 
