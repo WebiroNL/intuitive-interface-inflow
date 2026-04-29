@@ -1044,17 +1044,36 @@ export type Database = {
       orders: {
         Row: {
           add_ons: Json | null
+          address_city: string | null
+          address_country: string | null
+          address_postal: string | null
+          address_street: string | null
+          approved_at: string | null
           briefing: Json | null
           btw: number | null
+          btw_number: string | null
+          client_id: string | null
           cms_hosting: string | null
+          company_name: string | null
           contract_duur: string | null
           created_at: string
+          delivered_at: string | null
+          delivery_status: string | null
+          deposit_paid_at: string | null
+          email: string | null
+          final_paid_at: string | null
+          first_name: string | null
           id: string
+          kvk_number: string | null
+          last_name: string | null
           lead_id: string | null
           maandelijks: number | null
           marketing_services: Json | null
           order_number: string | null
           pakket: string | null
+          payment_mode: string | null
+          phone: string | null
+          quote_status: string | null
           status: string | null
           subtotaal: number | null
           totaal: number | null
@@ -1063,17 +1082,36 @@ export type Database = {
         }
         Insert: {
           add_ons?: Json | null
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
+          approved_at?: string | null
           briefing?: Json | null
           btw?: number | null
+          btw_number?: string | null
+          client_id?: string | null
           cms_hosting?: string | null
+          company_name?: string | null
           contract_duur?: string | null
           created_at?: string
+          delivered_at?: string | null
+          delivery_status?: string | null
+          deposit_paid_at?: string | null
+          email?: string | null
+          final_paid_at?: string | null
+          first_name?: string | null
           id?: string
+          kvk_number?: string | null
+          last_name?: string | null
           lead_id?: string | null
           maandelijks?: number | null
           marketing_services?: Json | null
           order_number?: string | null
           pakket?: string | null
+          payment_mode?: string | null
+          phone?: string | null
+          quote_status?: string | null
           status?: string | null
           subtotaal?: number | null
           totaal?: number | null
@@ -1082,17 +1120,36 @@ export type Database = {
         }
         Update: {
           add_ons?: Json | null
+          address_city?: string | null
+          address_country?: string | null
+          address_postal?: string | null
+          address_street?: string | null
+          approved_at?: string | null
           briefing?: Json | null
           btw?: number | null
+          btw_number?: string | null
+          client_id?: string | null
           cms_hosting?: string | null
+          company_name?: string | null
           contract_duur?: string | null
           created_at?: string
+          delivered_at?: string | null
+          delivery_status?: string | null
+          deposit_paid_at?: string | null
+          email?: string | null
+          final_paid_at?: string | null
+          first_name?: string | null
           id?: string
+          kvk_number?: string | null
+          last_name?: string | null
           lead_id?: string | null
           maandelijks?: number | null
           marketing_services?: Json | null
           order_number?: string | null
           pakket?: string | null
+          payment_mode?: string | null
+          phone?: string | null
+          quote_status?: string | null
           status?: string | null
           subtotaal?: number | null
           totaal?: number | null
@@ -1100,6 +1157,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "orders_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "orders_lead_id_fkey"
             columns: ["lead_id"]
@@ -1538,6 +1602,160 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_links: {
+        Row: {
+          amount_cents: number
+          client_id: string | null
+          created_at: string | null
+          environment: string
+          expires_at: string | null
+          id: string
+          link_type: string
+          metadata: Json | null
+          order_id: string | null
+          paid: boolean | null
+          paid_at: string | null
+          stripe_payment_link_url: string | null
+          stripe_session_id: string | null
+        }
+        Insert: {
+          amount_cents: number
+          client_id?: string | null
+          created_at?: string | null
+          environment?: string
+          expires_at?: string | null
+          id?: string
+          link_type?: string
+          metadata?: Json | null
+          order_id?: string | null
+          paid?: boolean | null
+          paid_at?: string | null
+          stripe_payment_link_url?: string | null
+          stripe_session_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          client_id?: string | null
+          created_at?: string | null
+          environment?: string
+          expires_at?: string | null
+          id?: string
+          link_type?: string
+          metadata?: Json | null
+          order_id?: string | null
+          paid?: boolean | null
+          paid_at?: string | null
+          stripe_payment_link_url?: string | null
+          stripe_session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_links_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_links_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount_cents: number
+          client_id: string | null
+          created_at: string | null
+          currency: string
+          description: string | null
+          environment: string
+          id: string
+          metadata: Json | null
+          order_id: string | null
+          payment_type: string
+          receipt_url: string | null
+          status: string
+          stripe_invoice_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          subscription_id: string | null
+          tax_cents: number | null
+          total_cents: number
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents: number
+          client_id?: string | null
+          created_at?: string | null
+          currency?: string
+          description?: string | null
+          environment?: string
+          id?: string
+          metadata?: Json | null
+          order_id?: string | null
+          payment_type?: string
+          receipt_url?: string | null
+          status?: string
+          stripe_invoice_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          subscription_id?: string | null
+          tax_cents?: number | null
+          total_cents: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          client_id?: string | null
+          created_at?: string | null
+          currency?: string
+          description?: string | null
+          environment?: string
+          id?: string
+          metadata?: Json | null
+          order_id?: string | null
+          payment_type?: string
+          receipt_url?: string | null
+          status?: string
+          stripe_invoice_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          subscription_id?: string | null
+          tax_cents?: number | null
+          total_cents?: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1679,6 +1897,77 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean | null
+          canceled_at: string | null
+          client_id: string | null
+          commitment_end_date: string | null
+          contract_duration: string
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          environment: string
+          id: string
+          metadata: Json | null
+          price_id: string
+          product_id: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          cancel_at_period_end?: boolean | null
+          canceled_at?: string | null
+          client_id?: string | null
+          commitment_end_date?: string | null
+          contract_duration?: string
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          metadata?: Json | null
+          price_id: string
+          product_id: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          cancel_at_period_end?: boolean | null
+          canceled_at?: string | null
+          client_id?: string | null
+          commitment_end_date?: string | null
+          contract_duration?: string
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          metadata?: Json | null
+          price_id?: string
+          product_id?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suppressed_emails: {
         Row: {
           created_at: string
@@ -1765,6 +2054,10 @@ export type Database = {
         Returns: number
       }
       generate_partner_code: { Args: { prefix?: string }; Returns: string }
+      get_active_subscription_count: {
+        Args: { p_client_id: string }
+        Returns: number
+      }
       get_my_client_id: { Args: never; Returns: string }
       get_my_partner_id: { Args: never; Returns: string }
       has_role: {
