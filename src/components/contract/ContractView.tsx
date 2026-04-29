@@ -342,11 +342,12 @@ export function ContractView({ client, editable }: Props) {
             {discountPct > 0 && discountMonths > 0 && (
               <>
                 <div className="h-px bg-border" />
-                <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
-                <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
+                <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
+                <Row label={`Korting per maand`} value={`Min ${fmtEUR(monthlyDiscount, 2)}`} />
+                <Row label={`Totale korting (${discountMonths} mnd)`} value={`Min ${fmtEUR(totalDiscountAmount, 2)}`} />
                 {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
-                <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
-                <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
+                <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+                <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
               </>
             )}
           </div>
@@ -481,10 +482,11 @@ export function ContractView({ client, editable }: Props) {
           {discountPct > 0 && discountMonths > 0 && (
             <>
               <div className="h-px bg-border" />
-              <Row label={`Korting ${discountPct}% per maand`} value={`− ${fmtEUR(monthlyDiscount, 2)}`} />
-              <Row label={`Korting totaal (${discountMonths} mnd)`} value={`− ${fmtEUR(totalDiscountAmount, 2)}`} />
-              <Row label="Maandelijks (incl. korting)" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
-              <Row label="Maandelijks na kortingsperiode" value={fmtEUR(monthlyTotal, 2)} />
+              <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
+              <Row label={`Korting per maand`} value={`Min ${fmtEUR(monthlyDiscount, 2)}`} />
+              <Row label={`Totale korting (${discountMonths} mnd)`} value={`Min ${fmtEUR(totalDiscountAmount, 2)}`} />
+              <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
+              <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
             </>
           )}
         </div>
@@ -514,9 +516,9 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
 
 function Row({ label, value, bold, highlight, positive, warn }: { label: string; value: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
-    <div className="flex justify-between items-baseline gap-3">
+    <div className="grid grid-cols-[1fr_140px] items-baseline gap-3">
       <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`tabular-nums text-[12px] ${
+      <span className={`tabular-nums text-[12px] text-left ${
         bold ? "font-bold text-foreground" :
         highlight ? "font-semibold text-primary" :
         positive ? "font-semibold text-foreground" :
