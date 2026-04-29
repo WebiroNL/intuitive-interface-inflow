@@ -79,13 +79,13 @@ export default function ClientPortal() {
   return (
     <div className="flex min-h-screen bg-background">
       <ClientSidebar client={client} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 min-w-0 h-screen overflow-auto flex flex-col">
+      <main className="flex-1 min-w-0 h-screen overflow-hidden flex flex-col">
         <ClientTopBar
           client={client}
           isSidebarOpen={sidebarOpen}
           onMenuClick={() => setSidebarOpen((v) => !v)}
         />
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-auto">
           <Suspense fallback={<Fallback />}>
             <Routes>
               <Route index element={<DashboardIndex client={client} />} />
