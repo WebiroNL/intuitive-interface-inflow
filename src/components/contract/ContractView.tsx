@@ -272,7 +272,7 @@ export function ContractView({ client, editable }: Props) {
           </div>
         ) : (
           <div className="rounded-xl border border-border bg-card overflow-hidden">
-            <div className="px-3 py-2 bg-muted/40 border-b border-border grid grid-cols-[1fr_110px_110px] items-center gap-3">
+            <div className="px-3 py-1.5 bg-muted/40 border-b border-border grid grid-cols-[1fr_90px_90px] items-center gap-3">
               <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Dienst</span>
               <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Eenmalig</span>
               <span className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Per maand</span>
@@ -283,7 +283,7 @@ export function ContractView({ client, editable }: Props) {
                 const monthly = Number(l.monthly_price) * Number(l.quantity);
                 const qty = Number(l.quantity);
                 return (
-                  <li key={l.id} className="px-3 py-1.5 grid grid-cols-[1fr_110px_110px] items-center gap-3">
+                  <li key={l.id} className="px-3 py-1 grid grid-cols-[1fr_90px_90px] items-center gap-3">
                     <div className="min-w-0 flex items-center gap-2">
                       <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
                       {qty > 1 && (
