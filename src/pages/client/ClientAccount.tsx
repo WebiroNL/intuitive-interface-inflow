@@ -80,7 +80,7 @@ export default function ClientAccount({ client }: Props) {
   const hasAdsContract =
     (client.monthly_fee != null && Number(client.monthly_fee) > 0) || campaigns.length > 0;
   const hasPakketContract = hasPakketServices;
-  const showDocs = hasAdsContract || hasPakketContract;
+  const showDocs = (hasAdsContract || hasPakketContract) && !contractsLoading && contracts.length > 0;
   const defaultTab = "bedrijf";
 
   // Verzamel unieke platforms over alle campagnes
