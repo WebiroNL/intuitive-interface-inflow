@@ -110,7 +110,7 @@ export default function AdminClients() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button variant="ghost" size="sm" onClick={() => setSelected(c)}>Beheer</Button>
+                    <button onClick={() => setSelected(c)} className="text-xs px-2 py-1 rounded hover:bg-muted/50 text-primary font-medium">Beheer</button>
                   </td>
                 </tr>
               ))}
