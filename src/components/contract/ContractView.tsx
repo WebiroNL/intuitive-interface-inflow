@@ -386,13 +386,13 @@ export function ContractView({ client, editable }: Props) {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2 text-center">
             <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
-            <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
-            <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
+            <PayRow label="Betaald" value={fmtEUR(paid, 2)} />
+            <PayRow label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
             <div className="h-px bg-border" />
-            <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-            <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
+            <PayRow label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
+            <p className="text-[10px] text-muted-foreground pt-1.5">Bedragen op basis van facturen op deze klant.</p>
           </div>
         </div>
       </div>
