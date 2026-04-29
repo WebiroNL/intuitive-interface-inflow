@@ -514,17 +514,29 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
   );
 }
 
-function Row({ label, value, bold, highlight, positive, warn }: { label: string; value: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
+function Row({ label, value, oldValue, badge, bold, highlight, positive, warn }: { label: string; value: string; oldValue?: string; badge?: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
     <div className="grid grid-cols-[280px_1fr] items-baseline gap-4">
-      <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`tabular-nums text-[12px] text-left ${
-        bold ? "font-bold text-foreground" :
-        highlight ? "font-semibold text-primary" :
-        positive ? "font-semibold text-foreground" :
-        warn ? "font-semibold text-foreground" :
-        "text-foreground"
-      }`}>{value}</span>
+      <div className="flex flex-col gap-1">
+        <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
+        {badge && (
+          <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md bg-lime-300 text-foreground text-[10px] font-semibold">
+            {badge}
+          </span>
+        )}
+      </div>
+      <span className="tabular-nums text-[12px] text-left flex items-baseline gap-2 flex-wrap">
+        {oldValue && (
+          <span className="line-through text-muted-foreground font-normal">{oldValue}</span>
+        )}
+        <span className={
+          bold ? "font-bold text-foreground" :
+          highlight ? "font-semibold text-primary" :
+          positive ? "font-semibold text-foreground" :
+          warn ? "font-semibold text-foreground" :
+          "text-foreground"
+        }>{value}</span>
+      </span>
     </div>
   );
 }
