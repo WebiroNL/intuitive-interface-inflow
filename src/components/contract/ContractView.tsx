@@ -343,8 +343,8 @@ export function ContractView({ client, editable }: Props) {
               <>
                 <div className="h-px bg-border" />
                 <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
-                <Row label={`Korting per maand`} value={`Min ${fmtEUR(monthlyDiscount, 2)}`} />
-                <Row label={`Totale korting (${discountMonths} mnd)`} value={`Min ${fmtEUR(totalDiscountAmount, 2)}`} />
+                <Row label={`Korting per maand`} value={`- ${fmtEUR(monthlyDiscount, 2)}`} />
+                <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
                 {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
                 <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
                 <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
@@ -483,8 +483,8 @@ export function ContractView({ client, editable }: Props) {
             <>
               <div className="h-px bg-border" />
               <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
-              <Row label={`Korting per maand`} value={`Min ${fmtEUR(monthlyDiscount, 2)}`} />
-              <Row label={`Totale korting (${discountMonths} mnd)`} value={`Min ${fmtEUR(totalDiscountAmount, 2)}`} />
+              <Row label={`Korting per maand`} value={`- ${fmtEUR(monthlyDiscount, 2)}`} />
+              <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
               <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} bold />
               <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
             </>
@@ -516,7 +516,7 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
 
 function Row({ label, value, bold, highlight, positive, warn }: { label: string; value: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
-    <div className="grid grid-cols-[220px_1fr] items-baseline gap-4">
+    <div className="grid grid-cols-[280px_1fr] items-baseline gap-4">
       <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
       <span className={`tabular-nums text-[12px] text-left ${
         bold ? "font-bold text-foreground" :
