@@ -45,6 +45,7 @@ const PartnerRegister = lazy(() => import("./pages/PartnerRegister"));
 const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
 const PartnerOnboarding = lazy(() => import("./pages/PartnerOnboarding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const CheckoutReturn = lazy(() => import("./pages/CheckoutReturn"));
 
 const queryClient = new QueryClient();
 
@@ -104,6 +105,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/pakketten" element={<Pakketten />} />
+            <Route path="/checkout/return" element={<CheckoutReturn />} />
             <Route path="/proces" element={<Proces />} />
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/oplossingen" element={<Oplossingen />} />
