@@ -176,7 +176,7 @@ export default function AdminPartners() {
                   <td className="px-4 py-3 text-right">€{Number(p.total_commission).toLocaleString("nl-NL", { maximumFractionDigits: 2 })}</td>
                   <td className="px-4 py-3 text-right">{p.total_conversions}/{p.total_referrals}</td>
                   <td className="px-4 py-3 text-right">
-                    <button onClick={() => setSelected(p)} className="text-xs px-2 py-1 rounded hover:bg-primary hover:text-primary-foreground text-primary font-medium transition-colors">Beheer</button>
+                    <button onClick={() => setSelected(p)} className="text-xs px-2 py-1 rounded hover:bg-muted/50 text-primary font-medium">Beheer</button>
                   </td>
                 </tr>
               ))}
