@@ -323,7 +323,7 @@ export default function ClientAccount({ client }: Props) {
                 {/* Platform overzicht (logos) */}
                 {allPlatforms.length > 0 && (
                   <div>
-                    <p className="text-[11px] text-muted-foreground mb-2">Platforms</p>
+                    
                     <div className="flex flex-wrap gap-2">
                       {allPlatforms.map((pid) => {
                         const p = AD_PLATFORMS.find((x) => x.id === pid);
