@@ -477,6 +477,15 @@ export function ContractView({ client, editable }: Props) {
 
       <div className="grid md:grid-cols-2 gap-4">
         <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+          <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
+          <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
+          <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
+          <div className="h-px bg-border" />
+          <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
+          <p className="text-[11px] text-muted-foreground pt-2 text-center">Bedragen op basis van facturen op deze klant.</p>
+        </div>
+
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
           <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Totalen</p>
           <Row label="Eenmalig totaal" value={fmtEUR(oneTimeTotal, 2)} />
           <Row label="Maandelijks totaal" value={fmtEUR(monthlyTotal, 2)} />
@@ -493,15 +502,6 @@ export function ContractView({ client, editable }: Props) {
               <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
             </>
           )}
-        </div>
-
-        <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-          <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
-          <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
-          <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
-          <div className="h-px bg-border" />
-          <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
-          <p className="text-[11px] text-muted-foreground pt-2 text-center">Bedragen op basis van facturen op deze klant.</p>
         </div>
       </div>
     </div>
