@@ -79,7 +79,7 @@ export default function ClientPortal() {
   return (
     <div className="flex min-h-screen bg-background">
       <ClientSidebar client={client} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 min-w-0 overflow-auto flex flex-col">
+      <main className="flex-1 min-w-0 h-screen overflow-auto flex flex-col">
         <ClientTopBar
           client={client}
           isSidebarOpen={sidebarOpen}
