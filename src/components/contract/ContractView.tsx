@@ -514,9 +514,9 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
 
 function Row({ label, value, bold, highlight, positive, warn }: { label: string; value: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
-    <div className="flex justify-between items-baseline gap-3">
+    <div className="grid grid-cols-[1fr_140px] items-baseline gap-3">
       <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`tabular-nums text-[12px] ${
+      <span className={`tabular-nums text-[12px] text-left ${
         bold ? "font-bold text-foreground" :
         highlight ? "font-semibold text-primary" :
         positive ? "font-semibold text-foreground" :
