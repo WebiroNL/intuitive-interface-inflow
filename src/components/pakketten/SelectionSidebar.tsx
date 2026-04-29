@@ -53,7 +53,7 @@ export function SelectionSidebar({
   const eenmaligIncl = Math.round(eenmalig * 1.21);
   const maandelijksIncl = Math.round(maandelijks * 1.21);
 
-  const nextLabel = step === totalSteps ? "Versturen" : "Volgende stap";
+  const nextLabel = step === totalSteps ? "Bestellen & afrekenen" : "Volgende stap";
   const hasSelection = !!pkg || !!cmsHosting || addOnItems.length > 0 || marketingItems.length > 0;
 
   return (

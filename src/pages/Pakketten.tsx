@@ -18,6 +18,9 @@ import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { CheckoutDialog } from "@/components/payments/CheckoutDialog";
+import { PaymentTestModeBanner } from "@/components/payments/PaymentTestModeBanner";
+import { getCmsPriceId, getAddonPriceId, getMarketingPriceIds, isQuoteOnlyProduct } from "@/lib/pricingMap";
 
 const emptyBriefing: BriefingData = {
   naam: "",
@@ -57,6 +60,15 @@ const Pakketten = () => {
   const [briefing, setBriefing] = useState<BriefingData>(emptyBriefing);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [checkoutContext, setCheckoutContext] = useState<{
+    orderId: string;
+    userId: string | null;
+    eenmalig: number;
+    maandelijks: number;
+    pkgName: string | null;
+  } | null>(null);
+  const [checkoutPhase, setCheckoutPhase] = useState<"deposit" | "subscription" | null>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -229,8 +241,30 @@ const Pakketten = () => {
           console.warn("Partner attribution failed", err);
         }
 
-        setSubmitted(true);
-        toast.success("Bestelling succesvol geplaatst!");
+        // Open checkout: deposit 50% als er eenmalig bedrag is, anders subscription
+        if (createdOrder?.id) {
+          setCheckoutContext({
+            orderId: createdOrder.id,
+            userId,
+            eenmalig,
+            maandelijks,
+            pkgName: pkg?.name || null,
+          });
+          if (eenmalig > 0) {
+            setCheckoutPhase("deposit");
+          } else if (maandelijks > 0) {
+            setCheckoutPhase("subscription");
+          } else {
+            setSubmitted(true);
+            toast.success("Bestelling succesvol geplaatst!");
+            return;
+          }
+          setCheckoutOpen(true);
+          toast.success("Bestelling aangemaakt — voltooi de betaling");
+        } else {
+          setSubmitted(true);
+          toast.success("Bestelling succesvol geplaatst!");
+        }
       } catch (e: any) {
         toast.error(e.message || "Er ging iets mis. Probeer het opnieuw.");
       } finally {
@@ -320,8 +354,31 @@ const Pakketten = () => {
     );
   }
 
+  // Bouw subscription line items voor checkout (eerste recurring item, simpel — multi-item kan later)
+  const buildSubscriptionPrice = () => {
+    const cms = cmsHostingTiers.find((t) => t.id === selectedCmsHosting);
+    if (cms && typeof cms.price === "number" && cms.price > 0 && !isQuoteOnlyProduct(cms.id)) {
+      const priceId = getCmsPriceId(cms.id, contractDuration);
+      if (priceId) return { priceId };
+    }
+    // Fallback: eerste marketing service met monthly
+    const firstMarketing = marketingServices.find((m) => selectedMarketing.includes(m.id));
+    if (firstMarketing) {
+      const ids = getMarketingPriceIds(firstMarketing.id, contractDuration);
+      if (ids) return ids;
+    }
+    return null;
+  };
+
+  const handleCheckoutClose = () => {
+    setCheckoutOpen(false);
+    setCheckoutPhase(null);
+    setSubmitted(true);
+  };
+
   return (
     <main className="bg-background">
+      <PaymentTestModeBanner />
       {/* Hero */}
       <PakkettenHero />
 
@@ -372,7 +429,7 @@ const Pakketten = () => {
                 disabled={!canNext() || submitting}
                 className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-[14px] disabled:opacity-40"
               >
-                {submitting ? "Bezig..." : step === totalSteps ? "Bestelling plaatsen" : "Volgende stap"}
+                {submitting ? "Bezig..." : step === totalSteps ? "Bestellen & afrekenen" : "Volgende stap"}
                 {!submitting && <ArrowRight className="w-4 h-4" />}
               </button>
             </div>
@@ -395,6 +452,42 @@ const Pakketten = () => {
 
       {(!flowType || flowType === "website") && <ComparisonTable />}
       <CTASection />
+
+      {/* Checkout dialog */}
+      {checkoutContext && checkoutPhase === "deposit" && (
+        <CheckoutDialog
+          open={checkoutOpen}
+          onClose={handleCheckoutClose}
+          mode="payment"
+          amountCents={Math.round(checkoutContext.eenmalig * 0.5 * 100)}
+          description={`Aanbetaling 50% — ${checkoutContext.pkgName || "Webiro project"}`}
+          paymentType="deposit"
+          orderId={checkoutContext.orderId}
+          customerEmail={briefing.email}
+          userId={checkoutContext.userId || undefined}
+          title="Aanbetaling 50% (ex. BTW)"
+        />
+      )}
+      {checkoutContext && checkoutPhase === "subscription" && (() => {
+        const sub = buildSubscriptionPrice();
+        if (!sub) return null;
+        return (
+          <CheckoutDialog
+            open={checkoutOpen}
+            onClose={handleCheckoutClose}
+            mode="subscription"
+            priceId={sub.priceId}
+            setupPriceId={sub.setupPriceId}
+            contractDuration={
+              contractDuration === "maandelijks" ? "monthly" :
+              contractDuration === "jaarlijks" ? "yearly" : "2year"
+            }
+            customerEmail={briefing.email}
+            userId={checkoutContext.userId || undefined}
+            title="Start je abonnement"
+          />
+        );
+      })()}
     </main>
   );
 };
