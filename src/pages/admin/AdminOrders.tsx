@@ -4,13 +4,15 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Search01Icon, ViewIcon } from "@hugeicons/core-free-icons";
+import { Search01Icon, ViewIcon, CreditCardIcon, Copy01Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from '@/components/ui/dialog';
+import { getStripeEnvironment } from '@/lib/stripe';
+import { toast } from 'sonner';
 
 const STATUS_OPTIONS = ['nieuw', 'in_behandeling', 'actief', 'afgerond', 'geannuleerd'];
 
