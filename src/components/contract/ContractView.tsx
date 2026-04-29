@@ -559,7 +559,7 @@ function Row({ label, value, oldValue, badge, bold, highlight, positive, warn }:
           </span>
         )}
       </div>
-      <span className="tabular-nums text-[12px] text-left flex items-baseline gap-2 flex-wrap">
+      <span className="tabular-nums text-[12px] text-right flex items-baseline justify-end gap-2 flex-wrap">
         {oldValue && (
           <span className="line-through text-muted-foreground font-normal">{oldValue}</span>
         )}
