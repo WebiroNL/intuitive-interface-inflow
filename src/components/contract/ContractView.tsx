@@ -329,28 +329,72 @@ export function ContractView({ client, editable }: Props) {
         )}
 
         <div className="grid md:grid-cols-2 gap-3">
-          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-card space-y-3">
             <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Overzicht</p>
             {startFormatted && <Row label="Startdatum contract" value={startFormatted} />}
             {contractEndFormatted && <Row label="Einddatum contract" value={contractEndFormatted} />}
-            {(startFormatted || contractEndFormatted) && <div className="h-px bg-border" />}
-            <Row label="Eenmalig totaal" value={fmtEUR(oneTimeTotal, 2)} />
-            <Row label="Maandelijks totaal" value={fmtEUR(monthlyTotal, 2)} />
             {depositPct > 0 && oneTimeTotal > 0 && (
-              <Row label={`Aanbetaling (${depositPct}%)`} value={fmtEUR(depositAmount, 2)} highlight />
+              <>
+                <div className="h-px bg-border" />
+                <Row label={`Aanbetaling (${depositPct}%)`} value={fmtEUR(depositAmount, 2)} highlight />
+              </>
             )}
             {discountPct > 0 && discountMonths > 0 && (
               <>
                 <div className="h-px bg-border" />
-                <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
-                <Row label={`Korting per maand`} value={`- ${fmtEUR(monthlyDiscount, 2)}`} />
+                <Row label="Kortingspercentage" value={`${discountPct}% per maand`} />
                 <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
                 {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
-                <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} oldValue={fmtEUR(monthlyTotal, 2)} badge={`Actie: ${discountMonths} maanden korting`} bold />
-                <Row label="Maandbedrag na korting" value={fmtEUR(monthlyTotal, 2)} />
               </>
             )}
+
+            {/* Final summary (KPN-style) */}
+            <div className="h-px bg-border" />
+            <div className="pt-1 space-y-3">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[14px] font-bold text-foreground">Totaal per maand</span>
+                  {discountPct > 0 && discountMonths > 0 && (
+                    <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md bg-lime-300 text-foreground text-[10px] font-semibold">
+                      Actie: {discountMonths} maanden korting
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-baseline gap-2 tabular-nums">
+                  {discountPct > 0 && discountMonths > 0 ? (
+                    <>
+                      <span className="text-[13px] line-through text-muted-foreground">{fmtEUR(monthlyTotal, 2)}</span>
+                      <span className="text-[16px] font-bold text-foreground">{fmtEUR(monthlyAfterDiscount, 2)}</span>
+                    </>
+                  ) : (
+                    <span className="text-[16px] font-bold text-foreground">{fmtEUR(monthlyTotal, 2)}</span>
+                  )}
+                </div>
+              </div>
+              {discountPct > 0 && discountMonths > 0 && (
+                <div className="flex items-center justify-between gap-4 text-[12px]">
+                  <span className="text-muted-foreground">Na {discountMonths} maanden</span>
+                  <span className="tabular-nums text-foreground">{fmtEUR(monthlyTotal, 2)}</span>
+                </div>
+              )}
+              {oneTimeTotal > 0 && (
+                <div className="flex items-center justify-between gap-4 pt-1">
+                  <span className="text-[14px] font-bold text-foreground">Totaal eenmalig</span>
+                  <span className="text-[16px] font-bold text-foreground tabular-nums">{fmtEUR(oneTimeTotal, 2)}</span>
+                </div>
+              )}
+            </div>
           </div>
+
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
+            <Row label="Betaald" value={fmtEUR(paid, 2)} positive />
+            <Row label="Openstaand" value={fmtEUR(open, 2)} warn={open > 0} />
+            <div className="h-px bg-border" />
+            <Row label="Totaal gefactureerd" value={fmtEUR(paid + open, 2)} bold />
+            <p className="text-[10px] text-muted-foreground pt-1.5 text-center">Bedragen op basis van facturen op deze klant.</p>
+          </div>
+        </div>
 
           <div className="p-4 rounded-xl border border-border bg-card space-y-2">
             <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Betalingen</p>
