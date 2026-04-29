@@ -342,7 +342,7 @@ export function ContractView({ client, editable }: Props) {
             {discountPct > 0 && discountMonths > 0 && (
               <>
                 <div className="h-px bg-border" />
-                <Row label="Kortingspercentage" value={`${discountPct}% per maand`} />
+                <Row label="Kortingspercentage" value={`${discountPct}%`} />
                 <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
                 {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
               </>
@@ -516,7 +516,7 @@ export function ContractView({ client, editable }: Props) {
           {discountPct > 0 && discountMonths > 0 && (
             <>
               <div className="h-px bg-border" />
-              <Row label={`Kortingspercentage`} value={`${discountPct}% per maand`} />
+              <Row label={`Kortingspercentage`} value={`${discountPct}%`} />
               <Row label={`Korting per maand`} value={`- ${fmtEUR(monthlyDiscount, 2)}`} />
               <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
               <Row label="Maandbedrag tijdens korting" value={fmtEUR(monthlyAfterDiscount, 2)} oldValue={fmtEUR(monthlyTotal, 2)} badge={`Actie: ${discountMonths} maanden korting`} bold />
