@@ -18,6 +18,9 @@ import { packages, cmsHostingTiers, addOns, contractDiscounts, marketingServices
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { CheckoutDialog } from "@/components/payments/CheckoutDialog";
+import { PaymentTestModeBanner } from "@/components/payments/PaymentTestModeBanner";
+import { getCmsPriceId, getAddonPriceId, getMarketingPriceIds, isQuoteOnlyProduct } from "@/lib/pricingMap";
 
 const emptyBriefing: BriefingData = {
   naam: "",
