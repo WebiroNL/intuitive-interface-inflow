@@ -104,8 +104,8 @@ export default function ClientActivate() {
       toast.error("Wachtwoord voldoet niet aan eisen");
       return;
     }
-    if (!form.email.trim() && !form.phone.trim()) {
-      toast.error("Vul ten minste e-mail of telefoon in");
+    if (!form.email.trim() || !form.phone.trim()) {
+      toast.error("E-mail en telefoonnummer zijn verplicht");
       return;
     }
 
@@ -209,17 +209,14 @@ export default function ClientActivate() {
           </div>
 
           {/* Login gegevens */}
-          <div className="bg-muted/30 border border-border rounded p-3 space-y-3">
-            <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Login gegevens (minimaal één vereist)</p>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <div>
-                <Label htmlFor="email">E-mail</Label>
-                <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="mt-1.5" placeholder="info@bedrijf.nl" />
-              </div>
-              <div>
-                <Label htmlFor="phone">Telefoon</Label>
-                <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1.5" placeholder="+316..." />
-              </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="email">E-mail *</Label>
+              <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required className="mt-1.5" placeholder="info@bedrijf.nl" />
+            </div>
+            <div>
+              <Label htmlFor="phone">Telefoon *</Label>
+              <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required className="mt-1.5" placeholder="+316..." />
             </div>
           </div>
 
@@ -238,8 +235,8 @@ export default function ClientActivate() {
           {/* Bedrijfsgegevens */}
           <div className="grid sm:grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="kvk">KVK nummer *</Label>
-              <Input id="kvk" value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} required className="mt-1.5" placeholder="12345678" />
+              <Label htmlFor="kvk">KVK nummer (optioneel)</Label>
+              <Input id="kvk" value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} className="mt-1.5" placeholder="12345678" />
             </div>
             <div>
               <Label htmlFor="btw">BTW nummer (optioneel)</Label>
