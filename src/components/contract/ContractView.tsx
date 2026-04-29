@@ -219,8 +219,8 @@ export function ContractView({ client, editable }: Props) {
     return (
       <div className="space-y-4">
         {/* Hero summary */}
-        <div className="rounded-xl border border-border bg-card p-4 lg:p-5">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="rounded-xl border border-border bg-card p-3 lg:p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Stat
               label="Eenmalig"
               value={fmtEUR(oneTimeTotal, 2)}
@@ -242,7 +242,7 @@ export function ContractView({ client, editable }: Props) {
             />
           </div>
           {(startFormatted || contractEndFormatted || discountEndDate) && (
-            <div className="mt-4 pt-3 border-t border-border flex flex-wrap justify-center gap-x-6 gap-y-1 text-[11px] text-center">
+            <div className="mt-2.5 pt-2 border-t border-border flex flex-wrap justify-center gap-x-6 gap-y-0.5 text-[11px] text-center">
               {startFormatted && (
                 <div>
                   <span className="text-muted-foreground">Contract gestart op </span>
@@ -511,8 +511,8 @@ export function ContractView({ client, editable }: Props) {
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="text-center">
-      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1">{label}</p>
-      <p className="text-xl font-semibold text-foreground tabular-nums leading-tight">{value}</p>
+      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-0.5">{label}</p>
+      <p className="text-lg font-semibold text-foreground tabular-nums leading-tight">{value}</p>
       {hint && <p className="text-[11px] text-muted-foreground mt-0.5">{hint}</p>}
     </div>
   );
