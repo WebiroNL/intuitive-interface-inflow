@@ -308,10 +308,6 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
 
           <div className="col-span-2 pt-2 border-t border-border" />
           <div>
-            <Label>Contractduur</Label>
-            <Input value={form.contract_duration} onChange={(e) => setForm({ ...form, contract_duration: e.target.value })} placeholder="bv. 12 maanden" />
-          </div>
-          <div>
             <Label>Maandelijkse fee (€)</Label>
             <Input type="number" step="0.01" value={form.monthly_fee} onChange={(e) => setForm({ ...form, monthly_fee: e.target.value })} placeholder="bv. 500" />
           </div>
