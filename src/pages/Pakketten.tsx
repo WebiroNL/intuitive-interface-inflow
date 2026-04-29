@@ -241,8 +241,30 @@ const Pakketten = () => {
           console.warn("Partner attribution failed", err);
         }
 
-        setSubmitted(true);
-        toast.success("Bestelling succesvol geplaatst!");
+        // Open checkout: deposit 50% als er eenmalig bedrag is, anders subscription
+        if (createdOrder?.id) {
+          setCheckoutContext({
+            orderId: createdOrder.id,
+            userId,
+            eenmalig,
+            maandelijks,
+            pkgName: pkg?.name || null,
+          });
+          if (eenmalig > 0) {
+            setCheckoutPhase("deposit");
+          } else if (maandelijks > 0) {
+            setCheckoutPhase("subscription");
+          } else {
+            setSubmitted(true);
+            toast.success("Bestelling succesvol geplaatst!");
+            return;
+          }
+          setCheckoutOpen(true);
+          toast.success("Bestelling aangemaakt — voltooi de betaling");
+        } else {
+          setSubmitted(true);
+          toast.success("Bestelling succesvol geplaatst!");
+        }
       } catch (e: any) {
         toast.error(e.message || "Er ging iets mis. Probeer het opnieuw.");
       } finally {
