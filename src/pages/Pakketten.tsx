@@ -452,6 +452,42 @@ const Pakketten = () => {
 
       {(!flowType || flowType === "website") && <ComparisonTable />}
       <CTASection />
+
+      {/* Checkout dialog */}
+      {checkoutContext && checkoutPhase === "deposit" && (
+        <CheckoutDialog
+          open={checkoutOpen}
+          onClose={handleCheckoutClose}
+          mode="payment"
+          amountCents={Math.round(checkoutContext.eenmalig * 0.5 * 100)}
+          description={`Aanbetaling 50% — ${checkoutContext.pkgName || "Webiro project"}`}
+          paymentType="deposit"
+          orderId={checkoutContext.orderId}
+          customerEmail={briefing.email}
+          userId={checkoutContext.userId || undefined}
+          title="Aanbetaling 50% (ex. BTW)"
+        />
+      )}
+      {checkoutContext && checkoutPhase === "subscription" && (() => {
+        const sub = buildSubscriptionPrice();
+        if (!sub) return null;
+        return (
+          <CheckoutDialog
+            open={checkoutOpen}
+            onClose={handleCheckoutClose}
+            mode="subscription"
+            priceId={sub.priceId}
+            setupPriceId={sub.setupPriceId}
+            contractDuration={
+              contractDuration === "maandelijks" ? "monthly" :
+              contractDuration === "jaarlijks" ? "yearly" : "2year"
+            }
+            customerEmail={briefing.email}
+            userId={checkoutContext.userId || undefined}
+            title="Start je abonnement"
+          />
+        );
+      })()}
     </main>
   );
 };
