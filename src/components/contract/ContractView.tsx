@@ -300,10 +300,10 @@ export function ContractView({ client, editable }: Props) {
                             )}
                           </div>
                           <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
-                            {oneTime > 0 ? fmtEUR(oneTime, 2) : <span className="text-muted-foreground font-normal">—</span>}
+                            {oneTime > 0 ? fmtEUR(oneTime, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
                           </div>
                           <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
-                            {monthly > 0 ? fmtEUR(monthly, 2) : <span className="text-muted-foreground font-normal">—</span>}
+                            {monthly > 0 ? fmtEUR(monthly, 2) : <span className="text-muted-foreground/40 font-normal">·</span>}
                           </div>
                         </li>
                       );
