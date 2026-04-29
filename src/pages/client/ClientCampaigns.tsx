@@ -14,6 +14,7 @@ const PLATFORMS = [
   { key: "pinterest", label: "Pinterest Ads", icon: "/images/tools/pinterest.svg" },
   { key: "youtube", label: "YouTube Ads", icon: "/images/tools/youtube.svg" },
   { key: "snapchat", label: "Snapchat Ads", icon: "/images/tools/snapchat.svg" },
+  { key: "discord", label: "Discord Ads", icon: "/images/tools/discord.svg" },
 ] as const;
 
 export default function ClientCampaigns({ client }: Props) {
