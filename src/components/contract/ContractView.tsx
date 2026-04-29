@@ -524,7 +524,7 @@ function Row({ label, value, oldValue, badge, bold, highlight, positive, warn }:
       <div className="flex flex-col gap-1">
         <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
         {badge && (
-          <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md bg-lime-300 text-foreground text-[10px] font-semibold">
+          <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-md text-[10px] font-semibold bg-primary text-primary-foreground">
             {badge}
           </span>
         )}
