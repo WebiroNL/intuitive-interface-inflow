@@ -332,6 +332,7 @@ export default function ClientAccount({ client }: Props) {
                           <span
                             key={pid}
                             className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border bg-background"
+                            title={p.label}
                           >
                             <img src={p.logo} alt={p.label} className="w-5 h-5 object-contain" />
                             <span className="text-[12px] font-medium text-foreground">
