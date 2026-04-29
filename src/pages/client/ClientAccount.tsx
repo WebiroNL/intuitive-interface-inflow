@@ -320,31 +320,6 @@ export default function ClientAccount({ client }: Props) {
                   </span>
                 </div>
 
-                {/* Platform overzicht (logos) */}
-                {allPlatforms.length > 0 && (
-                  <div>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {allPlatforms.map((pid) => {
-                        const p = AD_PLATFORMS.find((x) => x.id === pid);
-                        if (!p) return null;
-                        return (
-                          <span
-                            key={pid}
-                            className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border bg-background"
-                            title={p.label}
-                          >
-                            <img src={p.logo} alt={p.label} className="w-5 h-5 object-contain" />
-                            <span className="text-[12px] font-medium text-foreground">
-                              {p.label.replace(/ Ads$/, "").replace(/ \(.*\)$/, "")}
-                            </span>
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
                 {/* Campagne lijst */}
                 <ul className="space-y-2">
                   {campaigns.map((c) => {
