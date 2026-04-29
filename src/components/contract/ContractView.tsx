@@ -271,13 +271,13 @@ export function ContractView({ client, editable }: Props) {
             Nog geen diensten gekoppeld aan dit account.
           </div>
         ) : (
-          <div className="space-y-2.5">
-            {orderedCats.map((cat) => {
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            {orderedCats.map((cat, catIdx) => {
               const items = grouped[cat];
               const catOneTime = items.reduce((s, l) => s + Number(l.one_time_price) * Number(l.quantity), 0);
               const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
               return (
-                <div key={cat} className="rounded-xl border border-border bg-card overflow-hidden">
+                <div key={cat} className={catIdx > 0 ? "border-t border-border" : ""}>
                   <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between">
                     <h3 className="text-[12px] font-semibold text-foreground">{cat}</h3>
                     <div className="flex items-center gap-3 text-[11px] text-muted-foreground tabular-nums">
