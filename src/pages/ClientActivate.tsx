@@ -104,8 +104,8 @@ export default function ClientActivate() {
       toast.error("Wachtwoord voldoet niet aan eisen");
       return;
     }
-    if (!form.email.trim() && !form.phone.trim()) {
-      toast.error("Vul ten minste e-mail of telefoon in");
+    if (!form.email.trim() || !form.phone.trim()) {
+      toast.error("E-mail en telefoonnummer zijn verplicht");
       return;
     }
 
