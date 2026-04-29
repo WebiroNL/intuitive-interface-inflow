@@ -16,6 +16,16 @@ import { AD_PLATFORMS, type AdsCampaign } from "@/components/admin/AdsCampaigns"
 
 interface Props { client: Client }
 
+// Parse "YYYY-MM-DD" als lokale datum (voorkomt UTC-shift waardoor de korting
+// pas een dag later actief lijkt in tijdzones vóór UTC).
+function parseLocalDate(s: string | null | undefined): Date | null {
+  if (!s) return null;
+  const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
 const schema = z.object({
   company_name: z.string().trim().min(1, "Bedrijfsnaam is verplicht").max(120),
   contact_person: z.string().trim().min(1, "Contactpersoon is verplicht").max(120),
@@ -243,11 +253,7 @@ export default function ClientAccount({ client }: Props) {
               today.setHours(0, 0, 0, 0);
               const isDiscountActive = (c: any): boolean => {
                 if (!c.discount_percentage || !c.discount_months) return false;
-                const start = c.discount_start_date
-                  ? new Date(c.discount_start_date)
-                  : c.contract_start_date
-                  ? new Date(c.contract_start_date)
-                  : null;
+                const start = parseLocalDate(c.discount_start_date) ?? parseLocalDate(c.contract_start_date);
                 if (!start) return false;
                 const end = new Date(start);
                 end.setMonth(end.getMonth() + c.discount_months);
@@ -321,11 +327,7 @@ export default function ClientAccount({ client }: Props) {
                     const costs = (c as any).platform_costs ?? {};
                     const total = c.platforms.reduce((sum, pid) => sum + (Number(costs[pid]) || 0), 0);
                     const _today = new Date(); _today.setHours(0, 0, 0, 0);
-                    const _dStart = c.discount_start_date
-                      ? new Date(c.discount_start_date)
-                      : c.contract_start_date
-                      ? new Date(c.contract_start_date)
-                      : null;
+                    const _dStart = parseLocalDate(c.discount_start_date) ?? parseLocalDate(c.contract_start_date);
                     let discountActive = false;
                     if (c.discount_percentage && c.discount_months && _dStart) {
                       const _dEnd = new Date(_dStart);
@@ -429,12 +431,10 @@ export default function ClientAccount({ client }: Props) {
                             x.setDate(x.getDate() - 1);
                             return x;
                           };
-                          const startDate = c.contract_start_date ? new Date(c.contract_start_date) : null;
+                          const startDate = parseLocalDate(c.contract_start_date);
                           const months = parseMonths(c.contract_duration);
                           const endDate = startDate && months ? addMonths(startDate, months) : null;
-                          const discStart = c.discount_start_date
-                            ? new Date(c.discount_start_date)
-                            : startDate;
+                          const discStart = parseLocalDate(c.discount_start_date) ?? startDate;
                           const discEnd =
                             discStart && c.discount_months ? addMonths(discStart, c.discount_months) : null;
                           const hasAny =
