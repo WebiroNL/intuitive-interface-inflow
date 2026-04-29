@@ -235,8 +235,8 @@ export default function ClientActivate() {
           {/* Bedrijfsgegevens */}
           <div className="grid sm:grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="kvk">KVK nummer *</Label>
-              <Input id="kvk" value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} required className="mt-1.5" placeholder="12345678" />
+              <Label htmlFor="kvk">KVK nummer (optioneel)</Label>
+              <Input id="kvk" value={form.kvk_number} onChange={(e) => setForm({ ...form, kvk_number: e.target.value })} className="mt-1.5" placeholder="12345678" />
             </div>
             <div>
               <Label htmlFor="btw">BTW nummer (optioneel)</Label>
