@@ -339,14 +339,7 @@ export function ContractView({ client, editable }: Props) {
                 <Row label={`Aanbetaling (${depositPct}%)`} value={fmtEUR(depositAmount, 2)} highlight />
               </>
             )}
-            {discountPct > 0 && discountMonths > 0 && (
-              <>
-                <div className="h-px bg-border" />
-                <Row label="Kortingspercentage" value={`${discountPct}%`} />
-                <Row label={`Totale korting (${discountMonths} mnd)`} value={`- ${fmtEUR(totalDiscountAmount, 2)}`} />
-                {discountEndDate && <Row label="Korting loopt t/m" value={discountEndDate} />}
-              </>
-            )}
+            {/* korting details verwijderd – samenvatting volstaat */}
 
             {/* Final summary (KPN-style) */}
             <div className="h-px bg-border" />
