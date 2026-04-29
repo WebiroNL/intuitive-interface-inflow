@@ -209,17 +209,14 @@ export default function ClientActivate() {
           </div>
 
           {/* Login gegevens */}
-          <div className="bg-muted/30 border border-border rounded p-3 space-y-3">
-            <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Login gegevens (minimaal één vereist)</p>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <div>
-                <Label htmlFor="email">E-mail</Label>
-                <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="mt-1.5" placeholder="info@bedrijf.nl" />
-              </div>
-              <div>
-                <Label htmlFor="phone">Telefoon</Label>
-                <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1.5" placeholder="+316..." />
-              </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="email">E-mail *</Label>
+              <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required className="mt-1.5" placeholder="info@bedrijf.nl" />
+            </div>
+            <div>
+              <Label htmlFor="phone">Telefoon *</Label>
+              <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required className="mt-1.5" placeholder="+316..." />
             </div>
           </div>
 
