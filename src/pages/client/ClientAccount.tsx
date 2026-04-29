@@ -115,7 +115,7 @@ export default function ClientAccount({ client }: Props) {
       </header>
 
       <Tabs defaultValue={defaultTab} className="w-full">
-        <TabsList className="w-full grid grid-cols-2 sm:flex sm:justify-start bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 gap-x-1">
+        <TabsList className="w-full grid grid-cols-2 sm:flex sm:justify-center bg-transparent border-b border-border rounded-none p-0 h-auto mb-6 gap-x-1">
           <TabsTrigger
             value="bedrijf"
             className="gap-1.5 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none px-2 sm:px-4 py-2.5 text-[12px] sm:text-sm whitespace-nowrap min-w-0"
