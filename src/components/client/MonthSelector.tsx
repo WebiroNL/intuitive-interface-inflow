@@ -18,7 +18,7 @@ export function MonthSelector({ month, year, onChange }: Props) {
   return (
     <div className="flex items-center gap-2">
       <Select value={String(month)} onValueChange={(v) => onChange(Number(v), year)}>
-        <SelectTrigger className="w-[140px] h-9 text-[13px] bg-background text-foreground border-border">
+        <SelectTrigger className="w-[140px] h-9 text-[13px] bg-white dark:bg-background text-foreground border-border">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -28,7 +28,7 @@ export function MonthSelector({ month, year, onChange }: Props) {
         </SelectContent>
       </Select>
       <Select value={String(year)} onValueChange={(v) => onChange(month, Number(v))}>
-        <SelectTrigger className="w-[100px] h-9 text-[13px] bg-background text-foreground border-border">
+        <SelectTrigger className="w-[100px] h-9 text-[13px] bg-white dark:bg-background text-foreground border-border">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
