@@ -71,7 +71,7 @@ export default function ClientAccount({ client }: Props) {
     (client.monthly_fee != null && Number(client.monthly_fee) > 0) || campaigns.length > 0;
   const hasPakketContract = hasPakketServices;
   const showDocs = hasAdsContract || hasPakketContract;
-  const defaultTab = hasAdsContract ? "ads" : hasPakketContract ? "pakket" : "bedrijf";
+  const defaultTab = "bedrijf";
 
   // Verzamel unieke platforms over alle campagnes
   const allPlatforms = Array.from(new Set(campaigns.flatMap((c) => c.platforms)));
