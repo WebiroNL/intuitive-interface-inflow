@@ -16,6 +16,16 @@ import { AD_PLATFORMS, type AdsCampaign } from "@/components/admin/AdsCampaigns"
 
 interface Props { client: Client }
 
+// Parse "YYYY-MM-DD" als lokale datum (voorkomt UTC-shift waardoor de korting
+// pas een dag later actief lijkt in tijdzones vóór UTC).
+function parseLocalDate(s: string | null | undefined): Date | null {
+  if (!s) return null;
+  const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
 const schema = z.object({
   company_name: z.string().trim().min(1, "Bedrijfsnaam is verplicht").max(120),
   contact_person: z.string().trim().min(1, "Contactpersoon is verplicht").max(120),
