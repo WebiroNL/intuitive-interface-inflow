@@ -372,7 +372,12 @@ export default function ClientAccount({ client }: Props) {
                             </div>
                           )}
                         </div>
-                        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
+                        <ul
+                          className="grid gap-1.5"
+                          style={{
+                            gridTemplateColumns: `repeat(${Math.min(c.platforms.length || 1, 4)}, minmax(0, 1fr))`,
+                          }}
+                        >
                           {c.platforms.map((pid) => {
                             const p = AD_PLATFORMS.find((x) => x.id === pid);
                             if (!p) return null;
