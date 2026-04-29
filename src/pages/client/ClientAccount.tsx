@@ -382,6 +382,9 @@ export default function ClientAccount({ client }: Props) {
                             const p = AD_PLATFORMS.find((x) => x.id === pid);
                             if (!p) return null;
                             const cost = Number(costs[pid]) || 0;
+                            const discountedCost = discountActive
+                              ? cost * (1 - Number(c.discount_percentage) / 100)
+                              : cost;
                             return (
                               <li
                                 key={pid}
@@ -393,9 +396,20 @@ export default function ClientAccount({ client }: Props) {
                                     {p.label.replace(/ Ads$/, "").replace(/ \(.*\)$/, "")}
                                   </span>
                                 </span>
-                                <span className="text-[12px] font-medium text-foreground tabular-nums shrink-0">
-                                  {fmtEUR(cost)}
-                                </span>
+                                {discountActive && cost > 0 ? (
+                                  <span className="flex items-baseline gap-1.5 shrink-0">
+                                    <span className="text-[11px] line-through text-muted-foreground tabular-nums">
+                                      {fmtEUR(cost)}
+                                    </span>
+                                    <span className="text-[12px] font-medium text-foreground tabular-nums">
+                                      {fmtEUR(discountedCost)}
+                                    </span>
+                                  </span>
+                                ) : (
+                                  <span className="text-[12px] font-medium text-foreground tabular-nums shrink-0">
+                                    {fmtEUR(cost)}
+                                  </span>
+                                )}
                               </li>
                             );
                           })}
