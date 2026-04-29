@@ -431,12 +431,10 @@ export default function ClientAccount({ client }: Props) {
                             x.setDate(x.getDate() - 1);
                             return x;
                           };
-                          const startDate = c.contract_start_date ? new Date(c.contract_start_date) : null;
+                          const startDate = parseLocalDate(c.contract_start_date);
                           const months = parseMonths(c.contract_duration);
                           const endDate = startDate && months ? addMonths(startDate, months) : null;
-                          const discStart = c.discount_start_date
-                            ? new Date(c.discount_start_date)
-                            : startDate;
+                          const discStart = parseLocalDate(c.discount_start_date) ?? startDate;
                           const discEnd =
                             discStart && c.discount_months ? addMonths(discStart, c.discount_months) : null;
                           const hasAny =
