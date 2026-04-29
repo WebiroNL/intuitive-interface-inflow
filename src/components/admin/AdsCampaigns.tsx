@@ -28,6 +28,7 @@ export const AD_PLATFORMS: { id: string; label: string; logo: string }[] = [
   { id: "etsy", label: "Etsy Ads", logo: "/images/tools/etsy.svg" },
   { id: "spotify", label: "Spotify Ads", logo: "/images/tools/spotify.svg" },
   { id: "apple", label: "Apple Search Ads", logo: "/images/tools/apple.svg" },
+  { id: "discord", label: "Discord Ads", logo: "/images/tools/discord.svg" },
 ];
 
 export interface AdsCampaign {
