@@ -278,12 +278,10 @@ export function ContractView({ client, editable }: Props) {
               const catMonthly = items.reduce((s, l) => s + Number(l.monthly_price) * Number(l.quantity), 0);
               return (
                 <div key={cat} className={catIdx > 0 ? "border-t border-border" : ""}>
-                  <div className="px-3 py-1.5 bg-muted/30 border-b border-border flex items-center justify-between">
+                  <div className="px-3 py-1.5 bg-muted/30 border-b border-border grid grid-cols-[1fr_110px_110px] items-center gap-3">
                     <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{cat}</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-muted-foreground tabular-nums">
-                      {catOneTime > 0 && <span>Eenmalig <span className="text-foreground font-medium ml-1">{fmtEUR(catOneTime, 2)}</span></span>}
-                      {catMonthly > 0 && <span>Per maand <span className="text-foreground font-medium ml-1">{fmtEUR(catMonthly, 2)}</span></span>}
-                    </div>
+                    <div className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Eenmalig</div>
+                    <div className="text-right text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Per maand</div>
                   </div>
                   <ul className="divide-y divide-border">
                     {items.map((l) => {
@@ -291,8 +289,8 @@ export function ContractView({ client, editable }: Props) {
                       const monthly = Number(l.monthly_price) * Number(l.quantity);
                       const qty = Number(l.quantity);
                       return (
-                        <li key={l.id} className="px-3 py-1.5 flex items-center justify-between gap-4">
-                          <div className="min-w-0 flex-1 flex items-center gap-2">
+                        <li key={l.id} className="px-3 py-1.5 grid grid-cols-[1fr_110px_110px] items-center gap-3">
+                          <div className="min-w-0 flex items-center gap-2">
                             <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
                             {qty > 1 && (
                               <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
@@ -300,23 +298,11 @@ export function ContractView({ client, editable }: Props) {
                               </span>
                             )}
                           </div>
-                          <div className="text-right shrink-0 tabular-nums">
-                            {oneTime > 0 && (
-                              <span className="text-[12px] text-foreground font-medium">
-                                {fmtEUR(oneTime, 2)}
-                                <span className="text-[10px] text-muted-foreground ml-1 font-normal">eenmalig</span>
-                              </span>
-                            )}
-                            {oneTime > 0 && monthly > 0 && <span className="text-muted-foreground mx-1.5">·</span>}
-                            {monthly > 0 && (
-                              <span className="text-[12px] text-foreground font-medium">
-                                {fmtEUR(monthly, 2)}
-                                <span className="text-[10px] text-muted-foreground ml-1 font-normal">/mnd</span>
-                              </span>
-                            )}
-                            {oneTime === 0 && monthly === 0 && (
-                              <span className="text-[11px] text-muted-foreground italic">Inbegrepen</span>
-                            )}
+                          <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
+                            {oneTime > 0 ? fmtEUR(oneTime, 2) : <span className="text-muted-foreground font-normal">—</span>}
+                          </div>
+                          <div className="text-right tabular-nums text-[12px] text-foreground font-medium">
+                            {monthly > 0 ? fmtEUR(monthly, 2) : <span className="text-muted-foreground font-normal">—</span>}
                           </div>
                         </li>
                       );
