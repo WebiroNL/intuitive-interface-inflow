@@ -15,6 +15,9 @@ verify_jwt = false
 [functions.create-final-payment-link]
 verify_jwt = false
 
+[functions.setup-tax-codes]
+verify_jwt = false
+
 [functions.handle-email-suppression]
 verify_jwt = false
 

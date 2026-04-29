@@ -10,6 +10,7 @@ import {
   ActivityIcon,
   TaskDaily01Icon,
   RocketIcon,
+  CreditCardIcon,
 } from "@hugeicons/core-free-icons";
 
 export interface ClientMenuDef {
@@ -25,6 +26,7 @@ export const CLIENT_MENUS: ClientMenuDef[] = [
   { id: "campaigns", label: "Maanddata / Campagnes", icon: ChartBarLineIcon },
   { id: "reports", label: "Rapporten", icon: File02Icon },
   { id: "invoices", label: "Facturen", icon: Invoice01Icon },
+  { id: "billing", label: "Abonnement & Betalingen", icon: CreditCardIcon },
   { id: "files", label: "Bestanden", icon: FolderLibraryIcon },
   { id: "updates", label: "Activiteit / Updates", icon: Notification02Icon },
   { id: "intake", label: "Ads Intakeformulier", icon: TaskDaily01Icon },
