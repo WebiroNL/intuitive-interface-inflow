@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Tick02Icon, Loading03Icon } from "@hugeicons/react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle02Icon, Loading03Icon } from "@hugeicons/core-free-icons";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function CheckoutReturn() {
