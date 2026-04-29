@@ -548,6 +548,15 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
   );
 }
 
+function PayRow({ label, value, bold, warn }: { label: string; value: string; bold?: boolean; warn?: boolean }) {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <span className={`text-[12px] ${bold ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{label}</span>
+      <span className={`tabular-nums text-[12px] ${bold ? "font-bold text-foreground" : warn ? "font-semibold text-foreground" : "text-foreground"}`}>{value}</span>
+    </div>
+  );
+}
+
 function Row({ label, value, oldValue, badge, bold, highlight, positive, warn }: { label: string; value: string; oldValue?: string; badge?: string; bold?: boolean; highlight?: boolean; positive?: boolean; warn?: boolean }) {
   return (
     <div className="grid grid-cols-[280px_1fr] items-baseline gap-4">
