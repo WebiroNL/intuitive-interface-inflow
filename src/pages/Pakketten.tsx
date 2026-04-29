@@ -354,8 +354,31 @@ const Pakketten = () => {
     );
   }
 
+  // Bouw subscription line items voor checkout (eerste recurring item, simpel — multi-item kan later)
+  const buildSubscriptionPrice = () => {
+    const cms = cmsHostingTiers.find((t) => t.id === selectedCmsHosting);
+    if (cms && typeof cms.price === "number" && cms.price > 0 && !isQuoteOnlyProduct(cms.id)) {
+      const priceId = getCmsPriceId(cms.id, contractDuration);
+      if (priceId) return { priceId };
+    }
+    // Fallback: eerste marketing service met monthly
+    const firstMarketing = marketingServices.find((m) => selectedMarketing.includes(m.id));
+    if (firstMarketing) {
+      const ids = getMarketingPriceIds(firstMarketing.id, contractDuration);
+      if (ids) return ids;
+    }
+    return null;
+  };
+
+  const handleCheckoutClose = () => {
+    setCheckoutOpen(false);
+    setCheckoutPhase(null);
+    setSubmitted(true);
+  };
+
   return (
     <main className="bg-background">
+      <PaymentTestModeBanner />
       {/* Hero */}
       <PakkettenHero />
 
