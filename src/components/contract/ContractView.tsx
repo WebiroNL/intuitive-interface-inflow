@@ -283,7 +283,7 @@ export function ContractView({ client, editable }: Props) {
                 const monthly = Number(l.monthly_price) * Number(l.quantity);
                 const qty = Number(l.quantity);
                 return (
-                  <li key={l.id} className="px-3 py-1 grid grid-cols-[1fr_90px_90px] items-center gap-3">
+                  <li key={l.id} className="px-3 py-2.5 grid grid-cols-[1fr_90px_90px] items-center gap-3">
                     <div className="min-w-0 flex items-center gap-2">
                       <span className="text-[13px] text-foreground truncate">{l.service_name}</span>
                       {qty > 1 && (
