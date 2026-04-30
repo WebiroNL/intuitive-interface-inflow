@@ -104,7 +104,30 @@ export default function AdminClients() {
                   <td className="px-4 py-3 text-right tabular-nums">{fmtEUR(Number(c.monthly_fee))}</td>
                   <td className="px-4 py-3">
                     {c.user_id ? (
-                      <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Gekoppeld</span>
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          const tab = window.open("about:blank", "_blank");
+                          try {
+                            const { data, error } = await supabase.functions.invoke("admin-impersonate-client", {
+                              body: { client_id: c.id, redirect_to: `${window.location.origin}/dashboard` },
+                            });
+                            if (error || (data as any)?.error) {
+                              if (tab) tab.close();
+                              toast.error((data as any)?.error ?? "Inloggen mislukt");
+                              return;
+                            }
+                            if (tab) tab.location.href = (data as any).action_link;
+                          } catch (err) {
+                            if (tab) tab.close();
+                            toast.error("Inloggen mislukt");
+                          }
+                        }}
+                        title="Inloggen als deze klant in nieuw tabblad"
+                        className="text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 transition-colors cursor-pointer"
+                      >
+                        Gekoppeld → Inloggen
+                      </button>
                     ) : (
                       <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Geen account</span>
                     )}
