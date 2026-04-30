@@ -12,6 +12,7 @@ const ClientCampaigns = lazy(() => import("./client/ClientCampaigns"));
 
 const ClientReports = lazy(() => import("./client/ClientReports"));
 const ClientInvoices = lazy(() => import("./client/ClientInvoices"));
+const ClientBilling = lazy(() => import("./client/ClientBilling"));
 const ClientContract = lazy(() => import("./client/ClientContract"));
 const ClientFiles = lazy(() => import("./client/ClientFiles"));
 const ClientUpdates = lazy(() => import("./client/ClientUpdates"));
@@ -94,6 +95,7 @@ export default function ClientPortal() {
               <Route path="reports" element={<ClientReports client={client} />} />
               <Route path="contract" element={<Navigate to="/dashboard/account" replace />} />
               <Route path="invoices" element={<ClientInvoices client={client} />} />
+              <Route path="billing" element={<ClientBilling client={client} />} />
               <Route path="files" element={<ClientFiles client={client} />} />
               <Route path="updates" element={<ClientUpdates client={client} />} />
               <Route path="account" element={<ClientAccount client={client} />} />
