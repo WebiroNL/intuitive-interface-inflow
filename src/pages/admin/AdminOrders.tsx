@@ -156,8 +156,8 @@ const AdminOrders = () => {
         </Table>
       </Card>
 
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-lg">
+      <Dialog open={!!selected} onOpenChange={() => { setSelected(null); setGeneratedLink(null); }}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Order {selected?.order_number}</DialogTitle>
           </DialogHeader>
@@ -177,9 +177,69 @@ const AdminOrders = () => {
                   <p className="font-medium">{selected.contract_duur || '—'}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Totaal</p>
-                  <p className="font-medium">€{Number(selected.totaal).toFixed(2)}</p>
+                  <p className="text-muted-foreground">Subtotaal (ex BTW)</p>
+                  <p className="font-medium">€{Number(selected.subtotaal).toFixed(2)}</p>
                 </div>
+              </div>
+
+              {/* Betaalstatus */}
+              <div className="bg-muted/30 rounded-lg p-4 space-y-2">
+                <p className="text-[12px] uppercase tracking-wider text-muted-foreground font-semibold">Betaalstatus</p>
+                <div className="grid grid-cols-2 gap-2 text-[13px]">
+                  <div className="flex items-center gap-2">
+                    {selected.deposit_paid_at ? (
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-emerald-500" />
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-muted-foreground/40" />
+                    )}
+                    <span>Aanbetaling 50% {selected.deposit_paid_at ? `(${new Date(selected.deposit_paid_at).toLocaleDateString('nl-NL')})` : '— openstaand'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {selected.final_paid_at ? (
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-emerald-500" />
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-muted-foreground/40" />
+                    )}
+                    <span>Slotbetaling 50% {selected.final_paid_at ? `(${new Date(selected.final_paid_at).toLocaleDateString('nl-NL')})` : '— openstaand'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {selected.delivered_at ? (
+                      <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-emerald-500" />
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-muted-foreground/40" />
+                    )}
+                    <span>Project opgeleverd {selected.delivered_at ? `(${new Date(selected.delivered_at).toLocaleDateString('nl-NL')})` : ''}</span>
+                  </div>
+                </div>
+
+                {selected.payment_mode === '50_50' && selected.deposit_paid_at && !selected.final_paid_at && (
+                  <div className="pt-3 border-t border-border space-y-2">
+                    <p className="text-[12px] text-muted-foreground">
+                      Markeer als opgeleverd en stuur de slotbetaling link (50% van €{Number(selected.subtotaal).toFixed(2)} = €{(Number(selected.subtotaal) / 2).toFixed(2)} ex BTW).
+                    </p>
+                    <Button
+                      onClick={() => generateFinalPaymentLink(selected.id)}
+                      disabled={generating}
+                      size="sm"
+                      className="gap-2"
+                    >
+                      <HugeiconsIcon icon={CreditCardIcon} size={14} />
+                      {generating ? 'Bezig...' : 'Markeer opgeleverd & genereer slotbetaling'}
+                    </Button>
+                    {generatedLink && (
+                      <div className="bg-card border border-border rounded p-2 flex items-center gap-2">
+                        <input
+                          readOnly
+                          value={generatedLink}
+                          className="flex-1 text-[12px] bg-transparent outline-none truncate"
+                        />
+                        <Button onClick={() => copyLink(generatedLink)} size="sm" variant="outline" className="gap-1">
+                          <HugeiconsIcon icon={Copy01Icon} size={12} /> Kopieer
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -201,7 +261,7 @@ const AdminOrders = () => {
               {selected.briefing && Object.keys(selected.briefing).length > 0 && (
                 <div>
                   <p className="text-muted-foreground mb-1">Briefing</p>
-                  <div className="bg-muted/30 p-3 rounded-lg space-y-1">
+                  <div className="bg-muted/30 p-3 rounded-lg space-y-1 max-h-48 overflow-y-auto">
                     {Object.entries(selected.briefing).map(([key, val]) => (
                       <div key={key} className="flex gap-2">
                         <span className="text-muted-foreground min-w-[120px]">{key}:</span>
