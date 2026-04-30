@@ -126,7 +126,7 @@ export default function AdminClients() {
                         title="Inloggen als deze klant in nieuw tabblad"
                         className="text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 transition-colors cursor-pointer"
                       >
-                        Gekoppeld → Inloggen
+                        Inloggen
                       </button>
                     ) : (
                       <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Geen account</span>
