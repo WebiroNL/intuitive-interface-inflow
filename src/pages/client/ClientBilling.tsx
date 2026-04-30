@@ -70,16 +70,17 @@ export default function ClientBilling({ client }: Props) {
 
   const load = async () => {
     setLoading(true);
+    const userId = client.user_id;
+    const subQ = supabase.from("subscriptions").select("*").eq("environment", env);
+    const payQ = supabase.from("payments").select("*").eq("environment", env);
+    const ordQ = supabase.from("orders").select("id,order_number,pakket,subtotaal,payment_mode,delivery_status,deposit_paid_at,final_paid_at,delivered_at");
+
+    const orFilter = userId ? `client_id.eq.${client.id},user_id.eq.${userId}` : `client_id.eq.${client.id}`;
+
     const [subRes, payRes, ordRes] = await Promise.all([
-      supabase.from("subscriptions").select("*")
-        .eq("client_id", client.id).eq("environment", env)
-        .order("created_at", { ascending: false }),
-      supabase.from("payments").select("*")
-        .eq("client_id", client.id).eq("environment", env)
-        .order("created_at", { ascending: false }).limit(50),
-      supabase.from("orders").select("id,order_number,pakket,subtotaal,payment_mode,delivery_status,deposit_paid_at,final_paid_at,delivered_at")
-        .eq("client_id", client.id)
-        .order("created_at", { ascending: false }),
+      subQ.or(orFilter).order("created_at", { ascending: false }),
+      payQ.or(orFilter).order("created_at", { ascending: false }).limit(50),
+      ordQ.or(orFilter).order("created_at", { ascending: false }),
     ]);
     setSubs((subRes.data as Subscription[]) || []);
     setPayments((payRes.data as Payment[]) || []);
