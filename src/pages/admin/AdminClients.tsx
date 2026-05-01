@@ -169,6 +169,7 @@ export default function AdminClients() {
                       <span className="text-muted-foreground text-xs">—</span>
                     )}
                   </td>
+                  <td className="px-4 py-3">
                     {c.user_id ? (
                       <button
                         onClick={async (e) => {
