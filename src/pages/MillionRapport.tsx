@@ -152,14 +152,7 @@ const MillionRapport = () => {
             </div>
           </div>
           <div className="flex flex-col items-start md:items-end gap-2">
-            <div className="flex items-center gap-2.5">
-              <svg viewBox="0 0 110 96" className="h-6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23 5 L4 48 L23 91 L42 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-                <path d="M55 5 L36 48 L55 91 L74 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-                <path d="M87 5 L68 48 L87 91 L106 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-              </svg>
-              <span className="text-lg font-sans font-bold">Webiro<em className="not-italic text-primary">.</em></span>
-            </div>
+            <img src={webiroLogoDark} alt="Webiro" className="h-7 w-auto" />
             <div className="px-3 py-1 rounded-full border border-white/15 text-xs font-mono text-white/70">April 2026</div>
           </div>
         </div>
