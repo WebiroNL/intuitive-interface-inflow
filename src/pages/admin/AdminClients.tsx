@@ -152,8 +152,23 @@ export default function AdminClients() {
                   </td>
                   
                   <td className="px-4 py-3 text-muted-foreground">{c.email}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{fmtEUR(Number(c.monthly_fee))}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-right tabular-nums">
+                    {fmtEUR(Number(c.monthly_fee) + (adsAgg[c.id]?.total ?? 0))}
+                    {adsAgg[c.id]?.total > 0 && (
+                      <div className="text-[10px] text-muted-foreground leading-tight">
+                        incl. {fmtEUR(adsAgg[c.id].total)} ads
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    {adsAgg[c.id]?.count > 0 ? (
+                      <span className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums">
+                        {adsAgg[c.id].count}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">—</span>
+                    )}
+                  </td>
                     {c.user_id ? (
                       <button
                         onClick={async (e) => {
