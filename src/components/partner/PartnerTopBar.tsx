@@ -2,7 +2,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { UserCircleIcon, Logout01Icon, Sun03Icon, Moon02Icon, Menu01Icon, Cancel01Icon, Settings01Icon } from "@hugeicons/core-free-icons";
+import { UserCircleIcon, Logout01Icon, Menu01Icon, Cancel01Icon, Settings01Icon } from "@hugeicons/core-free-icons";
+import { ThemeToggleIcon } from "@/components/ThemeToggleIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,7 +80,7 @@ export function PartnerTopBar({ partner, onMenuClick, isSidebarOpen }: Props) {
             aria-label={theme === "dark" ? "Schakel naar lichte modus" : "Schakel naar donkere modus"}
             className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
           >
-            <HugeiconsIcon icon={theme === "dark" ? Sun03Icon : Moon02Icon} size={16} />
+            <ThemeToggleIcon size={16} />
           </button>
           <DropdownMenuTrigger className="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-muted/60 transition-colors outline-none">
             <div className="text-right hidden sm:block">
