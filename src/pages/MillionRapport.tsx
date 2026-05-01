@@ -60,7 +60,7 @@ const CHANNELS = [
       { label: "Orders (est.)", value: "~20", est: true },
       { label: "CPP (est.)", value: "~€85", est: true },
     ],
-    note: "Schatting op basis van 116 totaal − 88 Meta = 28 resterende orders. Google Ads campagne data ontbreekt.",
+    
   },
 ];
 
@@ -232,9 +232,6 @@ const MillionRapport = () => {
                   </div>
                 ))}
               </div>
-              {c.note && (
-                <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{c.note}</p>
-              )}
             </div>
           ))}
         </div>
