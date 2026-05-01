@@ -84,7 +84,7 @@ function ColumnGuides() {
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isReportRoute = location.pathname.startsWith('/novellerapport');
+  const isReportRoute = location.pathname.startsWith('/novellerapport') || location.pathname.startsWith('/millionstore');
   const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login' || location.pathname.startsWith('/client/');
   const isPartnerPortalRoute = location.pathname.startsWith('/partner/dashboard') || location.pathname === '/partner/login' || location.pathname === '/partner/register';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute || isPartnerPortalRoute;
