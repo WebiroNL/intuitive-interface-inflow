@@ -129,6 +129,7 @@ export default function AdminClients() {
                 
                 <th className="text-left px-4 py-3 font-medium">E-mail</th>
                 <th className="text-right px-4 py-3 font-medium">Fee</th>
+                <th className="text-right px-4 py-3 font-medium">Campagnes</th>
                 <th className="text-left px-4 py-3 font-medium">Login</th>
                 <th></th>
               </tr>
