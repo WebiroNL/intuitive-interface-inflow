@@ -64,17 +64,25 @@ export default function AdminClients() {
     setClients(list);
     setLoading(false);
 
-    // Load form counts in parallel: marketing_intakes (ads intake), ads_campaigns, service_onboardings (onboarding)
-    const [mi, ac, so] = await Promise.all([
+    // Load form counts: ads intake (marketing_intakes), website intake, onboarding (service_onboardings)
+    const [mi, wi, so] = await Promise.all([
       supabase.from("marketing_intakes").select("client_id"),
-      supabase.from("ads_campaigns").select("client_id"),
+      supabase.from("website_intakes" as any).select("client_id"),
       supabase.from("service_onboardings").select("client_id"),
     ]);
     const counts: Record<string, number> = {};
-    const bump = (id: string | null) => { if (id) counts[id] = (counts[id] ?? 0) + 1; };
-    (mi.data ?? []).forEach((r: any) => bump(r.client_id));
-    (ac.data ?? []).forEach((r: any) => bump(r.client_id));
-    (so.data ?? []).forEach((r: any) => bump(r.client_id));
+    const bumpUnique = (rows: any[]) => {
+      const seen = new Set<string>();
+      rows.forEach((r) => {
+        if (r.client_id && !seen.has(r.client_id)) {
+          seen.add(r.client_id);
+          counts[r.client_id] = (counts[r.client_id] ?? 0) + 1;
+        }
+      });
+    };
+    bumpUnique(mi.data ?? []);
+    bumpUnique((wi as any).data ?? []);
+    bumpUnique(so.data ?? []);
     setFormCounts(counts);
   };
 
@@ -402,6 +410,35 @@ function ClientFormDialog({ client, onSaved }: { client?: Client; onSaved: () =>
 }
 
 function ClientManageDialog({ client, onChanged, onClose }: { client: Client; onChanged: () => void; onClose: () => void }) {
+  const [tabCounts, setTabCounts] = useState<{ intake: number; website_intake: number; onboarding: number }>({
+    intake: 0, website_intake: 0, onboarding: 0,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const head = { count: "exact" as const, head: true };
+      const [mi, wi, so] = await Promise.all([
+        supabase.from("marketing_intakes").select("id", head).eq("client_id", client.id),
+        supabase.from("website_intakes" as any).select("id", head).eq("client_id", client.id),
+        supabase.from("service_onboardings").select("id", head).eq("client_id", client.id),
+      ]);
+      if (cancelled) return;
+      setTabCounts({
+        intake: mi.count ?? 0,
+        website_intake: (wi as any).count ?? 0,
+        onboarding: so.count ?? 0,
+      });
+    })();
+    return () => { cancelled = true; };
+  }, [client.id]);
+
+  const Badge = ({ n }: { n: number }) => n > 0 ? (
+    <span className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums">
+      {n}
+    </span>
+  ) : null;
+
   return (
     <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
       <DialogHeader>
@@ -416,9 +453,9 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
-          <TabsTrigger value="intake">Ads Intake</TabsTrigger>
-          <TabsTrigger value="website_intake">Website Intake</TabsTrigger>
-          <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
+          <TabsTrigger value="intake">Ads Intake<Badge n={tabCounts.intake} /></TabsTrigger>
+          <TabsTrigger value="website_intake">Website Intake<Badge n={tabCounts.website_intake} /></TabsTrigger>
+          <TabsTrigger value="onboarding">Onboarding<Badge n={tabCounts.onboarding} /></TabsTrigger>
           <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
