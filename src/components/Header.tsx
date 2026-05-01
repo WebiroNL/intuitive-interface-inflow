@@ -225,7 +225,7 @@ export function Header() {
               className="p-[7px] text-muted-foreground hover:text-foreground transition-colors rounded-[5px] hover:bg-muted/40"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
+              <ThemeToggleIcon size={15} />
             </button>
 
             <CartButton />
