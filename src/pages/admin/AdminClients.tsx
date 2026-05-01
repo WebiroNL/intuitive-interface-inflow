@@ -162,8 +162,8 @@ export default function AdminClients() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     {adsAgg[c.id]?.count > 0 ? (
-                      <span className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums">
-                        {adsAgg[c.id].count}
+                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-[12px] font-semibold">
+                        {adsAgg[c.id].count} {adsAgg[c.id].count === 1 ? "campagne" : "campagnes"}
                       </span>
                     ) : (
                       <span className="text-muted-foreground text-xs">—</span>
