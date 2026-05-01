@@ -222,7 +222,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-2 ml-auto">
             <button
               onClick={toggleTheme}
-              className="inline-flex items-center justify-center p-[7px] text-muted-foreground hover:text-foreground transition-colors rounded-[5px] hover:bg-muted/40"
+              className="relative inline-flex items-center justify-center w-9 h-9 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               aria-label="Toggle theme"
             >
               <ThemeToggleIcon size={18} />
