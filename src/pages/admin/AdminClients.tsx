@@ -481,6 +481,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
   const markSeen = (kind: "intake" | "website_intake" | "onboarding", total: number) => {
     localStorage.setItem(seenKey(kind), String(total));
     setSeen((s) => ({ ...s, [kind]: total }));
+    onChanged();
   };
 
   const Badge = ({ n, kind, total }: { n: number; kind: "intake" | "website_intake" | "onboarding"; total: number }) => n > 0 ? (
