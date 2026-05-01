@@ -445,6 +445,12 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
   const [tabCounts, setTabCounts] = useState<{ intake: number; website_intake: number; onboarding: number }>({
     intake: 0, website_intake: 0, onboarding: 0,
   });
+  const seenKey = (kind: string) => `admin_seen_${kind}_${client.id}`;
+  const [seen, setSeen] = useState<{ intake: number; website_intake: number; onboarding: number }>(() => ({
+    intake: Number(localStorage.getItem(`admin_seen_intake_${client.id}`) || 0),
+    website_intake: Number(localStorage.getItem(`admin_seen_website_intake_${client.id}`) || 0),
+    onboarding: Number(localStorage.getItem(`admin_seen_onboarding_${client.id}`) || 0),
+  }));
 
   useEffect(() => {
     let cancelled = false;
@@ -465,9 +471,20 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
     return () => { cancelled = true; };
   }, [client.id]);
 
-  const Badge = ({ n }: { n: number }) => n > 0 ? (
-    <span className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums">
-      {n}
+  const markSeen = (kind: "intake" | "website_intake" | "onboarding", total: number) => {
+    localStorage.setItem(seenKey(kind), String(total));
+    setSeen((s) => ({ ...s, [kind]: total }));
+  };
+
+  const Badge = ({ n, kind, total }: { n: number; kind: "intake" | "website_intake" | "onboarding"; total: number }) => n > 0 ? (
+    <span
+      role="button"
+      title="Markeer als gezien"
+      onClick={(e) => { e.stopPropagation(); e.preventDefault(); markSeen(kind, total); }}
+      className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums cursor-pointer hover:bg-primary/80 transition-colors group"
+    >
+      <span className="group-hover:hidden">{n}</span>
+      <Check className="hidden group-hover:block w-3 h-3" strokeWidth={3} />
     </span>
   ) : null;
 
