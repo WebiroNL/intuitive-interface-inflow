@@ -151,7 +151,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
               <HugeiconsIcon icon={item.icon} size={16} />
               <span className="flex-1">{item.label}</span>
               {showBadge && (
-                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums">
+                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold tabular-nums">
                   {clientsBadge}
                 </span>
               )}
