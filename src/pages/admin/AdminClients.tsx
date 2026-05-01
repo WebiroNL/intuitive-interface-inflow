@@ -158,7 +158,7 @@ export default function AdminClients() {
                       {formCounts[c.id] > 0 && (
                         <span
                           title="Aantal ingevulde formulieren (ads intake, campagne, onboarding)"
-                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums"
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold tabular-nums"
                         >
                           {formCounts[c.id]}
                         </span>
