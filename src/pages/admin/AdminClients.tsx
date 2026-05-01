@@ -69,7 +69,7 @@ export default function AdminClients() {
     const [mi, wi, so, ac] = await Promise.all([
       supabase.from("marketing_intakes").select("client_id"),
       supabase.from("website_intakes" as any).select("client_id"),
-      supabase.from("service_onboardings").select("client_id"),
+      supabase.from("service_onboardings").select("client_id, submitted_at, created_at"),
       supabase.from("ads_campaigns").select("client_id, platforms, platform_costs"),
     ]);
     const perClient: Record<string, { intake: number; website_intake: number; onboarding: number }> = {};
@@ -79,7 +79,15 @@ export default function AdminClients() {
     };
     (mi.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).intake += 1; });
     ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).website_intake += 1; });
-    (so.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).onboarding += 1; });
+    // Group onboarding rows by submission timestamp (1 form fill = N rows with same timestamp)
+    const onboardingGroups: Record<string, Set<string>> = {};
+    (so.data ?? []).forEach((r: any) => {
+      if (!r.client_id) return;
+      const key = r.submitted_at ?? r.created_at ?? "";
+      if (!onboardingGroups[r.client_id]) onboardingGroups[r.client_id] = new Set();
+      onboardingGroups[r.client_id].add(String(key));
+    });
+    Object.entries(onboardingGroups).forEach(([id, set]) => { ensure(id).onboarding = set.size; });
 
     const counts: Record<string, number> = {};
     Object.entries(perClient).forEach(([id, totals]) => {
@@ -466,13 +474,17 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
       const [mi, wi, so] = await Promise.all([
         supabase.from("marketing_intakes").select("id", head).eq("client_id", client.id),
         supabase.from("website_intakes" as any).select("id", head).eq("client_id", client.id),
-        supabase.from("service_onboardings").select("id", head).eq("client_id", client.id),
+        supabase.from("service_onboardings").select("submitted_at, created_at").eq("client_id", client.id),
       ]);
       if (cancelled) return;
+      const onboardingGroups = new Set<string>();
+      (so.data ?? []).forEach((r: any) => {
+        onboardingGroups.add(String(r.submitted_at ?? r.created_at ?? ""));
+      });
       setTabCounts({
         intake: mi.count ?? 0,
         website_intake: (wi as any).count ?? 0,
-        onboarding: so.count ?? 0,
+        onboarding: onboardingGroups.size,
       });
     })();
     return () => { cancelled = true; };
