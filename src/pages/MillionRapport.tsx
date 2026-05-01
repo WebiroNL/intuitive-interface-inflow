@@ -229,18 +229,7 @@ const MillionRapport = () => {
           ))}
         </div>
 
-        {/* GOOGLE NOTE */}
-        <div className="mt-6 rounded-xl border border-webiro-yellow/30 bg-webiro-yellow/5 p-5 flex gap-4">
-          <div className="shrink-0 h-9 w-9 rounded-lg bg-webiro-yellow/15 flex items-center justify-center">
-            <HugeiconsIcon icon={IdeaIcon} size={18} className="text-webiro-yellow" />
-          </div>
-          <div>
-            <h4 className="font-sans font-semibold text-sm mb-1.5">Google Ads campagne data ontbreekt</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Voor een volledige campagne breakdown van Google Ads (zoals bij Meta hierboven) is een screenshot of export nodig uit Google Ads → Campagnes, periode 1 / 30 april 2026. Google rapporteert zelf 73,99 conversies via data driven attributie, dit klopt niet door overlap en view through. Op basis van Shopify totaal schatten we ~20 werkelijke orders via Google. Stuur de Google Ads data door voor een complete rapportage.
-            </p>
-          </div>
-        </div>
+
 
         {/* META CAMPAIGNS TABLE */}
         <SectionLabel>Meta campagnes — april 2026</SectionLabel>
