@@ -27,8 +27,8 @@ export function ThemeToggleIcon({ size = 15 }: Props) {
 
   return (
     <span
-      className="inline-flex items-center justify-center transition-transform duration-700 ease-in-out"
-      style={{ transform: `rotate(${rotation}deg)` }}
+      className="inline-flex items-center justify-center leading-none transition-transform duration-700 ease-in-out"
+      style={{ transform: `rotate(${rotation}deg)`, lineHeight: 0 }}
     >
       {theme === 'dark' ? (
         <HugeiconsIcon icon={Sun01Icon} size={size} />
