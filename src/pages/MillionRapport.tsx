@@ -123,27 +123,11 @@ const MillionRapport = () => {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* HEADER */}
-      <header className="relative bg-webiro-dark text-white overflow-hidden">
-        {/* Subtle gradient glow */}
-        <div className="pointer-events-none absolute inset-0 opacity-60">
-          <div className="absolute -top-40 -left-32 w-[480px] h-[480px] rounded-full bg-primary/20 blur-[120px]" />
-          <div className="absolute -bottom-40 -right-32 w-[480px] h-[480px] rounded-full bg-accent/15 blur-[120px]" />
-        </div>
-        {/* Grid texture */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-        />
-
-        <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-10 pb-8">
-          {/* Top row: co-branding */}
-          <div className="flex items-center justify-between gap-6">
-            {/* Million Store logo */}
-            <svg viewBox="0 0 355.44 167.25" className="h-9 md:h-10 w-auto" xmlns="http://www.w3.org/2000/svg">
+      <header className="bg-webiro-dark text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          {/* Top bar: co-branded logos */}
+          <div className="flex items-center justify-between h-20 border-b border-white/10">
+            <svg viewBox="0 0 355.44 167.25" className="h-7 w-auto" xmlns="http://www.w3.org/2000/svg">
               <g fill="#fff">
                 <path d="M201.94,86.65v-8.45c0-1.92-1.66-3.44-3.64-3.44h-5.42v27.37h2.98v-11.77h1.57c.79,0,1.53.43,1.53,1.76v10.01h2.98v-10.48s.08-2.03-1.08-2.58c1.2-.27,1.08-2.42,1.08-2.42Zm-2.98-.51c0,1.25-.74,1.56-1.53,1.56h-1.57v-10.32h1.57c.79,0,1.53.39,1.53,1.41v7.35Z" />
                 <path d="M218.5,89.86c0-.35.33-.67.7-.67h1.24c.95,0,1.36-.39,1.57-.74.12-.23.62-1.37.95-2.07h-4.47v-8.13c0-.39.29-.66.7-.66h2.4c.95,0,1.41-.43,1.57-.78l.99-2.03h-7.74c-.5,0-.87.35-.91.78v26.59h6.62c.95,0,1.41-.39,1.61-.74.12-.23.62-1.33.95-2.03h-6.21v-9.5Z" />
@@ -161,49 +145,27 @@ const MillionRapport = () => {
                 <path d="M262.9,50.69c-15.6-6.51-15.6-48.66,0-48.66V0c-27.92,4.8-27.92,47.93,0,52.73v-2.03Z" />
               </g>
             </svg>
-
-            {/* Co-branding indicator */}
-            <div className="hidden sm:flex items-center gap-3 text-white/30">
-              <div className="h-px w-6 md:w-10 bg-gradient-to-r from-transparent to-white/30" />
-              <span className="text-[10px] uppercase tracking-[0.25em] text-white/40">×</span>
-              <div className="h-px w-6 md:w-10 bg-gradient-to-l from-transparent to-white/30" />
-            </div>
-
-            {/* Webiro logo */}
-            <img src={webiroLogoDark} alt="Webiro" className="h-7 md:h-8 w-auto" />
+            <img src={webiroLogoDark} alt="Webiro" className="h-6 w-auto" />
           </div>
 
-          {/* Divider */}
-          <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
-          {/* Bottom row: title + meta */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
+          {/* Title block */}
+          <div className="py-14 md:py-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] font-medium text-primary uppercase tracking-[0.25em] mb-2">
+              <p className="text-[11px] font-medium text-primary uppercase tracking-[0.22em] mb-4">
                 Marketing Report
               </p>
-              <h1 className="text-3xl md:text-4xl font-sans font-bold tracking-tight">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
                 Ads Rapportage
-                <span className="text-white/40 font-normal"> / april 2026</span>
               </h1>
-              <p className="text-sm text-white/50 mt-2">
-                Prepared by Webiro for Million Store
+              <p className="text-base text-white/60 mt-3">
+                April 2026 · prepared by Webiro for Million Store
               </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/15 bg-white/[0.03] text-xs font-mono text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                April 2026
-              </span>
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/15 bg-white/[0.03] text-xs font-mono text-white/70">
-                Vertrouwelijk
-              </span>
+            <div className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              Vertrouwelijk
             </div>
           </div>
         </div>
-
-        {/* Bottom accent line */}
-        <div className="relative h-[2px] bg-gradient-to-r from-primary via-accent to-primary" />
       </header>
 
       {/* CONTENT */}
