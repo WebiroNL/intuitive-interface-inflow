@@ -119,7 +119,7 @@ export default function OverOns() {
             <p className="text-[16px] lg:text-[17px] text-muted-foreground leading-relaxed mb-10 max-w-[560px]">
               Webiro helpt ondernemers verder te groeien met strakke websites,
               doordachte marketing en een proces dat altijd transparant blijft.
-              Geen jargon, geen verrassingen — wel groei.
+              Geen jargon, geen verrassingen, wel groei.
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <Link
@@ -269,14 +269,14 @@ export default function OverOns() {
               </p>
               <p>
                 Daarom hebben we Webiro opgezet als een bureau dat <strong className="text-foreground font-semibold">alles
-                onder één dak</strong> aanbiedt — van strategie en design tot ontwikkeling, marketing
+                onder één dak</strong> aanbiedt, van strategie en design tot ontwikkeling, marketing
                 en automatisering. Met heldere pakketten, vaste tarieven en een dashboard
                 waarin je 24/7 ziet wat er gebeurt.
               </p>
               <p>
                 Vandaag werken we voor groeiende bedrijven door heel Nederland, van fitnessclubs
                 en advocatenkantoren tot webshops en techniekbedrijven. Wat ze gemeen hebben?
-                De ambitie om online verder te komen — en het vertrouwen dat wij dat samen met
+                De ambitie om online verder te komen, en het vertrouwen dat wij dat samen met
                 hen kunnen waarmaken.
               </p>
             </div>
