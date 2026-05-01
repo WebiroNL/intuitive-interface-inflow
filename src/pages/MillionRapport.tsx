@@ -94,7 +94,7 @@ const INSIGHTS = [
 const RoasPill = ({ value, tone }: { value: string; tone: "good" | "amber" | "bad" }) => {
   const tones = {
     good: "bg-primary/10 text-primary border-primary/20",
-    amber: "bg-webiro-yellow/15 text-webiro-yellow-dark border-webiro-yellow/30",
+    amber: "bg-webiro-yellow/15 text-webiro-yellow border-webiro-yellow/30",
     bad: "bg-destructive/10 text-destructive border-destructive/20",
   };
   return (
@@ -145,7 +145,7 @@ const MillionRapport = () => {
             </svg>
             <div className="hidden md:block w-px h-10 bg-white/15" />
             <div>
-              <h1 className="text-2xl font-display font-bold tracking-tight">Ads Rapportage</h1>
+              <h1 className="text-2xl font-sans font-bold tracking-tight">Ads Rapportage</h1>
               <p className="text-xs text-white/50 uppercase tracking-[0.2em] mt-1">Prepared by Webiro · Marketing Report</p>
             </div>
           </div>
@@ -156,7 +156,7 @@ const MillionRapport = () => {
                 <path d="M55 5 L36 48 L55 91 L74 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
                 <path d="M87 5 L68 48 L87 91 L106 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
               </svg>
-              <span className="text-lg font-display font-bold">Webiro<em className="not-italic text-primary">.</em></span>
+              <span className="text-lg font-sans font-bold">Webiro<em className="not-italic text-primary">.</em></span>
             </div>
             <div className="px-3 py-1 rounded-full border border-white/15 text-xs font-mono text-white/70">April 2026</div>
           </div>
@@ -183,7 +183,7 @@ const MillionRapport = () => {
                 </span>
                 <HugeiconsIcon icon={kpi.icon} size={16} className={kpi.highlight ? "text-white/70" : "text-muted-foreground"} />
               </div>
-              <div className={`text-3xl font-display font-bold tracking-tight mb-1 ${kpi.highlight ? "text-white" : "text-foreground"}`}>
+              <div className={`text-3xl font-sans font-bold tracking-tight mb-1 ${kpi.highlight ? "text-white" : "text-foreground"}`}>
                 {kpi.value}
               </div>
               <div className={`text-xs ${kpi.highlight ? "text-white/60" : "text-muted-foreground"}`}>{kpi.sub}</div>
@@ -202,7 +202,7 @@ const MillionRapport = () => {
                     <HugeiconsIcon icon={c.icon} size={22} className={c.iconColor} />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-base">{c.name}</h3>
+                    <h3 className="font-sans font-bold text-base">{c.name}</h3>
                     <p className="text-xs text-muted-foreground">{c.sub}</p>
                   </div>
                 </div>
@@ -211,8 +211,8 @@ const MillionRapport = () => {
                     ? "border-primary/20 bg-primary/5"
                     : "border-webiro-yellow/30 bg-webiro-yellow/5"
                 }`}>
-                  <div className={`text-xl font-display font-bold leading-none ${
-                    c.roasTone === "good" ? "text-primary" : "text-webiro-yellow-dark"
+                  <div className={`text-xl font-sans font-bold leading-none ${
+                    c.roasTone === "good" ? "text-primary" : "text-webiro-yellow"
                   }`}>{c.roas}</div>
                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">{c.roasLabel}</div>
                 </div>
@@ -221,7 +221,7 @@ const MillionRapport = () => {
                 {c.metrics.map((m) => (
                   <div key={m.label} className="bg-card p-4">
                     <div className="text-xs text-muted-foreground mb-1.5">{m.label}</div>
-                    <div className={`text-lg font-display font-semibold ${m.est ? "text-muted-foreground italic" : ""}`}>
+                    <div className={`text-lg font-sans font-semibold ${m.est ? "text-muted-foreground italic" : ""}`}>
                       {m.value}
                     </div>
                   </div>
@@ -237,10 +237,10 @@ const MillionRapport = () => {
         {/* GOOGLE NOTE */}
         <div className="mt-6 rounded-xl border border-webiro-yellow/30 bg-webiro-yellow/5 p-5 flex gap-4">
           <div className="shrink-0 h-9 w-9 rounded-lg bg-webiro-yellow/15 flex items-center justify-center">
-            <HugeiconsIcon icon={IdeaIcon} size={18} className="text-webiro-yellow-dark" />
+            <HugeiconsIcon icon={IdeaIcon} size={18} className="text-webiro-yellow" />
           </div>
           <div>
-            <h4 className="font-display font-semibold text-sm mb-1.5">Google Ads campagne data ontbreekt</h4>
+            <h4 className="font-sans font-semibold text-sm mb-1.5">Google Ads campagne data ontbreekt</h4>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Voor een volledige campagne breakdown van Google Ads (zoals bij Meta hierboven) is een screenshot of export nodig uit Google Ads → Campagnes, periode 1 / 30 april 2026. Google rapporteert zelf 73,99 conversies via data driven attributie, dit klopt niet door overlap en view through. Op basis van Shopify totaal schatten we ~20 werkelijke orders via Google. Stuur de Google Ads data door voor een complete rapportage.
             </p>
@@ -251,7 +251,7 @@ const MillionRapport = () => {
         <SectionLabel>Meta campagnes — april 2026</SectionLabel>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-6 py-5 border-b border-border">
-            <h3 className="font-display font-bold text-base">Campagne breakdown</h3>
+            <h3 className="font-sans font-bold text-base">Campagne breakdown</h3>
             <p className="text-xs text-muted-foreground mt-1">7 day click + 1 day view attributie · alle conversies</p>
           </div>
           <div className="overflow-x-auto">
@@ -308,7 +308,7 @@ const MillionRapport = () => {
         <SectionLabel>Traffic — Shopify sessies per bron</SectionLabel>
         <div className="bg-card border border-border rounded-xl">
           <div className="px-6 py-5 border-b border-border flex items-center justify-between flex-wrap gap-2">
-            <h3 className="font-display font-bold text-base">Sessies per verwijzer</h3>
+            <h3 className="font-sans font-bold text-base">Sessies per verwijzer</h3>
             <span className="text-xs text-muted-foreground font-mono">Totaal: 14.475 sessies · 11.727 bezoekers</span>
           </div>
           <div className="p-6 space-y-5">
@@ -353,7 +353,7 @@ const MillionRapport = () => {
             };
             const iconBg = {
               ok: "bg-primary/10 text-primary",
-              warn: "bg-webiro-yellow/15 text-webiro-yellow-dark",
+              warn: "bg-webiro-yellow/15 text-webiro-yellow",
               note: "bg-muted text-muted-foreground",
             };
             return (
@@ -368,7 +368,7 @@ const MillionRapport = () => {
                 <div className={`h-9 w-9 rounded-lg flex items-center justify-center mb-4 ${iconBg[ins.tone]}`}>
                   <HugeiconsIcon icon={ins.icon} size={18} />
                 </div>
-                <h4 className="font-display font-semibold text-sm mb-2">{ins.title}</h4>
+                <h4 className="font-sans font-semibold text-sm mb-2">{ins.title}</h4>
                 <p className="text-sm text-muted-foreground leading-relaxed">{ins.body}</p>
               </motion.div>
             );
@@ -388,7 +388,7 @@ const MillionRapport = () => {
               <path d="M55 5 L36 48 L55 91 L74 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
               <path d="M87 5 L68 48 L87 91 L106 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
             </svg>
-            <span className="font-display font-bold text-sm">Webiro<em className="not-italic text-primary">.</em></span>
+            <span className="font-sans font-bold text-sm">Webiro<em className="not-italic text-primary">.</em></span>
           </div>
         </div>
       </footer>
