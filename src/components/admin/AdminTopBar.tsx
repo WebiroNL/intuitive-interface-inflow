@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { UserCircleIcon, Logout01Icon, Settings02Icon, Sun03Icon, Moon02Icon, Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { UserCircleIcon, Logout01Icon, Settings02Icon, Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { ThemeToggleIcon } from "@/components/ThemeToggleIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
