@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon, FloppyDiskIcon } from "@hugeicons/core-free-icons";
+import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon, FloppyDiskIcon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
