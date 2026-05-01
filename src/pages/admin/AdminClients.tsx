@@ -113,7 +113,19 @@ export default function AdminClients() {
             <tbody className="divide-y divide-border">
               {clients.map((c) => (
                 <tr key={c.id} className="hover:bg-muted/30">
-                  <td className="px-4 py-3 font-medium text-foreground">{c.company_name}</td>
+                  <td className="px-4 py-3 font-medium text-foreground">
+                    <div className="flex items-center gap-2">
+                      <span>{c.company_name}</span>
+                      {formCounts[c.id] > 0 && (
+                        <span
+                          title="Aantal ingevulde formulieren (ads intake, campagne, onboarding)"
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums"
+                        >
+                          {formCounts[c.id]}
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   
                   <td className="px-4 py-3 text-muted-foreground">{c.email}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{fmtEUR(Number(c.monthly_fee))}</td>
