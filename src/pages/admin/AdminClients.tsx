@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon, FloppyDiskIcon } from "@hugeicons/core-free-icons";
+import { Add01Icon, Edit02Icon, Delete02Icon, UserIcon, UserAdd01Icon, MagicWand01Icon, FloppyDiskIcon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { fmtEUR } from "@/hooks/useMonthlyData";
 import { MONTH_NAMES } from "@/components/client/MonthSelector";
 import { ContractView } from "@/components/contract/ContractView";
@@ -445,6 +445,12 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
   const [tabCounts, setTabCounts] = useState<{ intake: number; website_intake: number; onboarding: number }>({
     intake: 0, website_intake: 0, onboarding: 0,
   });
+  const seenKey = (kind: string) => `admin_seen_${kind}_${client.id}`;
+  const [seen, setSeen] = useState<{ intake: number; website_intake: number; onboarding: number }>(() => ({
+    intake: Number(localStorage.getItem(`admin_seen_intake_${client.id}`) || 0),
+    website_intake: Number(localStorage.getItem(`admin_seen_website_intake_${client.id}`) || 0),
+    onboarding: Number(localStorage.getItem(`admin_seen_onboarding_${client.id}`) || 0),
+  }));
 
   useEffect(() => {
     let cancelled = false;
@@ -465,9 +471,20 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
     return () => { cancelled = true; };
   }, [client.id]);
 
-  const Badge = ({ n }: { n: number }) => n > 0 ? (
-    <span className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums">
-      {n}
+  const markSeen = (kind: "intake" | "website_intake" | "onboarding", total: number) => {
+    localStorage.setItem(seenKey(kind), String(total));
+    setSeen((s) => ({ ...s, [kind]: total }));
+  };
+
+  const Badge = ({ n, kind, total }: { n: number; kind: "intake" | "website_intake" | "onboarding"; total: number }) => n > 0 ? (
+    <span
+      role="button"
+      title="Markeer als gezien"
+      onClick={(e) => { e.stopPropagation(); e.preventDefault(); markSeen(kind, total); }}
+      className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums cursor-pointer hover:bg-primary/80 transition-colors group"
+    >
+      <span className="group-hover:hidden">{n}</span>
+      <HugeiconsIcon icon={Tick02Icon} className="hidden group-hover:block w-3 h-3" strokeWidth={3} />
     </span>
   ) : null;
 
@@ -485,9 +502,9 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
-          <TabsTrigger value="intake">Ads Intake<Badge n={tabCounts.intake} /></TabsTrigger>
-          <TabsTrigger value="website_intake">Website Intake<Badge n={tabCounts.website_intake} /></TabsTrigger>
-          <TabsTrigger value="onboarding">Onboarding<Badge n={tabCounts.onboarding} /></TabsTrigger>
+          <TabsTrigger value="intake">Ads Intake<Badge n={Math.max(0, tabCounts.intake - seen.intake)} kind="intake" total={tabCounts.intake} /></TabsTrigger>
+          <TabsTrigger value="website_intake">Website Intake<Badge n={Math.max(0, tabCounts.website_intake - seen.website_intake)} kind="website_intake" total={tabCounts.website_intake} /></TabsTrigger>
+          <TabsTrigger value="onboarding">Onboarding<Badge n={Math.max(0, tabCounts.onboarding - seen.onboarding)} kind="onboarding" total={tabCounts.onboarding} /></TabsTrigger>
           <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
