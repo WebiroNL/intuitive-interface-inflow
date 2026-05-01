@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -18,9 +18,14 @@ import {
   GlobalSearchIcon,
   StarIcon,
   CursorPointer02Icon,
+  LockIcon,
+  ArrowRight02Icon,
 } from "@hugeicons/core-free-icons";
 import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
 import webiroLogo from "@/assets/logo-webiro.svg";
+
+const PASSWORD = "neukjezelfmasi";
+const STORAGE_KEY = "millionstore_rapport_auth_v1";
 
 /* ────────────────────────── DATA ────────────────────────── */
 
