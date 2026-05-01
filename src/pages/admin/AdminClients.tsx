@@ -55,12 +55,27 @@ export default function AdminClients() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Client | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
+  const [formCounts, setFormCounts] = useState<Record<string, number>>({});
 
   const load = async () => {
     setLoading(true);
     const { data } = await supabase.from("clients").select("*").order("company_name");
-    setClients((data as Client[]) ?? []);
+    const list = (data as Client[]) ?? [];
+    setClients(list);
     setLoading(false);
+
+    // Load form counts in parallel: marketing_intakes (ads intake), ads_campaigns, service_onboardings (onboarding)
+    const [mi, ac, so] = await Promise.all([
+      supabase.from("marketing_intakes").select("client_id"),
+      supabase.from("ads_campaigns").select("client_id"),
+      supabase.from("service_onboardings").select("client_id"),
+    ]);
+    const counts: Record<string, number> = {};
+    const bump = (id: string | null) => { if (id) counts[id] = (counts[id] ?? 0) + 1; };
+    (mi.data ?? []).forEach((r: any) => bump(r.client_id));
+    (ac.data ?? []).forEach((r: any) => bump(r.client_id));
+    (so.data ?? []).forEach((r: any) => bump(r.client_id));
+    setFormCounts(counts);
   };
 
   useEffect(() => { load(); }, []);
@@ -98,7 +113,19 @@ export default function AdminClients() {
             <tbody className="divide-y divide-border">
               {clients.map((c) => (
                 <tr key={c.id} className="hover:bg-muted/30">
-                  <td className="px-4 py-3 font-medium text-foreground">{c.company_name}</td>
+                  <td className="px-4 py-3 font-medium text-foreground">
+                    <div className="flex items-center gap-2">
+                      <span>{c.company_name}</span>
+                      {formCounts[c.id] > 0 && (
+                        <span
+                          title="Aantal ingevulde formulieren (ads intake, campagne, onboarding)"
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums"
+                        >
+                          {formCounts[c.id]}
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   
                   <td className="px-4 py-3 text-muted-foreground">{c.email}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{fmtEUR(Number(c.monthly_fee))}</td>
