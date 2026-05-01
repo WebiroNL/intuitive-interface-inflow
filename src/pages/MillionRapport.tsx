@@ -83,7 +83,7 @@ const TRAFFIC = [
 ];
 
 const INSIGHTS = [
-  { tone: "ok" as const, icon: CheckmarkCircle02Icon, title: "Meta presteert sterk", body: "ROAS 3.80x overall. \"Nieuwe collectie / MILLION\" is de absolute topper: 35 orders bij ROAS 2.90x. Budget hier ophogen heeft direct effect." },
+  
   { tone: "warn" as const, icon: Alert02Icon, title: "Google Ads verliesgevend", body: "Geschatte ROAS ~0.89x betekent verlies per euro spend. Campagnes doorlichten of budget tijdelijk overhevelen naar Meta tot Google geoptimaliseerd is." },
   { tone: "warn" as const, icon: ArrowDown02Icon, title: "ICON Jeans pauzeren of aanpassen", body: "€297,88 uitgegeven voor 11 orders bij ROAS 0.81x, verliesgevend. Doelgroep, bod of creatie aanpassen, of campagne pauzeren." },
   { tone: "note" as const, icon: GlobalSearchIcon, title: "UTM tracking instellen", body: "Google Ads traffic is nu niet onderscheidbaar van organisch in Shopify. UTM tags toevoegen (utm_medium=cpc) zodat Shopify betaald vs organisch splitst." },
