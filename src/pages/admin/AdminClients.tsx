@@ -92,6 +92,7 @@ export default function AdminClients() {
     (ac.data ?? []).forEach((row: any) => {
       if (!row.client_id) return;
       const cur = agg[row.client_id] ?? { count: 0, total: 0 };
+      const platforms: string[] = Array.isArray(row.platforms) ? row.platforms : [];
       cur.count += platforms.length;
       const costs = (row.platform_costs ?? {}) as Record<string, number>;
       cur.total += platforms.reduce((s, pid) => s + (Number(costs[pid]) || 0), 0);
