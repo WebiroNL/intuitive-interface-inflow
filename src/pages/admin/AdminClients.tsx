@@ -158,7 +158,7 @@ export default function AdminClients() {
                       {formCounts[c.id] > 0 && (
                         <span
                           title="Aantal ingevulde formulieren (ads intake, campagne, onboarding)"
-                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold tabular-nums"
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold tabular-nums"
                         >
                           {formCounts[c.id]}
                         </span>
@@ -501,7 +501,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
       role="button"
       title="Markeer als gezien"
       onClick={(e) => { e.stopPropagation(); e.preventDefault(); markSeen(kind, total); }}
-      className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums cursor-pointer hover:bg-primary/80 transition-colors group"
+      className="ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold tabular-nums cursor-pointer hover:bg-primary/20 transition-colors group"
     >
       <span className="group-hover:hidden">{n}</span>
       <HugeiconsIcon icon={Tick02Icon} className="hidden group-hover:block w-3 h-3" strokeWidth={3} />
