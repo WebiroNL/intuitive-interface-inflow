@@ -225,7 +225,7 @@ export function Header() {
               className="inline-flex items-center justify-center p-[7px] text-muted-foreground hover:text-foreground transition-colors rounded-[5px] hover:bg-muted/40"
               aria-label="Toggle theme"
             >
-              <ThemeToggleIcon size={15} />
+              <ThemeToggleIcon size={18} />
             </button>
 
             <CartButton />
