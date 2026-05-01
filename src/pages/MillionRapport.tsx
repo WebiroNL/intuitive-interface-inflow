@@ -19,6 +19,8 @@ import {
   StarIcon,
   CursorPointer02Icon,
 } from "@hugeicons/core-free-icons";
+import webiroLogoDark from "@/assets/logo-webiro-dark.svg";
+import webiroLogo from "@/assets/logo-webiro.svg";
 
 /* ────────────────────────── DATA ────────────────────────── */
 
