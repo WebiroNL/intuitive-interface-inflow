@@ -474,13 +474,17 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
       const [mi, wi, so] = await Promise.all([
         supabase.from("marketing_intakes").select("id", head).eq("client_id", client.id),
         supabase.from("website_intakes" as any).select("id", head).eq("client_id", client.id),
-        supabase.from("service_onboardings").select("id", head).eq("client_id", client.id),
+        supabase.from("service_onboardings").select("submitted_at, created_at").eq("client_id", client.id),
       ]);
       if (cancelled) return;
+      const onboardingGroups = new Set<string>();
+      (so.data ?? []).forEach((r: any) => {
+        onboardingGroups.add(String(r.submitted_at ?? r.created_at ?? ""));
+      });
       setTabCounts({
         intake: mi.count ?? 0,
         website_intake: (wi as any).count ?? 0,
-        onboarding: so.count ?? 0,
+        onboarding: onboardingGroups.size,
       });
     })();
     return () => { cancelled = true; };
