@@ -72,19 +72,26 @@ export default function AdminClients() {
       supabase.from("service_onboardings").select("client_id"),
       supabase.from("ads_campaigns").select("client_id, platforms, platform_costs"),
     ]);
-    const counts: Record<string, number> = {};
-    const bumpUnique = (rows: any[]) => {
-      const seen = new Set<string>();
-      rows.forEach((r) => {
-        if (r.client_id && !seen.has(r.client_id)) {
-          seen.add(r.client_id);
-          counts[r.client_id] = (counts[r.client_id] ?? 0) + 1;
-        }
-      });
+    const perClient: Record<string, { intake: number; website_intake: number; onboarding: number }> = {};
+    const ensure = (id: string) => {
+      if (!perClient[id]) perClient[id] = { intake: 0, website_intake: 0, onboarding: 0 };
+      return perClient[id];
     };
-    bumpUnique(mi.data ?? []);
-    bumpUnique((wi as any).data ?? []);
-    bumpUnique(so.data ?? []);
+    (mi.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).intake += 1; });
+    ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).website_intake += 1; });
+    (so.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).onboarding += 1; });
+
+    const counts: Record<string, number> = {};
+    Object.entries(perClient).forEach(([id, totals]) => {
+      const seenI = Number(localStorage.getItem(`admin_seen_intake_${id}`) || 0);
+      const seenW = Number(localStorage.getItem(`admin_seen_website_intake_${id}`) || 0);
+      const seenO = Number(localStorage.getItem(`admin_seen_onboarding_${id}`) || 0);
+      const unseen =
+        Math.max(0, totals.intake - seenI) +
+        Math.max(0, totals.website_intake - seenW) +
+        Math.max(0, totals.onboarding - seenO);
+      if (unseen > 0) counts[id] = unseen;
+    });
     setFormCounts(counts);
 
     // Aggregate ads campaigns: count + total monthly fee per client
@@ -474,6 +481,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
   const markSeen = (kind: "intake" | "website_intake" | "onboarding", total: number) => {
     localStorage.setItem(seenKey(kind), String(total));
     setSeen((s) => ({ ...s, [kind]: total }));
+    onChanged();
   };
 
   const Badge = ({ n, kind, total }: { n: number; kind: "intake" | "website_intake" | "onboarding"; total: number }) => n > 0 ? (
