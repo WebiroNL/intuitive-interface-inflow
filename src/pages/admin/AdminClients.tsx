@@ -502,9 +502,9 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
-          <TabsTrigger value="intake">Ads Intake<Badge n={tabCounts.intake} /></TabsTrigger>
-          <TabsTrigger value="website_intake">Website Intake<Badge n={tabCounts.website_intake} /></TabsTrigger>
-          <TabsTrigger value="onboarding">Onboarding<Badge n={tabCounts.onboarding} /></TabsTrigger>
+          <TabsTrigger value="intake">Ads Intake<Badge n={Math.max(0, tabCounts.intake - seen.intake)} kind="intake" total={tabCounts.intake} /></TabsTrigger>
+          <TabsTrigger value="website_intake">Website Intake<Badge n={Math.max(0, tabCounts.website_intake - seen.website_intake)} kind="website_intake" total={tabCounts.website_intake} /></TabsTrigger>
+          <TabsTrigger value="onboarding">Onboarding<Badge n={Math.max(0, tabCounts.onboarding - seen.onboarding)} kind="onboarding" total={tabCounts.onboarding} /></TabsTrigger>
           <TabsTrigger value="menus">Zijmenu klantportaal</TabsTrigger>
         </TabsList>
 
