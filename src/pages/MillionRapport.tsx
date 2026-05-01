@@ -7,7 +7,7 @@ import {
   Target02Icon,
   ChartLineData01Icon,
   UserGroup02Icon,
-  FacebookNew01Icon,
+  Facebook01Icon,
   GoogleIcon,
   InstagramIcon,
   CheckmarkCircle02Icon,
@@ -34,7 +34,7 @@ const CHANNELS = [
   {
     name: "Meta Ads",
     sub: "Facebook & Instagram",
-    icon: FacebookNew01Icon,
+    icon: Facebook01Icon,
     iconColor: "text-[#1877F2]",
     roas: "3.80x",
     roasLabel: "ROAS",
