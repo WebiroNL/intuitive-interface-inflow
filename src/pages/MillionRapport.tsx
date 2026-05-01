@@ -121,9 +121,65 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 /* ────────────────────────── PAGE ────────────────────────── */
 
 const MillionRapport = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   useEffect(() => {
+    if (sessionStorage.getItem(STORAGE_KEY) === "true") setAuthenticated(true);
     document.title = "Million Store — Ads Rapportage April 2026 | Webiro";
   }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === PASSWORD) {
+      sessionStorage.setItem(STORAGE_KEY, "true");
+      setAuthenticated(true);
+    } else {
+      setError("Onjuist wachtwoord");
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-webiro-dark flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/15 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-accent/15 rounded-full blur-3xl" />
+
+        <form onSubmit={handleSubmit} className="relative w-full max-w-md p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+              <HugeiconsIcon icon={LockIcon} size={20} className="text-white" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-white/50">Beveiligd rapport</div>
+              <h1 className="text-xl font-semibold text-white">Million Store</h1>
+            </div>
+          </div>
+          <label className="block text-sm font-medium text-white/80 mb-2">Wachtwoord</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value); setError(""); }}
+            className="w-full px-4 py-3 rounded-lg border border-white/15 bg-white/5 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/60"
+            placeholder="••••••••••"
+            autoFocus
+            maxLength={100}
+          />
+          {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+          <button
+            type="submit"
+            className="mt-5 w-full py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+          >
+            Toegang krijgen <HugeiconsIcon icon={ArrowRight02Icon} size={16} className="text-white" />
+          </button>
+          <p className="mt-6 text-xs text-center text-white/40">
+            Rapport opgesteld door <span className="text-white/70 font-medium">Webiro</span>
+          </p>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
