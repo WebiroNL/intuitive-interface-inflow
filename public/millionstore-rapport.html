@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Million Store — Ads Rapportage April 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2D40ED;
+    --blue-light: #4A5CF5;
+    --blue-faint: #EEF0FE;
+    --dark: #0D0F1C;
+    --dark-2: #1A1D2E;
+    --mid: #4B4F6A;
+    --muted: #8B8FA8;
+    --border: #E4E6EF;
+    --bg: #F3F4F9;
+    --white: #FFFFFF;
+    --green: #16A34A;
+    --green-bg: #DCFCE7;
+    --red: #DC2626;
+    --red-bg: #FEE2E2;
+    --amber: #D97706;
+    --amber-bg: #FEF3C7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--dark);
+    padding: 40px 56px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--blue);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .million-logo svg { height: 38px; width: auto; }
+  .million-logo svg .cls-1 { fill: #FFFFFF; }
+
+  .header-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .header-title h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .header-title p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .webiro-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .webiro-logo svg { height: 26px; }
+
+  .webiro-logo span {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.2px;
+  }
+
+  .webiro-logo span em {
+    color: var(--blue-light);
+    font-style: normal;
+  }
+
+  .period-badge {
+    background: var(--blue);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 44px 40px 80px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-label .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .section-label h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 44px;
+  }
+
+  .kpi-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px 20px 20px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-card.highlight {
+    background: var(--dark);
+    border-color: var(--dark);
+  }
+
+  .kpi-card.highlight .kpi-label { color: rgba(255,255,255,0.45); }
+  .kpi-card.highlight .kpi-value { color: #fff; }
+  .kpi-card.highlight .kpi-sub { color: rgba(255,255,255,0.35); }
+
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--blue);
+    opacity: 0;
+  }
+
+  .kpi-card.highlight::after { opacity: 1; }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .kpi-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ── CHANNEL SPLIT ── */
+  .channels-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 44px;
+  }
+
+  .channel-card {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .channel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .channel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .channel-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .channel-icon.meta { background: #1877F215; }
+  .channel-icon.google { background: #4285F415; }
+
+  .channel-header-left h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .channel-header-left span {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .roas-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .roas-badge .roas-num {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .roas-badge .roas-lbl {
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .roas-badge.good { background: var(--green-bg); color: var(--green); }
+  .roas-badge.bad { background: var(--red-bg); color: var(--red); }
+  .roas-badge.ok { background: var(--amber-bg); color: var(--amber); }
+  .roas-badge.estimate { background: var(--blue-faint); color: var(--blue); }
+
+  .channel-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 18px 24px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ch-metric {
+    padding: 4px 0;
+  }
+
+  .ch-metric + .ch-metric {
+    padding-left: 20px;
+    border-left: 1px solid var(--border);
+    margin-left: 20px;
+  }
+
+  .ch-metric .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .ch-metric .val {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  .ch-metric .val.est {
+    color: var(--blue);
+  }
+
+  .est-note {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 8px 24px;
+    background: var(--blue-faint);
+    font-style: italic;
+  }
+
+  /* ── CAMPAIGN TABLE ── */
+  .table-wrap {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 44px;
+  }
+
+  .table-header-bar {
+    padding: 20px 24px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .table-header-bar h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .table-header-bar .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 20px;
+    text-align: left;
+    background: #FAFBFD;
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th:not(:first-child) { text-align: right; }
+
+  tbody tr {
+    border-bottom: 1px solid #F1F2F7;
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #FAFBFD; }
+
+  tbody td {
+    padding: 15px 20px;
+    font-size: 14px;
+    color: var(--dark);
+  }
+
+  tbody td:not(:first-child) {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .campaign-name {
+    font-weight: 500;
+    font-size: 13.5px;
+    color: var(--dark);
+    max-width: 280px;
+  }
+
+  .campaign-name .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 7px;
+    vertical-align: middle;
+  }
+
+  .tag.best { background: #DCFCE7; color: #16A34A; }
+  .tag.low { background: #FEE2E2; color: #DC2626; }
+
+  .roas-pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .roas-pill.g { background: var(--green-bg); color: var(--green); }
+  .roas-pill.r { background: var(--red-bg); color: var(--red); }
+  .roas-pill.a { background: var(--amber-bg); color: var(--amber); }
+
+  /* ── TRAFFIC ── */
+  .traffic-card {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 44px;
+  }
+
+  .traffic-header {
+    padding: 20px 24px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .traffic-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .traffic-header .total {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .traffic-rows { padding: 16px 24px; }
+
+  .traffic-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F1F2F7;
+  }
+
+  .traffic-row:last-child { border-bottom: none; }
+
+  .traffic-source {
+    width: 120px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+    flex-shrink: 0;
+  }
+
+  .traffic-source .sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .traffic-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .traffic-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+  }
+
+  .traffic-sessions {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .traffic-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 42px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── INSIGHTS ── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+
+  .insight-card {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .insight-card .icon {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .insight-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+    color: var(--dark);
+  }
+
+  .insight-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--mid);
+  }
+
+  .insight-card.warn { border-left: 3px solid var(--red); }
+  .insight-card.ok { border-left: 3px solid var(--green); }
+  .insight-card.note { border-left: 3px solid var(--blue); }
+
+  /* ── GOOGLE NOTE ── */
+  .google-note {
+    background: var(--blue-faint);
+    border: 1px dashed #B0BCFA;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 44px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .google-note .icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+  .google-note h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 5px;
+  }
+
+  .google-note p {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--dark);
+    padding: 28px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-logo svg { height: 18px; opacity: 0.7; }
+
+  .footer-logo span {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── DIVIDER ── */
+  .section-gap { margin-bottom: 10px; }
+
+  /* ── TOTAL ROW ── */
+  tbody tr.total-row td {
+    font-weight: 600;
+    background: #FAFBFD;
+    border-top: 2px solid var(--border);
+    color: var(--dark);
+  }
+
+  tbody tr.total-row td:not(:first-child) {
+    font-family: 'DM Mono', monospace;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="million-logo">
+      <!-- Million Store logo (dark bg version = white fill) -->
+      <svg viewBox="0 0 355.44 167.25" xmlns="http://www.w3.org/2000/svg">
+        <style>.w{fill:#ffffff}</style>
+        <g>
+          <path class="w" d="M201.94,86.65v-8.45c0-1.92-1.66-3.44-3.64-3.44h-5.42v27.37h2.98v-11.77h1.57c.79,0,1.53.43,1.53,1.76v10.01h2.98v-10.48s.08-2.03-1.08-2.58c1.2-.27,1.08-2.42,1.08-2.42Zm-2.98-.51c0,1.25-.74,1.56-1.53,1.56h-1.57v-10.32h1.57c.79,0,1.53.39,1.53,1.41v7.35Z"/>
+          <path class="w" d="M218.5,89.86c0-.35.33-.67.7-.67h1.24c.95,0,1.36-.39,1.57-.74.12-.23.62-1.37.95-2.07h-4.47v-8.13c0-.39.29-.66.7-.66h2.4c.95,0,1.41-.43,1.57-.78l.99-2.03h-7.74c-.5,0-.87.35-.91.78v26.59h6.62c.95,0,1.41-.39,1.61-.74.12-.23.62-1.33.95-2.03h-6.21v-9.5Z"/>
+          <path class="w" d="M131.56,94.59c-.37.2-.83.63-.83,1.53v2.81c.04,1.88,1.61,3.4,3.6,3.48h1.86c2.07,0,3.72-1.56,3.72-3.48v-3.48s.13-1.84-1.32-4.34l-3.56-6.33s-1.28-2.07-1.28-3.68v-2.62c0-.86.7-1.53,1.57-1.53s1.57.66,1.57,1.53v3.17c.79-.31,1.94-.82,2.19-.94.37-.2.83-.63.83-1.52v-1.06c0-1.88-1.61-3.6-3.6-3.64h-1.86c-2.07,0-3.72,1.72-3.72,3.64v2.81s-.12,1.84,1.32,4.34l3.56,6.29s1.28,2.11,1.28,3.72v3.13c0,.86-.7,1.52-1.57,1.52s-1.57-.66-1.57-1.48v-4.77c-.74.31-1.94.82-2.19.9Z"/>
+          <path class="w" d="M177.27,102.41c1.99-.08,3.56-1.56,3.6-3.44v-20.99c0-1.88-1.61-3.4-3.6-3.48h-2.28c-2.07,0-3.72,1.56-3.72,3.48v20.99c.04,1.88,1.7,3.44,3.72,3.44h2.28Zm-3.02-3.99v-19.94c0-.82.7-1.49,1.57-1.53h.46c.87,0,1.57.66,1.57,1.53v19.94c0,.86-.7,1.52-1.57,1.52h-.46c-.87-.04-1.57-.7-1.57-1.52Z"/>
+          <path class="w" d="M149.82,75.63v1.92h4.18v24.01c0,.2.12.59.83.59h2.11v-23.93c.04-.35.33-.66.74-.66h2.32c.95,0,1.41-.39,1.57-.74l.99-2.03h-11.84c-.5,0-.91.39-.91.86Z"/>
+          <path class="w" d="M14.11.99H0v1.45c2.24,0,3.74,1.45,3.74,3.63v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h11.42v-1.45c-2.24,0-3.73-1.45-3.73-3.63V8.24l20.62,43.5h2.24l3.74-8.81-.82-1.77L14.11.99Z"/>
+          <path class="w" d="M63.05,50.29c-2.24,0-3.74-1.45-3.74-3.63V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-12.7l-.02,45.7.02-.02c0,2.18-1.49,3.63-3.74,3.63v1.45h16.44v-1.45Z"/>
+          <path class="w" d="M147.87,35.29h-1.49v.58c0,7.9-5.38,11.99-13.52,11.99h-13.6c-2.24,0-3.74-1.45-3.74-3.63V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-16.44v1.45c.45,0,.82.07,1.2.15,1.57.43,2.54,1.74,2.54,3.48v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h45.06v-16.44Z"/>
+          <path class="w" d="M203.76,35.29h-1.49v.58c0,7.9-5.38,11.99-13.52,11.99h-13.6c-2.24,0-3.74-1.45-3.74-3.63V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-16.44v1.45c.45,0,.82.07,1.2.15,1.57.43,2.54,1.74,2.54,3.48v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h45.06v-16.44Z"/>
+          <path class="w" d="M344.02.99v1.45c2.24,0,3.74,1.45,3.74,3.63v34.15L315.92.99h-14.41v1.45c1.2,0,2.17.43,2.84,1.16l.22.22c.45.65.67,1.38.67,2.25v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h11.42v-1.45c-2.24,0-3.74-1.45-3.74-3.63V6.5l36.69,45.24h5.82V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-11.42Z"/>
+          <path class="w" d="M214.59,2.44c2.24,0,3.74,1.45,3.74,3.63v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h16.44v-1.45c-2.24,0-3.74-1.45-3.74-3.63V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-16.44v1.45Z"/>
+          <path class="w" d="M74.79,2.44c2.24,0,3.74,1.45,3.74,3.63v40.6c0,2.18-1.49,3.63-3.74,3.63v1.45h16.44v-1.45c-2.24,0-3.74-1.45-3.74-3.63V6.06c0-2.17,1.49-3.63,3.74-3.63V.99h-16.44v1.45Z"/>
+          <path class="w" d="M273.38.01v2.04c15.6,6.55,15.6,42.08,0,48.63v2.04c27.92-4.83,27.92-47.88,0-52.71Z"/>
+          <path class="w" d="M262.9,50.69c-15.6-6.51-15.6-42.15,0-48.66V0c-27.92,4.8-27.92,47.93,0,52.73v-2.03Z"/>
+        </g>
+      </svg>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-title">
+      <h1>Ads Rapportage</h1>
+      <p>Prepared by Webiro · Marketing Report</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="webiro-logo">
+      <!-- Webiro W icon — 3 overlapping diamond outlines -->
+      <svg viewBox="0 0 110 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23 5 L4 48 L23 91 L42 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M55 5 L36 48 L55 91 L74 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M87 5 L68 48 L87 91 L106 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <span>Webiro<em>.</em></span>
+    </div>
+    <div class="period-badge">April 2026</div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- KPI OVERVIEW -->
+  <div class="section-gap" style="margin-bottom:20px;margin-top:4px;">
+    <div class="section-label">
+      <div class="dot"></div>
+      <h2>Overzicht april 2026</h2>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Online Orders</div>
+      <div class="kpi-value">116</div>
+      <div class="kpi-sub">Shopify webshop</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Online Omzet</div>
+      <div class="kpi-value">€8.827</div>
+      <div class="kpi-sub">Gem. €76 per order</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Totale Ad Spend</div>
+      <div class="kpi-value">€3.469</div>
+      <div class="kpi-sub">Meta + Google</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Blended ROAS</div>
+      <div class="kpi-value">2.54x</div>
+      <div class="kpi-sub">Op online omzet</div>
+    </div>
+    <div class="kpi-card highlight">
+      <div class="kpi-label">Totale Sessies</div>
+      <div class="kpi-value">14.475</div>
+      <div class="kpi-sub">11.727 unieke bezoekers</div>
+    </div>
+  </div>
+
+  <!-- CHANNEL CARDS -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <h2>Per kanaal</h2>
+  </div>
+
+  <div class="channels-row">
+    <!-- META -->
+    <div class="channel-card">
+      <div class="channel-header">
+        <div class="channel-header-left">
+          <div class="channel-icon meta">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </div>
+          <div>
+            <h3>Meta Ads</h3>
+            <span>Facebook & Instagram</span>
+          </div>
+        </div>
+        <div class="roas-badge good">
+          <span class="roas-num">3.80x</span>
+          <span class="roas-lbl">ROAS</span>
+        </div>
+      </div>
+      <div class="channel-metrics">
+        <div class="ch-metric">
+          <div class="lbl">Spend</div>
+          <div class="val">€1.762</div>
+        </div>
+        <div class="ch-metric">
+          <div class="lbl">Orders</div>
+          <div class="val">88</div>
+        </div>
+        <div class="ch-metric">
+          <div class="lbl">CPP</div>
+          <div class="val">€20.03</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOOGLE -->
+    <div class="channel-card">
+      <div class="channel-header">
+        <div class="channel-header-left">
+          <div class="channel-icon google">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          </div>
+          <div>
+            <h3>Google Ads</h3>
+            <span>Search & Display</span>
+          </div>
+        </div>
+        <div class="roas-badge estimate">
+          <span class="roas-num">~0.89x</span>
+          <span class="roas-lbl">Schatting</span>
+        </div>
+      </div>
+      <div class="channel-metrics">
+        <div class="ch-metric">
+          <div class="lbl">Spend</div>
+          <div class="val">€1.706</div>
+        </div>
+        <div class="ch-metric">
+          <div class="lbl">Orders (est.)</div>
+          <div class="val est">~20</div>
+        </div>
+        <div class="ch-metric">
+          <div class="lbl">CPP (est.)</div>
+          <div class="val est">~€85</div>
+        </div>
+      </div>
+      <div class="est-note">* Schatting op basis van 116 totaal − 88 Meta = 28 resterende orders. Google Ads campagne data ontbreekt — zie opmerking hieronder.</div>
+    </div>
+  </div>
+
+  <!-- GOOGLE NOTE -->
+  <div class="google-note">
+    <div class="icon">💡</div>
+    <div>
+      <h4>Google Ads campagne data ontbreekt</h4>
+      <p>Voor een volledige campagne-breakdown van Google Ads (zoals bij Meta hierboven) is een screenshot of export nodig uit Google Ads → Campagnes, periode 1–30 april 2026. Google rapporteert zelf 73,99 conversies via data-driven attributie — dit klopt niet door overlap en view-through. Op basis van Shopify totaal schatten we ~20 werkelijke orders via Google. Stuur de Google Ads data door voor een complete rapportage.</p>
+    </div>
+  </div>
+
+  <!-- META CAMPAIGN TABLE -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <h2>Meta campagnes — April 2026</h2>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom:44px">
+    <div class="table-header-bar">
+      <div>
+        <h3>Campagne breakdown</h3>
+        <div class="sub">7-day click + 1-day view attributie · Alle conversies</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Campagne</th>
+          <th>Spend</th>
+          <th>Orders</th>
+          <th>CPP</th>
+          <th>Reach</th>
+          <th>ROAS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="campaign-name">
+            Nieuwe collectie — MILLION
+            <span class="tag best">★ Beste</span>
+          </td>
+          <td>€714,50</td>
+          <td>35</td>
+          <td>€20,41</td>
+          <td>79.564</td>
+          <td><span class="roas-pill g">2.90x</span></td>
+        </tr>
+        <tr>
+          <td class="campaign-name">WEBIRO: NOA LANG TRIADORO</td>
+          <td>€452,36</td>
+          <td>22</td>
+          <td>€20,56</td>
+          <td>52.525</td>
+          <td><span class="roas-pill g">1.71x</span></td>
+        </tr>
+        <tr>
+          <td class="campaign-name">Pantalon x Filmpje van ander MEI — Adv+</td>
+          <td>€148,90</td>
+          <td>9</td>
+          <td>€16,54</td>
+          <td>25.179</td>
+          <td><span class="roas-pill g">2.11x</span></td>
+        </tr>
+        <tr>
+          <td class="campaign-name">1ste Pantalon x Wide Leg — NEW maart '26</td>
+          <td>€148,77</td>
+          <td>11</td>
+          <td>€13,52</td>
+          <td>18.743</td>
+          <td><span class="roas-pill a">1.09x</span></td>
+        </tr>
+        <tr>
+          <td class="campaign-name">
+            [TOF] ICON Jeans — conversions — NEW
+            <span class="tag low">Verlies</span>
+          </td>
+          <td>€297,88</td>
+          <td>11</td>
+          <td>€27,08</td>
+          <td>37.820</td>
+          <td><span class="roas-pill r">0.81x</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>Totaal Meta Ads</td>
+          <td>€1.762,41</td>
+          <td>88</td>
+          <td>€20,03</td>
+          <td>213.831</td>
+          <td><span class="roas-pill g">3.80x</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TRAFFIC -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <h2>Traffic — Shopify sessies per bron</h2>
+  </div>
+
+  <div class="traffic-card">
+    <div class="traffic-header">
+      <h3>Sessies per verwijzer</h3>
+      <span class="total">Totaal: 14.475 sessies · 11.727 bezoekers</span>
+    </div>
+    <div class="traffic-rows">
+      <div class="traffic-row">
+        <div class="traffic-source">Google<div class="sub">Betaald + organisch</div></div>
+        <div class="traffic-bar-wrap"><div class="traffic-bar" style="width:36.7%;background:#4285F4;"></div></div>
+        <div class="traffic-sessions">5.317</div>
+        <div class="traffic-pct">36.7%</div>
+      </div>
+      <div class="traffic-row">
+        <div class="traffic-source">Direct<div class="sub">Type-in / bookmark</div></div>
+        <div class="traffic-bar-wrap"><div class="traffic-bar" style="width:30.6%;background:#6B7280;"></div></div>
+        <div class="traffic-sessions">4.424</div>
+        <div class="traffic-pct">30.6%</div>
+      </div>
+      <div class="traffic-row">
+        <div class="traffic-source">Facebook<div class="sub">Organisch + betaald</div></div>
+        <div class="traffic-bar-wrap"><div class="traffic-bar" style="width:21.1%;background:#1877F2;"></div></div>
+        <div class="traffic-sessions">3.059</div>
+        <div class="traffic-pct">21.1%</div>
+      </div>
+      <div class="traffic-row">
+        <div class="traffic-source">Instagram<div class="sub">Organisch + betaald</div></div>
+        <div class="traffic-bar-wrap"><div class="traffic-bar" style="width:11%;background:#E1306C;"></div></div>
+        <div class="traffic-sessions">1.591</div>
+        <div class="traffic-pct">11.0%</div>
+      </div>
+      <div class="traffic-row">
+        <div class="traffic-source">Overig<div class="sub">Bing, Yandex, e.a.</div></div>
+        <div class="traffic-bar-wrap"><div class="traffic-bar" style="width:0.6%;background:#9CA3AF;"></div></div>
+        <div class="traffic-sessions">84</div>
+        <div class="traffic-pct">0.6%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="section-label" style="margin-top:44px;">
+    <div class="dot"></div>
+    <h2>Aanbevelingen</h2>
+  </div>
+
+  <div class="insights-grid">
+    <div class="insight-card ok">
+      <div class="icon">✅</div>
+      <h4>Meta presteert sterk</h4>
+      <p>ROAS 3.80x overall. "Nieuwe collectie — MILLION" is de absolute topper: 35 orders bij ROAS 2.90x. Budget hier ophogen heeft direct effect.</p>
+    </div>
+    <div class="insight-card warn">
+      <div class="icon">⚠️</div>
+      <h4>Google Ads verliesgevend</h4>
+      <p>Geschatte ROAS ~0.89x betekent verlies per euro spend. Campagnes doorlichten of budget tijdelijk overhevelen naar Meta totdat Google geoptimaliseerd is.</p>
+    </div>
+    <div class="insight-card warn">
+      <div class="icon">🔻</div>
+      <h4>ICON Jeans pauze/aanpassen</h4>
+      <p>€297,88 uitgegeven voor 11 orders bij ROAS 0.81x — verliesgevend. Doelgroep, bod of creatie aanpassen, of campagne pauzeren.</p>
+    </div>
+    <div class="insight-card note">
+      <div class="icon">📊</div>
+      <h4>UTM tracking instellen</h4>
+      <p>Google Ads traffic is nu niet onderscheidbaar van organisch in Shopify. UTM-tags toevoegen (utm_medium=cpc) zodat Shopify betaald vs organisch splitst.</p>
+    </div>
+    <div class="insight-card note">
+      <div class="icon">📈</div>
+      <h4>Conversieratio: 1%</h4>
+      <p>116 orders op 11.727 bezoekers = 0.99% conversieratio. Optimalisatie van productpagina's en checkout kan dit direct verhogen zonder extra spend.</p>
+    </div>
+    <div class="insight-card ok">
+      <div class="icon">🎯</div>
+      <h4>Advantage+ werkt</h4>
+      <p>"Pantalon x Filmpje" draait op Advantage+ budgeting met ROAS 2.11x. Dit format verdient een breder test met meerdere producten.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Rapportage opgesteld door Webiro · April 2026 · Vertrouwelijk — alleen voor Million Store</p>
+  <div class="footer-logo">
+    <svg viewBox="0 0 110 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23 5 L4 48 L23 91 L42 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.6"/>
+      <path d="M55 5 L36 48 L55 91 L74 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.6"/>
+      <path d="M87 5 L68 48 L87 91 L106 48 Z" fill="none" stroke="#3346EA" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+    <span>Webiro.</span>
+  </div>
+</footer>
+
+</body>
+</html>
