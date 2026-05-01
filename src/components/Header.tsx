@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon02Icon, ArrowDown01Icon, User03Icon, Globe02Icon, MegaphoneIcon, WorkflowSquare01Icon } from '@hugeicons/core-free-icons';
+import { ThemeToggleIcon } from '@/components/ThemeToggleIcon';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
