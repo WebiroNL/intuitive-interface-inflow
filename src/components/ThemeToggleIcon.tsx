@@ -22,7 +22,7 @@ export function ThemeToggleIcon({ size = 15 }: Props) {
       isFirst.current = false;
       return;
     }
-    setRotation((prev) => prev + (theme === 'dark' ? 180 : 360));
+    setRotation((prev) => prev + 360);
   }, [theme]);
 
   return (
