@@ -377,14 +377,7 @@ const MillionRapport = () => {
           <p className="text-xs text-muted-foreground">
             Rapportage opgesteld door Webiro · April 2026 · Vertrouwelijk, alleen voor Million Store
           </p>
-          <div className="flex items-center gap-2.5 opacity-60">
-            <svg viewBox="0 0 110 96" className="h-5" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23 5 L4 48 L23 91 L42 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-              <path d="M55 5 L36 48 L55 91 L74 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-              <path d="M87 5 L68 48 L87 91 L106 48 Z" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinejoin="round" />
-            </svg>
-            <span className="font-sans font-bold text-sm">Webiro<em className="not-italic text-primary">.</em></span>
-          </div>
+          <img src={webiroLogo} alt="Webiro" className="h-6 w-auto opacity-70" />
         </div>
       </footer>
     </div>
