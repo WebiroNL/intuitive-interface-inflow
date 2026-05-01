@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Menu01Icon, Cancel01Icon, Sun01Icon, Moon02Icon, ArrowDown01Icon, User03Icon, Globe02Icon, MegaphoneIcon, WorkflowSquare01Icon } from '@hugeicons/core-free-icons';
+import { ThemeToggleIcon } from '@/components/ThemeToggleIcon';
 import webiroLogo from '@/assets/logo-webiro.svg';
 import webiroLogoDark from '@/assets/logo-webiro-dark.svg';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -224,7 +225,7 @@ export function Header() {
               className="p-[7px] text-muted-foreground hover:text-foreground transition-colors rounded-[5px] hover:bg-muted/40"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
+              <ThemeToggleIcon size={15} />
             </button>
 
             <CartButton />
@@ -294,7 +295,7 @@ export function Header() {
                 onClick={toggleTheme}
                 className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium text-muted-foreground hover:text-foreground rounded-[5px] hover:bg-muted/20 transition-colors"
               >
-                {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
+                <ThemeToggleIcon size={15} />
                 {theme === 'dark' ? 'Licht thema' : 'Donker thema'}
               </button>
               {user ? (
