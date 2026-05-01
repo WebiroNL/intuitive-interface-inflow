@@ -59,6 +59,46 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const location = useLocation();
   const { signOut, user } = useAuth();
   const isDark = document.documentElement.classList.contains('dark');
+  const [clientsBadge, setClientsBadge] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      const [mi, wi, so] = await Promise.all([
+        supabase.from("marketing_intakes").select("client_id"),
+        supabase.from("website_intakes" as any).select("client_id"),
+        supabase.from("service_onboardings").select("client_id, submitted_at, created_at"),
+      ]);
+      const per: Record<string, { intake: number; website_intake: number; onboarding: number }> = {};
+      const ensure = (id: string) => {
+        if (!per[id]) per[id] = { intake: 0, website_intake: 0, onboarding: 0 };
+        return per[id];
+      };
+      (mi.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).intake += 1; });
+      ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).website_intake += 1; });
+      const onbGroups: Record<string, Set<string>> = {};
+      ((so as any).data ?? []).forEach((r: any) => {
+        if (!r.client_id) return;
+        if (!onbGroups[r.client_id]) onbGroups[r.client_id] = new Set();
+        onbGroups[r.client_id].add(String(r.submitted_at ?? r.created_at ?? ""));
+      });
+      Object.entries(onbGroups).forEach(([id, s]) => { ensure(id).onboarding = s.size; });
+
+      let total = 0;
+      Object.entries(per).forEach(([id, t]) => {
+        const si = Number(localStorage.getItem(`admin_seen_intake_${id}`) || 0);
+        const sw = Number(localStorage.getItem(`admin_seen_website_intake_${id}`) || 0);
+        const so2 = Number(localStorage.getItem(`admin_seen_onboarding_${id}`) || 0);
+        total += Math.max(0, t.intake - si) + Math.max(0, t.website_intake - sw) + Math.max(0, t.onboarding - so2);
+      });
+      if (!cancelled) setClientsBadge(total);
+    };
+    load();
+    const onStorage = () => load();
+    window.addEventListener("storage", onStorage);
+    const interval = setInterval(load, 15000);
+    return () => { cancelled = true; window.removeEventListener("storage", onStorage); clearInterval(interval); };
+  }, [location.pathname]);
 
   const partnerPaths = ['/admin/partners', '/admin/partner-commissions', '/admin/partner-payouts', '/admin/partner-tiers'];
   const isActive = (href: string) => {
