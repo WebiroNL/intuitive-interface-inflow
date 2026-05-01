@@ -36,6 +36,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
+const MillionRapport = lazy(() => import("./pages/MillionRapport"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
 const ClientActivate = lazy(() => import("./pages/ClientActivate"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
@@ -83,7 +84,7 @@ function ColumnGuides() {
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isReportRoute = location.pathname.startsWith('/novellerapport');
+  const isReportRoute = location.pathname.startsWith('/novellerapport') || location.pathname.startsWith('/millionstore');
   const isClientRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login' || location.pathname.startsWith('/client/');
   const isPartnerPortalRoute = location.pathname.startsWith('/partner/dashboard') || location.pathname === '/partner/login' || location.pathname === '/partner/register';
   const hideChrome = isAdminRoute || isReportRoute || isClientRoute || isPartnerPortalRoute;
@@ -133,6 +134,8 @@ function AppContent() {
             <Route path="/account" element={<Navigate to="/dashboard" replace />} />
             <Route path="/moodboard" element={<MoodboardTool />} />
             <Route path="/novellerapport" element={<NovelleRapport />} />
+            <Route path="/millionstore/rapport" element={<MillionRapport />} />
+            <Route path="/millionstore" element={<Navigate to="/millionstore/rapport" replace />} />
             <Route path="/client/login" element={<ClientLogin />} />
             <Route path="/client/activate" element={<ClientActivate />} />
             <Route path="/dashboard/*" element={<ClientPortal />} />
