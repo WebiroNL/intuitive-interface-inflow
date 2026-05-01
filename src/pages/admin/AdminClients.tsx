@@ -55,12 +55,27 @@ export default function AdminClients() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Client | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
+  const [formCounts, setFormCounts] = useState<Record<string, number>>({});
 
   const load = async () => {
     setLoading(true);
     const { data } = await supabase.from("clients").select("*").order("company_name");
-    setClients((data as Client[]) ?? []);
+    const list = (data as Client[]) ?? [];
+    setClients(list);
     setLoading(false);
+
+    // Load form counts in parallel: marketing_intakes (ads intake), ads_campaigns, service_onboardings (onboarding)
+    const [mi, ac, so] = await Promise.all([
+      supabase.from("marketing_intakes").select("client_id"),
+      supabase.from("ads_campaigns").select("client_id"),
+      supabase.from("service_onboardings").select("client_id"),
+    ]);
+    const counts: Record<string, number> = {};
+    const bump = (id: string | null) => { if (id) counts[id] = (counts[id] ?? 0) + 1; };
+    (mi.data ?? []).forEach((r: any) => bump(r.client_id));
+    (ac.data ?? []).forEach((r: any) => bump(r.client_id));
+    (so.data ?? []).forEach((r: any) => bump(r.client_id));
+    setFormCounts(counts);
   };
 
   useEffect(() => { load(); }, []);
