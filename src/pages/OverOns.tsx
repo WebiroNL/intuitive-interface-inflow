@@ -145,7 +145,7 @@ export default function OverOns() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border/60">
             {stats.map((s) => (
-              <div key={s.label} className="py-10 lg:py-12 px-6 first:pl-0">
+              <div key={s.label} className="py-10 lg:py-12 px-6 text-center">
                 <div className="text-[36px] lg:text-[44px] leading-none font-bold tracking-[-0.025em] text-foreground mb-3">
                   {s.value}
                 </div>
