@@ -137,6 +137,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           if (item.type === 'group') return null;
+          const showBadge = item.href === '/admin/clients' && clientsBadge > 0;
           return (
             <Link
               key={item.href}
@@ -148,7 +149,12 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
               }`}
             >
               <HugeiconsIcon icon={item.icon} size={16} />
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {showBadge && (
+                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold tabular-nums">
+                  {clientsBadge}
+                </span>
+              )}
             </Link>
           );
         })}
