@@ -232,9 +232,6 @@ const MillionRapport = () => {
                   </div>
                 ))}
               </div>
-              {c.note && (
-                <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{c.note}</p>
-              )}
             </div>
           ))}
         </div>
