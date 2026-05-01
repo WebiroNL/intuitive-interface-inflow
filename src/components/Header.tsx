@@ -295,7 +295,7 @@ export function Header() {
                 onClick={toggleTheme}
                 className="flex items-center gap-2 py-2.5 px-3 text-[14px] font-medium text-muted-foreground hover:text-foreground rounded-[5px] hover:bg-muted/20 transition-colors"
               >
-                {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={15} /> : <HugeiconsIcon icon={Moon02Icon} size={15} />}
+                <ThemeToggleIcon size={15} />
                 {theme === 'dark' ? 'Licht thema' : 'Donker thema'}
               </button>
               {user ? (
