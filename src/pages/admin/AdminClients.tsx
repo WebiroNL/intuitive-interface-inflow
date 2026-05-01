@@ -56,6 +56,7 @@ export default function AdminClients() {
   const [selected, setSelected] = useState<Client | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [formCounts, setFormCounts] = useState<Record<string, number>>({});
+  const [adsAgg, setAdsAgg] = useState<Record<string, { count: number; total: number }>>({});
 
   const load = async () => {
     setLoading(true);
@@ -65,10 +66,11 @@ export default function AdminClients() {
     setLoading(false);
 
     // Load form counts: ads intake (marketing_intakes), website intake, onboarding (service_onboardings)
-    const [mi, wi, so] = await Promise.all([
+    const [mi, wi, so, ac] = await Promise.all([
       supabase.from("marketing_intakes").select("client_id"),
       supabase.from("website_intakes" as any).select("client_id"),
       supabase.from("service_onboardings").select("client_id"),
+      supabase.from("ads_campaigns").select("client_id, platforms, platform_costs"),
     ]);
     const counts: Record<string, number> = {};
     const bumpUnique = (rows: any[]) => {
@@ -84,6 +86,19 @@ export default function AdminClients() {
     bumpUnique((wi as any).data ?? []);
     bumpUnique(so.data ?? []);
     setFormCounts(counts);
+
+    // Aggregate ads campaigns: count + total monthly fee per client
+    const agg: Record<string, { count: number; total: number }> = {};
+    (ac.data ?? []).forEach((row: any) => {
+      if (!row.client_id) return;
+      const cur = agg[row.client_id] ?? { count: 0, total: 0 };
+      cur.count += 1;
+      const platforms: string[] = Array.isArray(row.platforms) ? row.platforms : [];
+      const costs = (row.platform_costs ?? {}) as Record<string, number>;
+      cur.total += platforms.reduce((s, pid) => s + (Number(costs[pid]) || 0), 0);
+      agg[row.client_id] = cur;
+    });
+    setAdsAgg(agg);
   };
 
   useEffect(() => { load(); }, []);
