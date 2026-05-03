@@ -1992,6 +1992,72 @@ export type Database = {
         }
         Relationships: []
       }
+      tasks: {
+        Row: {
+          assignee: Database["public"]["Enums"]["task_assignee"] | null
+          category: string
+          client_id: string
+          client_label: string | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          notes: string | null
+          position: number
+          service_onboarding_id: string | null
+          service_type: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          template_key: string | null
+          title: string
+          updated_at: string
+          visible_to_client: boolean
+        }
+        Insert: {
+          assignee?: Database["public"]["Enums"]["task_assignee"] | null
+          category?: string
+          client_id: string
+          client_label?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          position?: number
+          service_onboarding_id?: string | null
+          service_type?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          template_key?: string | null
+          title: string
+          updated_at?: string
+          visible_to_client?: boolean
+        }
+        Update: {
+          assignee?: Database["public"]["Enums"]["task_assignee"] | null
+          category?: string
+          client_id?: string
+          client_label?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          position?: number
+          service_onboarding_id?: string | null
+          service_type?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          template_key?: string | null
+          title?: string
+          updated_at?: string
+          visible_to_client?: boolean
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -2088,6 +2154,21 @@ export type Database = {
         Args: { p_partner_id: string }
         Returns: undefined
       }
+      seed_task: {
+        Args: {
+          p_category: string
+          p_client_id: string
+          p_client_label: string
+          p_desc: string
+          p_key: string
+          p_onb_id: string
+          p_pos: number
+          p_service_type: string
+          p_title: string
+          p_visible: boolean
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
@@ -2103,6 +2184,13 @@ export type Database = {
         | "other"
       partner_status: "pending" | "approved" | "suspended" | "rejected"
       partner_tier_name: "bronze" | "silver" | "gold"
+      task_assignee: "even" | "mihran"
+      task_status:
+        | "todo"
+        | "in_progress"
+        | "waiting_client"
+        | "blocked"
+        | "done"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2244,6 +2332,8 @@ export const Constants = {
       ],
       partner_status: ["pending", "approved", "suspended", "rejected"],
       partner_tier_name: ["bronze", "silver", "gold"],
+      task_assignee: ["even", "mihran"],
+      task_status: ["todo", "in_progress", "waiting_client", "blocked", "done"],
     },
   },
 } as const
