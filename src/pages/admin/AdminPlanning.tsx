@@ -142,7 +142,7 @@ export default function AdminPlanning() {
       position: 999,
     } as any).select().single());
     if (error) return toast.error("Aanmaken mislukt");
-    setTasks((ts) => [...ts, res as Task]);
+    setTasks((ts) => [...ts, res as unknown as Task]);
     setCreating(false);
     toast.success("Taak toegevoegd");
   };
