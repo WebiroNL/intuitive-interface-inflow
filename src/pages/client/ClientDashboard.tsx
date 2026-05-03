@@ -87,6 +87,43 @@ export default function ClientDashboard({ client }: Props) {
           )}
         </>
       )}
+
+      <ClientProgress clientId={client.id} />
+    </div>
+  );
+}
+
+import { useEffect as useEffectRT } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+function ClientProgress({ clientId }: { clientId: string }) {
+  const [tasks, setTasks] = useState<any[]>([]);
+  useEffectRT(() => {
+    (supabase.from("tasks" as any).select("*").eq("client_id", clientId).order("position") as any).then(({ data }: any) => setTasks(data ?? []));
+  }, [clientId]);
+  if (tasks.length === 0) return null;
+  const done = tasks.filter((t) => t.status === "done").length;
+  return (
+    <div className="mt-8 bg-card border border-border rounded-lg p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-foreground">Voortgang van je opdracht</h2>
+        <span className="text-xs text-muted-foreground tabular-nums">{done} / {tasks.length} klaar</span>
+      </div>
+      <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden mb-4">
+        <div className="h-full bg-primary transition-all" style={{ width: `${(done / tasks.length) * 100}%` }} />
+      </div>
+      <ul className="space-y-2">
+        {tasks.map((t) => (
+          <li key={t.id} className="flex items-center gap-3 text-sm">
+            <span className={`w-4 h-4 rounded-full border ${t.status === "done" ? "bg-primary border-primary" : t.status === "in_progress" ? "border-primary bg-primary/20" : t.status === "waiting_client" ? "border-amber-500 bg-amber-500/20" : "border-border"}`} />
+            <span className={t.status === "done" ? "line-through text-muted-foreground" : "text-foreground"}>
+              {t.client_label || t.title}
+            </span>
+            {t.status === "waiting_client" && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400">actie nodig</span>}
+            {t.status === "in_progress" && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400">bezig</span>}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
