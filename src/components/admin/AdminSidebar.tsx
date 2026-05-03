@@ -27,6 +27,7 @@ import {
   Globe02Icon,
   ArrowDown01Icon,
   ArrowRight01Icon,
+  CheckmarkSquare02Icon,
 } from "@hugeicons/core-free-icons";
 
 type NavItem =
