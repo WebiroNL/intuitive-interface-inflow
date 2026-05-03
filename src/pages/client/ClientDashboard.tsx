@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import type { Client } from "@/hooks/useClient";
 import { useMonthlyData, totalSpend, totalPaid, pctChange, fmtEUR, fmtNum } from "@/hooks/useMonthlyData";
 import { MonthSelector, MONTH_NAMES } from "@/components/client/MonthSelector";
@@ -93,12 +94,9 @@ export default function ClientDashboard({ client }: Props) {
   );
 }
 
-import { useEffect as useEffectRT } from "react";
-import { supabase } from "@/integrations/supabase/client";
-
 function ClientProgress({ clientId }: { clientId: string }) {
   const [tasks, setTasks] = useState<any[]>([]);
-  useEffectRT(() => {
+  useEffect(() => {
     (supabase.from("tasks" as any).select("*").eq("client_id", clientId).order("position") as any).then(({ data }: any) => setTasks(data ?? []));
   }, [clientId]);
   if (tasks.length === 0) return null;
