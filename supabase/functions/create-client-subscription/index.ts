@@ -154,15 +154,22 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 5. Bereken trial_end (= contract_start) en cancel_at (= einde contract)
-    const startTs = Math.floor(new Date(body.contractStartDate).getTime() / 1000);
+    // 5. Bereken billing_cycle_anchor en cancel_at
+    const startDate = new Date(body.contractStartDate);
     const endDate = new Date(body.contractStartDate);
     endDate.setMonth(endDate.getMonth() + body.contractMonths);
     const cancelAtTs = Math.floor(endDate.getTime() / 1000);
 
-    // GEEN trial: klant betaalt nu direct de eerste maand (vandaag → +1 maand).
-    // Stripe zet billing_cycle_anchor automatisch op vandaag, dus elke volgende
-    // maand wordt op dezelfde dag-of-month automatisch afgeschreven via SEPA.
+    // Forceer dat de billing dag-of-month altijd gelijk is aan de contract startdag.
+    // - Als contract_start in de toekomst ligt: anker = contract_start (klant betaalt nu eerste maand vooruit).
+    // - Als contract_start in het verleden ligt: anker = eerstvolgende voorkomen van diezelfde dag-of-month.
+    //   Klant betaalt vandaag direct €X (dekt huidige periode tot het anker), daarna afschrijving op het anker.
+    const now = new Date();
+    const anchorDate = new Date(startDate);
+    while (anchorDate.getTime() <= now.getTime()) {
+      anchorDate.setMonth(anchorDate.getMonth() + 1);
+    }
+    const billingCycleAnchorTs = Math.floor(anchorDate.getTime() / 1000);
 
     // 6. Subscription checkout — hosted, want we sturen link per mail
     const session = await stripe.checkout.sessions.create({
@@ -174,12 +181,15 @@ Deno.serve(async (req) => {
       ...SHARED_TAX_OPTIONS,
       ...(couponId && { discounts: [{ coupon: couponId }] }),
       subscription_data: {
+        billing_cycle_anchor: billingCycleAnchorTs,
+        proration_behavior: "none",
         ...(body.cancelAtEnd && { cancel_at: cancelAtTs }),
         metadata: {
           client_id: client.id,
           service_label: body.serviceLabel,
           contract_start: body.contractStartDate,
           contract_months: String(body.contractMonths),
+          billing_cycle_anchor: anchorDate.toISOString().slice(0, 10),
           ...(couponId && { coupon_id: couponId }),
         },
       },
