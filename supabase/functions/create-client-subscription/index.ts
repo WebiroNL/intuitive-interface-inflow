@@ -112,6 +112,7 @@ Deno.serve(async (req) => {
         unit_amount: body.monthlyAmountCents,
         currency: "eur",
         recurring: { interval: "month" },
+        tax_behavior: "exclusive",
         lookup_key: priceLookup,
         metadata: { lovable_external_id: priceLookup },
       });
