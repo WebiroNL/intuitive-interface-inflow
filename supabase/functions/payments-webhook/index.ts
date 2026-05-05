@@ -107,6 +107,9 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
 async function handleInvoicePaid(invoice: any, env: StripeEnv) {
   if (!invoice.subscription) return;
   const md = invoice.subscription_details?.metadata || {};
+  const line = invoice.lines?.data?.[0];
+  const periodStart = line?.period?.start ?? null;
+  const periodEnd = line?.period?.end ?? null;
   await db().from("payments").insert({
     user_id: md.user_id || null,
     client_id: md.client_id || null,
@@ -118,10 +121,17 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
     currency: invoice.currency || "eur",
     status: "completed",
     payment_type: "subscription",
-    description: invoice.lines?.data?.[0]?.description || "Abonnement",
+    description: line?.description || "Abonnement",
     receipt_url: invoice.hosted_invoice_url || null,
     environment: env,
-    metadata: md,
+    metadata: {
+      ...md,
+      invoice_number: invoice.number || null,
+      invoice_pdf: invoice.invoice_pdf || null,
+      hosted_invoice_url: invoice.hosted_invoice_url || null,
+      period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
+      period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+    },
   });
 }
 
