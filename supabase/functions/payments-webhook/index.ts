@@ -156,6 +156,25 @@ Deno.serve(async (req) => {
       case "invoice.paid":
         await handleInvoicePaid(event.data.object, env);
         break;
+      case "invoice.payment_failed": {
+        const inv = event.data.object;
+        const md = inv.subscription_details?.metadata || {};
+        await db().from("payments").insert({
+          user_id: md.user_id || null,
+          client_id: md.client_id || null,
+          stripe_invoice_id: inv.id,
+          amount_cents: inv.amount_due ?? 0,
+          tax_cents: inv.tax ?? 0,
+          total_cents: inv.amount_due ?? 0,
+          currency: inv.currency || "eur",
+          status: "failed",
+          payment_type: "subscription",
+          description: `Betaling mislukt: ${inv.lines?.data?.[0]?.description || "Abonnement"}`,
+          environment: env,
+          metadata: md,
+        });
+        break;
+      }
       default:
         console.log("Unhandled:", event.type);
     }
