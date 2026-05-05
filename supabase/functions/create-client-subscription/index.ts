@@ -100,11 +100,11 @@ Deno.serve(async (req) => {
       productId = product.id;
     }
 
-    // 3. Price (€X/mnd) — altijd nieuwe maken indien nodig
-    const priceLookup = `${productLookup}_monthly_${body.monthlyAmountCents}`;
+    // 3. Price (€X/mnd) — altijd exclusive BTW (v2 lookup om oude inclusive prices te omzeilen)
+    const priceLookup = `${productLookup}_monthly_${body.monthlyAmountCents}_excl_v2`;
     let priceId: string;
     const existingPrices = await stripe.prices.list({ product: productId, lookup_keys: [priceLookup], limit: 1 });
-    if (existingPrices.data.length) {
+    if (existingPrices.data.length && existingPrices.data[0].tax_behavior === "exclusive") {
       priceId = existingPrices.data[0].id;
     } else {
       const price = await stripe.prices.create({
@@ -114,6 +114,7 @@ Deno.serve(async (req) => {
         recurring: { interval: "month" },
         tax_behavior: "exclusive",
         lookup_key: priceLookup,
+        transfer_lookup_key: true,
         metadata: { lovable_external_id: priceLookup },
       });
       priceId = price.id;
