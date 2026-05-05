@@ -170,7 +170,7 @@ export default function ClientInvoices({ client }: Props) {
                             className="inline-flex items-center gap-1 text-[13px] font-medium text-primary hover:underline"
                             title="Download PDF"
                           >
-                            <Download01Icon size={14} /> PDF
+                            <HugeiconsIcon icon={Download01Icon} size={14} /> PDF
                           </a>
                         )}
                         {r.hostedUrl && (
