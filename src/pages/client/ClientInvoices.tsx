@@ -181,7 +181,7 @@ export default function ClientInvoices({ client }: Props) {
                             className="inline-flex items-center gap-1 text-[13px] font-medium text-muted-foreground hover:text-foreground hover:underline"
                             title="Bekijk online"
                           >
-                            <ExternalLink02Icon size={14} /> Bekijk
+                            <HugeiconsIcon icon={Link04Icon} size={14} /> Bekijk
                           </a>
                         )}
                       </div>
