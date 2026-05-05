@@ -85,15 +85,29 @@ Deno.serve(async (req) => {
       customerId = customer.id;
     }
 
-    // 2. Product (idempotent per client+service)
-    const productLookup = `client_${client.id}_${body.serviceLabel.replace(/[^a-zA-Z0-9]+/g, "_").toLowerCase()}`.slice(0, 60);
+    // 2. Product (idempotent per client+service+periode zodat description up-to-date blijft)
+    const fmtNL = (iso: string) =>
+      new Date(iso).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+    const endDateForLabel = new Date(body.contractStartDate);
+    endDateForLabel.setMonth(endDateForLabel.getMonth() + body.contractMonths);
+    const periodLabel = `${fmtNL(body.contractStartDate)} t/m ${fmtNL(endDateForLabel.toISOString())}`;
+    const productDescription =
+      `${body.contractMonths} maanden looptijd · ${periodLabel}` +
+      (body.discountPercent && body.discountMonths
+        ? ` · ${body.discountPercent}% korting eerste ${body.discountMonths} mnd`
+        : "");
+
+    const productLookup = `client_${client.id}_${body.serviceLabel.replace(/[^a-zA-Z0-9]+/g, "_").toLowerCase()}_${body.contractStartDate}_${body.contractMonths}m`.slice(0, 60);
     const products = await stripe.products.search({ query: `metadata['lookup']:'${productLookup}'`, limit: 1 });
     let productId: string;
     if (products.data.length) {
       productId = products.data[0].id;
+      // Update description voor het geval iets is veranderd
+      await stripe.products.update(productId, { description: productDescription });
     } else {
       const product = await stripe.products.create({
         name: `${client.company_name} — ${body.serviceLabel}`,
+        description: productDescription,
         tax_code: TAX_CODES.saas,
         metadata: { lookup: productLookup, client_id: client.id, lovable_external_id: productLookup },
       });
