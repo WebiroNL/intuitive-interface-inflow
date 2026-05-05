@@ -28,6 +28,7 @@ import {
   ALL_WEBSITE_INTAKE_LABEL_KEYS,
 } from "@/components/intake/websiteLabels";
 import { WEBSITE_LABEL_KEYS_BY_SECTION } from "@/components/intake/websiteLabelGroups";
+import ClientSubscriptionTab from "@/pages/admin/clients/ClientSubscriptionTab";
 import { AdsCampaignsTab } from "@/components/admin/AdsCampaigns";
 
 interface Client {
@@ -522,6 +523,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
           <TabsTrigger value="invoices">Facturen</TabsTrigger>
           <TabsTrigger value="activity">Activiteit</TabsTrigger>
           <TabsTrigger value="ads_campaigns">Ads campagnes</TabsTrigger>
+          <TabsTrigger value="subscription">Abonnement</TabsTrigger>
           <TabsTrigger value="intake">Ads Intake<Badge n={Math.max(0, tabCounts.intake - seen.intake)} kind="intake" total={tabCounts.intake} /></TabsTrigger>
           <TabsTrigger value="website_intake">Website Intake<Badge n={Math.max(0, tabCounts.website_intake - seen.website_intake)} kind="website_intake" total={tabCounts.website_intake} /></TabsTrigger>
           <TabsTrigger value="onboarding">Onboarding<Badge n={Math.max(0, tabCounts.onboarding - seen.onboarding)} kind="onboarding" total={tabCounts.onboarding} /></TabsTrigger>
@@ -547,6 +549,7 @@ function ClientManageDialog({ client, onChanged, onClose }: { client: Client; on
         <TabsContent value="invoices"><InvoicesTab client={client} /></TabsContent>
         <TabsContent value="activity"><ActivityTab client={client} /></TabsContent>
         <TabsContent value="ads_campaigns"><AdsCampaignsTab clientId={client.id} /></TabsContent>
+        <TabsContent value="subscription"><ClientSubscriptionTab client={client} /></TabsContent>
         <TabsContent value="intake"><IntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="website_intake"><WebsiteIntakeFormTab client={client} onChanged={onChanged} /></TabsContent>
         <TabsContent value="onboarding"><OnboardingFormTab client={client} onChanged={onChanged} /></TabsContent>
