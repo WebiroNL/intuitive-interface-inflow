@@ -97,6 +97,14 @@ const AdminLogin = () => {
             showPasswordToggle
           />
 
+          <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none py-1">
+            <Checkbox
+              checked={remember}
+              onCheckedChange={(v) => setRemember(v === true)}
+            />
+            Onthoud mijn inloggegevens
+          </label>
+
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Inloggen...' : (
               <>Inloggen <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-1" /></>
