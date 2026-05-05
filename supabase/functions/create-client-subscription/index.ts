@@ -146,11 +146,11 @@ Deno.serve(async (req) => {
     endDate.setMonth(endDate.getMonth() + body.contractMonths);
     const cancelAtTs = Math.floor(endDate.getTime() / 1000);
 
-    // Trial moet in de toekomst liggen (min 48u). Als datum in het verleden, geen trial.
-    const nowTs = Math.floor(Date.now() / 1000);
-    const useTrial = startTs > nowTs + 60;
+    // GEEN trial: klant betaalt nu direct de eerste maand (vandaag → +1 maand).
+    // Stripe zet billing_cycle_anchor automatisch op vandaag, dus elke volgende
+    // maand wordt op dezelfde dag-of-month automatisch afgeschreven via SEPA.
 
-    // 6. Subscription checkout — embedded? Nee, hosted, want we sturen link per mail
+    // 6. Subscription checkout — hosted, want we sturen link per mail
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
@@ -160,7 +160,6 @@ Deno.serve(async (req) => {
       ...SHARED_TAX_OPTIONS,
       ...(couponId && { discounts: [{ coupon: couponId }] }),
       subscription_data: {
-        ...(useTrial && { trial_end: startTs }),
         ...(body.cancelAtEnd && { cancel_at: cancelAtTs }),
         metadata: {
           client_id: client.id,
