@@ -66,18 +66,20 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
-      const [mi, wi, so] = await Promise.all([
+      const [clientsRes, mi, wi, so] = await Promise.all([
+        supabase.from("clients").select("id"),
         supabase.from("marketing_intakes").select("client_id"),
         supabase.from("website_intakes" as any).select("client_id"),
         supabase.from("service_onboardings").select("client_id, submitted_at, created_at"),
       ]);
+      const validClientIds = new Set((clientsRes.data ?? []).map((c: any) => c.id));
       const per: Record<string, { intake: number; website_intake: number; onboarding: number }> = {};
       const ensure = (id: string) => {
         if (!per[id]) per[id] = { intake: 0, website_intake: 0, onboarding: 0 };
         return per[id];
       };
-      (mi.data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).intake += 1; });
-      ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id) ensure(r.client_id).website_intake += 1; });
+      (mi.data ?? []).forEach((r: any) => { if (r.client_id && validClientIds.has(r.client_id)) ensure(r.client_id).intake += 1; });
+      ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id && validClientIds.has(r.client_id)) ensure(r.client_id).website_intake += 1; });
       const onbGroups: Record<string, Set<string>> = {};
       ((so as any).data ?? []).forEach((r: any) => {
         if (!r.client_id) return;
