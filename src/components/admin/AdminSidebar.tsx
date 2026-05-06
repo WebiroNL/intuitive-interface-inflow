@@ -82,7 +82,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
       ((wi as any).data ?? []).forEach((r: any) => { if (r.client_id && validClientIds.has(r.client_id)) ensure(r.client_id).website_intake += 1; });
       const onbGroups: Record<string, Set<string>> = {};
       ((so as any).data ?? []).forEach((r: any) => {
-        if (!r.client_id) return;
+        if (!r.client_id || !validClientIds.has(r.client_id)) return;
         if (!onbGroups[r.client_id]) onbGroups[r.client_id] = new Set();
         onbGroups[r.client_id].add(String(r.submitted_at ?? r.created_at ?? ""));
       });
