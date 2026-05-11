@@ -486,7 +486,7 @@ export default function RegilioOfferte() {
                   Annuleren
                 </button>
                 <button
-                  disabled={!name.trim()}
+                  disabled={!name.trim() || saving}
                   onClick={() => submitDecision(showDialog === "accept" ? "accepted" : "declined")}
                   className={`flex-1 px-4 py-3 rounded-lg font-medium text-white transition-opacity ${
                     showDialog === "accept"
@@ -494,7 +494,7 @@ export default function RegilioOfferte() {
                       : "bg-destructive hover:opacity-90"
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  Bevestigen
+                  {saving ? "Bezig met opslaan..." : "Bevestigen"}
                 </button>
               </div>
             </motion.div>
