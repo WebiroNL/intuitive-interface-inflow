@@ -330,7 +330,7 @@ export default function RegilioOfferte() {
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Ads & hosting</div>
               <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</div>
-              <div className="text-xs text-muted-foreground mt-1">ex. btw, hosting + ads management</div>
+              <div className="text-xs text-muted-foreground mt-1">ex. btw & ads management</div>
             </div>
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">Totaal 3 maanden</div>
