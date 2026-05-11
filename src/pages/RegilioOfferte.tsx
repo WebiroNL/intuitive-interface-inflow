@@ -345,7 +345,6 @@ export default function RegilioOfferte() {
             <p dangerouslySetInnerHTML={{ __html: "Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>De werkzaamheden en prijzen gelden voor de maanden mei, juni & juli 2026" }} />
           </div>
         </motion.div>
-        </motion.div>
 
         {/* Decision */}
         <motion.div
