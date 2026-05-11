@@ -403,8 +403,9 @@ export default function RegilioOfferte() {
                 </p>
               )}
               <button
-                onClick={() => { localStorage.removeItem(DECISION_KEY); setDecision(null); }}
-                className="mt-5 text-xs text-muted-foreground underline hover:text-foreground"
+                onClick={resetDecision}
+                disabled={saving}
+                className="mt-5 text-xs text-muted-foreground underline hover:text-foreground disabled:opacity-50"
               >
                 Beslissing wijzigen
               </button>
