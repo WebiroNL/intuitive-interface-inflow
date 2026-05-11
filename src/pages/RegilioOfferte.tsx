@@ -34,7 +34,7 @@ const items: LineItem[] = [
   {
     id: "website",
     title: "Websiteontwikkeling + CMS",
-    price: 99,
+    price: 999,
     unit: "eenmalig",
     icon: Globe02Icon,
     badge: "SEO Pro inbegrepen",
@@ -122,7 +122,7 @@ function PriceTag({ price, unit }: { price: number; unit: LineItem["unit"] }) {
   return (
     <div className="flex items-baseline gap-1">
       <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")},-</span>
-      <span className="text-sm text-muted-foreground">{unit === "eenmalig" ? "\u200B" : "/ mnd"}</span>
+      <span className="text-sm text-muted-foreground">{"\u200B"}</span>
     </div>
   );
 }
@@ -323,7 +323,7 @@ export default function RegilioOfferte() {
           <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative grid md:grid-cols-3 gap-6 md:gap-10">
             <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Eenmalig</div>
+              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Website</div>
               <div className="text-3xl font-bold text-foreground">€{eenmalig.toLocaleString("nl-NL")},-</div>
               <div className="text-xs text-muted-foreground mt-1">ex. btw</div>
             </div>
