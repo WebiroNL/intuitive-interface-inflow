@@ -137,6 +137,7 @@ function AppContent() {
             <Route path="/novellerapport" element={<NovelleRapport />} />
             <Route path="/millionstore/rapport" element={<MillionRapport />} />
             <Route path="/millionstore" element={<Navigate to="/millionstore/rapport" replace />} />
+            <Route path="/regilio" element={<RegilioOfferte />} />
             <Route path="/client/login" element={<ClientLogin />} />
             <Route path="/client/activate" element={<ClientActivate />} />
             <Route path="/dashboard/*" element={<ClientPortal />} />
