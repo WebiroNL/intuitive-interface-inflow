@@ -34,7 +34,7 @@ const items: LineItem[] = [
   {
     id: "website",
     title: "Websiteontwikkeling + CMS",
-    price: 999,
+    price: 99,
     unit: "eenmalig",
     icon: Globe02Icon,
     badge: "SEO Pro inbegrepen",
@@ -121,8 +121,8 @@ function useCountUp(target: number, duration = 1200, start = true) {
 function PriceTag({ price, unit }: { price: number; unit: LineItem["unit"] }) {
   return (
     <div className="flex items-baseline gap-1">
-      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")}</span>
-      <span className="text-sm text-muted-foreground">{unit === "eenmalig" ? "eenmalig" : "/ mnd"}</span>
+      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")},-</span>
+      <span className="text-sm text-muted-foreground">{unit === "eenmalig" ? "\u200B" : "/ mnd"}</span>
     </div>
   );
 }
@@ -324,18 +324,18 @@ export default function RegilioOfferte() {
           <div className="relative grid md:grid-cols-3 gap-6 md:gap-10">
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Eenmalig</div>
-              <div className="text-3xl font-bold text-foreground">€{eenmalig.toLocaleString("nl-NL")}</div>
+              <div className="text-3xl font-bold text-foreground">€{eenmalig.toLocaleString("nl-NL")},-</div>
               <div className="text-xs text-muted-foreground mt-1">ex. btw</div>
             </div>
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Per maand</div>
-              <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")}</div>
+              <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</div>
               <div className="text-xs text-muted-foreground mt-1">ex. btw, hosting + ads management</div>
             </div>
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">Totaal 3 maanden</div>
               <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                €{Math.round(animatedTotal).toLocaleString("nl-NL")}
+                €{Math.round(animatedTotal).toLocaleString("nl-NL")},-
               </div>
               <div className="text-xs text-muted-foreground mt-1">ex. btw — mei, juni & juli 2026</div>
             </div>
