@@ -37,6 +37,7 @@ const MoodboardTool = lazy(() => import("./pages/MoodboardTool"));
 const AccountResetPassword = lazy(() => import("./pages/AccountResetPassword"));
 const NovelleRapport = lazy(() => import("./pages/NovelleRapport"));
 const MillionRapport = lazy(() => import("./pages/MillionRapport"));
+const RegilioOfferte = lazy(() => import("./pages/RegilioOfferte"));
 const ClientLogin = lazy(() => import("./pages/ClientLogin"));
 const ClientActivate = lazy(() => import("./pages/ClientActivate"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
