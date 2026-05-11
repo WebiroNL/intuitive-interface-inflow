@@ -121,8 +121,8 @@ function useCountUp(target: number, duration = 1200, start = true) {
 function PriceTag({ price, unit }: { price: number; unit: LineItem["unit"] }) {
   return (
     <div className="flex items-baseline gap-1">
-      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")}</span>
-      <span className="text-sm text-muted-foreground">{unit === "eenmalig" ? "eenmalig" : "/ mnd"}</span>
+      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")},-</span>
+      <span className="text-sm text-muted-foreground">{unit === "eenmalig" ? "\u200B" : "/ mnd"}</span>
     </div>
   );
 }
