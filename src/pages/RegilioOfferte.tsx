@@ -14,10 +14,11 @@ import {
   Calendar03Icon,
   SparklesIcon,
 } from "@hugeicons/core-free-icons";
+import { supabase } from "@/integrations/supabase/client";
 
 const PASSWORD = "RegilioxWebiro";
 const STORAGE_KEY = "regilio_offerte_auth_v1";
-const DECISION_KEY = "regilio_offerte_decision_v1";
+const PROPOSAL_SLUG = "regilio";
 
 type LineItem = {
   id: string;
