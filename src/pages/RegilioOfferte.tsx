@@ -325,24 +325,24 @@ export default function RegilioOfferte() {
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Website</div>
               <div className="text-3xl font-bold text-foreground">€{eenmalig.toLocaleString("nl-NL")},-</div>
-              <div className="text-xs text-muted-foreground mt-1">ex. btw</div>
+              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Ads & hosting</div>
               <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</div>
-              <div className="text-xs text-muted-foreground mt-1">ex. btw & ads management</div>
+              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">TOTAAL</div>
               <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                €{Math.round(animatedTotal).toLocaleString("nl-NL")},-
+                €4.098,-
               </div>
-              <div className="text-xs text-muted-foreground mt-1">ex. btw — mei, juni & juli 2026</div>
+              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
           </div>
           <div className="relative mt-6 pt-6 border-t border-border text-xs text-muted-foreground space-y-1">
             <p>Alle prijzen zijn exclusief btw.</p>
-            <p>Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.</p>
+            <p dangerouslySetInnerHTML={{ __html: "Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>De werkzaamheden en prijzen gelden voor de maanden mei, juni & juli 2026" }} />
           </div>
         </motion.div>
 
