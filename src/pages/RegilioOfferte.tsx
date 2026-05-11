@@ -12,7 +12,7 @@ import {
   TiktokIcon,
   MetaIcon,
   Calendar03Icon,
-  Sparkles02Icon,
+  SparklesIcon,
 } from "@hugeicons/core-free-icons";
 
 const PASSWORD = "RegilioxWebiro";
