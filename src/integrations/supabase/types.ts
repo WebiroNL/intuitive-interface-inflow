@@ -1783,6 +1783,36 @@ export type Database = {
         }
         Relationships: []
       }
+      proposal_decisions: {
+        Row: {
+          created_at: string
+          decided_at: string
+          decision: string
+          id: string
+          name: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string
+          decision: string
+          id?: string
+          name?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string
+          decision?: string
+          id?: string
+          name?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       service_onboardings: {
         Row: {
           admin_notes: string | null

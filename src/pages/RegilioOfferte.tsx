@@ -14,10 +14,11 @@ import {
   Calendar03Icon,
   SparklesIcon,
 } from "@hugeicons/core-free-icons";
+import { supabase } from "@/integrations/supabase/client";
 
 const PASSWORD = "RegilioxWebiro";
 const STORAGE_KEY = "regilio_offerte_auth_v1";
-const DECISION_KEY = "regilio_offerte_decision_v1";
+const PROPOSAL_SLUG = "regilio";
 
 type LineItem = {
   id: string;
@@ -134,18 +135,26 @@ export default function RegilioOfferte() {
   const [decision, setDecision] = useState<"accepted" | "declined" | null>(null);
   const [name, setName] = useState("");
   const [showDialog, setShowDialog] = useState<null | "accept" | "decline">(null);
+  const [saving, setSaving] = useState(false);
+  const [loadingDecision, setLoadingDecision] = useState(true);
 
+  // Load auth + remote decision
   useEffect(() => {
     if (sessionStorage.getItem(STORAGE_KEY) === "true") setAuthed(true);
-    const raw = localStorage.getItem(DECISION_KEY);
-    if (raw) {
-      try {
-        const d = JSON.parse(raw);
-        setDecision(d.decision);
-        setName(d.name || "");
-      } catch {}
-    }
     document.title = "Voorstel — Regilio | Webiro";
+
+    (async () => {
+      const { data } = await supabase
+        .from("proposal_decisions")
+        .select("decision, name")
+        .eq("slug", PROPOSAL_SLUG)
+        .maybeSingle();
+      if (data) {
+        setDecision(data.decision as "accepted" | "declined");
+        setName(data.name || "");
+      }
+      setLoadingDecision(false);
+    })();
   }, []);
 
   const eenmalig = useMemo(() => items.filter((i) => i.unit === "eenmalig").reduce((s, i) => s + i.price, 0), []);
@@ -164,11 +173,28 @@ export default function RegilioOfferte() {
     }
   };
 
-  const submitDecision = (d: "accepted" | "declined") => {
-    const payload = { decision: d, name: name.trim(), at: new Date().toISOString() };
-    localStorage.setItem(DECISION_KEY, JSON.stringify(payload));
+  const submitDecision = async (d: "accepted" | "declined") => {
+    setSaving(true);
+    const { error } = await supabase
+      .from("proposal_decisions")
+      .upsert(
+        { slug: PROPOSAL_SLUG, decision: d, name: name.trim(), decided_at: new Date().toISOString() },
+        { onConflict: "slug" }
+      );
+    setSaving(false);
+    if (error) {
+      alert("Kon je beslissing niet opslaan. Probeer het opnieuw.");
+      return;
+    }
     setDecision(d);
     setShowDialog(null);
+  };
+
+  const resetDecision = async () => {
+    setSaving(true);
+    await supabase.from("proposal_decisions").delete().eq("slug", PROPOSAL_SLUG);
+    setSaving(false);
+    setDecision(null);
   };
 
   if (!authed) {
@@ -377,8 +403,9 @@ export default function RegilioOfferte() {
                 </p>
               )}
               <button
-                onClick={() => { localStorage.removeItem(DECISION_KEY); setDecision(null); }}
-                className="mt-5 text-xs text-muted-foreground underline hover:text-foreground"
+                onClick={resetDecision}
+                disabled={saving}
+                className="mt-5 text-xs text-muted-foreground underline hover:text-foreground disabled:opacity-50"
               >
                 Beslissing wijzigen
               </button>
@@ -459,7 +486,7 @@ export default function RegilioOfferte() {
                   Annuleren
                 </button>
                 <button
-                  disabled={!name.trim()}
+                  disabled={!name.trim() || saving}
                   onClick={() => submitDecision(showDialog === "accept" ? "accepted" : "declined")}
                   className={`flex-1 px-4 py-3 rounded-lg font-medium text-white transition-opacity ${
                     showDialog === "accept"
@@ -467,7 +494,7 @@ export default function RegilioOfferte() {
                       : "bg-destructive hover:opacity-90"
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  Bevestigen
+                  {saving ? "Bezig met opslaan..." : "Bevestigen"}
                 </button>
               </div>
             </motion.div>
