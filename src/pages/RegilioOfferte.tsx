@@ -34,7 +34,7 @@ const items: LineItem[] = [
   {
     id: "website",
     title: "Websiteontwikkeling + CMS",
-    price: 999,
+    price: 99,
     unit: "eenmalig",
     icon: Globe02Icon,
     badge: "SEO Pro inbegrepen",
