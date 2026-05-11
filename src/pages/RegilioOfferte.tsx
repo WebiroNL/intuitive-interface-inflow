@@ -57,7 +57,7 @@ const items: LineItem[] = [
   },
   {
     id: "hosting",
-    title: "Hosting & Onderhoud",
+    title: "Hosting",
     price: 99,
     unit: "per maand",
     icon: CloudServerIcon,
@@ -328,7 +328,7 @@ export default function RegilioOfferte() {
               <div className="text-xs text-muted-foreground mt-1">ex. btw</div>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Per maand</div>
+              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Ads & hosting</div>
               <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</div>
               <div className="text-xs text-muted-foreground mt-1">ex. btw, hosting + ads management</div>
             </div>
