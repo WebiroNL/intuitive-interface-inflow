@@ -341,8 +341,7 @@ export default function RegilioOfferte() {
             </div>
           </div>
           <div className="relative mt-6 pt-6 border-t border-border text-xs text-muted-foreground space-y-1">
-            <p>{"\u200B"}</p>
-            <p dangerouslySetInnerHTML={{ __html: "Alle prijzen zijn exclusief btw.<br><br>Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>De werkzaamheden en prijzen gelden voor de maanden mei, juni & juli 2026" }} />
+            <p dangerouslySetInnerHTML={{ __html: "Alle prijzen zijn exclusief btw.<br>Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>De werkzaamheden en prijzen gelden voor de maanden mei, juni & juli 2026" }} />
           </div>
         </motion.div>
 
