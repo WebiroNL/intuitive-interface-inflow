@@ -477,13 +477,19 @@ export default function RegilioOfferte() {
             </div>
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Ads & hosting</div>
-              <div className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</span>
+                <span className="text-sm text-muted-foreground">per maand</span>
+              </div>
               <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">TOTAAL</div>
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                €{totaal3mnd.toLocaleString("nl-NL")},-
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
+                  €{totaal3mnd.toLocaleString("nl-NL")},-
+                </span>
+                <span className="text-sm text-muted-foreground">voor 3 maanden</span>
               </div>
               <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
