@@ -33,10 +33,12 @@ type LineItem = {
   badge?: string;
 };
 
-const items: LineItem[] = [
+type WebsiteChoiceId = "website" | "webshop";
+
+const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   {
     id: "website",
-    title: "Websiteontwikkeling + CMS",
+    title: "Website + CMS",
     price: 999,
     unit: "eenmalig",
     icon: Globe02Icon,
@@ -56,12 +58,37 @@ const items: LineItem[] = [
       "SEO Pro: optimalisatie voor 15+ zoekwoorden",
       "Maandelijkse SEO rapportage",
     ],
-    highlight: true,
   },
+  {
+    id: "webshop",
+    title: "Webshop + CMS",
+    price: 2000,
+    unit: "eenmalig",
+    icon: ShoppingCart02Icon,
+    badge: "SEO Pro inbegrepen",
+    features: [
+      "Volledige webshop met productbeheer",
+      "CMS systeem voor producten, teksten & afbeeldingen",
+      "Responsive design (mobiel, tablet & desktop)",
+      "SSL-certificaat inbegrepen",
+      "Veilige checkout & betaalintegratie",
+      "Voorraadbeheer & orderoverzicht",
+      "Google Analytics & e-commerce tracking",
+      "Social media & Google Shopping integratie",
+      "Blog/nieuwssectie",
+      "Animaties & micro-interacties",
+      "3 revisierondes",
+      "SEO Pro: optimalisatie voor 15+ zoekwoorden",
+      "Maandelijkse SEO rapportage",
+    ],
+  },
+];
+
+const items: LineItem[] = [
   {
     id: "hosting",
     title: "Hosting",
-    price: 99,
+    price: 0,
     unit: "per maand",
     icon: CloudServerIcon,
     features: [
@@ -78,7 +105,7 @@ const items: LineItem[] = [
   {
     id: "meta",
     title: "Meta Ads (Facebook & Instagram)",
-    price: 1500,
+    price: 500,
     unit: "per maand",
     icon: MetaIcon,
     features: [
@@ -90,13 +117,25 @@ const items: LineItem[] = [
   {
     id: "tiktok",
     title: "TikTok Ads",
-    price: 1500,
+    price: 500,
     unit: "per maand",
     icon: TiktokIcon,
     features: [
       "TikTok campagne setup",
       "Video advertising strategie",
       "Trend-based targeting",
+    ],
+  },
+  {
+    id: "snapchat",
+    title: "Snapchat Ads",
+    price: 0,
+    unit: "per maand",
+    icon: SnapchatIcon,
+    features: [
+      "Snapchat campagne setup",
+      "Vertical video advertising",
+      "Gen-Z targeting & engagement",
     ],
   },
 ];
