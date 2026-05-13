@@ -13,6 +13,8 @@ import {
   MetaIcon,
   Calendar03Icon,
   SparklesIcon,
+  ShoppingCart02Icon,
+  SnapchatIcon,
 } from "@hugeicons/core-free-icons";
 import { supabase } from "@/integrations/supabase/client";
 
