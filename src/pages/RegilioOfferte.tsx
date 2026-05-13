@@ -67,7 +67,7 @@ const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
     icon: ShoppingCart02Icon,
     badge: "SEO Pro inbegrepen",
     features: [
-      "Volledige webshop met productbeheer",
+      "Responsive design (mobiel, tablet & desktop)",
       "CMS systeem voor producten, teksten & afbeeldingen",
       "Responsive design (mobiel, tablet & desktop)",
       "SSL-certificaat inbegrepen",
