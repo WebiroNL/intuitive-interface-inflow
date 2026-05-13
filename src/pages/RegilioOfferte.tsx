@@ -185,6 +185,7 @@ export default function RegilioOfferte() {
   const [showDialog, setShowDialog] = useState<null | "accept" | "decline">(null);
   const [saving, setSaving] = useState(false);
   const [loadingDecision, setLoadingDecision] = useState(true);
+  const [websiteChoice, setWebsiteChoice] = useState<WebsiteChoiceId>("website");
 
   // Load auth + remote decision
   useEffect(() => {
@@ -205,8 +206,9 @@ export default function RegilioOfferte() {
     })();
   }, []);
 
-  const eenmalig = useMemo(() => items.filter((i) => i.unit === "eenmalig").reduce((s, i) => s + i.price, 0), []);
-  const maandelijks = useMemo(() => items.filter((i) => i.unit === "per maand").reduce((s, i) => s + i.price, 0), []);
+  const selectedWebsite = websiteChoices.find((w) => w.id === websiteChoice)!;
+  const eenmalig = selectedWebsite.price;
+  const maandelijks = useMemo(() => items.reduce((s, i) => s + i.price, 0), []);
   const totaal3mnd = eenmalig + maandelijks * MONTHS;
 
   const animatedTotal = useCountUp(totaal3mnd, 1500, authed);
