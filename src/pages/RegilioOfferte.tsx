@@ -61,7 +61,7 @@ const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   },
   {
     id: "webshop",
-    title: "Webshop + CMS",
+    title: "Website & Webshop + CMS",
     price: 1999,
     unit: "eenmalig",
     icon: ShoppingCart02Icon,
