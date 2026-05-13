@@ -12,7 +12,7 @@ import {
   TiktokIcon,
   MetaIcon,
   Calendar03Icon,
-  StarIcon,
+  AiMagicIcon,
   ShoppingCart02Icon,
   SnapchatIcon,
 } from "@hugeicons/core-free-icons";
