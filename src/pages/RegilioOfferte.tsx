@@ -105,7 +105,7 @@ const items: LineItem[] = [
   {
     id: "meta",
     title: "Meta Ads (Facebook & Instagram)",
-    price: 499,
+    price: 500,
     unit: "per maand",
     icon: MetaIcon,
     features: [
