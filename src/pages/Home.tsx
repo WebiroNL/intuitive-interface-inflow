@@ -49,7 +49,7 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
           className="h-3 rounded bg-foreground/10 mb-4"
         />
         <motion.div
-          animate={{ scale: [1, 1.08, 1] }}
+          animate={{ opacity: [0.85, 1, 0.85] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
           className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`}
         />
@@ -58,7 +58,7 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
-            animate={{ y: [0, -3, 0] }}
+            animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
             className="rounded-lg border border-border/30 bg-background/60 p-2"
           >
