@@ -108,11 +108,7 @@ const items: LineItem[] = [
     price: 499,
     unit: "per maand",
     icon: MetaIcon,
-    features: [
-      "Facebook & Instagram campagnes",
-      "Audience targeting & lookalikes",
-      "Creative strategy",
-    ],
+    features: ["Facebook & Instagram campagnes", "Audience targeting & lookalikes", "Creative strategy"],
   },
   {
     id: "tiktok",
@@ -120,11 +116,7 @@ const items: LineItem[] = [
     price: 499,
     unit: "per maand",
     icon: TiktokIcon,
-    features: [
-      "TikTok campagne setup",
-      "Video advertising strategie",
-      "Trend-based targeting",
-    ],
+    features: ["TikTok campagne setup", "Video advertising strategie", "Trend-based targeting"],
   },
   {
     id: "snapchat",
@@ -132,11 +124,7 @@ const items: LineItem[] = [
     price: 0,
     unit: "per maand",
     icon: SnapchatIcon,
-    features: [
-      "Snapchat campagne setup",
-      "Vertical video advertising",
-      "Gen-Z targeting & engagement",
-    ],
+    features: ["Snapchat campagne setup", "Vertical video advertising", "Gen-Z targeting & engagement"],
   },
 ];
 
@@ -164,14 +152,18 @@ function PriceTag({ price, unit }: { price: number; unit: LineItem["unit"] }) {
   if (price === 0) {
     return (
       <div className="flex items-baseline gap-1.5">
-        <span className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Gratis</span>
+        <span className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          Gratis
+        </span>
         {unit === "per maand" && <span className="text-sm text-muted-foreground">per maand</span>}
       </div>
     );
   }
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")},-</span>
+      <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+        €{price.toLocaleString("nl-NL")},-
+      </span>
       {unit === "per maand" && <span className="text-sm text-muted-foreground">per maand</span>}
     </div>
   );
@@ -230,7 +222,7 @@ export default function RegilioOfferte() {
       .from("proposal_decisions")
       .upsert(
         { slug: PROPOSAL_SLUG, decision: d, name: name.trim(), decided_at: new Date().toISOString() },
-        { onConflict: "slug" }
+        { onConflict: "slug" },
       );
     setSaving(false);
     if (error) {
@@ -282,7 +274,10 @@ export default function RegilioOfferte() {
           <input
             type="password"
             value={pw}
-            onChange={(e) => { setPw(e.target.value); setErr(""); }}
+            onChange={(e) => {
+              setPw(e.target.value);
+              setErr("");
+            }}
             className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             placeholder="••••••••••"
             autoFocus
@@ -366,18 +361,18 @@ export default function RegilioOfferte() {
                   type="button"
                   onClick={() => setWebsiteChoice(choice.id)}
                   className={`relative text-left p-6 md:p-7 rounded-2xl border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl ${
-                    isActive
-                      ? "border-primary ring-2 ring-primary/30"
-                      : "border-border opacity-70 hover:opacity-100"
+                    isActive ? "border-primary ring-2 ring-primary/30" : "border-border opacity-70 hover:opacity-100"
                   }`}
                 >
                   {isActive && (
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
                   )}
                   <div className="absolute top-4 right-4">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                      isActive ? "border-primary bg-primary" : "border-border"
-                    }`}>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                        isActive ? "border-primary bg-primary" : "border-border"
+                      }`}
+                    >
                       {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
                     </div>
                   </div>
@@ -389,7 +384,6 @@ export default function RegilioOfferte() {
                       <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{choice.title}</h3>
                       {choice.badge && (
                         <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                          <HugeiconsIcon icon={AiMagicIcon} size={12} />
                           {choice.badge}
                         </div>
                       )}
@@ -401,7 +395,11 @@ export default function RegilioOfferte() {
                   <div className="relative mt-5 grid grid-cols-1 gap-y-2">
                     {choice.features.map((f) => (
                       <div key={f} className="flex items-start gap-2.5 text-sm text-foreground/85">
-                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} className="text-primary mt-0.5 shrink-0" />
+                        <HugeiconsIcon
+                          icon={CheckmarkCircle02Icon}
+                          size={16}
+                          className="text-primary mt-0.5 shrink-0"
+                        />
                         <span>{f}</span>
                       </div>
                     ))}
@@ -473,7 +471,9 @@ export default function RegilioOfferte() {
             <div>
               <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Eenmalig</div>
               <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">€{eenmalig.toLocaleString("nl-NL")},-</span>
+                <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
+                  €{eenmalig.toLocaleString("nl-NL")},-
+                </span>
               </div>
               <div className="text-xs text-muted-foreground mt-2">{selectedWebsite.title}</div>
             </div>
@@ -489,7 +489,12 @@ export default function RegilioOfferte() {
             </div>
           </div>
           <div className="relative mt-6 pt-6 border-t border-border text-xs text-muted-foreground space-y-1">
-            <p dangerouslySetInnerHTML={{ __html: "Alle prijzen zijn exclusief btw.<br>Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>" }} />
+            <p
+              dangerouslySetInnerHTML={{
+                __html:
+                  "Alle prijzen zijn exclusief btw.<br>Advertentiebudgetten (ad spend) zijn niet inbegrepen in de beheerkosten.<br>",
+              }}
+            />
           </div>
         </motion.div>
 
@@ -503,11 +508,11 @@ export default function RegilioOfferte() {
         >
           {decision ? (
             <div className="text-center">
-              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
-                decision === "accepted"
-                  ? "bg-primary/10 text-primary"
-                  : "bg-destructive/10 text-destructive"
-              }`}>
+              <div
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
+                  decision === "accepted" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
+                }`}
+              >
                 <HugeiconsIcon icon={decision === "accepted" ? CheckmarkCircle02Icon : Cancel01Icon} size={16} />
                 {decision === "accepted" ? "Voorstel akkoord bevonden" : "Voorstel afgewezen"}
               </div>
@@ -538,7 +543,8 @@ export default function RegilioOfferte() {
                 Klaar om verder te gaan?
               </h3>
               <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
-                Geef hieronder door of je akkoord gaat met het voorstel. Twijfels of vragen? Laat het ons weten, we plannen graag een gesprek in.
+                Geef hieronder door of je akkoord gaat met het voorstel. Twijfels of vragen? Laat het ons weten, we
+                plannen graag een gesprek in.
               </p>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <button
@@ -561,7 +567,8 @@ export default function RegilioOfferte() {
         </motion.div>
 
         <p className="mt-10 text-center text-xs text-muted-foreground">
-          Voorstel opgesteld door <span className="text-foreground font-medium">Webiro</span> · {new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" })}
+          Voorstel opgesteld door <span className="text-foreground font-medium">Webiro</span> ·{" "}
+          {new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" })}
         </p>
       </div>
 
