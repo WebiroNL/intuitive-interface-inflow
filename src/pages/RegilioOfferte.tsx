@@ -389,7 +389,7 @@ export default function RegilioOfferte() {
                       <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{choice.title}</h3>
                       {choice.badge && (
                         <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                          <HugeiconsIcon icon={SparklesIcon} size={12} />
+                          <HugeiconsIcon icon={AiMagicIcon} size={12} />
                           {choice.badge}
                         </div>
                       )}
@@ -437,7 +437,7 @@ export default function RegilioOfferte() {
                     <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{item.title}</h3>
                     {item.badge && (
                       <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                        <HugeiconsIcon icon={SparklesIcon} size={12} />
+                        <HugeiconsIcon icon={AiMagicIcon} size={12} />
                         {item.badge}
                       </div>
                     )}
