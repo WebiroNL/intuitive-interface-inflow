@@ -151,9 +151,9 @@ const MarketingDashboard = () => {
             {bars.map((h, i) => (
               <motion.div
                 key={i}
-                initial={{ height: 0 }}
-                animate={{ height: `${h}%` }}
-                transition={{ duration: 0.5, delay: 1 + i * 0.08 }}
+                initial={{ height: "0%" }}
+                animate={{ height: ["0%", `${h}%`, `${h}%`, "0%"] }}
+                transition={{ duration: 4, times: [0, 0.25, 0.85, 1], delay: i * 0.08, repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
                 className="flex-1 rounded-sm bg-primary/40"
               />
             ))}
