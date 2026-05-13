@@ -56,16 +56,26 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
       </div>
       <div className="absolute bottom-3 left-4 right-4 grid grid-cols-3 gap-2">
         {[0, 1, 2].map((i) => (
-          <motion.div
+          <div
             key={i}
-            animate={{ opacity: [0.7, 1, 0.7] }}
-            transition={{ duration: 2.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
             className="rounded-lg border border-border/30 bg-background/60 p-2"
           >
-            <div className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`} />
-            <div className="w-full h-2 rounded bg-foreground/10 mb-1" />
-            <div className="w-2/3 h-1.5 rounded bg-foreground/8" />
-          </motion.div>
+            <motion.div
+              animate={{ opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2.4, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
+              className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`}
+            />
+            <motion.div
+              animate={{ width: ["70%", "100%", "70%"] }}
+              transition={{ duration: 2.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
+              className="h-2 rounded bg-foreground/10 mb-1"
+            />
+            <motion.div
+              animate={{ width: ["45%", "70%", "45%"] }}
+              transition={{ duration: 2.8, delay: i * 0.25 + 0.2, repeat: Infinity, ease: "easeInOut" }}
+              className="h-1.5 rounded bg-foreground/8"
+            />
+          </div>
         ))}
       </div>
     </div>
