@@ -337,7 +337,7 @@ export default function RegilioOfferte() {
           </h1>
           <div className="mt-6 flex items-center gap-2 text-base text-muted-foreground">
             <HugeiconsIcon icon={Calendar03Icon} size={18} className="text-primary" />
-            <span>2026<span className="text-foreground font-medium"></span></span>
+            <span>Voorstel opgesteld door Webiro · 13 mei 2026</span>
           </div>
         </motion.header>
 
