@@ -39,7 +39,7 @@ const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   {
     id: "website",
     title: "Website + CMS",
-    price: 999,
+    price: 998,
     unit: "eenmalig",
     icon: Globe02Icon,
     badge: "SEO Pro inbegrepen",
@@ -62,7 +62,7 @@ const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   {
     id: "webshop",
     title: "Webshop + CMS",
-    price: 2000,
+    price: 1999,
     unit: "eenmalig",
     icon: ShoppingCart02Icon,
     badge: "SEO Pro inbegrepen",
@@ -105,7 +105,7 @@ const items: LineItem[] = [
   {
     id: "meta",
     title: "Meta Ads (Facebook & Instagram)",
-    price: 500,
+    price: 1999,
     unit: "per maand",
     icon: MetaIcon,
     features: [
@@ -117,7 +117,7 @@ const items: LineItem[] = [
   {
     id: "tiktok",
     title: "TikTok Ads",
-    price: 500,
+    price: 1999,
     unit: "per maand",
     icon: TiktokIcon,
     features: [
