@@ -482,7 +482,7 @@ export default function RegilioOfferte() {
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">TOTAAL</div>
               <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                €4.098,-
+                €{totaal3mnd.toLocaleString("nl-NL")},-
               </div>
               <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
