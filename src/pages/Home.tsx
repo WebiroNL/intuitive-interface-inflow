@@ -15,71 +15,164 @@ import { LazyIframe } from "@/components/LazyIframe";
 import { PhoneShowcase, type ShowcaseItem } from "@/components/PhoneShowcase";
 import { supabase } from "@/integrations/supabase/client";
 
-/* ─── Fake website mockup for bento cards ─── */
-const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
-  <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
-    <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
-      <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
-      <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
-      <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
-      <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
-    </div>
-    <div className={`absolute inset-0 top-9 ${accent === "primary" ? "bg-gradient-to-br from-primary/5 via-background to-primary/10" : "bg-gradient-to-br from-accent/5 via-background to-accent/10"}`}>
-      <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30">
-        <div className={`w-12 h-3 rounded-sm ${accent === "primary" ? "bg-primary/40" : "bg-accent/40"}`} />
-        <div className="flex gap-2 ml-auto">
-          <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
-          <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
-          <div className={`w-14 h-5 rounded-sm ${accent === "primary" ? "bg-primary/60" : "bg-accent/60"}`} />
-        </div>
-      </div>
-      <div className="px-4 py-4">
-        <div className="w-3/4 h-4 rounded bg-foreground/15 mb-2" />
-        <div className="w-1/2 h-3 rounded bg-foreground/10 mb-4" />
-        <div className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`} />
-      </div>
-      <div className="absolute bottom-3 left-4 right-4 grid grid-cols-3 gap-2">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="rounded-lg border border-border/30 bg-background/60 p-2">
-            <div className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`} />
-            <div className="w-full h-2 rounded bg-foreground/10 mb-1" />
-            <div className="w-2/3 h-1.5 rounded bg-foreground/8" />
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
+/* ─── Animated cursor ─── */
+const Cursor = ({ path, duration = 8 }: { path: { x: string; y: string; click?: boolean }[]; duration?: number }) => {
+  const xs = path.map((p) => p.x);
+  const ys = path.map((p) => p.y);
+  const times = path.map((_, i) => i / (path.length - 1));
+  return (
+    <motion.div
+      className="absolute z-20 pointer-events-none"
+      initial={{ left: path[0].x, top: path[0].y, opacity: 0 }}
+      animate={{ left: xs, top: ys, opacity: [0, 1, 1, 1, 1, 1, 1, 0] }}
+      transition={{ duration, times, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg width="14" height="18" viewBox="0 0 14 18" className="drop-shadow-md">
+        <path d="M1 1 L1 13 L4.5 10 L7 15.5 L9 14.5 L6.5 9 L11 9 Z" fill="white" stroke="hsl(var(--foreground))" strokeWidth="1" strokeLinejoin="round" />
+      </svg>
+    </motion.div>
+  );
+};
+
+/* ─── Click ripple ─── */
+const ClickRipple = ({ x, y, delay, duration = 8 }: { x: string; y: string; delay: number; duration?: number }) => (
+  <motion.span
+    className="absolute z-10 w-4 h-4 rounded-full border border-primary pointer-events-none"
+    style={{ left: x, top: y, translate: "-50% -50%" }}
+    initial={{ scale: 0, opacity: 0 }}
+    animate={{ scale: [0, 0, 1.8, 0], opacity: [0, 0.7, 0, 0] }}
+    transition={{ duration, times: [0, delay - 0.01, delay + 0.04, 1], repeat: Infinity, ease: "easeOut" }}
+  />
 );
 
-const MarketingMockup = () => (
-  <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
-    <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
-      <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
-      <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
-      <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
-      <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
-    </div>
-    <div className="absolute inset-0 top-9 bg-gradient-to-br from-accent/5 via-background to-accent/10 p-3">
-      <div className="grid grid-cols-3 gap-2 mb-3">
-        {[["1.240", "Leads"], ["€4.20", "CPC"], ["34%", "Conv."]].map(([v, l]) => (
-          <div key={l} className="rounded-lg border border-border/30 bg-background/60 px-2 py-1.5">
-            <p className="text-[9px] font-bold text-accent">{v}</p>
-            <p className="text-[7px] text-muted-foreground">{l}</p>
-          </div>
-        ))}
+/* ─── Fake website mockup for bento cards ─── */
+const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => {
+  const cursorPath = [
+    { x: "10%", y: "20%" },
+    { x: "85%", y: "18%" },
+    { x: "30%", y: "55%" },
+    { x: "20%", y: "85%" },
+    { x: "55%", y: "85%" },
+    { x: "85%", y: "85%" },
+    { x: "85%", y: "85%" },
+  ];
+  return (
+    <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
+      <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
+        <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
+        <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
       </div>
-      <div className="rounded-lg border border-border/30 bg-background/60 p-2">
-        <div className="text-[7px] text-muted-foreground mb-1.5">Leads per week</div>
-        <div className="flex items-end gap-1 h-8">
-          {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-            <div key={i} className="flex-1 rounded-sm bg-accent/40" style={{ height: `${h}%` }} />
+      <div className={`absolute inset-0 top-9 ${accent === "primary" ? "bg-gradient-to-br from-primary/5 via-background to-primary/10" : "bg-gradient-to-br from-accent/5 via-background to-accent/10"}`}>
+        <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30">
+          <div className={`w-12 h-3 rounded-sm ${accent === "primary" ? "bg-primary/40" : "bg-accent/40"}`} />
+          <div className="flex gap-2 ml-auto">
+            <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
+            <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
+            <motion.div
+              className={`w-14 h-5 rounded-sm ${accent === "primary" ? "bg-primary/60" : "bg-accent/60"}`}
+              animate={{ scale: [1, 1, 0.92, 1, 1] }}
+              transition={{ duration: 8, times: [0, 0.16, 0.2, 0.24, 1], repeat: Infinity }}
+            />
+          </div>
+        </div>
+        <div className="px-4 py-4">
+          <motion.div
+            initial={{ width: "0%" }}
+            animate={{ width: ["0%", "75%", "75%", "0%"] }}
+            transition={{ duration: 8, times: [0, 0.18, 0.85, 1], repeat: Infinity, ease: "easeInOut" }}
+            className="h-4 rounded bg-foreground/15 mb-2"
+          />
+          <motion.div
+            initial={{ width: "0%" }}
+            animate={{ width: ["0%", "50%", "50%", "0%"] }}
+            transition={{ duration: 8, times: [0, 0.22, 0.85, 1], delay: 0.15, repeat: Infinity, ease: "easeInOut" }}
+            className="h-3 rounded bg-foreground/10 mb-4"
+          />
+          <motion.div
+            animate={{ scale: [0.85, 1, 1, 0.85], opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 8, times: [0, 0.28, 0.85, 1], repeat: Infinity, ease: "easeInOut" }}
+            className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`}
+          />
+        </div>
+        <div className="absolute bottom-3 left-4 right-4 grid grid-cols-3 gap-2">
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, 8] }}
+              transition={{ duration: 8, times: [0, 0.35, 0.85, 1], delay: i * 0.1, repeat: Infinity, ease: "easeInOut" }}
+              className="rounded-lg border border-border/30 bg-background/60 p-2"
+            >
+              <div className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`} />
+              <div className="w-full h-2 rounded bg-foreground/10 mb-1" />
+              <div className="w-2/3 h-1.5 rounded bg-foreground/8" />
+            </motion.div>
           ))}
         </div>
+        <ClickRipple x="85%" y="18%" delay={0.2} />
+        <Cursor path={cursorPath} />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
+const MarketingMockup = () => {
+  const cursorPath = [
+    { x: "10%", y: "85%" },
+    { x: "20%", y: "35%" },
+    { x: "50%", y: "35%" },
+    { x: "82%", y: "35%" },
+    { x: "85%", y: "75%" },
+    { x: "85%", y: "75%" },
+  ];
+  const bars = [40, 65, 45, 80, 55, 90, 70];
+  return (
+    <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
+      <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
+        <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
+        <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
+      </div>
+      <div className="absolute inset-0 top-9 bg-gradient-to-br from-accent/5 via-background to-accent/10 p-3">
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          {[["1.240", "Leads"], ["€4.20", "CPC"], ["34%", "Conv."]].map(([v, l], i) => (
+            <motion.div
+              key={l}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: [0, 1, 1, 0], scale: [0.92, 1, 1, 0.92] }}
+              transition={{ duration: 8, times: [0, 0.18, 0.85, 1], delay: i * 0.12, repeat: Infinity, ease: "easeInOut" }}
+              className="rounded-lg border border-border/30 bg-background/60 px-2 py-1.5"
+            >
+              <p className="text-[9px] font-bold text-accent">{v}</p>
+              <p className="text-[7px] text-muted-foreground">{l}</p>
+            </motion.div>
+          ))}
+        </div>
+        <div className="rounded-lg border border-border/30 bg-background/60 p-2">
+          <div className="text-[7px] text-muted-foreground mb-1.5">Leads per week</div>
+          <div className="flex items-end gap-1 h-8">
+            {bars.map((h, i) => (
+              <motion.div
+                key={i}
+                initial={{ height: "0%" }}
+                animate={{ height: ["0%", `${h}%`, `${h}%`, "0%"] }}
+                transition={{ duration: 8, times: [0, 0.3, 0.85, 1], delay: i * 0.08, repeat: Infinity, ease: "easeInOut" }}
+                className="flex-1 rounded-sm bg-accent/40"
+              />
+            ))}
+          </div>
+        </div>
+        <ClickRipple x="20%" y="35%" delay={0.22} />
+        <ClickRipple x="50%" y="35%" delay={0.42} />
+        <ClickRipple x="82%" y="35%" delay={0.62} />
+        <Cursor path={cursorPath} />
+      </div>
+    </div>
+  );
+};
 
 
 const websiteSteps = [
