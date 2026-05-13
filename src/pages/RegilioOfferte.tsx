@@ -39,7 +39,7 @@ const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   {
     id: "website",
     title: "Website + CMS",
-    price: 999,
+    price: 998,
     unit: "eenmalig",
     icon: Globe02Icon,
     badge: "SEO Pro inbegrepen",
