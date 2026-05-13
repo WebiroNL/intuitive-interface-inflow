@@ -84,16 +84,11 @@ const MarketingMockup = () => {
       </div>
       <div className="absolute inset-0 top-9 bg-gradient-to-br from-accent/5 via-background to-accent/10 p-3">
         <div className="grid grid-cols-3 gap-2 mb-3">
-          {[["1.240", "Leads"], ["€4.20", "CPC"], ["34%", "Conv."]].map(([v, l], i) => (
-            <motion.div
-              key={l}
-              animate={{ y: [0, -2, 0] }}
-              transition={{ duration: 2.8, delay: i * 0.2, repeat: Infinity, ease: "easeInOut" }}
-              className="rounded-lg border border-border/30 bg-background/60 px-2 py-1.5"
-            >
+          {[["1.240", "Leads"], ["€4.20", "CPC"], ["34%", "Conv."]].map(([v, l]) => (
+            <div key={l} className="rounded-lg border border-border/30 bg-background/60 px-2 py-1.5">
               <p className="text-[9px] font-bold text-accent">{v}</p>
               <p className="text-[7px] text-muted-foreground">{l}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
         <div className="rounded-lg border border-border/30 bg-background/60 p-2">
