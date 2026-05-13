@@ -337,7 +337,7 @@ export default function RegilioOfferte() {
           </h1>
           <div className="mt-6 flex items-center gap-2 text-base text-muted-foreground">
             <HugeiconsIcon icon={Calendar03Icon} size={18} className="text-primary" />
-            <span>Voor de maanden <span className="text-foreground font-medium">mei, juni en juli 2026</span></span>
+            <span>2026<span className="text-foreground font-medium"></span></span>
           </div>
         </motion.header>
 
