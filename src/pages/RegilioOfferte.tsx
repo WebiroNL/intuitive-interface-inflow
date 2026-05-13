@@ -13,6 +13,8 @@ import {
   MetaIcon,
   Calendar03Icon,
   SparklesIcon,
+  ShoppingCart02Icon,
+  SnapchatIcon,
 } from "@hugeicons/core-free-icons";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,10 +33,12 @@ type LineItem = {
   badge?: string;
 };
 
-const items: LineItem[] = [
+type WebsiteChoiceId = "website" | "webshop";
+
+const websiteChoices: (LineItem & { id: WebsiteChoiceId })[] = [
   {
     id: "website",
-    title: "Websiteontwikkeling + CMS",
+    title: "Website + CMS",
     price: 999,
     unit: "eenmalig",
     icon: Globe02Icon,
@@ -54,12 +58,37 @@ const items: LineItem[] = [
       "SEO Pro: optimalisatie voor 15+ zoekwoorden",
       "Maandelijkse SEO rapportage",
     ],
-    highlight: true,
   },
+  {
+    id: "webshop",
+    title: "Webshop + CMS",
+    price: 2000,
+    unit: "eenmalig",
+    icon: ShoppingCart02Icon,
+    badge: "SEO Pro inbegrepen",
+    features: [
+      "Volledige webshop met productbeheer",
+      "CMS systeem voor producten, teksten & afbeeldingen",
+      "Responsive design (mobiel, tablet & desktop)",
+      "SSL-certificaat inbegrepen",
+      "Veilige checkout & betaalintegratie",
+      "Voorraadbeheer & orderoverzicht",
+      "Google Analytics & e-commerce tracking",
+      "Social media & Google Shopping integratie",
+      "Blog/nieuwssectie",
+      "Animaties & micro-interacties",
+      "3 revisierondes",
+      "SEO Pro: optimalisatie voor 15+ zoekwoorden",
+      "Maandelijkse SEO rapportage",
+    ],
+  },
+];
+
+const items: LineItem[] = [
   {
     id: "hosting",
     title: "Hosting",
-    price: 99,
+    price: 0,
     unit: "per maand",
     icon: CloudServerIcon,
     features: [
@@ -76,7 +105,7 @@ const items: LineItem[] = [
   {
     id: "meta",
     title: "Meta Ads (Facebook & Instagram)",
-    price: 1500,
+    price: 500,
     unit: "per maand",
     icon: MetaIcon,
     features: [
@@ -88,13 +117,25 @@ const items: LineItem[] = [
   {
     id: "tiktok",
     title: "TikTok Ads",
-    price: 1500,
+    price: 500,
     unit: "per maand",
     icon: TiktokIcon,
     features: [
       "TikTok campagne setup",
       "Video advertising strategie",
       "Trend-based targeting",
+    ],
+  },
+  {
+    id: "snapchat",
+    title: "Snapchat Ads",
+    price: 0,
+    unit: "per maand",
+    icon: SnapchatIcon,
+    features: [
+      "Snapchat campagne setup",
+      "Vertical video advertising",
+      "Gen-Z targeting & engagement",
     ],
   },
 ];
@@ -120,6 +161,13 @@ function useCountUp(target: number, duration = 1200, start = true) {
 }
 
 function PriceTag({ price, unit }: { price: number; unit: LineItem["unit"] }) {
+  if (price === 0) {
+    return (
+      <div className="flex items-baseline gap-1">
+        <span className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Gratis</span>
+      </div>
+    );
+  }
   return (
     <div className="flex items-baseline gap-1">
       <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">€{price.toLocaleString("nl-NL")},-</span>
@@ -137,6 +185,7 @@ export default function RegilioOfferte() {
   const [showDialog, setShowDialog] = useState<null | "accept" | "decline">(null);
   const [saving, setSaving] = useState(false);
   const [loadingDecision, setLoadingDecision] = useState(true);
+  const [websiteChoice, setWebsiteChoice] = useState<WebsiteChoiceId>("website");
 
   // Load auth + remote decision
   useEffect(() => {
@@ -157,8 +206,9 @@ export default function RegilioOfferte() {
     })();
   }, []);
 
-  const eenmalig = useMemo(() => items.filter((i) => i.unit === "eenmalig").reduce((s, i) => s + i.price, 0), []);
-  const maandelijks = useMemo(() => items.filter((i) => i.unit === "per maand").reduce((s, i) => s + i.price, 0), []);
+  const selectedWebsite = websiteChoices.find((w) => w.id === websiteChoice)!;
+  const eenmalig = selectedWebsite.price;
+  const maandelijks = useMemo(() => items.reduce((s, i) => s + i.price, 0), []);
   const totaal3mnd = eenmalig + maandelijks * MONTHS;
 
   const animatedTotal = useCountUp(totaal3mnd, 1500, authed);
@@ -290,6 +340,77 @@ export default function RegilioOfferte() {
           </div>
         </motion.header>
 
+        {/* Website choice (50/50) */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-5"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">
+              Kies één van de twee
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Geselecteerd: <span className="text-foreground font-medium">{selectedWebsite.title}</span>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {websiteChoices.map((choice) => {
+              const isActive = websiteChoice === choice.id;
+              return (
+                <button
+                  key={choice.id}
+                  type="button"
+                  onClick={() => setWebsiteChoice(choice.id)}
+                  className={`relative text-left p-6 md:p-7 rounded-2xl border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl ${
+                    isActive
+                      ? "border-primary ring-2 ring-primary/30"
+                      : "border-border opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  {isActive && (
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+                  )}
+                  <div className="absolute top-4 right-4">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      isActive ? "border-primary bg-primary" : "border-border"
+                    }`}>
+                      {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                  </div>
+                  <div className="relative flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent shrink-0">
+                      <HugeiconsIcon icon={choice.icon} size={22} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{choice.title}</h3>
+                      {choice.badge && (
+                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                          <HugeiconsIcon icon={SparklesIcon} size={12} />
+                          {choice.badge}
+                        </div>
+                      )}
+                      <div className="mt-3">
+                        <PriceTag price={choice.price} unit={choice.unit} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative mt-5 grid grid-cols-1 gap-y-2">
+                    {choice.features.map((f) => (
+                      <div key={f} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} className="text-primary mt-0.5 shrink-0" />
+                        <span>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+
         {/* Line items */}
         <div className="space-y-5">
           {items.map((item, idx) => (
@@ -361,7 +482,7 @@ export default function RegilioOfferte() {
             <div className="md:border-l md:border-border md:pl-10">
               <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">TOTAAL</div>
               <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                €4.098,-
+                €{totaal3mnd.toLocaleString("nl-NL")},-
               </div>
               <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
