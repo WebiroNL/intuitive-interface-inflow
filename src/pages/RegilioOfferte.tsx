@@ -340,6 +340,77 @@ export default function RegilioOfferte() {
           </div>
         </motion.header>
 
+        {/* Website choice (50/50) */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-5"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">
+              Kies één van de twee
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Geselecteerd: <span className="text-foreground font-medium">{selectedWebsite.title}</span>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {websiteChoices.map((choice) => {
+              const isActive = websiteChoice === choice.id;
+              return (
+                <button
+                  key={choice.id}
+                  type="button"
+                  onClick={() => setWebsiteChoice(choice.id)}
+                  className={`relative text-left p-6 md:p-7 rounded-2xl border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl ${
+                    isActive
+                      ? "border-primary ring-2 ring-primary/30"
+                      : "border-border opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  {isActive && (
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+                  )}
+                  <div className="absolute top-4 right-4">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      isActive ? "border-primary bg-primary" : "border-border"
+                    }`}>
+                      {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                  </div>
+                  <div className="relative flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent shrink-0">
+                      <HugeiconsIcon icon={choice.icon} size={22} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{choice.title}</h3>
+                      {choice.badge && (
+                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                          <HugeiconsIcon icon={SparklesIcon} size={12} />
+                          {choice.badge}
+                        </div>
+                      )}
+                      <div className="mt-3">
+                        <PriceTag price={choice.price} unit={choice.unit} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative mt-5 grid grid-cols-1 gap-y-2">
+                    {choice.features.map((f) => (
+                      <div key={f} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} className="text-primary mt-0.5 shrink-0" />
+                        <span>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+
         {/* Line items */}
         <div className="space-y-5">
           {items.map((item, idx) => (
