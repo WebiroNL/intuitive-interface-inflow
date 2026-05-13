@@ -489,7 +489,7 @@ export default function RegilioOfferte() {
                 <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
                   €{totaal3mnd.toLocaleString("nl-NL")},-
                 </span>
-                <span className="text-sm text-muted-foreground">voor 3 maanden</span>
+                <span className="text-sm text-muted-foreground">{"\u200B"}</span>
               </div>
               <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
             </div>
