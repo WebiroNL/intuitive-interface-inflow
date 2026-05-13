@@ -134,7 +134,7 @@ const MarketingDashboard = () => {
               <div className="flex items-center gap-1 mb-0.5">
                 <Icon className="w-2.5 h-2.5 text-primary/60" />
                 <p className="text-[9px] font-bold text-primary">
-                  {prefix}{divisor ? (value / divisor).toFixed(2) : <AnimCounter target={value} />}{suffix}
+                  {prefix}{divisor ? (value / divisor).toFixed(2) : <AnimCounter target={value} loop />}{suffix}
                 </p>
               </div>
               <p className="text-[7px] text-muted-foreground">{label}</p>
