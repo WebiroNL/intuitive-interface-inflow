@@ -4,20 +4,31 @@ import { TrendingUp, Users, MousePointerClick, BarChart3 } from "lucide-react";
 import { SilkWaves } from "@/components/SilkWaves";
 
 /* ─── Animated counter ─── */
-function AnimCounter({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
+function AnimCounter({ target, prefix = "", suffix = "", loop = false }: { target: number; prefix?: string; suffix?: string; loop?: boolean }) {
   const [val, setVal] = useState(0);
   useEffect(() => {
-    let start = 0;
-    const dur = 1800;
-    const step = 16;
-    const inc = target / (dur / step);
-    const timer = setInterval(() => {
-      start += inc;
-      if (start >= target) { setVal(target); clearInterval(timer); }
-      else setVal(Math.floor(start));
-    }, step);
-    return () => clearInterval(timer);
-  }, [target]);
+    let cancelled = false;
+    const run = () => {
+      let start = 0;
+      const dur = 1800;
+      const step = 16;
+      const inc = target / (dur / step);
+      const timer = setInterval(() => {
+        if (cancelled) { clearInterval(timer); return; }
+        start += inc;
+        if (start >= target) {
+          setVal(target);
+          clearInterval(timer);
+          if (loop) {
+            setTimeout(() => { if (!cancelled) { setVal(0); run(); } }, 2500);
+          }
+        } else setVal(Math.floor(start));
+      }, step);
+      return timer;
+    };
+    const t = run();
+    return () => { cancelled = true; clearInterval(t as any); };
+  }, [target, loop]);
   return <>{prefix}{val.toLocaleString("nl-NL")}{suffix}</>;
 }
 
