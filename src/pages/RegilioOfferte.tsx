@@ -469,29 +469,23 @@ export default function RegilioOfferte() {
           className="mt-10 p-6 md:p-10 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.05] via-card to-accent/[0.05] relative overflow-hidden"
         >
           <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative grid md:grid-cols-3 gap-6 md:gap-10">
+          <div className="relative grid md:grid-cols-2 gap-6 md:gap-10">
             <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Website</div>
-              <div className="text-3xl font-bold text-foreground">€{eenmalig.toLocaleString("nl-NL")},-</div>
-              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Ads & hosting</div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-3xl font-bold text-foreground">€{maandelijks.toLocaleString("nl-NL")},-</span>
-                <span className="text-sm text-muted-foreground">per maand</span>
+              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Eenmalig</div>
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">€{eenmalig.toLocaleString("nl-NL")},-</span>
               </div>
-              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
+              <div className="text-xs text-muted-foreground mt-2">{selectedWebsite.title}</div>
             </div>
             <div className="md:border-l md:border-border md:pl-10">
-              <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">TOTAAL</div>
+              <div className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">Per maand</div>
               <div className="flex items-baseline gap-2 flex-wrap">
                 <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-                  €{totaal3mnd.toLocaleString("nl-NL")},-
+                  €{maandelijks.toLocaleString("nl-NL")},-
                 </span>
-                <span className="text-sm text-muted-foreground">{"\u200B"}</span>
+                <span className="text-sm text-muted-foreground">per maand</span>
               </div>
-              <div className="text-xs text-muted-foreground mt-1">{"\u200B"}</div>
+              <div className="text-xs text-muted-foreground mt-2">Ads & hosting</div>
             </div>
           </div>
           <div className="relative mt-6 pt-6 border-t border-border text-xs text-muted-foreground space-y-1">
