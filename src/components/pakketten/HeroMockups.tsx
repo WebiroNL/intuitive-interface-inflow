@@ -49,21 +49,21 @@ const WebsiteMockup = () => (
       {/* Content */}
       <div className="px-4 py-3 flex-shrink-0">
         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: "75%" }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          initial={{ width: "0%" }}
+          animate={{ width: ["0%", "75%", "75%", "0%"] }}
+          transition={{ duration: 4, times: [0, 0.25, 0.85, 1], repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
           className="h-3.5 rounded bg-foreground/15 mb-1.5"
         />
         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: "50%" }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          initial={{ width: "0%" }}
+          animate={{ width: ["0%", "50%", "50%", "0%"] }}
+          transition={{ duration: 4, times: [0, 0.3, 0.85, 1], delay: 0.2, repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
           className="h-2.5 rounded bg-foreground/10 mb-3"
         />
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 1 }}
+          animate={{ scale: [0.8, 1, 1, 0.8], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 4, times: [0, 0.35, 0.85, 1], delay: 0.4, repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
           className="w-16 h-5 rounded bg-primary/50"
         />
       </div>
@@ -73,8 +73,8 @@ const WebsiteMockup = () => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 + i * 0.15 }}
+            animate={{ opacity: [0, 1, 1, 0], y: [10, 0, 0, 10] }}
+            transition={{ duration: 4, times: [0, 0.25, 0.85, 1], delay: 0.6 + i * 0.15, repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
             className="rounded-lg border border-border/30 bg-background/60 p-2"
           >
             <div className="w-5 h-5 rounded mb-1 bg-primary/30" />
