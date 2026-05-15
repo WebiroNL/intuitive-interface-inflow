@@ -16,71 +16,102 @@ import { PhoneShowcase, type ShowcaseItem } from "@/components/PhoneShowcase";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Fake website mockup for bento cards ─── */
-const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => (
-  <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
-    <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
-      <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
-      <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
-      <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
-      <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
-    </div>
-    <div className={`absolute inset-0 top-9 flex flex-col ${accent === "primary" ? "bg-gradient-to-br from-primary/5 via-background to-primary/10" : "bg-gradient-to-br from-accent/5 via-background to-accent/10"}`}>
-      <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30 shrink-0">
-        <div className={`w-12 h-3 rounded-sm ${accent === "primary" ? "bg-primary/40" : "bg-accent/40"}`} />
-        <div className="flex gap-2 ml-auto">
-          <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
-          <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
-          <motion.div
-            className={`w-14 h-5 rounded-sm ${accent === "primary" ? "bg-primary/60" : "bg-accent/60"}`}
-            animate={{ scale: [1, 1.06, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
+const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => {
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showBottom, setShowBottom] = useState(true);
+
+  useLayoutEffect(() => {
+    const check = () => {
+      const c = containerRef.current;
+      const b = bottomRef.current;
+      if (!c || !b) return;
+      // Measure natural height of the bottom row
+      const prevDisplay = b.style.display;
+      b.style.display = "grid";
+      const bRect = b.getBoundingClientRect();
+      const cRect = c.getBoundingClientRect();
+      const bTop = bRect.top - cRect.top;
+      const fits = bTop + bRect.height <= cRect.height + 0.5;
+      b.style.display = prevDisplay;
+      setShowBottom(fits);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
+      <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
+        <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
+        <div className="ml-2 flex-1 h-4 rounded bg-muted/80 max-w-[160px]" />
       </div>
-      <div className="px-4 py-4 shrink-0">
-        <motion.div
-          animate={{ width: ["60%", "78%", "60%"] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="h-4 rounded bg-foreground/15 mb-2"
-        />
-        <motion.div
-          animate={{ width: ["40%", "55%", "40%"] }}
-          transition={{ duration: 4, delay: 0.4, repeat: Infinity, ease: "easeInOut" }}
-          className="h-3 rounded bg-foreground/10 mb-4"
-        />
-        <motion.div
-          animate={{ opacity: [0.85, 1, 0.85] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-          className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`}
-        />
-      </div>
-      <div className="mt-auto px-4 pb-3 pt-2 grid grid-cols-3 gap-2 shrink-0">
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className="rounded-lg border border-border/30 bg-background/60 p-2"
-          >
+      <div className={`absolute inset-0 top-9 flex flex-col ${accent === "primary" ? "bg-gradient-to-br from-primary/5 via-background to-primary/10" : "bg-gradient-to-br from-accent/5 via-background to-accent/10"}`}>
+        <div className="flex items-center gap-2 px-4 py-2 border-b border-border/30 shrink-0">
+          <div className={`w-12 h-3 rounded-sm ${accent === "primary" ? "bg-primary/40" : "bg-accent/40"}`} />
+          <div className="flex gap-2 ml-auto">
+            <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
+            <div className="w-8 h-2.5 rounded-sm bg-muted-foreground/20" />
             <motion.div
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2.4, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
-              className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`}
-            />
-            <motion.div
-              animate={{ width: ["70%", "100%", "70%"] }}
-              transition={{ duration: 2.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
-              className="h-2 rounded bg-foreground/10 mb-1"
-            />
-            <motion.div
-              animate={{ width: ["45%", "70%", "45%"] }}
-              transition={{ duration: 2.8, delay: i * 0.25 + 0.2, repeat: Infinity, ease: "easeInOut" }}
-              className="h-1.5 rounded bg-foreground/8"
+              className={`w-14 h-5 rounded-sm ${accent === "primary" ? "bg-primary/60" : "bg-accent/60"}`}
+              animate={{ scale: [1, 1.06, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             />
           </div>
-        ))}
+        </div>
+        <div className="px-4 py-4 shrink-0">
+          <motion.div
+            animate={{ width: ["60%", "78%", "60%"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="h-4 rounded bg-foreground/15 mb-2"
+          />
+          <motion.div
+            animate={{ width: ["40%", "55%", "40%"] }}
+            transition={{ duration: 4, delay: 0.4, repeat: Infinity, ease: "easeInOut" }}
+            className="h-3 rounded bg-foreground/10 mb-4"
+          />
+          <motion.div
+            animate={{ opacity: [0.85, 1, 0.85] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+            className={`w-20 h-6 rounded ${accent === "primary" ? "bg-primary/50" : "bg-accent/50"}`}
+          />
+        </div>
+        <div
+          ref={bottomRef}
+          className="mt-auto px-4 pb-3 pt-2 grid grid-cols-3 gap-2 shrink-0"
+          style={{ visibility: showBottom ? "visible" : "hidden" }}
+        >
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="rounded-lg border border-border/30 bg-background/60 p-2"
+            >
+              <motion.div
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2.4, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
+                className={`w-6 h-6 rounded mb-1.5 ${accent === "primary" ? "bg-primary/30" : "bg-accent/30"}`}
+              />
+              <motion.div
+                animate={{ width: ["70%", "100%", "70%"] }}
+                transition={{ duration: 2.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
+                className="h-2 rounded bg-foreground/10 mb-1"
+              />
+              <motion.div
+                animate={{ width: ["45%", "70%", "45%"] }}
+                transition={{ duration: 2.8, delay: i * 0.25 + 0.2, repeat: Infinity, ease: "easeInOut" }}
+                className="h-1.5 rounded bg-foreground/8"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const MarketingMockup = () => {
   const bars = [40, 65, 45, 80, 55, 90, 70];
