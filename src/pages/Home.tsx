@@ -194,8 +194,8 @@ const MarketingMockup = () => {
             ))}
           </div>
           <div className="rounded-lg border border-border/30 bg-background/60 p-2">
-            <div className="text-[7px] text-muted-foreground mb-1.5">Recente leads</div>
-            {[["JD", "Jansen B.V."], ["MV", "Vermeer Co."], ["AS", "Smit & Zn."]].map(([init, name], i) => (
+            <div className="text-[7px] text-muted-foreground mb-1.5">Recente websites</div>
+            {[["FK", "fawakafest.com"], ["RC", "thereformclub.nl"], ["NE", "novelle-events.nl"]].map(([init, name], i) => (
               <motion.div
                 key={name}
                 className="flex items-center gap-1.5 mb-1 last:mb-0"
