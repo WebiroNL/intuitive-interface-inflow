@@ -118,6 +118,38 @@ const MarketingMockup = () => {
             })}
           </div>
         </div>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <div className="rounded-lg border border-border/30 bg-background/60 p-2">
+            <div className="text-[7px] text-muted-foreground mb-1.5">Top kanalen</div>
+            {[["Google Ads", 72], ["Meta", 54], ["LinkedIn", 38]].map(([name, pct]) => (
+              <div key={name as string} className="flex items-center gap-1.5 mb-1 last:mb-0">
+                <div className="text-[7px] text-foreground/70 w-12 shrink-0">{name}</div>
+                <div className="flex-1 h-1.5 rounded-full bg-muted/60 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-accent/60 rounded-full"
+                    animate={{ width: [`${(pct as number) - 10}%`, `${pct}%`, `${(pct as number) - 10}%`] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="rounded-lg border border-border/30 bg-background/60 p-2">
+            <div className="text-[7px] text-muted-foreground mb-1.5">Recente leads</div>
+            {[["JD", "Jansen B.V."], ["MV", "Vermeer Co."], ["AS", "Smit & Zn."]].map(([init, name], i) => (
+              <motion.div
+                key={name}
+                className="flex items-center gap-1.5 mb-1 last:mb-0"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2.4, delay: i * 0.3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="w-3.5 h-3.5 rounded-full bg-accent/30 flex items-center justify-center text-[6px] font-bold text-accent">{init}</div>
+                <div className="text-[7px] text-foreground/70 truncate">{name}</div>
+                <div className="ml-auto w-1 h-1 rounded-full bg-emerald-500/70" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
