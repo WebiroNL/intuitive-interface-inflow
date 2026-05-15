@@ -115,8 +115,32 @@ const WebsiteMockup = ({ accent }: { accent: "primary" | "accent" }) => {
 
 const MarketingMockup = () => {
   const bars = [40, 65, 45, 80, 55, 90, 70];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [showBottom, setShowBottom] = useState(true);
+
+  useLayoutEffect(() => {
+    const check = () => {
+      const c = containerRef.current;
+      const b = bottomRef.current;
+      if (!c || !b) return;
+      const prev = b.style.visibility;
+      b.style.visibility = "hidden";
+      b.style.display = "grid";
+      const bRect = b.getBoundingClientRect();
+      const cRect = c.getBoundingClientRect();
+      const fits = (bRect.top - cRect.top) + bRect.height <= cRect.height + 0.5;
+      b.style.visibility = prev;
+      setShowBottom(fits);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
+    <div ref={containerRef} className="relative w-full rounded-xl overflow-hidden border border-border/60 shadow-lg bg-card" style={{ aspectRatio: "16/10" }}>
       <div className="flex items-center gap-1.5 px-3 py-2 bg-muted/60 border-b border-border/40">
         <span className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
         <span className="w-2.5 h-2.5 rounded-full bg-webiro-yellow/70" />
@@ -149,7 +173,11 @@ const MarketingMockup = () => {
             })}
           </div>
         </div>
-        <div className="mt-3 grid grid-cols-2 gap-2">
+        <div
+          ref={bottomRef}
+          className="mt-3 grid grid-cols-2 gap-2"
+          style={{ visibility: showBottom ? "visible" : "hidden" }}
+        >
           <div className="rounded-lg border border-border/30 bg-background/60 p-2">
             <div className="text-[7px] text-muted-foreground mb-1.5">Top kanalen</div>
             {[["Google Ads", 72], ["Meta", 54], ["LinkedIn", 38]].map(([name, pct]) => (
