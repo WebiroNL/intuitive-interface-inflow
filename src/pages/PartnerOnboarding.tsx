@@ -10,7 +10,15 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { ONBOARDING_SERVICES, getServiceById, type OnboardingField } from "@/lib/onboardingChecklists";
+import {
+  ONBOARDING_SERVICES,
+  getServiceById,
+  tr,
+  trOptions,
+  type Locale,
+  type OnboardingField,
+} from "@/lib/onboardingChecklists";
+import { useOnboardingUi, type OnboardingUi } from "@/lib/onboardingUiStrings";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon, ArrowLeft01Icon, Tick02Icon, RocketIcon } from "@hugeicons/core-free-icons";
 import { updatePageMeta } from "@/utils/seo";
@@ -30,6 +38,9 @@ export default function PartnerOnboarding() {
   const [params] = useSearchParams();
   const { user } = useAuth();
   const { partner } = useMyPartner();
+
+  const [locale, setLocale] = useState<Locale>("nl");
+  const ui = useOnboardingUi(locale);
 
   const [step, setStep] = useState<Step>("company");
   const [submitting, setSubmitting] = useState(false);
@@ -85,7 +96,7 @@ export default function PartnerOnboarding() {
 
   const validateCompany = () => {
     if (!company.company_name.trim() || !company.contact_person.trim() || !company.email.trim()) {
-      toast({ title: "Vul de verplichte velden in", description: "Bedrijfsnaam, contactpersoon en e-mail zijn vereist.", variant: "destructive" });
+      toast({ title: ui.fillRequiredCompany, description: ui.fillRequiredCompanyDesc, variant: "destructive" });
       return false;
     }
     return true;
@@ -100,7 +111,7 @@ export default function PartnerOnboarding() {
         const v = data[f.key];
         const empty = v === undefined || v === null || (typeof v === "string" && !v.trim()) || (Array.isArray(v) && v.length === 0);
         if (empty) {
-          toast({ title: `Vul "${f.label}" in`, description: `Verplicht veld bij ${svc.label}.`, variant: "destructive" });
+          toast({ title: ui.fillRequired(tr(f.label, locale)), description: ui.requiredAt(tr(svc.label, locale)), variant: "destructive" });
           return false;
         }
       }
@@ -114,7 +125,7 @@ export default function PartnerOnboarding() {
       setStep("services");
     } else if (step === "services") {
       if (selectedServices.length === 0) {
-        toast({ title: "Kies minimaal één dienst", variant: "destructive" });
+        toast({ title: ui.chooseAtLeastOne, variant: "destructive" });
         return;
       }
       setActiveServiceIndex(0);
@@ -155,7 +166,7 @@ export default function PartnerOnboarding() {
         phone: company.phone.trim() || null,
         website: company.website.trim() || null,
         service_type: serviceId,
-        data: answers[serviceId] ?? {},
+        data: { ...(answers[serviceId] ?? {}), _locale: locale },
         status: "submitted",
       }));
 
@@ -164,7 +175,7 @@ export default function PartnerOnboarding() {
 
       setStep("done");
     } catch (e: any) {
-      toast({ title: "Versturen mislukt", description: e.message, variant: "destructive" });
+      toast({ title: ui.submitFailed, description: e.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -175,14 +186,15 @@ export default function PartnerOnboarding() {
     <div className="min-h-screen bg-background pt-24 pb-20">
       <div className="max-w-3xl mx-auto px-6 lg:px-12">
         {/* Header */}
-        <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
-            <HugeiconsIcon icon={RocketIcon} size={14} /> Onboarding
+        <div className="mb-10 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
+              <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+            </div>
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">{ui.title}</h1>
+            <p className="mt-3 text-muted-foreground max-w-xl">{ui.intro}</p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Aanleverlijst</h1>
-          <p className="mt-3 text-muted-foreground max-w-xl">
-            Vul de informatie in die we nodig hebben om snel met je diensten aan de slag te kunnen.
-          </p>
+          <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
         </div>
 
         {/* Progress */}
@@ -190,20 +202,20 @@ export default function PartnerOnboarding() {
 
         {/* STEP: company */}
         {step === "company" && (
-          <Section title="Bedrijfsgegevens" subtitle="Met wie hebben we te maken?">
-            <Field label="Bedrijfsnaam *">
+          <Section title={ui.companyTitle} subtitle={ui.companySubtitle}>
+            <Field label={`${ui.companyName} *`}>
               <Input value={company.company_name} onChange={(e) => setCompany({ ...company, company_name: e.target.value })} />
             </Field>
-            <Field label="Contactpersoon *">
+            <Field label={`${ui.contactPerson} *`}>
               <Input value={company.contact_person} onChange={(e) => setCompany({ ...company, contact_person: e.target.value })} />
             </Field>
-            <Field label="E-mail *">
+            <Field label={`${ui.email} *`}>
               <Input type="email" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} />
             </Field>
-            <Field label="Telefoon">
+            <Field label={ui.phone}>
               <Input type="tel" value={company.phone} onChange={(e) => setCompany({ ...company, phone: e.target.value })} />
             </Field>
-            <Field label="Website">
+            <Field label={ui.website}>
               <Input type="url" placeholder="https://" value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} />
             </Field>
           </Section>
@@ -211,12 +223,12 @@ export default function PartnerOnboarding() {
 
         {/* STEP: services */}
         {step === "services" && (
-          <Section title="Welke diensten gaan we doen?" subtitle="Per dienst krijg je een specifieke aanleverlijst.">
+          <Section title={ui.servicesTitle} subtitle={ui.servicesSubtitle}>
             <div className="space-y-6">
               {(["marketing", "website"] as const).map((cat) => (
                 <div key={cat}>
                   <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
-                    {cat === "marketing" ? "Marketing" : "Website / Webshop"}
+                    {cat === "marketing" ? ui.marketingCat : ui.websiteCat}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {ONBOARDING_SERVICES.filter((s) => s.category === cat).map((s) => {
@@ -238,8 +250,8 @@ export default function PartnerOnboarding() {
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <div className="font-medium">{s.label}</div>
-                              <div className="text-xs text-muted-foreground mt-1">{s.description}</div>
+                              <div className="font-medium">{tr(s.label, locale)}</div>
+                              <div className="text-xs text-muted-foreground mt-1">{tr(s.description, locale)}</div>
                             </div>
                             {active && (
                               <span className="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground">
@@ -260,14 +272,16 @@ export default function PartnerOnboarding() {
         {/* STEP: fields per service */}
         {step === "fields" && activeService && (
           <Section
-            title={activeService.label}
-            subtitle={`${activeService.description} · stap ${activeServiceIndex + 1} van ${selectedServices.length}`}
+            title={tr(activeService.label, locale)}
+            subtitle={`${tr(activeService.description, locale)} · ${ui.stepOf(activeServiceIndex + 1, selectedServices.length)}`}
           >
             <div className="space-y-5">
               {activeService.fields.map((field) => (
                 <DynamicField
                   key={field.key}
                   field={field}
+                  locale={locale}
+                  ui={ui}
                   value={answers[activeService.id]?.[field.key]}
                   onChange={(v) => setAnswer(activeService.id, field.key, v)}
                 />
@@ -278,10 +292,10 @@ export default function PartnerOnboarding() {
 
         {/* STEP: overview */}
         {step === "overview" && (
-          <Section title="Controleren en verzenden" subtitle="Klopt alles? Verstuur dan je aanleverlijst.">
+          <Section title={ui.overviewTitle} subtitle={ui.overviewSubtitle}>
             <div className="space-y-6">
               <div className="rounded-xl border border-border p-4">
-                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Bedrijf</div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{ui.company}</div>
                 <div className="text-sm">
                   <div className="font-medium">{company.company_name}</div>
                   <div className="text-muted-foreground">
@@ -298,7 +312,7 @@ export default function PartnerOnboarding() {
                 const data = answers[sid] ?? {};
                 return (
                   <div key={sid} className="rounded-xl border border-border p-4">
-                    <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{svc.label}</div>
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{tr(svc.label, locale)}</div>
                     <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
                       {svc.fields.map((f) => {
                         const v = data[f.key];
@@ -306,7 +320,7 @@ export default function PartnerOnboarding() {
                         if (!display && display !== 0) return null;
                         return (
                           <div key={f.key} className="break-words">
-                            <dt className="text-muted-foreground text-xs">{f.label}</dt>
+                            <dt className="text-muted-foreground text-xs">{tr(f.label, locale)}</dt>
                             <dd className="whitespace-pre-wrap">{String(display)}</dd>
                           </div>
                         );
@@ -325,11 +339,9 @@ export default function PartnerOnboarding() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6">
               <HugeiconsIcon icon={Tick02Icon} size={32} />
             </div>
-            <h2 className="text-3xl font-semibold mb-3">Bedankt, we hebben alles ontvangen!</h2>
-            <p className="text-muted-foreground max-w-md mx-auto mb-8">
-              We nemen de aanleverlijst door en nemen contact met je op zodra we kunnen starten.
-            </p>
-            <Button onClick={() => navigate("/")}>Terug naar home</Button>
+            <h2 className="text-3xl font-semibold mb-3">{ui.doneTitle}</h2>
+            <p className="text-muted-foreground max-w-md mx-auto mb-8">{ui.doneText}</p>
+            <Button onClick={() => navigate("/")}>{ui.backHome}</Button>
           </div>
         )}
 
@@ -343,16 +355,16 @@ export default function PartnerOnboarding() {
               disabled={step === "company"}
               className="gap-2"
             >
-              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> Vorige
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> {ui.previous}
             </Button>
 
             {step === "overview" ? (
               <Button onClick={submit} disabled={submitting} className="gap-2">
-                {submitting ? "Versturen..." : "Versturen"} <HugeiconsIcon icon={Tick02Icon} size={16} />
+                {submitting ? ui.submitting : ui.submit} <HugeiconsIcon icon={Tick02Icon} size={16} />
               </Button>
             ) : (
               <Button onClick={next} className="gap-2">
-                Volgende <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+                {ui.next} <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Button>
             )}
           </div>
@@ -363,6 +375,41 @@ export default function PartnerOnboarding() {
 }
 
 // ==== Helpers ====
+
+function LanguageToggle({
+  locale,
+  setLocale,
+  ui,
+}: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  ui: OnboardingUi;
+}) {
+  return (
+    <div className="inline-flex rounded-full border border-border p-1 bg-card">
+      <button
+        type="button"
+        onClick={() => setLocale("nl")}
+        className={`px-3 py-1 text-xs rounded-full transition-colors ${
+          locale === "nl" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label={ui.dutch}
+      >
+        NL
+      </button>
+      <button
+        type="button"
+        onClick={() => setLocale("en")}
+        className={`px-3 py-1 text-xs rounded-full transition-colors ${
+          locale === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label={ui.english}
+      >
+        EN
+      </button>
+    </div>
+  );
+}
 
 function ProgressBar({
   step,
@@ -416,56 +463,64 @@ function DynamicField({
   field,
   value,
   onChange,
+  locale,
+  ui,
 }: {
   field: OnboardingField;
   value: any;
   onChange: (v: any) => void;
+  locale: Locale;
+  ui: OnboardingUi;
 }) {
-  const label = field.label + (field.required ? " *" : "");
+  const labelText = tr(field.label, locale) + (field.required ? " *" : "");
+  const placeholder = tr(field.placeholder, locale) || undefined;
+  const help = tr(field.help, locale) || undefined;
 
   if (field.type === "textarea") {
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <Textarea
           rows={4}
-          placeholder={field.placeholder}
+          placeholder={placeholder}
           value={value ?? ""}
           onChange={(e) => onChange(e.target.value)}
         />
-        {field.help && <p className="text-xs text-muted-foreground">{field.help}</p>}
+        {help && <p className="text-xs text-muted-foreground">{help}</p>}
       </Field>
     );
   }
 
   if (field.type === "select" && field.options) {
+    const options = trOptions(field.options, locale);
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <Select value={value ?? ""} onValueChange={onChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Kies..." />
+            <SelectValue placeholder={ui.choose} />
           </SelectTrigger>
           <SelectContent>
-            {field.options.map((opt) => (
+            {options.map((opt) => (
               <SelectItem key={opt} value={opt}>
                 {opt}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {field.help && <p className="text-xs text-muted-foreground">{field.help}</p>}
+        {help && <p className="text-xs text-muted-foreground">{help}</p>}
       </Field>
     );
   }
 
   if (field.type === "multiselect" && field.options) {
+    const options = trOptions(field.options, locale);
     const arr: string[] = Array.isArray(value) ? value : [];
     const toggle = (opt: string) => {
       onChange(arr.includes(opt) ? arr.filter((x) => x !== opt) : [...arr, opt]);
     };
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <div className="flex flex-wrap gap-2">
-          {field.options.map((opt) => {
+          {options.map((opt) => {
             const active = arr.includes(opt);
             return (
               <button
@@ -483,7 +538,7 @@ function DynamicField({
             );
           })}
         </div>
-        {field.help && <p className="text-xs text-muted-foreground">{field.help}</p>}
+        {help && <p className="text-xs text-muted-foreground">{help}</p>}
       </Field>
     );
   }
@@ -493,23 +548,23 @@ function DynamicField({
       <div className="flex items-start gap-3 mb-4">
         <Checkbox checked={!!value} onCheckedChange={(c) => onChange(!!c)} />
         <div>
-          <Label>{label}</Label>
-          {field.help && <p className="text-xs text-muted-foreground mt-1">{field.help}</p>}
+          <Label>{labelText}</Label>
+          {help && <p className="text-xs text-muted-foreground mt-1">{help}</p>}
         </div>
       </div>
     );
   }
 
-  // text / url / email / tel / number
+  // text / url / email / tel / number / multilink (fallback as input)
   return (
-    <Field label={label}>
+    <Field label={labelText}>
       <Input
-        type={field.type === "number" ? "number" : field.type}
-        placeholder={field.placeholder}
+        type={field.type === "number" ? "number" : field.type === "multilink" ? "url" : field.type}
+        placeholder={placeholder}
         value={value ?? ""}
         onChange={(e) => onChange(field.type === "number" ? (e.target.value === "" ? "" : Number(e.target.value)) : e.target.value)}
       />
-      {field.help && <p className="text-xs text-muted-foreground">{field.help}</p>}
+      {help && <p className="text-xs text-muted-foreground">{help}</p>}
     </Field>
   );
 }
