@@ -19,15 +19,18 @@ import {
   ONBOARDING_SERVICES,
   getCommonAssetFields,
   getServiceById,
+  tr,
+  trOptions,
+  type Locale,
   type OnboardingField,
 } from "@/lib/onboardingChecklists";
+import { useOnboardingUi, type OnboardingUi } from "@/lib/onboardingUiStrings";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRight01Icon,
   ArrowLeft01Icon,
   Tick02Icon,
   RocketIcon,
-  PaintBrushIcon,
   PlusSignIcon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
@@ -40,6 +43,9 @@ interface Props {
 
 export default function ClientOnboardingForm({ client }: Props) {
   const { user } = useAuth();
+
+  const [locale, setLocale] = useState<Locale>("nl");
+  const ui = useOnboardingUi(locale);
 
   const [step, setStep] = useState<Step>("services");
   const [submitting, setSubmitting] = useState(false);
@@ -89,8 +95,8 @@ export default function ClientOnboardingForm({ client }: Props) {
           (Array.isArray(v) && v.length === 0);
         if (empty) {
           toast({
-            title: `Vul "${f.label}" in`,
-            description: `Verplicht veld bij ${svc.label}.`,
+            title: ui.fillRequired(tr(f.label, locale)),
+            description: ui.requiredAt(tr(svc.label, locale)),
             variant: "destructive",
           });
           return false;
@@ -103,7 +109,7 @@ export default function ClientOnboardingForm({ client }: Props) {
   const next = () => {
     if (step === "services") {
       if (selectedServices.length === 0) {
-        toast({ title: "Kies minimaal één dienst", variant: "destructive" });
+        toast({ title: ui.chooseAtLeastOne, variant: "destructive" });
         return;
       }
       setActiveServiceIndex(0);
@@ -152,7 +158,7 @@ export default function ClientOnboardingForm({ client }: Props) {
         phone: client.phone ?? null,
         website: null,
         service_type: serviceId,
-        data: { ...(answers[serviceId] ?? {}), _common_assets: commonAssets },
+        data: { ...(answers[serviceId] ?? {}), _common_assets: commonAssets, _locale: locale },
         status: "submitted",
       }));
 
@@ -164,7 +170,7 @@ export default function ClientOnboardingForm({ client }: Props) {
       setStep("done");
     } catch (e: any) {
       toast({
-        title: "Versturen mislukt",
+        title: ui.submitFailed,
         description: e.message,
         variant: "destructive",
       });
@@ -177,17 +183,17 @@ export default function ClientOnboardingForm({ client }: Props) {
     <div className="p-6 lg:p-10">
       <div className="w-full">
         {/* Header */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
-            <HugeiconsIcon icon={RocketIcon} size={14} /> Onboarding
+        <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
+              <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
+              {ui.title}
+            </h1>
+            <p className="mt-2 text-muted-foreground max-w-xl">{ui.intro}</p>
           </div>
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
-            Aanleverlijst
-          </h1>
-          <p className="mt-2 text-muted-foreground max-w-xl">
-            Vul de informatie in die we nodig hebben om snel met je diensten aan
-            de slag te kunnen.
-          </p>
+          <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
         </div>
 
         <ProgressBar
@@ -198,14 +204,14 @@ export default function ClientOnboardingForm({ client }: Props) {
 
         {step === "services" && (
           <Section
-            title="Welke diensten gaan we doen?"
-            subtitle="Per dienst krijg je een specifieke aanleverlijst."
+            title={ui.servicesTitle}
+            subtitle={ui.servicesSubtitle}
           >
             <div className="space-y-6">
               {(["marketing", "website"] as const).map((cat) => (
                 <div key={cat}>
                   <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
-                    {cat === "marketing" ? "Marketing" : "Website / Webshop"}
+                    {cat === "marketing" ? ui.marketingCat : ui.websiteCat}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {ONBOARDING_SERVICES.filter((s) => s.category === cat).map(
@@ -230,9 +236,9 @@ export default function ClientOnboardingForm({ client }: Props) {
                           >
                             <div className="flex items-start justify-between gap-2">
                               <div>
-                                <div className="font-medium">{s.label}</div>
+                                <div className="font-medium">{tr(s.label, locale)}</div>
                                 <div className="text-xs text-muted-foreground mt-1">
-                                  {s.description}
+                                  {tr(s.description, locale)}
                                 </div>
                               </div>
                               {active && (
@@ -254,14 +260,16 @@ export default function ClientOnboardingForm({ client }: Props) {
 
         {step === "fields" && activeService && (
           <Section
-            title={activeService.label}
-            subtitle={`${activeService.description} · stap ${activeServiceIndex + 1} van ${selectedServices.length}`}
+            title={tr(activeService.label, locale)}
+            subtitle={`${tr(activeService.description, locale)} · ${ui.stepOf(activeServiceIndex + 1, selectedServices.length)}`}
           >
             <div className="space-y-5">
               {activeService.fields.map((field) => (
                 <DynamicField
                   key={field.key}
                   field={field}
+                  locale={locale}
+                  ui={ui}
                   value={answers[activeService.id]?.[field.key]}
                   onChange={(v) => setAnswer(activeService.id, field.key, v)}
                 />
@@ -272,14 +280,16 @@ export default function ClientOnboardingForm({ client }: Props) {
 
         {step === "assets" && (
           <Section
-            title="Aanleveren van merkmateriaal"
-            subtitle="Deze informatie hebben we sowieso nodig — ongeacht welke dienst(en) je hebt gekozen."
+            title={ui.assetsTitle}
+            subtitle={ui.assetsSubtitle}
           >
             <div className="space-y-5">
               {commonFields.map((field) => (
                 <DynamicField
                   key={field.key}
                   field={field}
+                  locale={locale}
+                  ui={ui}
                   value={commonAssets[field.key]}
                   onChange={(v) => setCommonAsset(field.key, v)}
                 />
@@ -290,13 +300,13 @@ export default function ClientOnboardingForm({ client }: Props) {
 
         {step === "overview" && (
           <Section
-            title="Controleren en verzenden"
-            subtitle="Klopt alles? Verstuur dan je aanleverlijst."
+            title={ui.overviewTitle}
+            subtitle={ui.overviewSubtitle}
           >
             <div className="space-y-6">
               <div className="rounded-xl border border-border p-4">
                 <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                  Bedrijf
+                  {ui.company}
                 </div>
                 <div className="text-sm">
                   <div className="font-medium">{client.company_name}</div>
@@ -317,7 +327,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                     className="rounded-xl border border-border p-4"
                   >
                     <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                      {svc.label}
+                      {tr(svc.label, locale)}
                     </div>
                     <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
                       {svc.fields.map((f) => {
@@ -327,7 +337,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                         return (
                           <div key={f.key} className="break-words">
                             <dt className="text-muted-foreground text-xs">
-                              {f.label}
+                              {tr(f.label, locale)}
                             </dt>
                             <dd className="whitespace-pre-wrap">
                               {String(display)}
@@ -342,7 +352,7 @@ export default function ClientOnboardingForm({ client }: Props) {
 
               <div className="rounded-xl border border-border p-4">
                 <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                  Merkmateriaal
+                  {ui.brandMaterial}
                 </div>
                 <dl className="text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
                   {commonFields.map((f) => {
@@ -351,7 +361,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                     if (!display && display !== 0) return null;
                     return (
                       <div key={f.key} className="break-words">
-                        <dt className="text-muted-foreground text-xs">{f.label}</dt>
+                        <dt className="text-muted-foreground text-xs">{tr(f.label, locale)}</dt>
                         <dd className="whitespace-pre-wrap">{String(display)}</dd>
                       </div>
                     );
@@ -361,7 +371,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                     return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
                   }) && (
                     <div className="text-muted-foreground text-xs col-span-full">
-                      Geen merkmateriaal aangeleverd.
+                      {ui.noBrandMaterial}
                     </div>
                   )}
                 </dl>
@@ -376,11 +386,10 @@ export default function ClientOnboardingForm({ client }: Props) {
               <HugeiconsIcon icon={Tick02Icon} size={32} />
             </div>
             <h2 className="text-3xl font-semibold mb-3">
-              Bedankt, we hebben alles ontvangen!
+              {ui.doneTitle}
             </h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-8">
-              We nemen de aanleverlijst door en nemen contact met je op zodra we
-              kunnen starten.
+              {ui.doneText}
             </p>
             <Button
               variant="outline"
@@ -393,7 +402,7 @@ export default function ClientOnboardingForm({ client }: Props) {
                 setStep("services");
               }}
             >
-              Nog een dienst aanleveren
+              {ui.submitMore}
             </Button>
           </div>
         )}
@@ -407,17 +416,17 @@ export default function ClientOnboardingForm({ client }: Props) {
               disabled={step === "services"}
               className="gap-2 hover:bg-primary/10 hover:text-primary"
             >
-              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> Vorige
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> {ui.previous}
             </Button>
 
             {step === "overview" ? (
               <Button onClick={submit} disabled={submitting} className="gap-2">
-                {submitting ? "Versturen..." : "Versturen"}{" "}
+                {submitting ? ui.submitting : ui.submit}{" "}
                 <HugeiconsIcon icon={Tick02Icon} size={16} />
               </Button>
             ) : (
               <Button onClick={next} className="gap-2">
-                Volgende <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+                {ui.next} <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Button>
             )}
           </div>
@@ -428,6 +437,45 @@ export default function ClientOnboardingForm({ client }: Props) {
 }
 
 // ==== Helpers ====
+
+function LanguageToggle({
+  locale,
+  setLocale,
+  ui,
+}: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  ui: OnboardingUi;
+}) {
+  return (
+    <div className="inline-flex rounded-full border border-border p-1 bg-card">
+      <button
+        type="button"
+        onClick={() => setLocale("nl")}
+        className={`px-3 py-1 text-xs rounded-full transition-colors ${
+          locale === "nl"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label={ui.dutch}
+      >
+        NL
+      </button>
+      <button
+        type="button"
+        onClick={() => setLocale("en")}
+        className={`px-3 py-1 text-xs rounded-full transition-colors ${
+          locale === "en"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label={ui.english}
+      >
+        EN
+      </button>
+    </div>
+  );
+}
 
 function ProgressBar({
   step,
@@ -498,60 +546,68 @@ function DynamicField({
   field,
   value,
   onChange,
+  locale,
+  ui,
 }: {
   field: OnboardingField;
   value: any;
   onChange: (v: any) => void;
+  locale: Locale;
+  ui: OnboardingUi;
 }) {
-  const label = field.label + (field.required ? " *" : "");
+  const labelText = tr(field.label, locale) + (field.required ? " *" : "");
+  const placeholder = tr(field.placeholder, locale) || undefined;
+  const help = tr(field.help, locale) || undefined;
 
   if (field.type === "textarea") {
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <Textarea
           rows={4}
-          placeholder={field.placeholder}
+          placeholder={placeholder}
           value={value ?? ""}
           onChange={(e) => onChange(e.target.value)}
         />
-        {field.help && (
-          <p className="text-xs text-muted-foreground">{field.help}</p>
+        {help && (
+          <p className="text-xs text-muted-foreground">{help}</p>
         )}
       </Field>
     );
   }
 
   if (field.type === "select" && field.options) {
+    const options = trOptions(field.options, locale);
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <Select value={value ?? ""} onValueChange={onChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Kies..." />
+            <SelectValue placeholder={ui.choose} />
           </SelectTrigger>
           <SelectContent>
-            {field.options.map((opt) => (
+            {options.map((opt) => (
               <SelectItem key={opt} value={opt}>
                 {opt}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {field.help && (
-          <p className="text-xs text-muted-foreground">{field.help}</p>
+        {help && (
+          <p className="text-xs text-muted-foreground">{help}</p>
         )}
       </Field>
     );
   }
 
   if (field.type === "multiselect" && field.options) {
+    const options = trOptions(field.options, locale);
     const arr: string[] = Array.isArray(value) ? value : [];
     const toggle = (opt: string) => {
       onChange(arr.includes(opt) ? arr.filter((x) => x !== opt) : [...arr, opt]);
     };
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <div className="flex flex-wrap gap-2">
-          {field.options.map((opt) => {
+          {options.map((opt) => {
             const active = arr.includes(opt);
             return (
               <button
@@ -569,8 +625,8 @@ function DynamicField({
             );
           })}
         </div>
-        {field.help && (
-          <p className="text-xs text-muted-foreground">{field.help}</p>
+        {help && (
+          <p className="text-xs text-muted-foreground">{help}</p>
         )}
       </Field>
     );
@@ -581,9 +637,9 @@ function DynamicField({
       <div className="flex items-start gap-3 mb-4">
         <Checkbox checked={!!value} onCheckedChange={(c) => onChange(!!c)} />
         <div>
-          <Label>{label}</Label>
-          {field.help && (
-            <p className="text-xs text-muted-foreground mt-1">{field.help}</p>
+          <Label>{labelText}</Label>
+          {help && (
+            <p className="text-xs text-muted-foreground mt-1">{help}</p>
           )}
         </div>
       </div>
@@ -601,7 +657,6 @@ function DynamicField({
     const updateAt = (idx: number, v: string) => {
       const next = [...safeLinks];
       next[idx] = v;
-      // Voeg automatisch een leeg veld toe als de laatste rij ingevuld is
       if (idx === next.length - 1 && v.trim() !== "") {
         next.push("");
       }
@@ -614,13 +669,13 @@ function DynamicField({
     };
 
     return (
-      <Field label={label}>
+      <Field label={labelText}>
         <div className="space-y-2">
           {safeLinks.map((link, idx) => (
             <div key={idx} className="flex gap-2">
               <Input
                 type="url"
-                placeholder={field.placeholder}
+                placeholder={placeholder}
                 value={link}
                 onChange={(e) => updateAt(idx, e.target.value)}
               />
@@ -631,7 +686,7 @@ function DynamicField({
                   size="icon"
                   className="hover:bg-primary/10 hover:text-primary"
                   onClick={() => removeAt(idx)}
-                  aria-label="Link verwijderen"
+                  aria-label={ui.removeLink}
                 >
                   <HugeiconsIcon icon={Cancel01Icon} size={16} />
                 </Button>
@@ -646,21 +701,21 @@ function DynamicField({
             onClick={() => onChange([...safeLinks, ""])}
           >
             <HugeiconsIcon icon={PlusSignIcon} size={14} />
-            Nog een link toevoegen
+            {ui.addLink}
           </Button>
         </div>
-        {field.help && (
-          <p className="text-xs text-muted-foreground">{field.help}</p>
+        {help && (
+          <p className="text-xs text-muted-foreground">{help}</p>
         )}
       </Field>
     );
   }
 
   return (
-    <Field label={label}>
+    <Field label={labelText}>
       <Input
         type={field.type === "number" ? "number" : field.type}
-        placeholder={field.placeholder}
+        placeholder={placeholder}
         value={value ?? ""}
         onChange={(e) =>
           onChange(
@@ -672,8 +727,8 @@ function DynamicField({
           )
         }
       />
-      {field.help && (
-        <p className="text-xs text-muted-foreground">{field.help}</p>
+      {help && (
+        <p className="text-xs text-muted-foreground">{help}</p>
       )}
     </Field>
   );
