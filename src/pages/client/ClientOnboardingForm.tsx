@@ -183,12 +183,12 @@ export default function ClientOnboardingForm({ client }: Props) {
     <div className="p-6 lg:p-10">
       <div className="w-full">
         {/* Header */}
-        <div className="fixed top-4 right-4 z-50">
-          <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
-        </div>
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
-            <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground">
+              <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+            </div>
+            <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
           </div>
           <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
             {ui.title}
