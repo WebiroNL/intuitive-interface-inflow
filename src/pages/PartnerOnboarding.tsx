@@ -186,12 +186,12 @@ export default function PartnerOnboarding() {
     <div className="min-h-screen bg-background pt-24 pb-20">
       <div className="max-w-3xl mx-auto px-6 lg:px-12">
         {/* Header */}
-        <div className="fixed top-4 right-4 z-50">
-          <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
-        </div>
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">
-            <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted-foreground">
+              <HugeiconsIcon icon={RocketIcon} size={14} /> {ui.badge}
+            </div>
+            <LanguageToggle locale={locale} setLocale={setLocale} ui={ui} />
           </div>
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">{ui.title}</h1>
           <p className="mt-3 text-muted-foreground max-w-xl">{ui.intro}</p>
