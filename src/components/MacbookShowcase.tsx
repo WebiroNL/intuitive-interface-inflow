@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
@@ -17,7 +17,26 @@ interface MacbookShowcaseProps {
   items: ShowcaseItem[];
 }
 
+const DESKTOP_W = 1440;
+const DESKTOP_H = 900;
+
 function MacBookFrame({ url, title, tint }: { url: string; title: string; tint: string }) {
+  const screenRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const el = screenRef.current;
+    if (!el) return;
+    const calc = () => {
+      const w = el.clientWidth;
+      setScale(w / DESKTOP_W);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div className="relative w-full">
       {/* Glow */}
@@ -42,11 +61,12 @@ function MacBookFrame({ url, title, tint }: { url: string; title: string; tint: 
         </div>
 
         <div
+          ref={screenRef}
           className="relative w-full overflow-hidden rounded-[10px] bg-white"
           style={{ aspectRatio: "16 / 10" }}
         >
           {/* Browser chrome */}
-          <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 px-3 h-7 bg-neutral-100 border-b border-neutral-200">
+          <div className="absolute inset-x-0 top-0 z-30 flex items-center gap-1.5 px-3 h-7 bg-neutral-100 border-b border-neutral-200">
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
@@ -55,8 +75,17 @@ function MacBookFrame({ url, title, tint }: { url: string; title: string; tint: 
             </div>
           </div>
 
-          <div className="absolute inset-0 pt-7">
-            <LazyIframe src={url} title={title} className="w-full h-full" />
+          <div className="absolute inset-0 pt-7 overflow-hidden">
+            <div
+              style={{
+                width: DESKTOP_W,
+                height: DESKTOP_H,
+                transform: `scale(${scale})`,
+                transformOrigin: "top left",
+              }}
+            >
+              <LazyIframe src={url} title={title} className="w-full h-full" loading="eager" />
+            </div>
           </div>
         </div>
       </div>
