@@ -56,19 +56,19 @@ function BrowserFrame({ url, title, tint }: { url: string; title: string; tint: 
       />
 
       {/* Browser window */}
-      <div className="relative rounded-2xl overflow-hidden border border-border/60 bg-card shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45),0_10px_25px_-12px_rgba(0,0,0,0.25)]">
+      <div className="relative rounded-xl overflow-hidden border border-border/60 bg-card shadow-[0_20px_40px_-20px_rgba(0,0,0,0.35),0_6px_16px_-10px_rgba(0,0,0,0.2)]">
         {/* Chrome */}
-        <div className="flex items-center gap-2 px-4 h-10 border-b border-border/60 bg-muted/40">
-          <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-            <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
-            <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+        <div className="flex items-center gap-2 px-2.5 h-7 border-b border-border/60 bg-muted/40">
+          <div className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+            <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+            <span className="w-2 h-2 rounded-full bg-[#28c840]" />
           </div>
-          <div className="flex-1 mx-3 max-w-md mx-auto flex items-center gap-2 h-6 px-3 rounded-md bg-background/80 border border-border/60">
-            <HugeiconsIcon icon={LockIcon} className="h-3 w-3 text-muted-foreground" />
-            <span className="text-[11px] text-muted-foreground truncate font-mono">{host}</span>
+          <div className="flex-1 mx-2 flex items-center justify-center gap-1.5 h-4 px-2 rounded bg-background/80 border border-border/60 max-w-[220px] mx-auto">
+            <HugeiconsIcon icon={LockIcon} className="h-2.5 w-2.5 text-muted-foreground" />
+            <span className="text-[10px] text-muted-foreground truncate font-mono">{host}</span>
           </div>
-          <div className="w-[54px]" aria-hidden />
+          <div className="w-[36px]" aria-hidden />
         </div>
 
         {/* Viewport */}
