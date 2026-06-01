@@ -100,64 +100,57 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
   if (!item) return null;
 
   return (
-    <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8 items-stretch">
-      {/* LEFT: Big bento card with browser preview */}
+    <div className="grid lg:grid-cols-[1.6fr_1fr] gap-4 lg:gap-5 items-stretch max-w-5xl mx-auto">
+      {/* LEFT: Bento card with browser preview */}
       <div className="relative group">
         {/* Border glow */}
         <div
           aria-hidden
-          className="absolute -inset-px rounded-[20px] opacity-70 blur-[2px] pointer-events-none transition-opacity duration-500"
+          className="absolute -inset-px rounded-2xl opacity-60 blur-[2px] pointer-events-none transition-opacity duration-500"
           style={{
-            background: `linear-gradient(135deg, hsla(${activeTint}, 0.5), hsla(270, 70%, 60%, 0.35), transparent 70%)`,
+            background: `linear-gradient(135deg, hsla(${activeTint}, 0.4), hsla(270, 70%, 60%, 0.25), transparent 70%)`,
           }}
         />
-        <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-8 flex flex-col">
+        <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
               className="flex flex-col flex-1"
             >
               <BrowserFrame url={item.url} title={item.title} tint={activeTint} />
 
               {/* Caption */}
-              <div className="mt-7">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-2">
-                  {item.cat}
-                </p>
-                <h3 className="text-[22px] sm:text-[24px] font-bold text-foreground mb-2 leading-tight">
+              <div className="mt-4">
+                <div className="flex items-baseline gap-2 mb-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {item.cat}
+                  </p>
+                </div>
+                <h3 className="text-[16px] font-bold text-foreground mb-1.5 leading-tight">
                   {item.title}
                 </h3>
-                <p className="text-[14px] text-muted-foreground leading-relaxed max-w-xl mb-4">
+                <p className="text-[12px] text-muted-foreground leading-relaxed mb-3 line-clamp-2">
                   {item.desc}
                 </p>
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {item.services.map((s) => (
-                    <span
-                      key={s}
-                      className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary hover:gap-2.5 transition-all"
+                  className="inline-flex items-center gap-1 text-[12px] font-semibold text-primary hover:gap-2 transition-all"
                 >
                   Bekijk website
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3.5 w-3.5" />
+                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3 w-3" />
                 </a>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
+
 
       {/* RIGHT: Numbered list bento card */}
       <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-7 flex flex-col">
