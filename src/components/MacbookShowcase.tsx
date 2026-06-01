@@ -153,36 +153,36 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
 
 
       {/* RIGHT: Numbered list bento card */}
-      <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-7 flex flex-col">
-        <div className="flex items-baseline justify-between mb-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+      <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
+        <div className="flex items-baseline justify-between mb-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Recent werk
           </p>
-          <span className="text-[11px] font-mono text-muted-foreground/70">
+          <span className="text-[10px] font-mono text-muted-foreground/70">
             {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
           </span>
         </div>
 
-        <ul className="flex flex-col -mx-2">
+        <ul className="flex flex-col">
           {items.map((it, i) => {
             const isActive = i === active;
             return (
               <li key={it.title}>
                 <button
                   onClick={() => setActive(i)}
-                  className={`relative w-full flex items-center gap-4 py-4 px-3 rounded-lg text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
+                  className={`relative w-full flex items-center gap-3 py-2.5 px-2 rounded-md text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
                     isActive ? "bg-primary/5" : "hover:bg-muted/40"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="showcase-active-bar"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-8 rounded-full bg-primary"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-6 rounded-full bg-primary"
                       transition={{ type: "spring", stiffness: 320, damping: 30 }}
                     />
                   )}
                   <span
-                    className={`text-[12px] font-mono tabular-nums ${
+                    className={`text-[11px] font-mono tabular-nums ${
                       isActive ? "text-primary" : "text-muted-foreground/70"
                     }`}
                   >
@@ -190,22 +190,20 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p
-                      className={`text-[14px] font-semibold truncate ${
+                      className={`text-[12px] font-semibold truncate ${
                         isActive ? "text-foreground" : "text-foreground/80"
                       }`}
                     >
                       {it.title}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                    <p className="text-[10px] text-muted-foreground truncate">
                       {it.cat}
                     </p>
                   </div>
                   <HugeiconsIcon
                     icon={ArrowRight01Icon}
-                    className={`h-4 w-4 flex-shrink-0 transition-all ${
-                      isActive
-                        ? "text-primary opacity-100 translate-x-0"
-                        : "text-muted-foreground/40 opacity-0 -translate-x-1 group-hover:opacity-100"
+                    className={`h-3.5 w-3.5 flex-shrink-0 transition-all ${
+                      isActive ? "text-primary opacity-100" : "text-muted-foreground/40 opacity-0"
                     }`}
                   />
                 </button>
