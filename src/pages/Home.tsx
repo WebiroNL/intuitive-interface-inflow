@@ -12,7 +12,7 @@ import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { LazyIframe } from "@/components/LazyIframe";
-import { PhoneShowcase, type ShowcaseItem } from "@/components/PhoneShowcase";
+import { MacbookShowcase, type ShowcaseItem } from "@/components/MacbookShowcase";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Fake website mockup for bento cards ─── */
@@ -701,10 +701,10 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Carousel constrained to container width like the rest of the page */}
+        {/* MacBook showcase with clickable site list */}
         <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
           <div className="relative -mt-2">
-            <PhoneShowcase items={showcaseItems} />
+            <MacbookShowcase items={showcaseItems} />
           </div>
         </div>
       </section>
