@@ -56,19 +56,19 @@ function BrowserFrame({ url, title, tint }: { url: string; title: string; tint: 
       />
 
       {/* Browser window */}
-      <div className="relative rounded-2xl overflow-hidden border border-border/60 bg-card shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45),0_10px_25px_-12px_rgba(0,0,0,0.25)]">
+      <div className="relative rounded-xl overflow-hidden border border-border/60 bg-card shadow-[0_20px_40px_-20px_rgba(0,0,0,0.35),0_6px_16px_-10px_rgba(0,0,0,0.2)]">
         {/* Chrome */}
-        <div className="flex items-center gap-2 px-4 h-10 border-b border-border/60 bg-muted/40">
-          <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-            <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
-            <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+        <div className="flex items-center gap-2 px-2.5 h-7 border-b border-border/60 bg-muted/40">
+          <div className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+            <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+            <span className="w-2 h-2 rounded-full bg-[#28c840]" />
           </div>
-          <div className="flex-1 mx-3 max-w-md mx-auto flex items-center gap-2 h-6 px-3 rounded-md bg-background/80 border border-border/60">
-            <HugeiconsIcon icon={LockIcon} className="h-3 w-3 text-muted-foreground" />
-            <span className="text-[11px] text-muted-foreground truncate font-mono">{host}</span>
+          <div className="flex-1 mx-2 flex items-center justify-center gap-1.5 h-4 px-2 rounded bg-background/80 border border-border/60 max-w-[220px] mx-auto">
+            <HugeiconsIcon icon={LockIcon} className="h-2.5 w-2.5 text-muted-foreground" />
+            <span className="text-[10px] text-muted-foreground truncate font-mono">{host}</span>
           </div>
-          <div className="w-[54px]" aria-hidden />
+          <div className="w-[36px]" aria-hidden />
         </div>
 
         {/* Viewport */}
@@ -100,58 +100,50 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
   if (!item) return null;
 
   return (
-    <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8 items-stretch">
-      {/* LEFT: Big bento card with browser preview */}
+    <div className="grid lg:grid-cols-[1.6fr_1fr] gap-4 lg:gap-5 items-stretch max-w-5xl mx-auto">
+      {/* LEFT: Bento card with browser preview */}
       <div className="relative group">
         {/* Border glow */}
         <div
           aria-hidden
-          className="absolute -inset-px rounded-[20px] opacity-70 blur-[2px] pointer-events-none transition-opacity duration-500"
+          className="absolute -inset-px rounded-2xl opacity-60 blur-[2px] pointer-events-none transition-opacity duration-500"
           style={{
-            background: `linear-gradient(135deg, hsla(${activeTint}, 0.5), hsla(270, 70%, 60%, 0.35), transparent 70%)`,
+            background: `linear-gradient(135deg, hsla(${activeTint}, 0.4), hsla(270, 70%, 60%, 0.25), transparent 70%)`,
           }}
         />
-        <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-8 flex flex-col">
+        <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
               className="flex flex-col flex-1"
             >
               <BrowserFrame url={item.url} title={item.title} tint={activeTint} />
 
               {/* Caption */}
-              <div className="mt-7">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-2">
-                  {item.cat}
-                </p>
-                <h3 className="text-[22px] sm:text-[24px] font-bold text-foreground mb-2 leading-tight">
+              <div className="mt-4">
+                <div className="flex items-baseline gap-2 mb-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {item.cat}
+                  </p>
+                </div>
+                <h3 className="text-[16px] font-bold text-foreground mb-1.5 leading-tight">
                   {item.title}
                 </h3>
-                <p className="text-[14px] text-muted-foreground leading-relaxed max-w-xl mb-4">
+                <p className="text-[12px] text-muted-foreground leading-relaxed mb-3 line-clamp-2">
                   {item.desc}
                 </p>
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {item.services.map((s) => (
-                    <span
-                      key={s}
-                      className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary hover:gap-2.5 transition-all"
+                  className="inline-flex items-center gap-1 text-[12px] font-semibold text-primary hover:gap-2 transition-all"
                 >
                   Bekijk website
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3.5 w-3.5" />
+                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3 w-3" />
                 </a>
               </div>
             </motion.div>
@@ -159,37 +151,38 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
         </div>
       </div>
 
+
       {/* RIGHT: Numbered list bento card */}
-      <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-7 flex flex-col">
-        <div className="flex items-baseline justify-between mb-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+      <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
+        <div className="flex items-baseline justify-between mb-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Recent werk
           </p>
-          <span className="text-[11px] font-mono text-muted-foreground/70">
+          <span className="text-[10px] font-mono text-muted-foreground/70">
             {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
           </span>
         </div>
 
-        <ul className="flex flex-col -mx-2">
+        <ul className="flex flex-col">
           {items.map((it, i) => {
             const isActive = i === active;
             return (
               <li key={it.title}>
                 <button
                   onClick={() => setActive(i)}
-                  className={`relative w-full flex items-center gap-4 py-4 px-3 rounded-lg text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
+                  className={`relative w-full flex items-center gap-3 py-2.5 px-2 rounded-md text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
                     isActive ? "bg-primary/5" : "hover:bg-muted/40"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="showcase-active-bar"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-8 rounded-full bg-primary"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-6 rounded-full bg-primary"
                       transition={{ type: "spring", stiffness: 320, damping: 30 }}
                     />
                   )}
                   <span
-                    className={`text-[12px] font-mono tabular-nums ${
+                    className={`text-[11px] font-mono tabular-nums ${
                       isActive ? "text-primary" : "text-muted-foreground/70"
                     }`}
                   >
@@ -197,22 +190,20 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p
-                      className={`text-[14px] font-semibold truncate ${
+                      className={`text-[12px] font-semibold truncate ${
                         isActive ? "text-foreground" : "text-foreground/80"
                       }`}
                     >
                       {it.title}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                    <p className="text-[10px] text-muted-foreground truncate">
                       {it.cat}
                     </p>
                   </div>
                   <HugeiconsIcon
                     icon={ArrowRight01Icon}
-                    className={`h-4 w-4 flex-shrink-0 transition-all ${
-                      isActive
-                        ? "text-primary opacity-100 translate-x-0"
-                        : "text-muted-foreground/40 opacity-0 -translate-x-1 group-hover:opacity-100"
+                    className={`h-3.5 w-3.5 flex-shrink-0 transition-all ${
+                      isActive ? "text-primary opacity-100" : "text-muted-foreground/40 opacity-0"
                     }`}
                   />
                 </button>
