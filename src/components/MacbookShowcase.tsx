@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon, ArrowRight01Icon, LockIcon } from "@hugeicons/core-free-icons";
 import { LazyIframe } from "@/components/LazyIframe";
 
 export interface ShowcaseItem {
@@ -20,85 +20,74 @@ interface MacbookShowcaseProps {
 const DESKTOP_W = 1440;
 const DESKTOP_H = 900;
 
-function MacBookFrame({ url, title, tint }: { url: string; title: string; tint: string }) {
+function getHostname(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  }
+}
+
+function BrowserFrame({ url, title, tint }: { url: string; title: string; tint: string }) {
   const screenRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const el = screenRef.current;
     if (!el) return;
-    const calc = () => {
-      const w = el.clientWidth;
-      setScale(w / DESKTOP_W);
-    };
+    const calc = () => setScale(el.clientWidth / DESKTOP_W);
     calc();
     const ro = new ResizeObserver(calc);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
+  const host = getHostname(url);
+
   return (
     <div className="relative w-full">
-      {/* Glow */}
+      {/* Ambient glow behind the browser */}
       <div
         aria-hidden
-        className="absolute -inset-8 rounded-[60px] blur-3xl opacity-50 pointer-events-none"
+        className="absolute -inset-10 rounded-[60px] blur-3xl opacity-60 pointer-events-none"
         style={{
-          background: `radial-gradient(60% 60% at 50% 40%, hsla(${tint}, 0.35), transparent 70%)`,
+          background: `radial-gradient(55% 55% at 50% 40%, hsla(${tint}, 0.35), transparent 70%)`,
         }}
       />
 
-      {/* Screen + bezel */}
-      <div
-        className="relative rounded-[18px] p-[10px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.45),0_10px_25px_-12px_rgba(0,0,0,0.3)]"
-        style={{
-          background: "linear-gradient(160deg, hsl(0,0%,14%) 0%, hsl(0,0%,6%) 60%, hsl(0,0%,16%) 100%)",
-        }}
-      >
-        {/* Notch / camera */}
-        <div className="absolute left-1/2 top-[3px] -translate-x-1/2 z-20 flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-neutral-700" />
+      {/* Browser window */}
+      <div className="relative rounded-2xl overflow-hidden border border-border/60 bg-card shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45),0_10px_25px_-12px_rgba(0,0,0,0.25)]">
+        {/* Chrome */}
+        <div className="flex items-center gap-2 px-4 h-10 border-b border-border/60 bg-muted/40">
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+            <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+            <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+          </div>
+          <div className="flex-1 mx-3 max-w-md mx-auto flex items-center gap-2 h-6 px-3 rounded-md bg-background/80 border border-border/60">
+            <HugeiconsIcon icon={LockIcon} className="h-3 w-3 text-muted-foreground" />
+            <span className="text-[11px] text-muted-foreground truncate font-mono">{host}</span>
+          </div>
+          <div className="w-[54px]" aria-hidden />
         </div>
 
+        {/* Viewport */}
         <div
           ref={screenRef}
-          className="relative w-full overflow-hidden rounded-[10px] bg-white"
+          className="relative w-full overflow-hidden bg-white"
           style={{ aspectRatio: "16 / 10" }}
         >
-          {/* Browser chrome */}
-          <div className="absolute inset-x-0 top-0 z-30 flex items-center gap-1.5 px-3 h-7 bg-neutral-100 border-b border-neutral-200">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-            <div className="ml-3 flex-1 h-4 rounded bg-white border border-neutral-200 flex items-center px-2">
-              <span className="text-[9px] text-neutral-500 truncate">{url.replace(/^https?:\/\//, "")}</span>
-            </div>
-          </div>
-
-          <div className="absolute inset-0 pt-7 overflow-hidden">
-            <div
-              style={{
-                width: DESKTOP_W,
-                height: DESKTOP_H,
-                transform: `scale(${scale})`,
-                transformOrigin: "top left",
-              }}
-            >
-              <LazyIframe src={url} title={title} className="w-full h-full" loading="eager" />
-            </div>
+          <div
+            style={{
+              width: DESKTOP_W,
+              height: DESKTOP_H,
+              transform: `scale(${scale})`,
+              transformOrigin: "top left",
+            }}
+          >
+            <LazyIframe src={url} title={title} className="w-full h-full" loading="eager" />
           </div>
         </div>
-      </div>
-
-      {/* Base / hinge */}
-      <div className="relative mx-auto" style={{ width: "108%" }}>
-        <div
-          className="h-[10px] rounded-b-[14px]"
-          style={{
-            background: "linear-gradient(180deg, hsl(0,0%,18%) 0%, hsl(0,0%,8%) 100%)",
-          }}
-        />
-        <div className="mx-auto h-[5px] w-1/3 rounded-b-[10px] bg-neutral-900/80" />
       </div>
     </div>
   );
@@ -107,89 +96,130 @@ function MacBookFrame({ url, title, tint }: { url: string; title: string; tint: 
 export function MacbookShowcase({ items }: MacbookShowcaseProps) {
   const [active, setActive] = useState(0);
   const item = items[active];
+  const activeTint = useMemo(() => item?.tint ?? "234,82%,57%", [item]);
   if (!item) return null;
-  const tint = item.tint ?? "234,82%,57%";
 
   return (
-    <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-12 items-start">
-      {/* MacBook display */}
-      <div className="relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          >
-            <MacBookFrame url={item.url} title={item.title} tint={tint} />
+    <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8 items-stretch">
+      {/* LEFT: Big bento card with browser preview */}
+      <div className="relative group">
+        {/* Border glow */}
+        <div
+          aria-hidden
+          className="absolute -inset-px rounded-[20px] opacity-70 blur-[2px] pointer-events-none transition-opacity duration-500"
+          style={{
+            background: `linear-gradient(135deg, hsla(${activeTint}, 0.5), hsla(270, 70%, 60%, 0.35), transparent 70%)`,
+          }}
+        />
+        <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-8 flex flex-col">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="flex flex-col flex-1"
+            >
+              <BrowserFrame url={item.url} title={item.title} tint={activeTint} />
 
-            {/* Caption under macbook */}
-            <div className="mt-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1.5">
-                {item.cat}
-              </p>
-              <h3 className="text-[20px] font-bold text-foreground mb-2">{item.title}</h3>
-              <p className="text-[14px] text-muted-foreground leading-relaxed max-w-xl mb-4">
-                {item.desc}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-5">
-                {item.services.map((s) => (
-                  <span
-                    key={s}
-                    className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                  >
-                    {s}
-                  </span>
-                ))}
+              {/* Caption */}
+              <div className="mt-7">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+                  {item.cat}
+                </p>
+                <h3 className="text-[22px] sm:text-[24px] font-bold text-foreground mb-2 leading-tight">
+                  {item.title}
+                </h3>
+                <p className="text-[14px] text-muted-foreground leading-relaxed max-w-xl mb-4">
+                  {item.desc}
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-5">
+                  {item.services.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary hover:gap-2.5 transition-all"
+                >
+                  Bekijk website
+                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3.5 w-3.5" />
+                </a>
               </div>
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary hover:gap-3 transition-all"
-              >
-                Bekijk website
-                <HugeiconsIcon icon={ArrowRight01Icon} className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
-      {/* Clickable list (mirrors ReviewsSection selector) */}
-      <div className="flex flex-col gap-2">
-        {items.map((it, i) => (
-          <button
-            key={it.title}
-            onClick={() => setActive(i)}
-            className={`relative flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200 ${
-              i === active
-                ? "bg-card border border-primary/30 shadow-sm"
-                : "hover:bg-card/60 border border-transparent"
-            }`}
-          >
-            <div
-              className="w-9 h-9 rounded-lg flex-shrink-0"
-              style={{
-                background: `linear-gradient(135deg, hsla(${it.tint ?? "234,82%,57%"}, 0.9), hsla(${it.tint ?? "234,82%,57%"}, 0.5))`,
-              }}
-            />
-            <div className="min-w-0 flex-1">
-              <p className={`text-[13px] font-semibold truncate ${i === active ? "text-foreground" : "text-muted-foreground"}`}>
-                {it.title}
-              </p>
-              <p className="text-[11px] text-muted-foreground truncate">{it.cat}</p>
-            </div>
-            {i === active && (
-              <motion.div
-                layoutId="showcase-indicator"
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 rounded-full bg-primary"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
+      {/* RIGHT: Numbered list bento card */}
+      <div className="relative h-full rounded-[20px] border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-6 sm:p-7 flex flex-col">
+        <div className="flex items-baseline justify-between mb-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            Recent werk
+          </p>
+          <span className="text-[11px] font-mono text-muted-foreground/70">
+            {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+          </span>
+        </div>
+
+        <ul className="flex flex-col -mx-2">
+          {items.map((it, i) => {
+            const isActive = i === active;
+            return (
+              <li key={it.title}>
+                <button
+                  onClick={() => setActive(i)}
+                  className={`relative w-full flex items-center gap-4 py-4 px-3 rounded-lg text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
+                    isActive ? "bg-primary/5" : "hover:bg-muted/40"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="showcase-active-bar"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-8 rounded-full bg-primary"
+                      transition={{ type: "spring", stiffness: 320, damping: 30 }}
+                    />
+                  )}
+                  <span
+                    className={`text-[12px] font-mono tabular-nums ${
+                      isActive ? "text-primary" : "text-muted-foreground/70"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className={`text-[14px] font-semibold truncate ${
+                        isActive ? "text-foreground" : "text-foreground/80"
+                      }`}
+                    >
+                      {it.title}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                      {it.cat}
+                    </p>
+                  </div>
+                  <HugeiconsIcon
+                    icon={ArrowRight01Icon}
+                    className={`h-4 w-4 flex-shrink-0 transition-all ${
+                      isActive
+                        ? "text-primary opacity-100 translate-x-0"
+                        : "text-muted-foreground/40 opacity-0 -translate-x-1 group-hover:opacity-100"
+                    }`}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
