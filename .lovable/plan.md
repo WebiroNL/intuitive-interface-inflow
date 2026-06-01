@@ -1,67 +1,49 @@
-## Redesign MacBook Showcase sectie
+## Doel
 
-De huidige sectie krijgt een complete visuele upgrade in lijn met de Webiro Stripe-aesthetic (bento cards, donker, blauw/paars glow, vertical grid).
+Vervang de huidige browser-preview + genummerde lijst showcase door een asymmetrisch bento grid dat aansluit op de rest van Webiro (Stripe-aesthetic, bento cards, Hugeicons, blauw/paars accenten).
 
-### Nieuwe layout
+## Wat verandert
+
+Alleen `src/components/MacbookShowcase.tsx` wordt herschreven. `Home.tsx` en de data (`showcase`) blijven gelijk — alle 6 projecten worden zichtbaar in plaats van 1-tegelijk via een lijst.
+
+## Layout
+
+12-koloms bento, herhaalt voor alle 6 items:
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│  Sectie header (huidige titel behouden)                     │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────────────────────────────┐ ┌────────────────────┐ │
-│ │  BENTO CARD (groot, 2fr)         │ │ BENTO CARD (1fr)   │ │
-│ │  • Gradient border glow          │ │ Recent werk        │ │
-│ │  • Subtiele blauw/paars gloed    │ │                    │ │
-│ │  ┌────────────────────────────┐  │ │ 01 ─ ATC           │ │
-│ │  │ Browser chrome             │  │ │     Fitness        │ │
-│ │  │ ● ● ●  atc.nl         🔒  │  │ │ ─────────────────  │ │
-│ │  ├────────────────────────────┤  │ │ 02 ─ Bedrijf B  ▸  │ │
-│ │  │                            │  │ │     Categorie      │ │
-│ │  │   Website iframe           │  │ │ ─────────────────  │ │
-│ │  │   (desktop 1440x900)       │  │ │ 03 ─ ...           │ │
-│ │  │                            │  │ │                    │ │
-│ │  └────────────────────────────┘  │ │ (actieve = blauwe  │ │
-│ │                                  │ │  accent + indicator│ │
-│ │  Caption: categorie · titel      │ │  links)            │ │
-│ │  Korte beschrijving · CTA        │ │                    │ │
-│ └──────────────────────────────────┘ └────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+Row 1:  [ FEATURE 8 ][ COMPACT 4 ]
+Row 2:  [ COMPACT 4 ][ FEATURE 8 ]
+Row 3:  [ SPLIT 6 ][ SPLIT 6 ]
 ```
 
-### Wijzigingen
+- **Feature card**: tweekoloms binnenkant — links categorie pill + titel + desc + service tags + "Bekijk website" link, rechts live BrowserPreview iframe. `rounded-[2rem]`, `p-8 md:p-10`.
+- **Compact card**: verticaal gestapeld — header bovenin, BrowserPreview in het midden, link onderaan. Kleinere titel, max 3 tags.
+- **Split card**: zelfde als feature maar in `p-8` en `text-xl` titel.
 
-**1. Linker bento card (website preview)**
-- Vervang MacBook frame door clean browser window mockup (Stripe stijl)
-- Browser chrome: drie window dots, URL bar met `https://` lock icoon en domein van actieve site
-- Iframe blijft op desktop viewport (1440×900) met scale-down
-- Card: `rounded-2xl`, `border-border/50`, subtiele `bg-gradient` van card naar transparant
-- Border glow effect via radial gradient (blauw → paars), gelijk aan bestaande bento cards
-- Onder browser: kleine caption met categorie label, titel, 1 regel beschrijving, "Bekijk website" link met Hugeicons arrow
+## Stijldetails
 
-**2. Rechter bento card (lijst)**
-- Eigen bento card met titel "Recent werk" bovenaan
-- Items met formaat: `01 ─ Bedrijfsnaam` / `Categorie`
-- Dunne `border-b border-border/40` tussen items
-- Actieve item: blauwe verticale accent-bar links + lichte achtergrond highlight + Hugeicons chevron rechts
-- Hover state: subtiele bg shift
-- Smooth transitions via framer-motion
+- Per item tint (uit `item.tint`) bepaalt: kleur van categorie-pill (`hsla bg/border/text`), kleur van "Bekijk website" link, en een soft inner-glow border die op hover verschijnt (`box-shadow: inset 0 0 0 1px hsla(tint, 0.35)`).
+- Cards: `bg-card`, `border-border/60`, `shadow-sm` → `hover:shadow-xl` met 500ms transition.
+- Categorie-pill: uppercase, `tracking-[0.12em]`, ronde pill met getinte border.
+- Service tags: kleine `bg-muted/60` chips, uppercase 10px.
+- CTA link: pijl `ArrowUpRight01Icon`, schuift schuin omhoog op hover.
 
-**3. Visuele afwerking sectie**
-- Section padding consistent met andere secties op de homepage
-- Geen nieuwe sectietitel (huidige behouden)
-- Respecteert globale vertical grid lines (geen overlap)
-- Mobile: bento cards stacken verticaal, lijst wordt horizontale scroll van pill-cards
+Geen aparte CTA-card (CTA-sectie staat al direct onder de showcase op de homepage).
 
-### Technische details
+## Behouden
 
-**Bestand:** `src/components/MacbookShowcase.tsx` (volledige rewrite)
+- `ShowcaseItem` interface ongewijzigd.
+- `BrowserPreview` (voorheen `BrowserFrame`) blijft live iframe met chrome + URL bar + lock icon, maar wordt nu binnen elke card gebruikt (`loading="lazy"` voor performance bij 6 iframes).
+- Alle semantic tokens (`bg-card`, `border-border`, `text-foreground`, `text-muted-foreground`, `text-primary`).
+- Hugeicons only (`ArrowUpRight01Icon`, `LockIcon`). Geen Lucide, geen emojis.
 
-- `MacBookFrame` component vervangen door `BrowserFrame` component
-- Behoud: `ResizeObserver` scale-logica, `LazyIframe` eager loading, `ShowcaseItem` interface
-- Behoud: framer-motion AnimatePresence voor wisseling
-- Nieuw: URL bar toont `new URL(activeItem.url).hostname`
-- Hugeicons gebruikt voor: lock (URL bar), chevron-right (actieve item), arrow-up-right (CTA link)
-- Tailwind semantic tokens: `bg-card`, `border-border`, `text-muted-foreground`, `text-primary`
-- Component grootte: blijft onder 250 regels
+## Verwijderd
 
-**Geen wijzigingen aan:** `Home.tsx` (import en data blijven hetzelfde), `showcaseItems` data.
+- Genummerde lijst rechts (01-05) + active-bar layoutId animatie.
+- `useState(active)` selectiestate, `AnimatePresence` switching.
+- `framer-motion` dependency uit dit bestand (alle cards zijn altijd zichtbaar, geen state-overgangen meer).
+- `useMemo` voor activeTint.
+
+## Verificatie
+
+Na implementatie: screenshot van de homepage scroll naar showcase, check dat alle 6 projecten zichtbaar zijn in het juiste bento patroon, dat iframes laden en dat tint-kleuren per card kloppen.

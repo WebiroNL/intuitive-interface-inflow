@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowUpRight01Icon, ArrowRight01Icon, LockIcon } from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon, LockIcon } from "@hugeicons/core-free-icons";
 import { LazyIframe } from "@/components/LazyIframe";
 
 export interface ShowcaseItem {
@@ -28,7 +27,7 @@ function getHostname(url: string) {
   }
 }
 
-function BrowserFrame({ url, title, tint }: { url: string; title: string; tint: string }) {
+function BrowserPreview({ url, title }: { url: string; title: string }) {
   const screenRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
@@ -42,176 +41,166 @@ function BrowserFrame({ url, title, tint }: { url: string; title: string; tint: 
     return () => ro.disconnect();
   }, []);
 
-  const host = getHostname(url);
-
   return (
-    <div className="relative w-full">
-      {/* Ambient glow behind the browser */}
-      <div
-        aria-hidden
-        className="absolute -inset-10 rounded-[60px] blur-3xl opacity-60 pointer-events-none"
-        style={{
-          background: `radial-gradient(55% 55% at 50% 40%, hsla(${tint}, 0.35), transparent 70%)`,
-        }}
-      />
-
-      {/* Browser window */}
-      <div className="relative rounded-xl overflow-hidden border border-border/60 bg-card shadow-[0_20px_40px_-20px_rgba(0,0,0,0.35),0_6px_16px_-10px_rgba(0,0,0,0.2)]">
-        {/* Chrome */}
-        <div className="flex items-center gap-2 px-2.5 h-7 border-b border-border/60 bg-muted/40">
-          <div className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-            <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
-            <span className="w-2 h-2 rounded-full bg-[#28c840]" />
-          </div>
-          <div className="flex-1 mx-2 flex items-center justify-center gap-1.5 h-4 px-2 rounded bg-background/80 border border-border/60 max-w-[220px] mx-auto">
-            <HugeiconsIcon icon={LockIcon} className="h-2.5 w-2.5 text-muted-foreground" />
-            <span className="text-[10px] text-muted-foreground truncate font-mono">{host}</span>
-          </div>
-          <div className="w-[36px]" aria-hidden />
+    <div className="relative w-full rounded-xl overflow-hidden border border-border/60 bg-card shadow-[0_20px_40px_-25px_rgba(0,0,0,0.35)]">
+      <div className="flex items-center gap-2 px-2.5 h-7 border-b border-border/60 bg-muted/40">
+        <div className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+          <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+          <span className="w-2 h-2 rounded-full bg-[#28c840]" />
         </div>
-
-        {/* Viewport */}
+        <div className="flex-1 flex items-center justify-center gap-1.5 h-4 px-2 rounded bg-background/80 border border-border/60 max-w-[220px] mx-auto">
+          <HugeiconsIcon icon={LockIcon} className="h-2.5 w-2.5 text-muted-foreground" />
+          <span className="text-[10px] text-muted-foreground truncate font-mono">
+            {getHostname(url)}
+          </span>
+        </div>
+        <div className="w-[36px]" aria-hidden />
+      </div>
+      <div
+        ref={screenRef}
+        className="relative w-full overflow-hidden bg-white"
+        style={{ aspectRatio: "16 / 10" }}
+      >
         <div
-          ref={screenRef}
-          className="relative w-full overflow-hidden bg-white"
-          style={{ aspectRatio: "16 / 10" }}
+          style={{
+            width: DESKTOP_W,
+            height: DESKTOP_H,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
         >
-          <div
-            style={{
-              width: DESKTOP_W,
-              height: DESKTOP_H,
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
-            }}
-          >
-            <LazyIframe src={url} title={title} className="w-full h-full" loading="eager" />
-          </div>
+          <LazyIframe src={url} title={title} className="w-full h-full" loading="lazy" />
         </div>
       </div>
     </div>
   );
 }
 
+type Variant = "feature" | "compact" | "split";
+
+function ProjectCard({ item, layout }: { item: ShowcaseItem; layout: Variant }) {
+  const tint = item.tint ?? "234,82%,57%";
+
+  const Header = (
+    <div>
+      <div
+        className="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.12em] mb-5"
+        style={{
+          color: `hsl(${tint})`,
+          backgroundColor: `hsla(${tint}, 0.06)`,
+          borderColor: `hsla(${tint}, 0.2)`,
+        }}
+      >
+        {item.cat}
+      </div>
+      <h3
+        className={`font-bold text-foreground mb-3 leading-tight ${
+          layout === "feature" ? "text-2xl md:text-3xl" : "text-xl"
+        }`}
+      >
+        {item.title}
+      </h3>
+      <p
+        className={`text-muted-foreground leading-relaxed ${
+          layout === "feature" ? "text-[15px] mb-6" : "text-[13px] mb-5"
+        }`}
+      >
+        {item.desc}
+      </p>
+      <div className="flex flex-wrap gap-1.5 mb-6">
+        {item.services.slice(0, layout === "feature" ? 4 : 3).map((s) => (
+          <span
+            key={s}
+            className="px-2 py-1 bg-muted/60 border border-border/60 rounded text-[10px] font-semibold text-muted-foreground uppercase tracking-wide"
+          >
+            {s}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+
+  const Cta = (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 text-[13px] font-bold transition-all hover:gap-2.5 group/btn"
+      style={{ color: `hsl(${tint})` }}
+    >
+      Bekijk website
+      <HugeiconsIcon
+        icon={ArrowUpRight01Icon}
+        className="h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
+      />
+    </a>
+  );
+
+  const glow = (
+    <div
+      aria-hidden
+      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem]"
+      style={{ boxShadow: `inset 0 0 0 1px hsla(${tint}, 0.35)` }}
+    />
+  );
+
+  if (layout === "feature" || layout === "split") {
+    return (
+      <div
+        className={`group relative h-full rounded-[2rem] border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden ${
+          layout === "feature" ? "p-8 md:p-10" : "p-8"
+        }`}
+      >
+        {glow}
+        <div className="flex flex-col md:flex-row gap-8 md:gap-10 h-full relative">
+          <div className="flex-1 flex flex-col justify-between">
+            {Header}
+            {Cta}
+          </div>
+          <div className="flex-1 flex items-center">
+            <BrowserPreview url={item.url} title={item.title} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // compact
+  return (
+    <div className="group relative h-full rounded-[2rem] border border-border/60 bg-card p-7 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col">
+      {glow}
+      <div className="relative">{Header}</div>
+      <div className="relative mb-6">
+        <BrowserPreview url={item.url} title={item.title} />
+      </div>
+      <div className="relative mt-auto">{Cta}</div>
+    </div>
+  );
+}
+
 export function MacbookShowcase({ items }: MacbookShowcaseProps) {
-  const [active, setActive] = useState(0);
-  const item = items[active];
-  const activeTint = useMemo(() => item?.tint ?? "234,82%,57%", [item]);
-  if (!item) return null;
+  if (!items.length) return null;
+
+  const layouts: Array<{ span: string; variant: Variant }> = [
+    { span: "md:col-span-8", variant: "feature" },
+    { span: "md:col-span-4", variant: "compact" },
+    { span: "md:col-span-4", variant: "compact" },
+    { span: "md:col-span-8", variant: "feature" },
+    { span: "md:col-span-6", variant: "split" },
+    { span: "md:col-span-6", variant: "split" },
+  ];
 
   return (
-    <div className="grid lg:grid-cols-[1.6fr_1fr] gap-4 lg:gap-5 items-stretch max-w-5xl mx-auto">
-      {/* LEFT: Bento card with browser preview */}
-      <div className="relative group">
-        {/* Border glow */}
-        <div
-          aria-hidden
-          className="absolute -inset-px rounded-2xl opacity-60 blur-[2px] pointer-events-none transition-opacity duration-500"
-          style={{
-            background: `linear-gradient(135deg, hsla(${activeTint}, 0.4), hsla(270, 70%, 60%, 0.25), transparent 70%)`,
-          }}
-        />
-        <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="flex flex-col flex-1"
-            >
-              <BrowserFrame url={item.url} title={item.title} tint={activeTint} />
-
-              {/* Caption */}
-              <div className="mt-4">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                    {item.cat}
-                  </p>
-                </div>
-                <h3 className="text-[16px] font-bold text-foreground mb-1.5 leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-[12px] text-muted-foreground leading-relaxed mb-3 line-clamp-2">
-                  {item.desc}
-                </p>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[12px] font-semibold text-primary hover:gap-2 transition-all"
-                >
-                  Bekijk website
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-
-      {/* RIGHT: Numbered list bento card */}
-      <div className="relative h-full rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card to-card/40 p-4 sm:p-5 flex flex-col">
-        <div className="flex items-baseline justify-between mb-3">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Recent werk
-          </p>
-          <span className="text-[10px] font-mono text-muted-foreground/70">
-            {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
-          </span>
-        </div>
-
-        <ul className="flex flex-col">
-          {items.map((it, i) => {
-            const isActive = i === active;
-            return (
-              <li key={it.title}>
-                <button
-                  onClick={() => setActive(i)}
-                  className={`relative w-full flex items-center gap-3 py-2.5 px-2 rounded-md text-left transition-colors duration-200 border-b border-border/40 last:border-b-0 ${
-                    isActive ? "bg-primary/5" : "hover:bg-muted/40"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="showcase-active-bar"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-6 rounded-full bg-primary"
-                      transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                    />
-                  )}
-                  <span
-                    className={`text-[11px] font-mono tabular-nums ${
-                      isActive ? "text-primary" : "text-muted-foreground/70"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p
-                      className={`text-[12px] font-semibold truncate ${
-                        isActive ? "text-foreground" : "text-foreground/80"
-                      }`}
-                    >
-                      {it.title}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground truncate">
-                      {it.cat}
-                    </p>
-                  </div>
-                  <HugeiconsIcon
-                    icon={ArrowRight01Icon}
-                    className={`h-3.5 w-3.5 flex-shrink-0 transition-all ${
-                      isActive ? "text-primary opacity-100" : "text-muted-foreground/40 opacity-0"
-                    }`}
-                  />
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
+      {items.map((item, i) => {
+        const cfg = layouts[i % layouts.length];
+        return (
+          <div key={item.title} className={cfg.span}>
+            <ProjectCard item={item} layout={cfg.variant} />
+          </div>
+        );
+      })}
     </div>
   );
 }
