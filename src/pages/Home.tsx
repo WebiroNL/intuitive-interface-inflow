@@ -12,7 +12,7 @@ import ProcessVisual from "@/components/ProcessVisual";
 import AdsProcessVisual from "@/components/AdsProcessVisual";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { LazyIframe } from "@/components/LazyIframe";
-import { PhoneShowcase, type ShowcaseItem } from "@/components/PhoneShowcase";
+import { MacbookShowcase, type ShowcaseItem } from "@/components/MacbookShowcase";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Fake website mockup for bento cards ─── */
