@@ -682,30 +682,25 @@ const Home = () => {
       {/* ══════ SHOWCASE ══════ */}
       <section className="border-t border-border bg-background overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="flex items-end justify-between mb-12 px-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">
               <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
                 Recent werk
               </p>
               <h2 className="font-bold tracking-[-0.025em] leading-[1.08]" style={{ fontSize: "clamp(1.9rem, 3.8vw, 3.1rem)" }}>
-                Echte projecten,<br />
-                <span className="text-primary">live in je hand.</span>
+                Een greep uit{" "}
+                <span className="text-primary">ons portfolio.</span>
               </h2>
               <p className="mt-5 text-[15px] text-muted-foreground max-w-md">
-                Swipe door een selectie van onze recente websites. Elke preview is een live versie van de productiesite.
+                Websites, branding en marketing voor ambitieuze merken. Klik door naar de live versie van elk project.
               </p>
             </div>
             <Link to="/contact" className="hidden md:inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:gap-3 transition-all">
               Bekijk meer <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
             </Link>
           </div>
-        </div>
 
-        {/* MacBook showcase with clickable site list */}
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
-          <div className="relative -mt-2">
-            <MacbookShowcase items={showcaseItems} />
-          </div>
+          <MacbookShowcase items={showcaseItems} />
         </div>
       </section>
 
