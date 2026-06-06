@@ -23,9 +23,9 @@ function getHostname(url: string) {
 }
 
 function screenshotUrl(url: string) {
-  // Free screenshot service. Returns a static PNG of the website.
+  // Free WordPress mShots screenshot service.
   const clean = encodeURIComponent(url);
-  return `https://image.thum.io/get/width/1200/crop/900/noanimate/${clean}`;
+  return `https://s.wordpress.com/mshots/v1/${clean}?w=1200&h=750`;
 }
 
 function ProjectCard({ item }: { item: ShowcaseItem }) {
