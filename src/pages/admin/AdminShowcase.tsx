@@ -19,6 +19,8 @@ interface ShowcaseRow {
   description: string;
   services: string[];
   tint: string;
+  preview_image_url: string;
+  preview_video_url: string;
   sort_order: number;
   published: boolean;
 }
@@ -30,6 +32,8 @@ const emptyForm: Omit<ShowcaseRow, "id"> = {
   description: "",
   services: [],
   tint: "234,82%,57%",
+  preview_image_url: "",
+  preview_video_url: "",
   sort_order: 0,
   published: true,
 };
@@ -89,6 +93,8 @@ export default function AdminShowcase() {
       description: row.description,
       services: row.services,
       tint: row.tint,
+      preview_image_url: row.preview_image_url ?? "",
+      preview_video_url: row.preview_video_url ?? "",
       sort_order: row.sort_order,
       published: row.published,
     });
@@ -186,6 +192,10 @@ export default function AdminShowcase() {
                     {row.url.replace(/^https?:\/\//, "")}
                   </a>
                   <p className="text-[13px] text-muted-foreground mt-1 line-clamp-2">{row.description}</p>
+                  <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+                    {row.preview_image_url ? <span className="rounded border border-border px-1.5 py-0.5">Screenshot</span> : null}
+                    {row.preview_video_url ? <span className="rounded border border-border px-1.5 py-0.5">Video</span> : null}
+                  </div>
                   <div className="flex flex-wrap gap-1 mt-2">
                     {row.services.map((s) => (
                       <span
@@ -278,6 +288,27 @@ export default function AdminShowcase() {
                 rows={3}
                 placeholder="Korte omschrijving van het project..."
               />
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="preview_image_url">Screenshot URL</Label>
+                <Input
+                  id="preview_image_url"
+                  value={form.preview_image_url}
+                  onChange={(e) => setForm({ ...form, preview_image_url: e.target.value })}
+                  placeholder="https://.../screenshot.webp"
+                />
+              </div>
+              <div>
+                <Label htmlFor="preview_video_url">Video URL</Label>
+                <Input
+                  id="preview_video_url"
+                  value={form.preview_video_url}
+                  onChange={(e) => setForm({ ...form, preview_video_url: e.target.value })}
+                  placeholder="https://.../preview.mp4"
+                />
+              </div>
             </div>
 
             <div>

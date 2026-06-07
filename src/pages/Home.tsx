@@ -302,12 +302,12 @@ const tools = [
 ];
 
 const showcase = [
-  { title: "Allround Training Center", cat: "Sport & Fitness", url: "https://www.allroundtrainingcenter.nl", services: ["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"], desc: "Custom gebouwde website met eigen backend, AI livechat en full SEO-pakket. Inclusief volledige Google Ads strategie.", tint: "234,82%,57%" },
-  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren.", tint: "16,85%,55%" },
+  { title: "Allround Training Center", cat: "Sport & Fitness", url: "https://www.allroundtrainingcenter.nl", services: ["Custom Website", "Branding", "AI Livechat", "SEO", "Google Ads"], desc: "Custom gebouwde website met eigen backend, AI livechat en full SEO-pakket. Inclusief volledige Google Ads strategie.", tint: "234,82%,57%", previewImageUrl: "/portfolio/allroundtrainingcenter.webp" },
+  { title: "Matrix City", cat: "Fitness", url: "https://www.matrixcity.nl", services: ["Branding", "Website", "Google Ads"], desc: "Complete digitale transformatie: van logo tot advertentiecampagnes die elke maand nieuwe leden opleveren.", tint: "16,85%,55%", previewImageUrl: "/portfolio/matrixcity.webp" },
   { title: "CKN Legal", cat: "Juridisch", url: "https://www.cknlegal.com", services: ["Branding", "Website"], desc: "Professionele huisstijl en website die vertrouwen uitstraalt voor een groeiend advocatenkantoor.", tint: "215,55%,40%" },
-  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio.", tint: "44,90%,55%" },
-  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", services: ["Website", "Meta Ads", "E-mail"], desc: "Shopify webshop met Meta advertenties en geautomatiseerde e-mailflows voor hogere retentie.", tint: "330,75%,60%" },
-  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", services: ["Website", "Google Ads"], desc: "Moderne website en Google Ads campagne die structureel nieuwe aanmeldingen genereren.", tint: "0,75%,55%" },
+  { title: "Elektroza", cat: "Techniek", url: "https://www.elektroza.nl", services: ["Website", "SEO"], desc: "Conversiegericht ontwerp met lokale SEO-strategie voor meer offerteaanvragen in de regio.", tint: "44,90%,55%", previewImageUrl: "/portfolio/elektroza.webp" },
+  { title: "Coco De Rio", cat: "Fashion", url: "https://cocoderio.com", services: ["Website", "Meta Ads", "E-mail"], desc: "Shopify webshop met Meta advertenties en geautomatiseerde e-mailflows voor hogere retentie.", tint: "330,75%,60%", previewImageUrl: "/portfolio/cocoderio.webp" },
+  { title: "Prokick Academie", cat: "Sport", url: "https://www.prokickacademie.nl", services: ["Website", "Google Ads"], desc: "Moderne website en Google Ads campagne die structureel nieuwe aanmeldingen genereren.", tint: "0,75%,55%", previewImageUrl: "/portfolio/prokickacademie.webp" },
 ];
 
 
@@ -328,19 +328,31 @@ const Home = () => {
     let cancelled = false;
     supabase
       .from("showcase_items")
-      .select("title,category,url,description,services,tint")
+      .select("title,category,url,description,services,tint,preview_image_url,preview_video_url")
       .eq("published", true)
       .order("sort_order", { ascending: true })
       .then(({ data }) => {
         if (cancelled || !data || data.length === 0) return;
+        const rows = data as Array<{
+          title: string;
+          category: string;
+          url: string;
+          description: string;
+          services: string[] | null;
+          tint: string;
+          preview_image_url?: string | null;
+          preview_video_url?: string | null;
+        }>;
         setShowcaseItems(
-          data.map((d) => ({
+          rows.map((d) => ({
             title: d.title,
             cat: d.category,
             url: d.url,
             desc: d.description,
             services: d.services ?? [],
             tint: d.tint,
+            previewImageUrl: d.preview_image_url ?? null,
+            previewVideoUrl: d.preview_video_url ?? null,
           }))
         );
       });

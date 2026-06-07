@@ -8,6 +8,8 @@ export interface ShowcaseItem {
   services: string[];
   desc: string;
   tint?: string;
+  previewImageUrl?: string | null;
+  previewVideoUrl?: string | null;
 }
 
 interface MacbookShowcaseProps {
@@ -22,15 +24,11 @@ function getHostname(url: string) {
   }
 }
 
-function screenshotUrl(url: string) {
-  // Free WordPress mShots screenshot service.
-  const clean = encodeURIComponent(url);
-  return `https://s.wordpress.com/mshots/v1/${clean}?w=1200&h=750`;
-}
-
 function ProjectCard({ item }: { item: ShowcaseItem }) {
   const tint = item.tint ?? "234,82%,57%";
   const host = getHostname(item.url);
+  const hasVideo = Boolean(item.previewVideoUrl);
+  const hasImage = Boolean(item.previewImageUrl);
 
   return (
     <a
@@ -106,7 +104,7 @@ function ProjectCard({ item }: { item: ShowcaseItem }) {
             <div className="w-[36px]" aria-hidden />
           </div>
 
-          {/* Screenshot */}
+          {/* Portfolio media */}
           <div
             className="relative w-full overflow-hidden bg-muted"
             style={{ aspectRatio: "16 / 10" }}
@@ -118,15 +116,31 @@ function ProjectCard({ item }: { item: ShowcaseItem }) {
                 background: `linear-gradient(135deg, hsla(${tint}, 0.18), transparent 60%)`,
               }}
             />
-            <img
-              src={screenshotUrl(item.url)}
-              alt={`Screenshot van ${item.title}`}
-              loading="lazy"
-              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
+            {hasVideo ? (
+              <video
+                src={item.previewVideoUrl ?? undefined}
+                poster={item.previewImageUrl ?? undefined}
+                muted
+                playsInline
+                autoPlay
+                loop
+                preload="metadata"
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            ) : hasImage ? (
+              <img
+                src={item.previewImageUrl ?? undefined}
+                alt={`Preview van ${item.title}`}
+                loading="lazy"
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-muted/70 px-6 text-center">
+                <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  Preview volgt binnenkort
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
