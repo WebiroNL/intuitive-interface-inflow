@@ -1891,6 +1891,8 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          preview_image_url: string | null
+          preview_video_url: string | null
           published: boolean
           services: string[]
           sort_order: number
@@ -1904,6 +1906,8 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          preview_image_url?: string | null
+          preview_video_url?: string | null
           published?: boolean
           services?: string[]
           sort_order?: number
@@ -1917,6 +1921,8 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          preview_image_url?: string | null
+          preview_video_url?: string | null
           published?: boolean
           services?: string[]
           sort_order?: number
