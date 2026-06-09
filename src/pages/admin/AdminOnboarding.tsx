@@ -235,6 +235,13 @@ function DetailPanel({ group, onClose }: { group: OnboardingGroup; onClose: () =
               {group.rows.length} {group.rows.length === 1 ? "dienst" : "diensten"} · {group.email}
             </p>
           </div>
+          <button
+            onClick={() => downloadGroupPdf(group)}
+            className="inline-flex items-center gap-1.5 px-2.5 h-8 rounded-md border border-border text-[12px] font-medium text-foreground hover:bg-muted/60 transition-colors"
+          >
+            <HugeiconsIcon icon={Download01Icon} size={14} />
+            PDF
+          </button>
           {group.client_id && (
             <Link
               to={`/admin/clients?open=${group.client_id}`}
