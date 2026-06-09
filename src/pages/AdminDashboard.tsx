@@ -22,6 +22,7 @@ const AdminPartnerPayouts = lazy(() => import('./admin/AdminPartnerPayouts'));
 const AdminPartnerTiers = lazy(() => import('./admin/AdminPartnerTiers'));
 const AdminShowcase = lazy(() => import('./admin/AdminShowcase'));
 const AdminPlanning = lazy(() => import('./admin/AdminPlanning'));
+const AdminOnboarding = lazy(() => import('./admin/AdminOnboarding'));
 
 function AdminFallback() {
   return (
