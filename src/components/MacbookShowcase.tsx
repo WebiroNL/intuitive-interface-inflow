@@ -135,10 +135,69 @@ function ProjectCard({ item }: { item: ShowcaseItem }) {
                 className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-muted/70 px-6 text-center">
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Preview volgt binnenkort
-                </p>
+              <div
+                className="relative flex h-full w-full items-center justify-center overflow-hidden"
+                style={{
+                  background: `radial-gradient(120% 90% at 0% 0%, hsla(${tint}, 0.28), transparent 55%), radial-gradient(120% 90% at 100% 100%, hsla(${tint}, 0.22), transparent 55%), linear-gradient(135deg, hsla(${tint}, 0.10), hsla(${tint}, 0.04))`,
+                }}
+              >
+                {/* dot grid */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 opacity-[0.35]"
+                  style={{
+                    backgroundImage: `radial-gradient(hsla(${tint}, 0.35) 1px, transparent 1px)`,
+                    backgroundSize: "14px 14px",
+                    maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                    WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                  }}
+                />
+                {/* soft orb */}
+                <div
+                  aria-hidden
+                  className="absolute -top-10 -right-10 h-40 w-40 rounded-full blur-3xl opacity-60"
+                  style={{ background: `hsla(${tint}, 0.45)` }}
+                />
+                <div className="relative z-10 flex flex-col items-center text-center px-6">
+                  <div
+                    className="flex items-center justify-center h-14 w-14 rounded-2xl mb-3 font-bold text-[20px] tracking-tight shadow-lg backdrop-blur-sm transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
+                    style={{
+                      background: `linear-gradient(135deg, hsla(${tint}, 0.95), hsla(${tint}, 0.7))`,
+                      color: "white",
+                      boxShadow: `0 10px 30px -10px hsla(${tint}, 0.6)`,
+                    }}
+                  >
+                    {item.title
+                      .split(" ")
+                      .slice(0, 2)
+                      .map((w) => w[0])
+                      .join("")
+                      .toUpperCase()}
+                  </div>
+                  <span
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] border backdrop-blur-sm"
+                    style={{
+                      color: `hsl(${tint})`,
+                      backgroundColor: `hsla(${tint}, 0.10)`,
+                      borderColor: `hsla(${tint}, 0.28)`,
+                    }}
+                  >
+                    <span
+                      className="relative flex h-1.5 w-1.5"
+                      aria-hidden
+                    >
+                      <span
+                        className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
+                        style={{ background: `hsl(${tint})` }}
+                      />
+                      <span
+                        className="relative inline-flex rounded-full h-1.5 w-1.5"
+                        style={{ background: `hsl(${tint})` }}
+                      />
+                    </span>
+                    Binnenkort live
+                  </span>
+                </div>
               </div>
             )}
           </div>
