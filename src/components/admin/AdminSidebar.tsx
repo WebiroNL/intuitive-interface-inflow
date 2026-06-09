@@ -98,12 +98,15 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
         total += Math.max(0, t.intake - si) + Math.max(0, t.website_intake - sw) + Math.max(0, t.onboarding - so2);
       });
 
-      // Onboarding-specific badge: count submissions newer than last-seen timestamp
-      const lastSeen = localStorage.getItem("admin_onboarding_last_seen") || "";
-      const onbCount = ((so as any).data ?? []).filter((r: any) => {
-        const t = r.submitted_at ?? r.created_at;
-        return t && (!lastSeen || t > lastSeen);
-      }).length;
+      // Onboarding-specific badge: count unique aanvragen (groups), excluding ones already seen
+      const { onboardingGroupKey, loadSeenOnboardingKeys } = await import("@/lib/onboardingGrouping");
+      const seen = loadSeenOnboardingKeys();
+      const groupKeys = new Set<string>();
+      ((so as any).data ?? []).forEach((r: any) => {
+        groupKeys.add(onboardingGroupKey(r));
+      });
+      let onbCount = 0;
+      groupKeys.forEach((k) => { if (!seen.has(k)) onbCount += 1; });
 
       if (!cancelled) {
         setClientsBadge(total);
