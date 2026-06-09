@@ -224,7 +224,7 @@ function DetailPanel({ group, onClose }: { group: OnboardingGroup; onClose: () =
 export default function AdminOnboarding() {
   const [rows, setRows] = useState<OnboardingRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lastSeen, setLastSeen] = useState<string>(() => localStorage.getItem(LAST_SEEN_KEY) || "");
+  const [seenKeys, setSeenKeys] = useState<Set<string>>(() => loadSeenOnboardingKeys());
   const [openKey, setOpenKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -243,21 +243,27 @@ export default function AdminOnboarding() {
 
   const groups = useMemo(() => groupRows(rows), [rows]);
 
-  const newestTs = useMemo(() => {
-    return rows.reduce((acc, r) => {
-      const t = r.submitted_at ?? r.created_at;
-      return t && t > acc ? t : acc;
-    }, "");
-  }, [rows]);
-
-  const markAllSeen = () => {
-    if (!newestTs) return;
-    localStorage.setItem(LAST_SEEN_KEY, newestTs);
-    setLastSeen(newestTs);
-    window.dispatchEvent(new Event("storage"));
+  const markGroupSeen = (key: string) => {
+    if (seenKeys.has(key)) return;
+    const next = new Set(seenKeys);
+    next.add(key);
+    setSeenKeys(next);
+    saveSeenOnboardingKeys(next);
   };
 
-  const isGroupNew = (g: OnboardingGroup) => !lastSeen || g.newestTs > lastSeen;
+  const markAllSeen = () => {
+    const next = new Set(seenKeys);
+    groups.forEach((g) => next.add(g.key));
+    setSeenKeys(next);
+    saveSeenOnboardingKeys(next);
+  };
+
+  const openGroupByKey = (key: string) => {
+    setOpenKey(key);
+    markGroupSeen(key);
+  };
+
+  const isGroupNew = (g: OnboardingGroup) => !seenKeys.has(g.key);
   const newCount = groups.filter(isGroupNew).length;
   const openGroup = groups.find((g) => g.key === openKey) || null;
 
