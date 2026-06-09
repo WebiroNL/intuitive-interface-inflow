@@ -37,6 +37,7 @@ type NavItem =
 const navItems: NavItem[] = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
   { label: 'Klanten', href: '/admin/clients', icon: UserMultiple02Icon },
+  { label: 'Onboarding', href: '/admin/onboarding', icon: CheckmarkSquare02Icon },
   { label: 'Planning', href: '/admin/planning', icon: CheckmarkSquare02Icon },
   { label: 'Partnerprogramma', href: '/admin/partners', icon: UserGroupIcon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
@@ -62,6 +63,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const { signOut, user } = useAuth();
   const isDark = document.documentElement.classList.contains('dark');
   const [clientsBadge, setClientsBadge] = useState(0);
+  const [onboardingBadge, setOnboardingBadge] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -95,7 +97,18 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
         const so2 = Number(localStorage.getItem(`admin_seen_onboarding_${id}`) || 0);
         total += Math.max(0, t.intake - si) + Math.max(0, t.website_intake - sw) + Math.max(0, t.onboarding - so2);
       });
-      if (!cancelled) setClientsBadge(total);
+
+      // Onboarding-specific badge: count submissions newer than last-seen timestamp
+      const lastSeen = localStorage.getItem("admin_onboarding_last_seen") || "";
+      const onbCount = ((so as any).data ?? []).filter((r: any) => {
+        const t = r.submitted_at ?? r.created_at;
+        return t && (!lastSeen || t > lastSeen);
+      }).length;
+
+      if (!cancelled) {
+        setClientsBadge(total);
+        setOnboardingBadge(onbCount);
+      }
     };
     load();
     const onStorage = () => load();
@@ -141,7 +154,10 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
       <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           if (item.type === 'group') return null;
-          const showBadge = item.href === '/admin/clients' && clientsBadge > 0;
+          const badgeValue =
+            item.href === '/admin/clients' ? clientsBadge :
+            item.href === '/admin/onboarding' ? onboardingBadge : 0;
+          const showBadge = badgeValue > 0;
           return (
             <Link
               key={item.href}
@@ -156,7 +172,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
               <span className="flex-1">{item.label}</span>
               {showBadge && (
                 <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold tabular-nums">
-                  {clientsBadge}
+                  {badgeValue}
                 </span>
               )}
             </Link>

@@ -22,6 +22,7 @@ const AdminPartnerPayouts = lazy(() => import('./admin/AdminPartnerPayouts'));
 const AdminPartnerTiers = lazy(() => import('./admin/AdminPartnerTiers'));
 const AdminShowcase = lazy(() => import('./admin/AdminShowcase'));
 const AdminPlanning = lazy(() => import('./admin/AdminPlanning'));
+const AdminOnboarding = lazy(() => import('./admin/AdminOnboarding'));
 
 function AdminFallback() {
   return (
@@ -82,6 +83,7 @@ const AdminDashboard = () => {
               <Route index element={<AdminOverview />} />
               <Route path="clients" element={<AdminClients />} />
               <Route path="planning" element={<AdminPlanning />} />
+              <Route path="onboarding" element={<AdminOnboarding />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="leads" element={<AdminLeads />} />
               <Route path="stats" element={<AdminStats />} />
