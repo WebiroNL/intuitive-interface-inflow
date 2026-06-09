@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CheckmarkSquare02Icon, ArrowRight01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { CheckmarkSquare02Icon, ArrowRight01Icon, Cancel01Icon, Download01Icon } from "@hugeicons/core-free-icons";
 import { loadSeenOnboardingKeys, saveSeenOnboardingKeys } from "@/lib/onboardingGrouping";
+import { jsPDF } from "jspdf";
 
 interface OnboardingRow {
   id: string;
@@ -113,6 +114,91 @@ function renderValue(v: any): React.ReactNode {
   return <span className="whitespace-pre-wrap break-words">{str}</span>;
 }
 
+function flattenValue(v: any): string {
+  if (v === null || v === undefined || v === "") return "—";
+  if (typeof v === "boolean") return v ? "Ja" : "Nee";
+  if (Array.isArray(v)) {
+    if (v.every((x) => typeof x !== "object" || x === null)) return v.map(String).join(", ");
+    return JSON.stringify(v, null, 2);
+  }
+  if (typeof v === "object") return JSON.stringify(v, null, 2);
+  return String(v);
+}
+
+function downloadGroupPdf(group: OnboardingGroup) {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 48;
+  const maxW = pageW - margin * 2;
+  let y = margin;
+
+  const ensure = (h: number) => {
+    if (y + h > pageH - margin) { doc.addPage(); y = margin; }
+  };
+  const writeWrapped = (text: string, size: number, opts: { bold?: boolean; color?: [number, number, number]; gap?: number } = {}) => {
+    doc.setFont("helvetica", opts.bold ? "bold" : "normal");
+    doc.setFontSize(size);
+    doc.setTextColor(...(opts.color ?? [20, 20, 20]));
+    const lines = doc.splitTextToSize(text, maxW);
+    for (const line of lines) {
+      ensure(size + 4);
+      doc.text(line, margin, y);
+      y += size + 4;
+    }
+    y += opts.gap ?? 0;
+  };
+  const rule = () => {
+    ensure(12);
+    doc.setDrawColor(220);
+    doc.line(margin, y, pageW - margin, y);
+    y += 12;
+  };
+  const field = (label: string, value: string) => {
+    writeWrapped(label.toUpperCase(), 8, { color: [130, 130, 130] });
+    writeWrapped(value, 11, { gap: 6 });
+  };
+
+  // Header
+  writeWrapped(group.company_name || "Onboarding", 18, { bold: true });
+  writeWrapped(
+    `${group.rows.length} ${group.rows.length === 1 ? "dienst" : "diensten"} · ${group.email || ""}`,
+    10,
+    { color: [110, 110, 110], gap: 8 }
+  );
+  rule();
+
+  writeWrapped("Algemeen", 12, { bold: true, gap: 4 });
+  field("Bedrijf", group.company_name || "—");
+  field("Contactpersoon", group.contact_person || "—");
+  field("E-mail", group.email || "—");
+  field("Telefoon", group.phone || "—");
+  field("Website", group.website || "—");
+  field("Ingediend op", group.newestTs ? new Date(group.newestTs).toLocaleString("nl-NL") : "—");
+  field("Diensten", group.rows.map((r) => serviceLabel(r.service_type)).join(", "));
+  rule();
+
+  for (const r of group.rows) {
+    writeWrapped(serviceLabel(r.service_type), 13, { bold: true });
+    writeWrapped(`Status: ${r.status}`, 9, { color: [130, 130, 130], gap: 6 });
+    const entries = Object.entries(r.data ?? {});
+    if (entries.length === 0) {
+      writeWrapped("Geen aanvullende gegevens.", 10, { color: [130, 130, 130], gap: 6 });
+    } else {
+      for (const [k, v] of entries) field(humanizeKey(k), flattenValue(v));
+    }
+    if (r.admin_notes) {
+      writeWrapped("Notities", 9, { color: [130, 130, 130] });
+      writeWrapped(r.admin_notes, 11, { gap: 6 });
+    }
+    rule();
+  }
+
+  const safe = (group.company_name || "onboarding").replace(/[^a-z0-9\-_]+/gi, "_").toLowerCase();
+  const date = group.newestTs ? new Date(group.newestTs).toISOString().slice(0, 10) : "";
+  doc.save(`onboarding_${safe}${date ? "_" + date : ""}.pdf`);
+}
+
 function DetailPanel({ group, onClose }: { group: OnboardingGroup; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -149,6 +235,13 @@ function DetailPanel({ group, onClose }: { group: OnboardingGroup; onClose: () =
               {group.rows.length} {group.rows.length === 1 ? "dienst" : "diensten"} · {group.email}
             </p>
           </div>
+          <button
+            onClick={() => downloadGroupPdf(group)}
+            className="inline-flex items-center gap-1.5 px-2.5 h-8 rounded-md border border-border text-[12px] font-medium text-foreground hover:bg-muted/60 transition-colors"
+          >
+            <HugeiconsIcon icon={Download01Icon} size={14} />
+            PDF
+          </button>
           {group.client_id && (
             <Link
               to={`/admin/clients?open=${group.client_id}`}
