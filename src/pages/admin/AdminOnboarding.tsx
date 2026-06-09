@@ -23,6 +23,18 @@ interface OnboardingRow {
   updated_at: string;
 }
 
+interface OnboardingGroup {
+  key: string;
+  company_name: string;
+  contact_person: string;
+  email: string;
+  phone: string | null;
+  website: string | null;
+  client_id: string | null;
+  newestTs: string;
+  rows: OnboardingRow[];
+}
+
 const LAST_SEEN_KEY = "admin_onboarding_last_seen";
 
 const serviceLabel = (s: string) =>
@@ -30,6 +42,34 @@ const serviceLabel = (s: string) =>
 
 const humanizeKey = (k: string) =>
   k.replace(/[_-]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+function groupRows(rows: OnboardingRow[]): OnboardingGroup[] {
+  const map = new Map<string, OnboardingGroup>();
+  for (const r of rows) {
+    const ts = r.submitted_at ?? r.created_at;
+    // Bucket by 10-minute window so one onboarding submission with multiple services merges
+    const bucket = ts ? new Date(ts).toISOString().slice(0, 15) : "";
+    const key = `${(r.email || "").toLowerCase()}|${r.company_name}|${bucket}`;
+    const existing = map.get(key);
+    if (existing) {
+      existing.rows.push(r);
+      if (ts > existing.newestTs) existing.newestTs = ts;
+    } else {
+      map.set(key, {
+        key,
+        company_name: r.company_name,
+        contact_person: r.contact_person,
+        email: r.email,
+        phone: r.phone,
+        website: r.website,
+        client_id: r.client_id,
+        newestTs: ts,
+        rows: [r],
+      });
+    }
+  }
+  return Array.from(map.values()).sort((a, b) => (a.newestTs > b.newestTs ? -1 : 1));
+}
 
 function renderValue(v: any): React.ReactNode {
   if (v === null || v === undefined || v === "") return <span className="text-muted-foreground">—</span>;
@@ -72,7 +112,7 @@ function renderValue(v: any): React.ReactNode {
   return <span className="whitespace-pre-wrap break-words">{str}</span>;
 }
 
-function DetailPanel({ row, onClose }: { row: OnboardingRow; onClose: () => void }) {
+function DetailPanel({ group, onClose }: { group: OnboardingGroup; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -82,17 +122,13 @@ function DetailPanel({ row, onClose }: { row: OnboardingRow; onClose: () => void
   }, [onClose]);
 
   const baseFields: Array<[string, any]> = [
-    ["Bedrijf", row.company_name],
-    ["Contactpersoon", row.contact_person],
-    ["E-mail", row.email],
-    ["Telefoon", row.phone],
-    ["Website", row.website],
-    ["Dienst", serviceLabel(row.service_type)],
-    ["Status", row.status],
-    ["Ingediend op", row.submitted_at ? new Date(row.submitted_at).toLocaleString("nl-NL") : new Date(row.created_at).toLocaleString("nl-NL")],
+    ["Bedrijf", group.company_name],
+    ["Contactpersoon", group.contact_person],
+    ["E-mail", group.email],
+    ["Telefoon", group.phone],
+    ["Website", group.website],
+    ["Ingediend op", group.newestTs ? new Date(group.newestTs).toLocaleString("nl-NL") : "—"],
   ];
-
-  const dataEntries = Object.entries(row.data ?? {});
 
   return (
     <>
@@ -103,16 +139,18 @@ function DetailPanel({ row, onClose }: { row: OnboardingRow; onClose: () => void
       <aside
         role="dialog"
         aria-modal="true"
-        className="fixed top-0 right-0 z-50 h-screen w-full max-w-[640px] bg-card border-l border-border flex flex-col shadow-2xl"
+        className="fixed top-0 right-0 z-50 h-screen w-full max-w-[720px] bg-card border-l border-border flex flex-col shadow-2xl"
       >
         <div className="flex items-center gap-3 px-5 h-[60px] border-b border-border">
           <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-semibold text-foreground truncate">{row.company_name}</p>
-            <p className="text-[12px] text-muted-foreground truncate">{serviceLabel(row.service_type)} · {row.email}</p>
+            <p className="text-[14px] font-semibold text-foreground truncate">{group.company_name}</p>
+            <p className="text-[12px] text-muted-foreground truncate">
+              {group.rows.length} {group.rows.length === 1 ? "dienst" : "diensten"} · {group.email}
+            </p>
           </div>
-          {row.client_id && (
+          {group.client_id && (
             <Link
-              to={`/admin/clients?open=${row.client_id}`}
+              to={`/admin/clients?open=${group.client_id}`}
               className="text-[12px] font-medium text-primary hover:underline"
             >
               Open klant
@@ -138,28 +176,44 @@ function DetailPanel({ row, onClose }: { row: OnboardingRow; onClose: () => void
                 </div>
               ))}
             </dl>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {group.rows.map((r) => (
+                <span key={r.id} className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium">
+                  {serviceLabel(r.service_type)}
+                </span>
+              ))}
+            </div>
           </section>
 
-          {dataEntries.length > 0 && (
-            <section>
-              <h3 className="text-[11px] uppercase tracking-wider text-muted-foreground mb-3">Ingevulde gegevens</h3>
-              <dl className="space-y-3">
-                {dataEntries.map(([k, v]) => (
-                  <div key={k} className="rounded-md border border-border p-3 bg-background/40">
-                    <dt className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">{humanizeKey(k)}</dt>
-                    <dd className="text-[13px] text-foreground">{renderValue(v)}</dd>
+          {group.rows.map((r) => {
+            const dataEntries = Object.entries(r.data ?? {});
+            return (
+              <section key={r.id}>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-[13px] font-semibold text-foreground">{serviceLabel(r.service_type)}</h3>
+                  <span className="text-[11px] text-muted-foreground capitalize">{r.status}</span>
+                </div>
+                {dataEntries.length === 0 ? (
+                  <p className="text-[12px] text-muted-foreground">Geen aanvullende gegevens.</p>
+                ) : (
+                  <dl className="space-y-3">
+                    {dataEntries.map(([k, v]) => (
+                      <div key={k} className="rounded-md border border-border p-3 bg-background/40">
+                        <dt className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">{humanizeKey(k)}</dt>
+                        <dd className="text-[13px] text-foreground">{renderValue(v)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                {r.admin_notes && (
+                  <div className="mt-3">
+                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Notities</p>
+                    <p className="text-[13px] text-foreground whitespace-pre-wrap">{r.admin_notes}</p>
                   </div>
-                ))}
-              </dl>
-            </section>
-          )}
-
-          {row.admin_notes && (
-            <section>
-              <h3 className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">Notities</h3>
-              <p className="text-[13px] text-foreground whitespace-pre-wrap">{row.admin_notes}</p>
-            </section>
-          )}
+                )}
+              </section>
+            );
+          })}
         </div>
       </aside>
     </>
@@ -170,7 +224,7 @@ export default function AdminOnboarding() {
   const [rows, setRows] = useState<OnboardingRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastSeen, setLastSeen] = useState<string>(() => localStorage.getItem(LAST_SEEN_KEY) || "");
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openKey, setOpenKey] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -186,6 +240,8 @@ export default function AdminOnboarding() {
     return () => { cancelled = true; };
   }, []);
 
+  const groups = useMemo(() => groupRows(rows), [rows]);
+
   const newestTs = useMemo(() => {
     return rows.reduce((acc, r) => {
       const t = r.submitted_at ?? r.created_at;
@@ -200,13 +256,9 @@ export default function AdminOnboarding() {
     window.dispatchEvent(new Event("storage"));
   };
 
-  const isNew = (r: OnboardingRow) => {
-    const t = r.submitted_at ?? r.created_at;
-    return !lastSeen || (t && t > lastSeen);
-  };
-
-  const newCount = rows.filter(isNew).length;
-  const openRow = rows.find((r) => r.id === openId) || null;
+  const isGroupNew = (g: OnboardingGroup) => !lastSeen || g.newestTs > lastSeen;
+  const newCount = groups.filter(isGroupNew).length;
+  const openGroup = groups.find((g) => g.key === openKey) || null;
 
   return (
     <div className="max-w-[1200px] mx-auto">
@@ -233,43 +285,46 @@ export default function AdminOnboarding() {
           <div className="p-12 flex items-center justify-center">
             <div className="w-6 h-6 border-2 border-border border-t-primary rounded-full animate-spin" />
           </div>
-        ) : rows.length === 0 ? (
+        ) : groups.length === 0 ? (
           <div className="p-12 text-center text-[13px] text-muted-foreground">
             Nog geen onboarding aanvragen.
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {rows.map((r) => {
-              const fresh = isNew(r);
-              const ts = r.submitted_at ?? r.created_at;
+            {groups.map((g) => {
+              const fresh = isGroupNew(g);
               return (
                 <button
-                  key={r.id}
+                  key={g.key}
                   type="button"
-                  onClick={() => setOpenId(r.id)}
+                  onClick={() => setOpenKey(g.key)}
                   className="w-full text-left flex items-center gap-4 px-5 py-4 hover:bg-muted/40 transition-colors"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-[14px] font-semibold text-foreground truncate">{r.company_name}</p>
+                      <p className="text-[14px] font-semibold text-foreground truncate">{g.company_name}</p>
                       {fresh && (
                         <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold uppercase tracking-wide">
                           Nieuw
                         </span>
                       )}
-                      <span className="text-[11px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                        {serviceLabel(r.service_type)}
-                      </span>
+                      {g.rows.map((r) => (
+                        <span key={r.id} className="text-[11px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                          {serviceLabel(r.service_type)}
+                        </span>
+                      ))}
                     </div>
                     <p className="text-[12px] text-muted-foreground mt-0.5 truncate">
-                      {r.contact_person} · {r.email}
+                      {g.contact_person} · {g.email}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-[12px] text-muted-foreground tabular-nums">
-                      {ts ? new Date(ts).toLocaleString("nl-NL", { dateStyle: "short", timeStyle: "short" }) : "—"}
+                      {g.newestTs ? new Date(g.newestTs).toLocaleString("nl-NL", { dateStyle: "short", timeStyle: "short" }) : "—"}
                     </p>
-                    <p className="text-[11px] text-muted-foreground capitalize mt-0.5">{r.status}</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
+                      {g.rows.length} {g.rows.length === 1 ? "dienst" : "diensten"}
+                    </p>
                   </div>
                   <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="text-muted-foreground" />
                 </button>
@@ -279,7 +334,7 @@ export default function AdminOnboarding() {
         )}
       </div>
 
-      {openRow && <DetailPanel row={openRow} onClose={() => setOpenId(null)} />}
+      {openGroup && <DetailPanel group={openGroup} onClose={() => setOpenKey(null)} />}
     </div>
   );
 }
