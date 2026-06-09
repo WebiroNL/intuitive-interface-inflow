@@ -63,6 +63,7 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
   const { signOut, user } = useAuth();
   const isDark = document.documentElement.classList.contains('dark');
   const [clientsBadge, setClientsBadge] = useState(0);
+  const [onboardingBadge, setOnboardingBadge] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -96,7 +97,18 @@ export function AdminSidebar({ mobileOpen = false, onClose }: Props) {
         const so2 = Number(localStorage.getItem(`admin_seen_onboarding_${id}`) || 0);
         total += Math.max(0, t.intake - si) + Math.max(0, t.website_intake - sw) + Math.max(0, t.onboarding - so2);
       });
-      if (!cancelled) setClientsBadge(total);
+
+      // Onboarding-specific badge: count submissions newer than last-seen timestamp
+      const lastSeen = localStorage.getItem("admin_onboarding_last_seen") || "";
+      const onbCount = ((so as any).data ?? []).filter((r: any) => {
+        const t = r.submitted_at ?? r.created_at;
+        return t && (!lastSeen || t > lastSeen);
+      }).length;
+
+      if (!cancelled) {
+        setClientsBadge(total);
+        setOnboardingBadge(onbCount);
+      }
     };
     load();
     const onStorage = () => load();
