@@ -304,7 +304,7 @@ export default function AdminOnboarding() {
                 <button
                   key={g.key}
                   type="button"
-                  onClick={() => setOpenKey(g.key)}
+                  onClick={() => openGroupByKey(g.key)}
                   className="w-full text-left flex items-center gap-4 px-5 py-4 hover:bg-muted/40 transition-colors"
                 >
                   <div className="flex-1 min-w-0">
