@@ -39,8 +39,8 @@ type NavItem =
 const navItems: NavItem[] = [
   { label: 'Overzicht', href: '/admin', icon: DashboardSquare01Icon },
   { label: 'Klanten', href: '/admin/clients', icon: UserMultiple02Icon },
-  { label: 'Onboarding', href: '/admin/onboarding', icon: CheckmarkSquare02Icon },
-  { label: 'Planning', href: '/admin/planning', icon: CheckmarkSquare02Icon },
+  { label: 'Onboarding', href: '/admin/onboarding', icon: RocketIcon },
+  { label: 'Planning', href: '/admin/planning', icon: Calendar03Icon },
   { label: 'Partnerprogramma', href: '/admin/partners', icon: UserGroupIcon },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart01Icon },
   { label: 'Leads', href: '/admin/leads', icon: UserGroup02Icon },
