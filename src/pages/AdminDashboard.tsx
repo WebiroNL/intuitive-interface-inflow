@@ -83,6 +83,7 @@ const AdminDashboard = () => {
               <Route index element={<AdminOverview />} />
               <Route path="clients" element={<AdminClients />} />
               <Route path="planning" element={<AdminPlanning />} />
+              <Route path="onboarding" element={<AdminOnboarding />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="leads" element={<AdminLeads />} />
               <Route path="stats" element={<AdminStats />} />
