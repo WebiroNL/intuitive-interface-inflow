@@ -28,6 +28,8 @@ import {
   ArrowDown01Icon,
   ArrowRight01Icon,
   CheckmarkSquare02Icon,
+  RocketIcon,
+  Calendar03Icon,
 } from "@hugeicons/core-free-icons";
 
 type NavItem =
