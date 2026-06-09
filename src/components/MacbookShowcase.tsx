@@ -1,5 +1,11 @@
+import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowUpRight01Icon, LockIcon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowUpRight01Icon,
+  LockIcon,
+  ArrowRight01Icon,
+  CheckmarkCircle02Icon,
+} from "@hugeicons/core-free-icons";
 
 export interface ShowcaseItem {
   title: string;
@@ -24,147 +30,238 @@ function getHostname(url: string) {
   }
 }
 
-function ProjectCard({ item }: { item: ShowcaseItem }) {
+function PreviewSurface({ item }: { item: ShowcaseItem }) {
   const tint = item.tint ?? "234,82%,57%";
   const host = getHostname(item.url);
   const hasVideo = Boolean(item.previewVideoUrl);
   const hasImage = Boolean(item.previewImageUrl);
 
   return (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative flex flex-col h-full rounded-3xl border border-border/60 bg-card overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+    <div
+      className="relative rounded-xl overflow-hidden border border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)]"
       style={{ ["--tint" as any]: tint }}
     >
-      {/* Tinted hover border glow */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ boxShadow: `inset 0 0 0 1px hsla(${tint}, 0.4)` }}
-      />
-
-      {/* Content top */}
-      <div className="relative p-7 pb-6 flex flex-col">
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <span
-            className="inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.12em]"
-            style={{
-              color: `hsl(${tint})`,
-              backgroundColor: `hsla(${tint}, 0.08)`,
-              borderColor: `hsla(${tint}, 0.22)`,
-            }}
-          >
-            {item.cat}
-          </span>
-          <span
-            className="shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-full border border-border/60 bg-background/60 text-muted-foreground group-hover:text-foreground group-hover:border-foreground/30 transition-colors"
-            aria-hidden
-          >
-            <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </span>
+      {/* Browser chrome */}
+      <div className="flex items-center gap-2 px-3 h-9 border-b border-border/60 bg-muted/50">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-
-        <h3 className="text-xl md:text-[22px] font-bold text-foreground leading-tight mb-2.5">
-          {item.title}
-        </h3>
-        <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-5 line-clamp-3">
-          {item.desc}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5">
-          {item.services.slice(0, 4).map((s) => (
-            <span
-              key={s}
-              className="px-2 py-0.5 bg-muted/60 border border-border/60 rounded text-[10px] font-semibold text-muted-foreground uppercase tracking-wide"
-            >
-              {s}
-            </span>
-          ))}
+        <div className="flex-1 flex items-center justify-center gap-1.5 h-5 px-2 rounded bg-background/80 border border-border/60 max-w-[300px] mx-auto">
+          <HugeiconsIcon icon={LockIcon} className="h-3 w-3 text-muted-foreground" />
+          <span className="text-[11px] text-muted-foreground truncate font-mono">{host}</span>
         </div>
+        <div className="w-[44px]" aria-hidden />
       </div>
 
-      {/* Browser mockup bottom */}
-      <div className="relative mt-auto px-5 pb-5">
-        <div
-          className="relative rounded-xl overflow-hidden border border-border/60 bg-background shadow-[0_18px_40px_-22px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:-translate-y-1"
-        >
-          {/* Browser chrome */}
-          <div className="flex items-center gap-2 px-3 h-7 border-b border-border/60 bg-muted/50">
-            <div className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-              <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
-              <span className="w-2 h-2 rounded-full bg-[#28c840]" />
-            </div>
-            <div className="flex-1 flex items-center justify-center gap-1.5 h-4 px-2 rounded bg-background/80 border border-border/60 max-w-[220px] mx-auto">
-              <HugeiconsIcon icon={LockIcon} className="h-2.5 w-2.5 text-muted-foreground" />
-              <span className="text-[10px] text-muted-foreground truncate font-mono">{host}</span>
-            </div>
-            <div className="w-[36px]" aria-hidden />
-          </div>
-
-          {/* Portfolio media */}
+      <div
+        className="relative w-full overflow-hidden bg-muted"
+        style={{ aspectRatio: "16 / 10" }}
+      >
+        {hasVideo ? (
+          <video
+            key={item.previewVideoUrl ?? ""}
+            src={item.previewVideoUrl ?? undefined}
+            poster={item.previewImageUrl ?? undefined}
+            muted
+            playsInline
+            autoPlay
+            loop
+            preload="metadata"
+            className="w-full h-full object-cover object-top"
+          />
+        ) : hasImage ? (
+          <img
+            key={item.previewImageUrl ?? ""}
+            src={item.previewImageUrl ?? undefined}
+            alt={`Preview van ${item.title}`}
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
           <div
-            className="relative w-full overflow-hidden bg-muted"
-            style={{ aspectRatio: "16 / 10" }}
+            className="relative flex h-full w-full items-center justify-center overflow-hidden"
+            style={{
+              background: `radial-gradient(120% 90% at 0% 0%, hsla(${tint}, 0.30), transparent 55%), radial-gradient(120% 90% at 100% 100%, hsla(${tint}, 0.24), transparent 55%), linear-gradient(135deg, hsla(${tint}, 0.10), hsla(${tint}, 0.04))`,
+            }}
           >
             <div
               aria-hidden
-              className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              className="absolute inset-0 opacity-[0.35]"
               style={{
-                background: `linear-gradient(135deg, hsla(${tint}, 0.18), transparent 60%)`,
+                backgroundImage: `radial-gradient(hsla(${tint}, 0.35) 1px, transparent 1px)`,
+                backgroundSize: "18px 18px",
+                maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
               }}
             />
-            {hasVideo ? (
-              <video
-                src={item.previewVideoUrl ?? undefined}
-                poster={item.previewImageUrl ?? undefined}
-                muted
-                playsInline
-                autoPlay
-                loop
-                preload="metadata"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            ) : hasImage ? (
-              <img
-                src={item.previewImageUrl ?? undefined}
-                alt={`Preview van ${item.title}`}
-                loading="lazy"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            ) : (
+            <div
+              aria-hidden
+              className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-60"
+              style={{ background: `hsla(${tint}, 0.5)` }}
+            />
+            <div className="relative z-10 flex flex-col items-center text-center px-6">
               <div
-                className="relative flex h-full w-full items-center justify-center overflow-hidden"
+                className="flex items-center justify-center h-20 w-20 rounded-3xl mb-4 font-bold text-[28px] tracking-tight shadow-2xl"
                 style={{
-                  background: `radial-gradient(120% 90% at 0% 0%, hsla(${tint}, 0.28), transparent 55%), radial-gradient(120% 90% at 100% 100%, hsla(${tint}, 0.22), transparent 55%), linear-gradient(135deg, hsla(${tint}, 0.10), hsla(${tint}, 0.04))`,
+                  background: `linear-gradient(135deg, hsla(${tint}, 0.95), hsla(${tint}, 0.7))`,
+                  color: "white",
+                  boxShadow: `0 20px 50px -15px hsla(${tint}, 0.7)`,
                 }}
               >
-                {/* dot grid */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-[0.35]"
-                  style={{
-                    backgroundImage: `radial-gradient(hsla(${tint}, 0.35) 1px, transparent 1px)`,
-                    backgroundSize: "14px 14px",
-                    maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-                    WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-                  }}
-                />
-                {/* soft orb */}
-                <div
-                  aria-hidden
-                  className="absolute -top-10 -right-10 h-40 w-40 rounded-full blur-3xl opacity-60"
-                  style={{ background: `hsla(${tint}, 0.45)` }}
-                />
-                <div className="relative z-10 flex flex-col items-center text-center px-6">
-                  <div
-                    className="flex items-center justify-center h-14 w-14 rounded-2xl mb-3 font-bold text-[20px] tracking-tight shadow-lg backdrop-blur-sm transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
+                {item.title
+                  .split(" ")
+                  .slice(0, 2)
+                  .map((w) => w[0])
+                  .join("")
+                  .toUpperCase()}
+              </div>
+              <span
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] border backdrop-blur-sm"
+                style={{
+                  color: `hsl(${tint})`,
+                  backgroundColor: `hsla(${tint}, 0.10)`,
+                  borderColor: `hsla(${tint}, 0.28)`,
+                }}
+              >
+                <span className="relative flex h-1.5 w-1.5" aria-hidden>
+                  <span
+                    className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
+                    style={{ background: `hsl(${tint})` }}
+                  />
+                  <span
+                    className="relative inline-flex rounded-full h-1.5 w-1.5"
+                    style={{ background: `hsl(${tint})` }}
+                  />
+                </span>
+                Binnenkort live
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function MacbookShowcase({ items }: MacbookShowcaseProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  if (!items.length) return null;
+  const active = items[Math.min(activeIndex, items.length - 1)] ?? items[0];
+  const tint = active.tint ?? "234,82%,57%";
+
+  return (
+    <div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-12 items-start">
+        {/* LEFT — Spotlight */}
+        <div className="relative">
+          {/* Glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-10 -z-10 opacity-70 blur-3xl transition-colors duration-700"
+            style={{
+              background: `radial-gradient(60% 60% at 30% 30%, hsla(${tint}, 0.22), transparent 70%)`,
+            }}
+          />
+
+          <a
+            href={active.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block group"
+          >
+            <PreviewSurface item={active} />
+          </a>
+
+          {/* Meta under preview */}
+          <div className="mt-7">
+            <div className="flex items-center gap-3 mb-4">
+              <span
+                className="inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-500"
+                style={{
+                  color: `hsl(${tint})`,
+                  backgroundColor: `hsla(${tint}, 0.08)`,
+                  borderColor: `hsla(${tint}, 0.24)`,
+                }}
+              >
+                {active.cat}
+              </span>
+              <span className="text-[12px] text-muted-foreground font-mono">
+                {getHostname(active.url)}
+              </span>
+            </div>
+
+            <h3 className="text-2xl md:text-[28px] font-bold tracking-[-0.02em] text-foreground mb-3">
+              {active.title}
+            </h3>
+            <p className="text-[15px] text-muted-foreground leading-relaxed max-w-xl mb-5">
+              {active.desc}
+            </p>
+
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {active.services.map((s) => (
+                <span
+                  key={s}
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-muted/60 border border-border/60 rounded text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wide"
+                >
+                  <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3 w-3" />
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            <a
+              href={active.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[14px] font-bold transition-all hover:gap-2.5"
+              style={{ color: `hsl(${tint})` }}
+            >
+              Bekijk live website
+              <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+
+        {/* RIGHT — Project rail */}
+        <div className="lg:sticky lg:top-24">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-4 px-1">
+            Alle projecten ({items.length})
+          </p>
+          <div className="flex flex-col rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm overflow-hidden divide-y divide-border/50">
+            {items.map((item, i) => {
+              const isActive = i === activeIndex;
+              const t = item.tint ?? "234,82%,57%";
+              return (
+                <button
+                  key={item.title + item.url}
+                  type="button"
+                  onMouseEnter={() => setActiveIndex(i)}
+                  onFocus={() => setActiveIndex(i)}
+                  onClick={() => setActiveIndex(i)}
+                  className={`group relative flex items-center gap-4 px-4 py-4 text-left transition-colors duration-300 ${
+                    isActive ? "bg-muted/60" : "hover:bg-muted/40"
+                  }`}
+                >
+                  {/* Active bar */}
+                  <span
+                    aria-hidden
+                    className={`absolute left-0 top-0 bottom-0 w-[3px] transition-opacity duration-300 ${
+                      isActive ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{ background: `hsl(${t})` }}
+                  />
+
+                  {/* Initial badge */}
+                  <span
+                    className="shrink-0 flex items-center justify-center h-10 w-10 rounded-xl text-[12px] font-bold tracking-tight transition-transform duration-300 group-hover:scale-105"
                     style={{
-                      background: `linear-gradient(135deg, hsla(${tint}, 0.95), hsla(${tint}, 0.7))`,
-                      color: "white",
-                      boxShadow: `0 10px 30px -10px hsla(${tint}, 0.6)`,
+                      background: isActive
+                        ? `linear-gradient(135deg, hsla(${t}, 0.95), hsla(${t}, 0.7))`
+                        : `hsla(${t}, 0.12)`,
+                      color: isActive ? "white" : `hsl(${t})`,
+                      boxShadow: isActive ? `0 10px 24px -10px hsla(${t}, 0.6)` : undefined,
                     }}
                   >
                     {item.title
@@ -173,49 +270,83 @@ function ProjectCard({ item }: { item: ShowcaseItem }) {
                       .map((w) => w[0])
                       .join("")
                       .toUpperCase()}
-                  </div>
-                  <span
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] border backdrop-blur-sm"
-                    style={{
-                      color: `hsl(${tint})`,
-                      backgroundColor: `hsla(${tint}, 0.10)`,
-                      borderColor: `hsla(${tint}, 0.28)`,
-                    }}
-                  >
-                    <span
-                      className="relative flex h-1.5 w-1.5"
-                      aria-hidden
-                    >
-                      <span
-                        className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
-                        style={{ background: `hsl(${tint})` }}
-                      />
-                      <span
-                        className="relative inline-flex rounded-full h-1.5 w-1.5"
-                        style={{ background: `hsl(${tint})` }}
-                      />
-                    </span>
-                    Binnenkort live
                   </span>
-                </div>
-              </div>
-            )}
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span
+                        className={`truncate text-[14px] font-bold transition-colors ${
+                          isActive ? "text-foreground" : "text-foreground/85"
+                        }`}
+                      >
+                        {item.title}
+                      </span>
+                    </div>
+                    <p className="text-[11.5px] text-muted-foreground truncate">
+                      <span className="font-semibold uppercase tracking-wider">{item.cat}</span>
+                      <span className="mx-1.5 opacity-50">·</span>
+                      <span>{item.services.slice(0, 2).join(", ")}</span>
+                    </p>
+                  </div>
+
+                  <HugeiconsIcon
+                    icon={ArrowUpRight01Icon}
+                    className={`h-4 w-4 shrink-0 transition-all ${
+                      isActive
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0"
+                    }`}
+                    style={isActive ? { color: `hsl(${t})` } : undefined}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
-    </a>
-  );
-}
 
-export function MacbookShowcase({ items }: MacbookShowcaseProps) {
-  if (!items.length) return null;
-
-  return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-        {items.map((item) => (
-          <ProjectCard key={item.title + item.url} item={item} />
-        ))}
+      {/* Marquee social proof */}
+      <div className="relative mt-16 pt-10 border-t border-border/50 overflow-hidden">
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground text-center mb-6">
+          Vertrouwd door
+        </p>
+        <div className="relative">
+          <div
+            className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 z-10"
+            style={{ background: "linear-gradient(to right, hsl(var(--background)), transparent)" }}
+          />
+          <div
+            className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 z-10"
+            style={{ background: "linear-gradient(to left, hsl(var(--background)), transparent)" }}
+          />
+          <div className="flex w-max gap-x-14 animate-[marquee_38s_linear_infinite] [will-change:transform]">
+            {[0, 1].map((set) => (
+              <div key={set} className="flex items-center gap-x-14 flex-shrink-0">
+                {items.map((item) => {
+                  const t = item.tint ?? "234,82%,57%";
+                  return (
+                    <a
+                      key={`${set}-${item.title}`}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2.5 flex-shrink-0 text-foreground/70 hover:text-foreground transition-colors"
+                    >
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ background: `hsl(${t})` }}
+                        aria-hidden
+                      />
+                      <span className="text-[15px] font-bold tracking-tight whitespace-nowrap">
+                        {item.title}
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="mt-12 pt-8 border-t border-border/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
