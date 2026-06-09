@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkSquare02Icon, ArrowRight01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { loadSeenOnboardingKeys, saveSeenOnboardingKeys } from "@/lib/onboardingGrouping";
 
 interface OnboardingRow {
   id: string;
