@@ -289,7 +289,57 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
             })}
           </div>
         </div>
+
+        {/* Meta under preview (row 2, col 1) */}
+        <div className="lg:row-start-2 lg:col-start-1 -mt-1">
+          <div className="flex items-center gap-3 mb-4">
+            <span
+              className="inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-500"
+              style={{
+                color: `hsl(${tint})`,
+                backgroundColor: `hsla(${tint}, 0.08)`,
+                borderColor: `hsla(${tint}, 0.24)`,
+              }}
+            >
+              {active.cat}
+            </span>
+            <span className="text-[12px] text-muted-foreground font-mono">
+              {getHostname(active.url)}
+            </span>
+          </div>
+
+          <h3 className="text-2xl md:text-[28px] font-bold tracking-[-0.02em] text-foreground mb-3">
+            {active.title}
+          </h3>
+          <p className="text-[15px] text-muted-foreground leading-relaxed max-w-xl mb-5">
+            {active.desc}
+          </p>
+
+          <div className="flex flex-wrap gap-1.5 mb-6">
+            {active.services.map((s) => (
+              <span
+                key={s}
+                className="inline-flex items-center gap-1 px-2 py-1 bg-muted/60 border border-border/60 rounded text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wide"
+              >
+                <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3 w-3" />
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <a
+            href={active.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[14px] font-bold transition-all hover:gap-2.5"
+            style={{ color: `hsl(${tint})` }}
+          >
+            Bekijk live website
+            <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
+          </a>
+        </div>
       </div>
+
 
       {/* Marquee social proof */}
       <div className="relative mt-16 pt-10 border-t border-border/50 overflow-hidden">
