@@ -222,8 +222,6 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
                 <button
                   key={item.title + item.url}
                   type="button"
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onFocus={() => setActiveIndex(i)}
                   onClick={() => setActiveIndex(i)}
                   className={`group relative flex flex-1 items-center gap-4 px-4 pr-6 py-4 text-left transition-colors duration-300 ${
                     isActive ? "bg-muted/60" : "hover:bg-muted/40"
