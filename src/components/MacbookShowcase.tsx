@@ -137,7 +137,7 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
       <div
         ref={containerRef}
         className="relative w-full overflow-hidden bg-muted"
-        style={{ aspectRatio: "16 / 10" }}
+        style={{ aspectRatio: "16 / 10", maxHeight: "calc(100vh - 220px)" }}
         onMouseEnter={pauseAuto}
         onMouseMove={pauseAuto}
         onWheel={pauseAuto}
