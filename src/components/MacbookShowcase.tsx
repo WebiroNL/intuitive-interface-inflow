@@ -197,9 +197,9 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-12 items-start">
-        {/* LEFT — Spotlight */}
-        <div className="relative">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-12 lg:grid-rows-[auto_auto]">
+        {/* LEFT — Spotlight (row 1) */}
+        <div className="relative lg:row-start-1 lg:col-start-1">
           {/* Glow */}
           <div
             aria-hidden
@@ -210,64 +210,11 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
           />
 
           <LiveBrowserPreview item={active} />
-
-
-          {/* Meta under preview */}
-          <div className="mt-7">
-            <div className="flex items-center gap-3 mb-4">
-              <span
-                className="inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-500"
-                style={{
-                  color: `hsl(${tint})`,
-                  backgroundColor: `hsla(${tint}, 0.08)`,
-                  borderColor: `hsla(${tint}, 0.24)`,
-                }}
-              >
-                {active.cat}
-              </span>
-              <span className="text-[12px] text-muted-foreground font-mono">
-                {getHostname(active.url)}
-              </span>
-            </div>
-
-            <h3 className="text-2xl md:text-[28px] font-bold tracking-[-0.02em] text-foreground mb-3">
-              {active.title}
-            </h3>
-            <p className="text-[15px] text-muted-foreground leading-relaxed max-w-xl mb-5">
-              {active.desc}
-            </p>
-
-            <div className="flex flex-wrap gap-1.5 mb-6">
-              {active.services.map((s) => (
-                <span
-                  key={s}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-muted/60 border border-border/60 rounded text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wide"
-                >
-                  <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3 w-3" />
-                  {s}
-                </span>
-              ))}
-            </div>
-
-            <a
-              href={active.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[14px] font-bold transition-all hover:gap-2.5"
-              style={{ color: `hsl(${tint})` }}
-            >
-              Bekijk live website
-              <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
-            </a>
-          </div>
         </div>
 
-        {/* RIGHT — Project rail */}
-        <div className="lg:sticky lg:top-24">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-4 px-1">
-            Alle projecten ({items.length})
-          </p>
-          <div className="flex flex-col rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm overflow-hidden divide-y divide-border/50">
+        {/* RIGHT — Project rail (row 1, stretches to mockup height) */}
+        <div className="lg:row-start-1 lg:col-start-2 lg:h-full">
+          <div className="flex flex-col h-full rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm overflow-hidden divide-y divide-border/50">
             {items.map((item, i) => {
               const isActive = i === activeIndex;
               const t = item.tint ?? "234,82%,57%";
@@ -278,7 +225,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
                   onMouseEnter={() => setActiveIndex(i)}
                   onFocus={() => setActiveIndex(i)}
                   onClick={() => setActiveIndex(i)}
-                  className={`group relative flex items-center gap-4 px-4 py-4 text-left transition-colors duration-300 ${
+                  className={`group relative flex flex-1 items-center gap-4 px-4 py-4 text-left transition-colors duration-300 ${
                     isActive ? "bg-muted/60" : "hover:bg-muted/40"
                   }`}
                 >
@@ -298,6 +245,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
                       background: isActive
                         ? `linear-gradient(135deg, hsla(${t}, 0.95), hsla(${t}, 0.7))`
                         : `hsla(${t}, 0.12)`,
+
                       color: isActive ? "white" : `hsl(${t})`,
                       boxShadow: isActive ? `0 10px 24px -10px hsla(${t}, 0.6)` : undefined,
                     }}
@@ -341,7 +289,57 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
             })}
           </div>
         </div>
+
+        {/* Meta under preview (row 2, col 1) */}
+        <div className="lg:row-start-2 lg:col-start-1 -mt-1">
+          <div className="flex items-center gap-3 mb-4">
+            <span
+              className="inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-500"
+              style={{
+                color: `hsl(${tint})`,
+                backgroundColor: `hsla(${tint}, 0.08)`,
+                borderColor: `hsla(${tint}, 0.24)`,
+              }}
+            >
+              {active.cat}
+            </span>
+            <span className="text-[12px] text-muted-foreground font-mono">
+              {getHostname(active.url)}
+            </span>
+          </div>
+
+          <h3 className="text-2xl md:text-[28px] font-bold tracking-[-0.02em] text-foreground mb-3">
+            {active.title}
+          </h3>
+          <p className="text-[15px] text-muted-foreground leading-relaxed max-w-xl mb-5">
+            {active.desc}
+          </p>
+
+          <div className="flex flex-wrap gap-1.5 mb-6">
+            {active.services.map((s) => (
+              <span
+                key={s}
+                className="inline-flex items-center gap-1 px-2 py-1 bg-muted/60 border border-border/60 rounded text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wide"
+              >
+                <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3 w-3" />
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <a
+            href={active.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[14px] font-bold transition-all hover:gap-2.5"
+            style={{ color: `hsl(${tint})` }}
+          >
+            Bekijk live website
+            <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
+          </a>
+        </div>
       </div>
+
 
       {/* Marquee social proof */}
       <div className="relative mt-16 pt-10 border-t border-border/50 overflow-hidden">
