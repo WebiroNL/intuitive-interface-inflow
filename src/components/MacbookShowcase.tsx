@@ -137,7 +137,7 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
       <div
         ref={containerRef}
         className="relative w-full overflow-hidden bg-muted"
-        style={{ aspectRatio: "16 / 10" }}
+        style={{ aspectRatio: "16 / 10", maxHeight: "calc(100vh - 220px)" }}
         onMouseEnter={pauseAuto}
         onMouseMove={pauseAuto}
         onWheel={pauseAuto}
@@ -197,7 +197,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-12 lg:grid-rows-[auto_auto]">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-6 lg:gap-8 lg:grid-rows-[auto_auto]">
         {/* LEFT — Spotlight (row 1) */}
         <div className="relative lg:row-start-1 lg:col-start-1">
           {/* Glow */}
