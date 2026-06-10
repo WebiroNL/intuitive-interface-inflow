@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowUpRight01Icon,
@@ -6,6 +6,7 @@ import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
 } from "@hugeicons/core-free-icons";
+
 
 export interface ShowcaseItem {
   title: string;
