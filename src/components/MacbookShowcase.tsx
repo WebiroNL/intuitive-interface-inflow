@@ -209,14 +209,8 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
             }}
           />
 
-          <a
-            href={active.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block group"
-          >
-            <LiveBrowserPreview item={active} />
-          </a>
+          <LiveBrowserPreview item={active} />
+
 
           {/* Meta under preview */}
           <div className="mt-7">
