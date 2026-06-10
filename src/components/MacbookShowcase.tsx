@@ -197,7 +197,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-6 lg:gap-8 lg:grid-rows-[auto_auto]">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-6 lg:gap-8 lg:grid-rows-[auto_auto]">
         {/* LEFT — Spotlight (row 1) */}
         <div className="relative lg:row-start-1 lg:col-start-1">
           {/* Glow */}
