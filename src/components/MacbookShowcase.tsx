@@ -60,22 +60,25 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
   }, []);
 
   // Auto-scroll loop
+  const maxOffsetRef = useRef(0);
   useEffect(() => {
     let raf = 0;
     let last = performance.now();
-    const visibleVirtualHeight = containerRef.current
-      ? containerRef.current.clientHeight / scale
-      : 900;
-    const maxOffset = Math.max(0, VIRTUAL_HEIGHT - visibleVirtualHeight);
+    const computeMax = () => {
+      const visibleVirtualHeight = containerRef.current
+        ? containerRef.current.clientHeight / scale
+        : 900;
+      maxOffsetRef.current = Math.max(0, VIRTUAL_HEIGHT - visibleVirtualHeight);
+    };
+    computeMax();
 
     const tick = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
       if (!pausedRef.current && loaded) {
         offsetRef.current += SCROLL_SPEED * dt;
-        if (offsetRef.current > maxOffset) {
-          // pause briefly then reset to top
-          offsetRef.current = maxOffset;
+        if (offsetRef.current > maxOffsetRef.current) {
+          offsetRef.current = maxOffsetRef.current;
           pausedRef.current = true;
           window.setTimeout(() => {
             offsetRef.current = 0;
@@ -102,10 +105,27 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
   const pauseAuto = () => {
     pausedRef.current = true;
     if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current);
+  };
+
+  const scheduleResume = () => {
+    if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = window.setTimeout(() => {
       pausedRef.current = false;
     }, RESUME_DELAY);
   };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    pauseAuto();
+    offsetRef.current = Math.max(
+      0,
+      Math.min(maxOffsetRef.current, offsetRef.current + e.deltaY / scale)
+    );
+    if (iframeRef.current) {
+      iframeRef.current.style.transform = `translateY(${-offsetRef.current}px)`;
+    }
+  };
+
 
   return (
     <div
@@ -139,9 +159,10 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
         className="relative w-full overflow-hidden bg-muted"
         style={{ aspectRatio: "16 / 10", maxHeight: "52vh" }}
         onMouseEnter={pauseAuto}
-        onMouseMove={pauseAuto}
-        onWheel={pauseAuto}
+        onMouseLeave={scheduleResume}
+        onWheel={handleWheel}
         onTouchStart={pauseAuto}
+        onTouchEnd={scheduleResume}
       >
         {/* Loading shimmer */}
         {!loaded && (
