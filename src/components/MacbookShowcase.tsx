@@ -215,7 +215,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
             rel="noopener noreferrer"
             className="block group"
           >
-            <PreviewSurface item={active} />
+            <LiveBrowserPreview item={active} />
           </a>
 
           {/* Meta under preview */}
