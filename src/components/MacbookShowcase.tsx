@@ -159,9 +159,10 @@ function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
         className="relative w-full overflow-hidden bg-muted"
         style={{ aspectRatio: "16 / 10", maxHeight: "52vh" }}
         onMouseEnter={pauseAuto}
-        onMouseMove={pauseAuto}
-        onWheel={pauseAuto}
+        onMouseLeave={scheduleResume}
+        onWheel={handleWheel}
         onTouchStart={pauseAuto}
+        onTouchEnd={scheduleResume}
       >
         {/* Loading shimmer */}
         {!loaded && (
