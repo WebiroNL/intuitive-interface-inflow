@@ -213,7 +213,7 @@ export function MacbookShowcase({ items }: MacbookShowcaseProps) {
         </div>
 
         {/* RIGHT — Project rail (row 1, stretches to mockup height) */}
-        <div className="lg:row-start-1 lg:col-start-2 lg:h-full lg:max-w-[360px]">
+        <div className="lg:row-start-1 lg:col-start-2 lg:h-full lg:max-w-[300px]">
           <div className="flex flex-col h-full rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm overflow-hidden divide-y divide-border/50">
             {items.map((item, i) => {
               const isActive = i === activeIndex;
