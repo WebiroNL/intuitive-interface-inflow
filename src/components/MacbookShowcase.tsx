@@ -31,11 +31,81 @@ function getHostname(url: string) {
   }
 }
 
-function PreviewSurface({ item }: { item: ShowcaseItem }) {
+const VIRTUAL_WIDTH = 1440;
+const VIRTUAL_HEIGHT = 4200;
+const SCROLL_SPEED = 18; // px per second
+const RESUME_DELAY = 1800; // ms after interaction
+
+function LiveBrowserPreview({ item }: { item: ShowcaseItem }) {
   const tint = item.tint ?? "234,82%,57%";
   const host = getHostname(item.url);
-  const hasVideo = Boolean(item.previewVideoUrl);
-  const hasImage = Boolean(item.previewImageUrl);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [scale, setScale] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+  const offsetRef = useRef(0);
+  const pausedRef = useRef(false);
+  const resumeTimerRef = useRef<number | null>(null);
+
+  // Track container width to compute scale
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+    const ro = new ResizeObserver(() => {
+      const w = el.clientWidth;
+      if (w > 0) setScale(w / VIRTUAL_WIDTH);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Auto-scroll loop
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const visibleVirtualHeight = containerRef.current
+      ? containerRef.current.clientHeight / scale
+      : 900;
+    const maxOffset = Math.max(0, VIRTUAL_HEIGHT - visibleVirtualHeight);
+
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      if (!pausedRef.current && loaded) {
+        offsetRef.current += SCROLL_SPEED * dt;
+        if (offsetRef.current > maxOffset) {
+          // pause briefly then reset to top
+          offsetRef.current = maxOffset;
+          pausedRef.current = true;
+          window.setTimeout(() => {
+            offsetRef.current = 0;
+            pausedRef.current = false;
+          }, 2500);
+        }
+        if (iframeRef.current) {
+          iframeRef.current.style.transform = `translateY(${-offsetRef.current}px)`;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [scale, loaded]);
+
+  // Reset when project changes
+  useEffect(() => {
+    offsetRef.current = 0;
+    setLoaded(false);
+    if (iframeRef.current) iframeRef.current.style.transform = "translateY(0)";
+  }, [item.url]);
+
+  const pauseAuto = () => {
+    pausedRef.current = true;
+    if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = window.setTimeout(() => {
+      pausedRef.current = false;
+    }, RESUME_DELAY);
+  };
 
   return (
     <div
@@ -53,98 +123,71 @@ function PreviewSurface({ item }: { item: ShowcaseItem }) {
           <HugeiconsIcon icon={LockIcon} className="h-3 w-3 text-muted-foreground" />
           <span className="text-[11px] text-muted-foreground truncate font-mono">{host}</span>
         </div>
-        <div className="w-[44px]" aria-hidden />
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center h-5 w-[44px] rounded text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="Open in nieuw tabblad"
+        >
+          <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3.5 w-3.5" />
+        </a>
       </div>
 
       <div
+        ref={containerRef}
         className="relative w-full overflow-hidden bg-muted"
         style={{ aspectRatio: "16 / 10" }}
+        onMouseEnter={pauseAuto}
+        onMouseMove={pauseAuto}
+        onWheel={pauseAuto}
+        onTouchStart={pauseAuto}
       >
-        {hasVideo ? (
-          <video
-            key={item.previewVideoUrl ?? ""}
-            src={item.previewVideoUrl ?? undefined}
-            poster={item.previewImageUrl ?? undefined}
-            muted
-            playsInline
-            autoPlay
-            loop
-            preload="metadata"
-            className="w-full h-full object-cover object-top"
-          />
-        ) : hasImage ? (
-          <img
-            key={item.previewImageUrl ?? ""}
-            src={item.previewImageUrl ?? undefined}
-            alt={`Preview van ${item.title}`}
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
-        ) : (
-          <div
-            className="relative flex h-full w-full items-center justify-center overflow-hidden"
-            style={{
-              background: `radial-gradient(120% 90% at 0% 0%, hsla(${tint}, 0.30), transparent 55%), radial-gradient(120% 90% at 100% 100%, hsla(${tint}, 0.24), transparent 55%), linear-gradient(135deg, hsla(${tint}, 0.10), hsla(${tint}, 0.04))`,
-            }}
-          >
+        {/* Loading shimmer */}
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-muted z-10">
             <div
-              aria-hidden
-              className="absolute inset-0 opacity-[0.35]"
+              className="h-8 w-8 rounded-full border-2 animate-spin"
               style={{
-                backgroundImage: `radial-gradient(hsla(${tint}, 0.35) 1px, transparent 1px)`,
-                backgroundSize: "18px 18px",
-                maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-                WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                borderColor: `hsla(${tint}, 0.25)`,
+                borderTopColor: `hsl(${tint})`,
               }}
             />
-            <div
-              aria-hidden
-              className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-60"
-              style={{ background: `hsla(${tint}, 0.5)` }}
-            />
-            <div className="relative z-10 flex flex-col items-center text-center px-6">
-              <div
-                className="flex items-center justify-center h-20 w-20 rounded-3xl mb-4 font-bold text-[28px] tracking-tight shadow-2xl"
-                style={{
-                  background: `linear-gradient(135deg, hsla(${tint}, 0.95), hsla(${tint}, 0.7))`,
-                  color: "white",
-                  boxShadow: `0 20px 50px -15px hsla(${tint}, 0.7)`,
-                }}
-              >
-                {item.title
-                  .split(" ")
-                  .slice(0, 2)
-                  .map((w) => w[0])
-                  .join("")
-                  .toUpperCase()}
-              </div>
-              <span
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] border backdrop-blur-sm"
-                style={{
-                  color: `hsl(${tint})`,
-                  backgroundColor: `hsla(${tint}, 0.10)`,
-                  borderColor: `hsla(${tint}, 0.28)`,
-                }}
-              >
-                <span className="relative flex h-1.5 w-1.5" aria-hidden>
-                  <span
-                    className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
-                    style={{ background: `hsl(${tint})` }}
-                  />
-                  <span
-                    className="relative inline-flex rounded-full h-1.5 w-1.5"
-                    style={{ background: `hsl(${tint})` }}
-                  />
-                </span>
-                Binnenkort live
-              </span>
-            </div>
           </div>
         )}
+
+        <div
+          style={{
+            width: VIRTUAL_WIDTH,
+            height: VIRTUAL_HEIGHT,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+        >
+          <iframe
+            ref={iframeRef}
+            key={item.url}
+            src={item.url}
+            title={`Live preview ${item.title}`}
+            loading="lazy"
+            onLoad={() => setLoaded(true)}
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            referrerPolicy="no-referrer"
+            style={{
+              width: VIRTUAL_WIDTH,
+              height: VIRTUAL_HEIGHT,
+              border: "0",
+              display: "block",
+              transition: "transform 120ms linear",
+              background: "white",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
 }
+
 
 export function MacbookShowcase({ items }: MacbookShowcaseProps) {
   const [activeIndex, setActiveIndex] = useState(0);
